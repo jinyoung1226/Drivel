@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { logout } from '../features/auth/authActions';
+import { logout } from '../../features/auth/authActions';
 
-const HomeScreen = () => {
+const HomeMain = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -26,4 +26,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default HomeMain;

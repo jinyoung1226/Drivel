@@ -1,15 +1,14 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from '../Screens/Auth/Login';
-
+import MeetMain from '../Screens/Meet/MeetMain';
 const Stack = createStackNavigator();
 
-const AuthNavigator = () => {
+const MeetTab = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Meet" component={MeetMain} />
     </Stack.Navigator>
   );
 };
 
-export default AuthNavigator;
+export default MeetTab;

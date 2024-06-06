@@ -1,15 +1,15 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from '../Screens/Auth/Login';
+import HomeMain from '../Screens/Home/HomeMain';
 
 const Stack = createStackNavigator();
 
-const AuthNavigator = () => {
+const HomeTab = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Home" component={HomeMain} />
     </Stack.Navigator>
   );
 };
 
-export default AuthNavigator;
+export default HomeTab;

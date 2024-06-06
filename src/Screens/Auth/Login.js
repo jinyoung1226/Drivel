@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../features/auth/authActions';
+import { login } from '../../features/auth/authActions';
 
 const LoginScreen = () => {
   const [username, setUsername] = useState('');
