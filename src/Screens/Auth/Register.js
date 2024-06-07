@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, TextInput, Alert } from 'react-native';
 import { api } from '../../api/api'
-const Register = () => {
+const Register = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
@@ -23,12 +23,14 @@ const Register = () => {
     try {
       const response = await api.post('/auth/signUp', { email, password, nickname });
       if (response.status === 200) {
-        Alert.alert("signupComplete");
+        Alert.alert("signup Complete");
         navigation.navigate('Login');
       }
     } catch (error) {
-      if (error.response?.status === 409) {
-        Alert.alert("register.signupfailed");
+      if (error.response.status === 400) {
+        Alert.alert(error.response.data.message);
+      } else {
+        Alert.alert("서버접속오류");
       }
     }
   };
@@ -57,6 +59,7 @@ const Register = () => {
       onChangeText={setNickname}
       />
       <Button title="Sign Up" onPress={signUp} />
+      <Button title="go Login" onPress={()=> navigation.navigate('Login')} />
     </View>
   );
 }
