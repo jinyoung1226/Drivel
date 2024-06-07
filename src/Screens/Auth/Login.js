@@ -3,14 +3,14 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../features/auth/authActions';
 
-const LoginScreen = () => {
-  const [username, setUsername] = useState('');
+const LoginScreen = ({navigation}) => {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const error = useSelector(state => state.auth.error);
+  const error = useSelector(state => state.auth.error); //selector를 통해 authSlice에서 error상태를 가져옴
 
   const handleLogin = () => {
-    dispatch(login({ username, password }));
+    dispatch(login({ email, password }));
   };
 
   return (
@@ -19,9 +19,9 @@ const LoginScreen = () => {
       {error && <Text style={styles.errorText}>{error}</Text>}
       <TextInput
         style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
       />
       <TextInput
         style={styles.input}
@@ -31,6 +31,7 @@ const LoginScreen = () => {
         secureTextEntry
       />
       <Button title="Login" onPress={handleLogin} />
+      <Button title="Register" onPress={() => navigation.navigate("Register")} />
     </View>
   );
 };

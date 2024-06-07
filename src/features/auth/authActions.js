@@ -1,25 +1,42 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { api } from '../../api/api' 
 
+// 사용자의 인증 상태를 확인하는 비동기 액션
 export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
   const accessToken = await AsyncStorage.getItem('accessToken');
   if (accessToken) {
+    // checkToken api 요청 필요
     return { isAuthenticated: true, accessToken };
   } else {
     return { isAuthenticated: false, accessToken: null };
   }
 });
 
-export const login = createAsyncThunk('auth/login', async (_, thunkAPI) => {
+// 사용자가 로그인하는 비동기 액션
+export const login = createAsyncThunk('auth/login', async ({ email, password }, thunkAPI) => {
   try {
-    const accessToken = 'dummy_token'; // 더미 토큰 생성
-    await AsyncStorage.setItem('accessToken', accessToken);
-    return { isAuthenticated: true, accessToken };
+    // const fcmToken = await AsyncStorage.getItem('fcmToken'); 
+    const response = await api.post('/auth/signIn', { email, password, fcmToken: 'aaa' }) //fcm토큰 발행하는거 만들고 불러와야함.
+    console.log(response.status)
+    if (response.status == 200) {
+      const accessToken = response.data.data.accessToken;
+      await AsyncStorage.setItem('accessToken', accessToken); //AsyncStorage에 저장하는 이유는 애플리케이션이 재시작될 때도 accessToken을 유지하기 위함. 자동로그인되야하니..
+      return { isAuthenticated: true, accessToken: accessToken };
+    } else {
+      return thunkAPI.rejectWithValue({ error: `Unexpected response status: ${response.status}` });
+    }
   } catch (error) {
-    return thunkAPI.rejectWithValue({ error: 'Login failed' });
+    if (error.response.status == 401) {
+      console.log(error.response.status)
+      return thunkAPI.rejectWithValue({error: error.response.data.message}); // authSlice의 error 상태 변경
+    } else {
+      return thunkAPI.rejectWithValue({error: "서버접속오류"});
+    }
   }
 });
 
+// 사용자가 로그아웃하는 비동기 액션
 export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
     await AsyncStorage.removeItem('accessToken');
@@ -28,16 +45,3 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue({ error: 'Logout failed' });
   }
 });
-
-// export const login = createAsyncThunk('auth/login', async ({ username, password }, thunkAPI) => {
-//   try {
-//     const response = await axios.post('https://yourapi.com/login', { username, password });
-//     const accessToken = response.data.accessToken;
-
-//     await AsyncStorage.setItem('accessToken', accessToken);
-
-//     return { isAuthenticated: true, accessToken };
-//   } catch (error) {
-//     return thunkAPI.rejectWithValue({ error: error.response.data });
-//   }
-// });
