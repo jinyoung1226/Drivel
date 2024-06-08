@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { api } from '../../api/api' 
+import { api } from '../../api/api'
 
 // 사용자의 인증 상태를 확인하는 비동기 액션
 export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
@@ -29,9 +29,9 @@ export const login = createAsyncThunk('auth/login', async ({ email, password }, 
   } catch (error) {
     if (error.response.status == 401) {
       console.log(error.response.status)
-      return thunkAPI.rejectWithValue({error: error.response.data.message}); // authSlice의 error 상태 변경
+      return thunkAPI.rejectWithValue({ error: error.response.data.message }); // authSlice의 error 상태 변경
     } else {
-      return thunkAPI.rejectWithValue({error: "서버접속오류"});
+      return thunkAPI.rejectWithValue({ error: "서버접속오류" });
     }
   }
 });

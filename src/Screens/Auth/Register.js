@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, TextInput, Alert } from 'react-native';
 import { api } from '../../api/api'
-const Register = ({navigation}) => {
+const Register = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
@@ -48,18 +48,18 @@ const Register = ({navigation}) => {
         secureTextEntry
       />
       <TextInput
-      placeholder="Password"
-      value={passwordCheck}
-      onChangeText={setPasswordCheck}
-      secureTextEntry
+        placeholder="Password"
+        value={passwordCheck}
+        onChangeText={setPasswordCheck}
+        secureTextEntry
       />
       <TextInput
-      placeholder="Nickname"
-      value={nickname}
-      onChangeText={setNickname}
+        placeholder="Nickname"
+        value={nickname}
+        onChangeText={setNickname}
       />
       <Button title="Sign Up" onPress={signUp} />
-      <Button title="go Login" onPress={()=> navigation.navigate('Login')} />
+      <Button title="go Login" onPress={() => navigation.navigate('Login')} />
     </View>
   );
 }
