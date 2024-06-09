@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeTab from '../BottomTab/HomeTab';
 import MeetTab from '../BottomTab/MeetTab';
@@ -14,9 +15,9 @@ const MainNavigator = () => {
   return (
     <Tab.Navigator 
     screenOptions={({route})=>({
-      tabBarItemStyle: {height: 90},
-      tabBarLabelStyle: {height:37, fontSize: 12,},
-      tabBarStyle: {height: 93},
+      tabBarItemStyle: {},
+      tabBarLabelStyle: {height:Platform.OS === 'ios' ? 37 : 25, fontSize: 12, fontFamily: 'SUIT-SemiBold'},
+      tabBarStyle: {height: Platform.OS === 'ios' ? 93 : 80},
       tabBarActiveTintColor: '#5168F6',
       tabBarInactiveTintColor: '#ACACAD'
       
