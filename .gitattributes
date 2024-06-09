@@ -3,3 +3,4 @@
 
 # 특정 파일 유형의 줄 끝맺음 설정
 *.json text
+*.svg text
