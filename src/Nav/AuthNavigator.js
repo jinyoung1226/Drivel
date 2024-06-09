@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../Screens/Auth/Login';
 import Register from '../Screens/Auth/Register';
-import KakaoLogin from '../Screens/Auth/KakaoLogin'
+import KakaoLogin from '../Screens/Auth/KakaoLogin';
 const Stack = createStackNavigator();
 
 const AuthNavigator = () => {
