@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { checkAuth, login, logout } from './authActions';
+import { checkAuth, kakaoLogin, login, logout } from './authActions';
 
 // authSlice 정의: 인증 관련 상태와 리듀서를 관리합니다.
 const initialState = {
@@ -7,13 +7,14 @@ const initialState = {
   accessToken: null,
   isLoading: true,
   error: null,
+  isKakaoLoggedIn: false,
 };
 const authSlice = createSlice({
   name: 'auth',  // 슬라이스의 이름을 'auth'로 설정합니다.
   initialState,
-  reducers: {
+  reducers: { // 동기적 액션에 대한 리듀서를 정의
     // setAuth 리듀서: 인증 상태와 토큰을 설정합니다.
-    setAuth: (state, action) => {
+    setAuth: (state, action) => { 
       state.isAuthenticated = action.payload.isAuthenticated;
       state.accessToken = action.payload.accessToken;
     },
@@ -60,9 +61,18 @@ const authSlice = createSlice({
     builder.addCase(logout.rejected, (state, action) => {
       state.error = action.payload.error;  // 로그아웃 실패 시 에러 메시지를 업데이트합니다.
     });
+    builder.addCase(kakaoLogin.fulfilled, (state, action) => {
+      state.isAuthenticated = action.payload.isAuthenticated;  // 로그아웃 성공 시 인증 상태를 false로 설정합니다.
+      state.accessToken = action.payload.accessToken;  // 인증 토큰을 null로 설정합니다.
+      state.isKakaoLoggedIn = action.payload.isKakaoLoggedIn;
+      state.error = null;  // 에러를 초기화합니다.
+    });
+    builder.addCase(kakaoLogin.rejected, (state, action) => {
+      state.error = action.payload.error;  // 로그아웃 실패 시 에러 메시지를 업데이트합니다.
+    });
   },
 });
 
 // authSlice에서 생성된 액션과 리듀서를 export 합니다.
-export const { setAuth } = authSlice.actions;  // setAuth 액션 생성자를 export 합니다.
+export const { setAuth } = authSlice.actions;  // setAuth 액션 생성자를 export 합니다. 외부 컴포넌트에서 setAuth를 사용할 일이 있으면 이거 사용
 export default authSlice.reducer;  // auth 리듀서를 기본 export 합니다.

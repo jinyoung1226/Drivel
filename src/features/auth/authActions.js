@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import EncryptedStorage from 'react-native-encrypted-storage';
 import { api } from '../../api/api'
 
 // 사용자의 인증 상태를 확인하는 비동기 액션
@@ -21,8 +22,10 @@ export const login = createAsyncThunk('auth/login', async ({ email, password }, 
     console.log(response.status)
     if (response.status == 200) {
       const accessToken = response.data.data.accessToken;
+      const refreshToken = response.data.data.refreshToken;
       await AsyncStorage.setItem('accessToken', accessToken); //AsyncStorage에 저장하는 이유는 애플리케이션이 재시작될 때도 accessToken을 유지하기 위함. 자동로그인되야하니..
-      return { isAuthenticated: true, accessToken: accessToken };
+      await EncryptedStorage.setItem('refreshToken', refreshToken);
+      return { isAuthenticated: true, accessToken: accessToken }; // 액세스 토큰을 redux로 관리할 필요가 있을까??,, 흠..
     } else {
       return thunkAPI.rejectWithValue({ error: `Unexpected response status: ${response.status}` });
     }
@@ -43,5 +46,28 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     return { isAuthenticated: false, accessToken: null };
   } catch (error) {
     return thunkAPI.rejectWithValue({ error: 'Logout failed' });
+  }
+});
+
+export const kakaoLogin = createAsyncThunk('auth/kakaoLogin', async ({code}, thunkAPI) => {
+  try {
+    const response = await api.get('/kakao/login', { params: { code: code }});
+    if (response.status == 200) {
+      const accessToken = response.data.data.accessToken;
+      const refreshToken = response.data.data.refreshToken;
+      await AsyncStorage.setItem('accessToken', accessToken); //AsyncStorage에 저장하는 이유는 애플리케이션이 재시작될 때도 accessToken을 유지하기 위함. 자동로그인되야하니..
+      await EncryptedStorage.setItem('refreshToken', refreshToken);
+      console.log('로그인성공');
+      return { isAuthenticated: true, accessToken: accessToken, isKakaoLoggedIn: true }
+    } else {
+      return thunkAPI.rejectWithValue({ error: `Unexpected response status: ${response.status}` });
+    }
+  } catch (error) {
+    if (error.response.status == 401) {
+      console.log(error.response.status)
+      return thunkAPI.rejectWithValue({ error: error.response.data.message }); // authSlice의 error 상태 변경
+    } else {
+      return thunkAPI.rejectWithValue({ error: "서버접속오류" });
+    }
   }
 });

@@ -1,5 +1,6 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import EncryptedStorage from "react-native-encrypted-storage";
 import config from "../config/config";
 
 export const api = axios.create({
@@ -44,12 +45,12 @@ authApi.interceptors.response.use(
           // 토큰 재발급 로직...
           const email = await AsyncStorage.getItem('email');
           // console.log(email, 'email')
-          const refreshToken = await AsyncStorage.getItem('refreshToken');
+          const refreshToken = await EncryptedStorage.getItem('refreshToken');
           // console.log(refreshToken,'refreshToken')
           const response = await axios.post(`${config.SERVER_URL}/token/re-issue`, {email: email, refreshToken: refreshToken});
           if (response.status === 200) {
             // console.log(response.status, '재발급 성공')
-            await AsyncStorage.setItem('refreshToken', response.data.refreshToken);
+            await EncryptedStorage.setItem('refreshToken', response.data.refreshToken);
             await AsyncStorage.setItem('accessToken', response.data.accessToken); // 새 토큰 저장
             authApi.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`; // 인스턴스의 기본 헤더 업데이트
             return authApi(originalRequest); // 원래 요청 재시도
@@ -92,12 +93,12 @@ formDataApi.interceptors.response.use(
         // 토큰 재발급 로직...
         const email = await AsyncStorage.getItem('email');
         // console.log(email, 'email')
-        const refreshToken = await AsyncStorage.getItem('refreshToken');
+        const refreshToken = await EncryptedStorage.getItem('refreshToken');
         // console.log(refreshToken,'refreshToken')
         const response = await axios.post(`${config.SERVER_URL}/token/re-issue`, {email: email, refreshToken: refreshToken});
         if (response.status === 200) {
           // console.log(response.status, '재발급 성공')
-          await AsyncStorage.setItem('refreshToken', response.data.refreshToken);
+          await EncryptedStorage.setItem('refreshToken', response.data.refreshToken);
           await AsyncStorage.setItem('accessToken', response.data.accessToken); // 새 토큰 저장
           formDataApi.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`; // 인스턴스의 기본 헤더 업데이트
           return authApi(originalRequest); // 원래 요청 재시도

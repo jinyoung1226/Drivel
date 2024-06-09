@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Dimensions  } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../features/auth/authActions';
 
@@ -8,11 +8,9 @@ const LoginScreen = ({navigation}) => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const error = useSelector(state => state.auth.error); //selector를 통해 authSlice에서 error상태를 가져옴
-
   const handleLogin = () => {
     dispatch(login({ email, password }));
   };
-
   return (
     <View style={styles.container}>
       <Text>Login Screen</Text>
@@ -32,9 +30,11 @@ const LoginScreen = ({navigation}) => {
       />
       <Button title="Login" onPress={handleLogin} />
       <Button title="Register" onPress={() => navigation.navigate("Register")} />
+      <Button title="카카오 로그인" onPress={() => navigation.navigate("KakaoLogin")} />
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     color: 'red',
     marginBottom: 10,
   },
+
 });
 
 export default LoginScreen;
