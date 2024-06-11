@@ -2,6 +2,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import EncryptedStorage from "react-native-encrypted-storage";
 import config from "../config/config";
+import { Alert } from "react-native";
 
 export const api = axios.create({
     baseURL: config.SERVER_URL,
@@ -46,13 +47,18 @@ authApi.interceptors.response.use(
           const refreshToken = await EncryptedStorage.getItem('refreshToken');
           // console.log(refreshToken,'refreshToken')
           const response = await axios.post(`${config.SERVER_URL}/token/re-issue`, {headers: {'Authorization': `Bearer ${refreshToken}`}});
-          if (response.status === 200) {
-            console.log(response.status, 're-issue')
-            await AsyncStorage.setItem('accessToken', response.data.accessToken);
-            await EncryptedStorage.setItem('refreshToken', response.data.refreshToken);
-            // 새 토큰 저장
-            authApi.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`; // 인스턴스의 기본 헤더 업데이트
-            return authApi(originalRequest); // 원래 요청 재시도
+          try{
+            if (response.status === 200) {
+              console.log(response.status, 're-issue')
+              await AsyncStorage.setItem('accessToken', response.data.accessToken);
+              await EncryptedStorage.setItem('refreshToken', response.data.refreshToken);
+              // 새 토큰 저장
+              authApi.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`; // 인스턴스의 기본 헤더 업데이트
+              return authApi(originalRequest); // 원래 요청 재시도
+            }
+          } catch (error) {
+            if (error.response.status == 401 )
+              Alert.alert(error.response.data.message);
           }
         }
         return Promise.reject(error);
