@@ -11,7 +11,7 @@ export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
       const response = await authApi.post('/token/signIn')
       if (response.status == 200) {
         console.log(response.data, '/token/signIn')
-        const nickname = response.data.data.nickname
+        const nickname = response.data.nickname
         return { isAuthenticated: true, accessToken: accessToken, nickname: nickname};
       } else {
         return thunkAPI.rejectWithValue({ error: `Unexpected response status: ${response.status}` });
@@ -31,9 +31,9 @@ export const login = createAsyncThunk('auth/login', async ({ email, password }, 
     const response = await api.post('/auth/signIn', { email, password, fcmToken: 'aaa' }) //fcm토큰 발행하는거 만들고 불러와야함.
     console.log(response.status)
     if (response.status == 200) {
-      const accessToken = response.data.data.accessToken;
-      const refreshToken = response.data.data.refreshToken;
-      const nickname = response.data.data.nickname
+      const accessToken = response.data.accessToken;
+      const refreshToken = response.data.refreshToken;
+      const nickname = response.data.nickname
       await AsyncStorage.setItem('accessToken', accessToken); //AsyncStorage에 저장하는 이유는 애플리케이션이 재시작될 때도 accessToken을 유지하기 위함. 자동로그인되야하니..
       await EncryptedStorage.setItem('refreshToken', refreshToken);
       return { isAuthenticated: true, accessToken: accessToken, nickname: nickname }; // 액세스 토큰을 redux로 관리할 필요가 있을까??,, 흠..
@@ -64,9 +64,9 @@ export const kakaoLogin = createAsyncThunk('auth/kakaoLogin', async ({code}, thu
   try {
     const response = await api.get('/kakao/login', { params: { code: code }});
     if (response.status == 200) {
-      const accessToken = response.data.data.accessToken;
-      const refreshToken = response.data.data.refreshToken;
-      const nickname = response.data.data.nickname
+      const accessToken = response.data.accessToken;
+      const refreshToken = response.data.refreshToken;
+      const nickname = response.data.nickname
       await AsyncStorage.setItem('accessToken', accessToken); //AsyncStorage에 저장하는 이유는 애플리케이션이 재시작될 때도 accessToken을 유지하기 위함. 자동로그인되야하니..
       await EncryptedStorage.setItem('refreshToken', refreshToken);
       console.log('로그인성공');
