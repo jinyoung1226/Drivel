@@ -17,7 +17,7 @@ const MainNavigator = () => {
     screenOptions={({route})=>({
       tabBarItemStyle: {},
       tabBarLabelStyle: {height:Platform.OS === 'ios' ? 37 : 25, fontSize: 12, fontFamily: 'SUIT-SemiBold'},
-      tabBarStyle: {height: Platform.OS === 'ios' ? 93 : 80},
+      tabBarStyle: {height: Platform.OS === 'ios' ? 93 : 70},
       tabBarActiveTintColor: '#5168F6',
       tabBarInactiveTintColor: '#ACACAD'
       
