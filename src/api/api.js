@@ -46,8 +46,8 @@ authApi.interceptors.response.use(
           // 토큰 재발급 로직...
           const refreshToken = await EncryptedStorage.getItem('refreshToken');
           // console.log(refreshToken,'refreshToken')
-          const response = await axios.post(`${config.SERVER_URL}/token/re-issue`, {headers: {'Authorization': `Bearer ${refreshToken}`}});
           try{
+            const response = await axios.post(`${config.SERVER_URL}/token/re-issue`, {headers: {'Authorization': `Bearer ${refreshToken}`}});
             if (response.status === 200) {
               console.log(response.status, 're-issue')
               await AsyncStorage.setItem('accessToken', response.data.accessToken);
@@ -57,8 +57,10 @@ authApi.interceptors.response.use(
               return authApi(originalRequest); // 원래 요청 재시도
             }
           } catch (error) {
-            if (error.response.status == 401 )
+            if (error.response.status == 401) {
               Alert.alert(error.response.data.message);
+              return Promise.reject(error.response.data.message);
+            }
           }
         }
         return Promise.reject(error);

@@ -4,7 +4,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import { api, authApi } from '../../api/api'
 
 // 사용자의 인증 상태를 확인하는 비동기 액션
-export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
+export const checkAuth = createAsyncThunk('auth/checkAuth', async (_, thunkAPI) => {
   const accessToken = await AsyncStorage.getItem('accessToken');
   if (accessToken) {
     try {
@@ -17,7 +17,8 @@ export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
         return thunkAPI.rejectWithValue({ error: `Unexpected response status: ${response.status}` });
       }
     } catch (error) {
-      console.log(error.response.status)
+      console.log(error)
+      return thunkAPI.rejectWithValue({ error: error, isAuthenticated: false, accessToken: null, isLoading: false});
     }
   } else {
     return { isAuthenticated: false, accessToken: null };
