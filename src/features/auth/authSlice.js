@@ -31,10 +31,11 @@ const authSlice = createSlice({
       state.accessToken = action.payload.accessToken;  // 인증 토큰을 업데이트합니다.
       state.isLoading = false;  // 로딩이 완료되었으므로 false로 설정합니다.
     });
-    builder.addCase(checkAuth.rejected, (state) => {
-      state.isAuthenticated = false;  // 인증이 실패하면 인증 상태를 false로 설정합니다.
-      state.accessToken = null;  // 인증 토큰을 null로 설정합니다.
-      state.isLoading = false;  // 로딩이 완료되었으므로 false로 설정합니다.
+    builder.addCase(checkAuth.rejected, (state, action) => {
+      state.error = action.payload.error;
+      state.isAuthenticated = action.payload.isAuthenticated;  // 인증이 실패하면 인증 상태를 false로 설정합니다.
+      state.accessToken = action.payload.accessToken;  // 인증 토큰을 null로 설정합니다.
+      state.isLoading = action.payload.isLoading;  // 로딩이 완료되었으므로 false로 설정합니다.
     });
 
     // login 액션이 실행되었을 때 각 상태(pending, fulfilled, rejected)에 따라 상태를 업데이트합니다.
