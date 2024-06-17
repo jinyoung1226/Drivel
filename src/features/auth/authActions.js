@@ -54,10 +54,22 @@ export const login = createAsyncThunk('auth/login', async ({ email, password }, 
 // 사용자가 로그아웃하는 비동기 액션
 export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
-    await AsyncStorage.removeItem('accessToken');
-    return { isAuthenticated: false, accessToken: null };
+    const response = await authApi.post('/auth/signOut')
+    if (response.status == 200) {
+      console.log(response.status)
+      await AsyncStorage.removeItem('accessToken');
+      await EncryptedStorage.removeItem('refreshToken');
+      return { isAuthenticated: false, accessToken: null };
+    }
   } catch (error) {
-    return thunkAPI.rejectWithValue({ error: 'Logout failed' });
+    console.log(error.response.status)
+    if (error.response.status == 401) {
+      await AsyncStorage.removeItem('accessToken');
+      await EncryptedStorage.removeItem('refreshToken');
+      return thunkAPI.rejectWithValue({ isAuthenticated: false, accessToken: null })
+    } else {
+      return thunkAPI.rejectWithValue({ error: '로그아웃실패' })
+    }
   }
 });
 
