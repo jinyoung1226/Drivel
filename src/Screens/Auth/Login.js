@@ -6,8 +6,9 @@ import { textStyles } from '../../styles/textStyles';
 import CustomInput from '../../components/CustomInput';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomButton from '../../components/CustomButton';
-import KakaoIcon from '../../assets/Icon/KakaoIcon.svg';
+import KakaoIcon from '../../assets/icons/KakaoIcon.svg';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import colors from '../../styles/colors';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -65,7 +66,7 @@ const LoginScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.BG,
     padding:16
   },
   input: {

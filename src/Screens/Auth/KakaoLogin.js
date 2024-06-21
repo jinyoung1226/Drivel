@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import config from '../../config/config'
 import { kakaoLogin } from '../../features/auth/authActions';
 import LoadingModal from '../../components/LoadingModal';
+import colors from '../../styles/colors';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: colors.BG
   },
 
 });

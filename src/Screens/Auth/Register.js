@@ -3,11 +3,12 @@ import { View, Text, Button, StyleSheet, TouchableOpacity, Alert, TextInputCompo
 import { api } from '../../api/api'
 import CustomInput from '../../components/CustomInput';
 import LoadingModal from '../../components/LoadingModal';
-import Eye from '../../assets/Icon/EyeIcon.svg';
+import Eye from '../../assets/icons/EyeIcon.svg';
 import { textStyles } from '../../styles/textStyles';
 import InputTextMessage from '../../components/InputTextMessage';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import CustomButton from '../../components/CustomButton';
+import colors from '../../styles/colors';
 const Register = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [authCode, setAuthCode] = useState('');
@@ -138,9 +139,9 @@ const Register = ({ navigation }) => {
     }
   } 
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor: colors.BG}}>
       <KeyboardAwareScrollView style={{padding:16}}>
-        <Text style={[textStyles.H4, textStyles.Gray10,{paddingBottom:8}]}>이메일 주소</Text>
+        <Text style={[textStyles.H4, {paddingBottom:8, color: colors.Gray10}]}>이메일 주소</Text>
         <LoadingModal modalVisible={isSending}/>
         <CustomInput
           placeholder="ex) drivel@gmail.com"
