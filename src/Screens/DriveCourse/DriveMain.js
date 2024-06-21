@@ -1,12 +1,16 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import {View, Text, Button, StyleSheet} from 'react-native';
 
 const DriveMain = ({navigation}) => {
   return (
     <View>
-      <Text>DriveMain</Text>
-      <Button title='Detail' onPress={() => navigation.navigate("DriveDetail")}/>
+      <Text>Drive Main Screen</Text>
+      <Button
+        title="Go to Detail"
+        onPress={() => navigation.navigate('DriveDetail')}
+      />
     </View>
   );
-}
+};
+
 export default DriveMain;
