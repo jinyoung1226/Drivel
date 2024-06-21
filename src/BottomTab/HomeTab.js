@@ -15,6 +15,7 @@ const HomeTab = () => {
         component={HomeMain}
         options={{
           headerTransparent: true,
+          headerStyle: styles.headerStyle,
           headerTitle: () => (
             <View style={styles.headerTitleContainer}>
               <Text style={styles.headerTitleText}>Drivel</Text>
@@ -24,6 +25,7 @@ const HomeTab = () => {
               </View>
             </View>
           ),
+          headerBackground: () => <View style={styles.headerBackground} />,
         }}
       />
     </Stack.Navigator>
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   headerStyle: {
-    backgroundColor: 'rgba(0,0,0,0.1)',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
   },
   headerTitleText: {
     color: '#ffffff',
@@ -49,6 +51,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 16,
     paddingVertical: 6.72,
+  },
+  headerBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
 });
 

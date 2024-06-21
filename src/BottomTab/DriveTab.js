@@ -1,14 +1,17 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import DriveMain from '../Screens/DriveCourse/DriveMain';
 import DriveDetail from '../Screens/DriveCourse/DriveDetail';
-import Alarm from '../assets/homeIcon/alarm.svg';
-import Search from '../assets/homeIcon/search.svg';
+import {useNavigation} from '@react-navigation/native';
+import Share from '../assets/Icon/share.svg';
+import BackButton from '../assets/Icon/BackButton.svg';
 
 const Stack = createStackNavigator();
 
 const DriveTab = () => {
+  const navigation = useNavigation();
+
   return (
     <Stack.Navigator initialRouteName="DriveMain">
       <Stack.Screen name="DriveMain" component={DriveMain} />
@@ -16,15 +19,24 @@ const DriveTab = () => {
         name="DriveDetail"
         component={DriveDetail}
         options={{
-          headerTitle: () => {
-            <View style={styles.headerTitleContainer}>
-              <Text style={styles.headerTitleText}>드라이브코스</Text>
-              <View style={styles.iconContainer}>
-                <Alarm />
-                <Search />
+          headerLeft: () => (
+            <Pressable onPress={() => navigation.goBack()}>
+              <View style={styles.leftIconContainer}>
+                <BackButton />
               </View>
-            </View>;
-          },
+            </Pressable>
+          ),
+          headerTitle: () => (
+            <View style={styles.headerTitleContainer}>
+              <Text style={styles.headerTitleText}>상세정보</Text>
+            </View>
+          ),
+          headerRight: () => (
+            <View style={styles.rightIconContainer}>
+              <Share />
+            </View>
+          ),
+          headerTitleAlign: 'center',
         }}
       />
     </Stack.Navigator>
@@ -33,23 +45,23 @@ const DriveTab = () => {
 
 const styles = StyleSheet.create({
   headerTitleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
   },
-  headerStyle: {
-    backgroundColor: 'rgba(0,0,0,0.1)',
-  },
+
   headerTitleText: {
-    color: '#ffffff',
-    fontSize: 22,
-    fontFamily: 'YdestreetB',
+    color: '#191919',
+    fontSize: 18,
+    fontFamily: 'SUIT-Bold',
   },
-  iconContainer: {
+  rightIconContainer: {
     flexDirection: 'row',
-    gap: 16,
     paddingVertical: 6.72,
+    marginRight: 22,
+  },
+  leftIconContainer: {
+    flexDirection: 'row',
+    paddingVertical: 6.72,
+    marginLeft: 16,
   },
 });
 
