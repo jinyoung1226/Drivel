@@ -18,7 +18,7 @@ export const checkAuth = createAsyncThunk('auth/checkAuth', async (_, thunkAPI) 
       }
     } catch (error) {
       console.log(error)
-      return thunkAPI.rejectWithValue({ error: error, isAuthenticated: false, accessToken: null, isLoading: false});
+      return thunkAPI.rejectWithValue({ error: error.response.data.message , isAuthenticated: false, accessToken: null, isLoading: false});
     }
   } else {
     return { isAuthenticated: false, accessToken: null };
