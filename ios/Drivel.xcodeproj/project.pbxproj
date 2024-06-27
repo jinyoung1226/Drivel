@@ -24,6 +24,7 @@
 		D4C9279964DA4C62B1521D62 /* SUIT-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 61FF6AA342094939AECBB9D7 /* SUIT-ExtraLight.ttf */; };
 		DE79E115828B4B018526596B /* SUIT-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A81995169F04BC3806CD99E /* SUIT-Regular.ttf */; };
 		E7807CE9B0304E9A917F3EA5 /* SUIT-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1F5464E0C494FE09C975CAD /* SUIT-Medium.ttf */; };
+		32824BF65A3542FC973855D9 /* YdestreetB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3FF22CC9C3E944DBBCF9E010 /* YdestreetB.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAFD27E4CCE54A16A288BB43 /* SUIT-Heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Heavy.ttf"; path = "../src/assets/fonts/SUIT-Heavy.ttf"; sourceTree = "<group>"; };
 		FE6789BFF1A1D17944CE4CEC /* Pods-Drivel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drivel.debug.xcconfig"; path = "Target Support Files/Pods-Drivel/Pods-Drivel.debug.xcconfig"; sourceTree = "<group>"; };
+		3FF22CC9C3E944DBBCF9E010 /* YdestreetB.ttf */ = {isa = PBXFileReference; name = "YdestreetB.ttf"; path = "../src/assets/fonts/YdestreetB.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 				8A81995169F04BC3806CD99E /* SUIT-Regular.ttf */,
 				0A07FA521E254333926F9743 /* SUIT-SemiBold.ttf */,
 				93E584ED9B914E99AF74BE2A /* SUIT-Thin.ttf */,
+				3FF22CC9C3E944DBBCF9E010 /* YdestreetB.ttf */,
 			);
 			name = Resources;
 			path = "";
@@ -294,6 +297,7 @@
 				DE79E115828B4B018526596B /* SUIT-Regular.ttf in Resources */,
 				64DE715EFF0044F59013A5A5 /* SUIT-SemiBold.ttf in Resources */,
 				B750CCB2980946F28BCB6B39 /* SUIT-Thin.ttf in Resources */,
+				32824BF65A3542FC973855D9 /* YdestreetB.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
