@@ -1,6 +1,7 @@
 import { View, Pressable, Text, Animated, Dimensions } from 'react-native';
 import React from 'react';
-import { textStyles } from '../styles/textStyles';
+import { textStyles } from '../../styles/textStyles';
+import colors from '../../styles/colors';
 
 
 const MeetMainTopTab = ({ selectedIndex, onSelectHandler, menus }) => {
@@ -17,7 +18,7 @@ const MeetMainTopTab = ({ selectedIndex, onSelectHandler, menus }) => {
   }, [selectedIndex]);
 
   return (
-    <View style={{ backgroundColor: "#FFF" }}>
+    <View style={{ backgroundColor: colors.BG }}>
       <View style={{ flexDirection: 'row' }}>
       {menus.map((v, i) => (
         <Pressable

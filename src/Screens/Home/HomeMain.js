@@ -12,9 +12,9 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchDriveInfo} from '../../features/drive/driveActions';
-import Pin from '../../assets/Icon/roundPushpin.svg';
-import Heart from '../../assets/Icon/heart.svg';
-import MiniBus from '../../assets/Icon/Minibus.svg';
+import Pin from '../../assets/icons/RoundPushpinIcon.svg';
+import Heart from '../../assets/icons/HeartIcon.svg';
+import MiniBus from '../../assets/icons/MinibusIcon.svg';
 
 const {width} = Dimensions.get('window');
 

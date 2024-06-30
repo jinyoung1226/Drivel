@@ -4,8 +4,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import DriveMain from '../Screens/DriveCourse/DriveMain';
 import DriveDetail from '../Screens/DriveCourse/DriveDetail';
 import {useNavigation} from '@react-navigation/native';
-import Share from '../assets/Icon/share.svg';
-import BackButton from '../assets/Icon/BackButton.svg';
+import Share from '../assets/icons/ShareIcon.svg';
+import BackIcon from '../assets/icons/BackIcon.svg';
 
 const Stack = createStackNavigator();
 
@@ -22,7 +22,7 @@ const DriveTab = () => {
           headerLeft: () => (
             <Pressable onPress={() => navigation.goBack()}>
               <View style={styles.leftIconContainer}>
-                <BackButton />
+                <BackIcon />
               </View>
             </Pressable>
           ),

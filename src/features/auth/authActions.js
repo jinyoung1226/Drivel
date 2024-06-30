@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import { api, authApi } from '../../api/api'
+import { Alert } from 'react-native';
 
 // 사용자의 인증 상태를 확인하는 비동기 액션
 export const checkAuth = createAsyncThunk('auth/checkAuth', async (_, thunkAPI) => {
@@ -18,7 +19,7 @@ export const checkAuth = createAsyncThunk('auth/checkAuth', async (_, thunkAPI) 
       }
     } catch (error) {
       console.log(error)
-      return thunkAPI.rejectWithValue({ error: error.response.data.message , isAuthenticated: false, accessToken: null, isLoading: false});
+      return thunkAPI.rejectWithValue({ error: error, isAuthenticated: false, accessToken: null, isLoading: false});
     }
   } else {
     return { isAuthenticated: false, accessToken: null };
@@ -43,7 +44,8 @@ export const login = createAsyncThunk('auth/login', async ({ email, password }, 
     }
   } catch (error) {
     if (error.response.status == 401) {
-      console.log(error.response.status)
+      console.log(error.response.data)
+      Alert.alert(error.response.data.message)
       return thunkAPI.rejectWithValue({ error: error.response.data.message }); // authSlice의 error 상태 변경
     } else {
       return thunkAPI.rejectWithValue({ error: "서버접속오류" });

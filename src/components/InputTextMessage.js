@@ -7,7 +7,7 @@ const InputTextMessage = ({
   errorMessage
 }) => {
   return (
-    <View style={{height:20}}>
+    <View style={{height:24}}>
       {isValid ? (
         <Text style={[textStyles.H6, textStyles.Blue]}>{validMessage}</Text>        
       ) : (

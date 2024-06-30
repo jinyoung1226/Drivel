@@ -6,7 +6,7 @@ const initialState = {
   nickname: null,
   isAuthenticated: false,
   accessToken: null,
-  isLoading: true,
+  isLoading: false,
   error: null,
   isKakaoLoggedIn: false,
 };

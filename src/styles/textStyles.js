@@ -27,17 +27,21 @@ export const textStyles = StyleSheet.create({
     },
     B1:{
       fontFamily:'SUIT-SemiBold',
-      fontSize:16
+      fontSize:18
     },
     B2:{
       fontFamily:'SUIT-SemiBold',
-      fontSize:14
+      fontSize:16
     },
     B3:{
       fontFamily:'SUIT-SemiBold',
-      fontSize:12
+      fontSize:14
     },
     B4:{
+      fontFamily:'SUIT-SemiBold',
+      fontSize:12
+    },
+    B5:{
       fontFamily:'SUIT-SemiBold',
       fontSize:10
     },

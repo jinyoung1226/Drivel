@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { textStyles } from '../styles/textStyles';
+import colors from '../styles/colors';
 const CustomInput = ({ 
   value, 
   onChangeText, 
   placeholder,  
   showButton,
   onButtonPress, 
-  isButtonText = true, 
-  buttonText,
   buttonIcon,
   isValid,
   editable,
@@ -17,45 +16,32 @@ const CustomInput = ({
   showTimer,
   timerText
 }) => {
-  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
-
-  useEffect(() => {
-    setIsButtonEnabled(value.length > 0);
-  }, [value]);
 
   return (
-    <View style={{paddingVertical:8}}>
+    <View style={{flex:1}}>
       <View style={[
         styles.inputContainer,
-        { borderColor: isValid === false ? '#FF7171' : '#C5C5C6' }
+        { borderColor: isValid === false ? colors.red : colors.Gray03 }
       ]}>
         <TextInput
           style={[styles.input, textStyles.H5]}
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
-          placeholderTextColor={"#ACACAD"}
+          placeholderTextColor={colors.Gray04}
           editable={editable}
           secureTextEntry={secureTextEntry}
         />
-        {showTimer && <Text style={[textStyles.H5, textStyles.Gray04, {marginRight:8}]}>{timerText}</Text>}
-        {showButton && (isButtonText ? (
+        {showTimer && <Text style={[textStyles.H5, {marginRight:8, color: colors.Gray04}]}>{timerText}</Text>}
+        {showButton && 
           <TouchableOpacity 
             onPress={onButtonPress} 
-            style={styles.button}
-            disabled={!isButtonEnabled || buttonDisabled}
-          >
-            <Text style={[textStyles.H5, {color: !isButtonEnabled || buttonDisabled ? '#C5C5C6': '#5168F6'}]}>{buttonText}</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity 
-            onPress={onButtonPress} 
-            style={styles.button}
+            style={{alignSelf:'center'}}
             disabled={buttonDisabled}
           >
-            {buttonIcon}
+            {typeof buttonIcon === 'function' ? buttonIcon({ buttonDisabled }) : buttonIcon}
           </TouchableOpacity>
-        ))}
+        }
       </View>
     </View>
   );
@@ -66,18 +52,18 @@ const styles = StyleSheet.create({
     height: 47,
     flexDirection: 'row',
     justifyContent:'center',
-    alignItems: 'center',
     borderWidth: 1,
     borderRadius: 10,
-    boerderColor: '#DDDDDE',
+    borderColor: colors.Gray03,
     paddingHorizontal: 16,
   },
   input: {
     flex: 1,
-
+    height: 47,
   },
   buttonText: {
     fontSize: 14,
+    alignSelf: 'center',
   },
 });
 

@@ -22,42 +22,45 @@ const LoginScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAwareScrollView>
-      <View style={{height:64}}/>
-      <Text style={[textStyles.H1, textStyles.Blue, {fontSize:30}]}>Drivel과 함께{'\n'}달릴 준비 되셨나요?</Text>
-      <View style={{height:64}}/>
-      <CustomInput
-        placeholder="이메일을 입력하세요"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <CustomInput
-        placeholder="비밀번호를 입력하세요"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry={true}
-      />
-      <TouchableOpacity onPress={() => navigation.navigate("PasswordReset")}>
-        <Text style={[textStyles.H5, textStyles.Gray05, {alignSelf: 'flex-end'} ]} >비밀번호 재설정</Text>    
-      </TouchableOpacity>
-      <View style={{height:16}}/>
-      <CustomButton title="로그인" onPress={handleLogin} />
-      <View style={{height:32}}/>
-      <TouchableOpacity style={{flexDirection: 'row', height:50, backgroundColor: '#FEE500', borderRadius:6.7, padding:15}} onPress={() => navigation.navigate("KakaoLogin")}>
-        
-        <View style={{flex:1}}/>
-        <KakaoIcon width={20} height={20} />
-        <View style={{width:6.6}}/>
-        <Text style={[textStyles.H4, {color: 'rgba(0, 0, 0, 0.85)'} ]} >카카오 로그인</Text>
-        <View style={{flex:1}}/>
-      </TouchableOpacity>
-      <View style={{height:32}}/>
-      <View style={{flexDirection:'row', alignSelf:'center'}}>
-        <Text style={[textStyles.H5, textStyles.Gray06]}>아직 회원이 아니신가요?</Text>
-        <View style={{width:8}}/>
-        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-          <Text style={[textStyles.H5, textStyles.Blue, {borderBottomWidth:1, borderColor: '#5168F6'}]} >이메일로 회원가입하기</Text>    
-        </TouchableOpacity>
-      </View>
+        <View style={{padding:16}}>
+          <View style={{height:64}}/>
+          <Text style={[textStyles.H1, textStyles.Blue, {fontSize:30}]}>Drivel과 함께{'\n'}달릴 준비 되셨나요?</Text>
+          <View style={{height:64}}/>
+          <CustomInput
+            placeholder="이메일을 입력하세요"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <View style={{height:16}}/>
+          <CustomInput
+            placeholder="비밀번호를 입력하세요"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={true}
+          />
+          <View style={{height:8}}/>
+          <TouchableOpacity onPress={() => navigation.navigate("PasswordReset")}>
+            <Text style={[textStyles.H5, textStyles.Gray05, {alignSelf: 'flex-end'} ]} >비밀번호 재설정</Text>    
+          </TouchableOpacity>
+          <View style={{height:16}}/>
+          <CustomButton title="로그인" onPress={handleLogin} />
+          <View style={{height:32}}/>
+          <TouchableOpacity style={{flexDirection: 'row', height:50, backgroundColor: '#FEE500', borderRadius:6.7, padding:15}} onPress={() => navigation.navigate("KakaoLogin")}>
+            <View style={{flex:1}}/>
+            <KakaoIcon width={20} height={20} />
+            <View style={{width:6.6}}/>
+            <Text style={[textStyles.H4, {color: 'rgba(0, 0, 0, 0.85)'} ]} >카카오 로그인</Text>
+            <View style={{flex:1}}/>
+          </TouchableOpacity>
+          <View style={{height:32}}/>
+          <View style={{flexDirection:'row', alignSelf:'center'}}>
+            <Text style={[textStyles.H5, textStyles.Gray06]}>아직 회원이 아니신가요?</Text>
+            <View style={{width:8}}/>
+            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+              <Text style={[textStyles.H5, textStyles.Blue, {borderBottomWidth:1, borderColor: '#5168F6'}]} >이메일로 회원가입하기</Text>    
+            </TouchableOpacity>
+          </View>
+        </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );
@@ -67,7 +70,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.BG,
-    padding:16
   },
   input: {
     width: '100%',
