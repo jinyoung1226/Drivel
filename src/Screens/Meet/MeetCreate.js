@@ -153,6 +153,7 @@ const MeetCreate = () => {
               placeholder="최대 30자까지 입력 가능합니다"
               value={title}
               onChangeText={setTitle}
+              maxLength={30}
               
             />
             <View style={{ height: 24 }} />
@@ -173,6 +174,7 @@ const MeetCreate = () => {
               placeholder="최대 30자까지 입력 가능합니다"
               value={description}
               onChangeText={setDescription}
+              maxLength={30}
             />
             <View style={{ height: 24 }} />
             <Text style={[textStyles.H4, {color: colors.Gray10}]}>집결지</Text>
@@ -181,6 +183,7 @@ const MeetCreate = () => {
               placeholder="최대 30자까지 입력 가능합니다"
               value={meetingPoint}
               onChangeText={setMeetingPoint}
+              maxLength={30}
             />
           </View>
         ) : step === 2 ? (
@@ -242,6 +245,8 @@ const MeetCreate = () => {
               showButton={true}
               buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray10}]}>명</Text>}
               buttonDisabled={true}
+              maxLength={2}
+              keyboardType='number-pad'
             />
             <View style={{ height: 32 }} />
             <Text style={[textStyles.H4, {color: colors.Gray10}]}>연령대</Text>
@@ -264,6 +269,8 @@ const MeetCreate = () => {
                   showButton={true}
                   buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray10}]}>세</Text>}
                   buttonDisabled={true}
+                  maxLength={2}
+                  keyboardType='number-pad'
                 />
                 <Text style={[textStyles.H6, { color: colors.Gray08, paddingHorizontal: 8, alignSelf:'center' }]}>-</Text>
                 <CustomInput
@@ -273,6 +280,8 @@ const MeetCreate = () => {
                   showButton={true}
                   buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray10}]}>세</Text>}
                   buttonDisabled={true}
+                  maxLength={2}
+                  keyboardType='number-pad'
                 />
               </View>
               <View style={{ height: 16 }}/>
@@ -322,6 +331,8 @@ const MeetCreate = () => {
                 showButton={true}
                 buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray10}]}>년 이상</Text>}
                 buttonDisabled={true}
+                maxLength={2}
+                keyboardType='number-pad'
               />}
           </View>
         )}

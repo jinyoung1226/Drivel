@@ -14,7 +14,10 @@ const CustomInput = ({
   buttonDisabled,
   secureTextEntry = false,
   showTimer,
-  timerText
+  timerText,
+  maxLength,
+  keyboardType,
+  inputMode
 }) => {
 
   return (
@@ -31,6 +34,9 @@ const CustomInput = ({
           placeholderTextColor={colors.Gray04}
           editable={editable}
           secureTextEntry={secureTextEntry}
+          maxLength={maxLength}
+          keyboardType={keyboardType}
+          inputMode={inputMode}
         />
         {showTimer && <Text style={[textStyles.H5, {marginRight:8, color: colors.Gray04}]}>{timerText}</Text>}
         {showButton && 

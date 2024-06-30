@@ -151,6 +151,7 @@ const Register = ({ navigation }) => {
             onButtonPress={()=>{requestAuthCode()}}
             editable={!isSending && !isAuthorized}
             buttonDisabled={!(isValidEmail && !isSending && !isAuthorized)} 
+            keyboardType='email-address'
           />
           <View style={{height:8}}/>
           <InputTextMessage
