@@ -1,22 +1,29 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
-import colors from '../../styles/colors';
-import FilterIcon from '../../assets/icons/FilterIcon';
-import LinearGradient from 'react-native-linear-gradient';
-import { textStyles } from '../../styles/textStyles';
+import React from 'react';
+import {FlatList} from 'react-native';
 import MeetListItem from './MeetListItem';
-import { useSelector, useDispatch } from 'react-redux';
-import { getMeetList } from '../../features/meet/meetActions';
-
-const MeetList = ({goMeetDetail, ListHeaderComponent, data}) => {
-
+import {RefreshControl} from 'react-native-gesture-handler';
+const MeetList = ({
+  goMeetDetail,
+  ListHeaderComponent,
+  data,
+  refreshing,
+  onRefresh,
+  onEndReached,
+}) => {
   return (
     <FlatList
-    ListHeaderComponent={ListHeaderComponent}
-    data={data}
-    renderItem={({item}) => <MeetListItem item={item} goMeetDetail={goMeetDetail}/>}
-    keyExtractor={item => item.meetingId}
+      ListHeaderComponent={ListHeaderComponent}
+      data={data}
+      renderItem={({item}) => (
+        <MeetListItem item={item} goMeetDetail={goMeetDetail} />
+      )}
+      keyExtractor={item => item.meetingId}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.5}
     />
   );
-}
+};
 export default MeetList;

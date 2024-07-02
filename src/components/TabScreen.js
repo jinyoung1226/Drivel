@@ -1,13 +1,13 @@
-import { useState, useRef } from 'react';
-import { Dimensions, View, ScrollView } from 'react-native';
+import {useState, useRef} from 'react';
+import {Dimensions, View, ScrollView} from 'react-native';
 import Tabs from './Tabs';
 
-const TabScreen = ({ menus, initTabIndex = 0, contents }) => {
+const TabScreen = ({menus, initTabIndex = 0, contents}) => {
   const [selectedIndex, setSelectedIndex] = useState(initTabIndex);
   const scrollViewRef = useRef(null);
   const windowWidth = Dimensions.get('window').width;
 
-  const onSelectTab = (index) => {
+  const onSelectTab = index => {
     setSelectedIndex(index);
     scrollViewRef.current?.scrollTo({
       x: windowWidth * index,
@@ -16,7 +16,7 @@ const TabScreen = ({ menus, initTabIndex = 0, contents }) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <Tabs
         menus={menus}
         selectedIndex={selectedIndex}
@@ -28,20 +28,18 @@ const TabScreen = ({ menus, initTabIndex = 0, contents }) => {
         ref={scrollViewRef}
         scrollEventThrottle={16}
         showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={(e) => {
+        onMomentumScrollEnd={e => {
           const newIndex = Math.floor(
-            Math.max(0, e.nativeEvent.contentOffset.x) / windowWidth
+            Math.max(0, e.nativeEvent.contentOffset.x) / windowWidth,
           );
           setSelectedIndex(newIndex);
-        }}
-      >
+        }}>
         {contents.map((content, index) => (
           <View
             key={index}
             style={{
               width: windowWidth,
-            }}
-          >
+            }}>
             {content}
           </View>
         ))}

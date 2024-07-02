@@ -6,7 +6,7 @@ const store = configureStore({
   reducer: {
     auth: authReducer,
     drive: driveReducer,
-    meet: meetReducer
+    meet: meetReducer,
   },
 });
 

@@ -14,6 +14,6 @@ const colors = {
   White_Blue: '#F8F9FF',
   white: '#FFFFFF',
   red: '#FF7171',
-  BG:'#FDFDFF'
+  BG: '#FDFDFF',
 };
 export default colors;
