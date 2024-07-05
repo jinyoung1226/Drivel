@@ -36,6 +36,10 @@
     {
       "path": "src/assets/fonts/SUIT-Thin.ttf",
       "sha1": "a26ab2c94b531aaacac5932524722729fd882430"
+    },
+    {
+      "path": "src/assets/fonts/YdestreetB.ttf",
+      "sha1": "1dbb7ef6d34d304b327578bc4f7e38c38139d120"
     }
   ]
 }

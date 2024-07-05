@@ -1,5 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {checkAuth, kakaoLogin, login, logout} from './authActions';
+import { createSlice } from '@reduxjs/toolkit';
+import { checkAuth, kakaoLogin, login, logout } from './authActions';
 
 // authSlice 정의: 인증 관련 상태와 리듀서를 관리합니다.
 const initialState = {
