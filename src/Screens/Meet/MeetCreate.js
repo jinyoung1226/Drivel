@@ -55,7 +55,7 @@ const MeetCreate = ({navigation}) => {
       headerTitleStyle: [textStyles.H2, {color: colors.Gray10}],
       headerLeft: () => (
         <TouchableOpacity onPress={handleBackPress} style={{padding: 16}}>
-          <BackIcon color ={colors.Gray10}/>
+          <BackIcon color={colors.Gray10} />
         </TouchableOpacity>
       ),
     });
@@ -497,7 +497,13 @@ const MeetCreate = ({navigation}) => {
           </View>
         )}
       </KeyboardAwareScrollView>
-      <View style={{padding: 16, elevation: 10, backgroundColor: colors.BG, position: 'static'}}>
+      <View
+        style={{
+          padding: 16,
+          elevation: 10,
+          backgroundColor: colors.BG,
+          position: 'static',
+        }}>
         <CustomButton
           title={step < 3 ? '다음' : '모임 만들기'}
           onPress={handleNextStep}

@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { checkAuth, kakaoLogin, login, logout } from './authActions';
+import {createSlice} from '@reduxjs/toolkit';
+import {checkAuth, kakaoLogin, login, logout} from './authActions';
 
 // authSlice 정의: 인증 관련 상태와 리듀서를 관리합니다.
 const initialState = {
@@ -50,24 +50,21 @@ const authSlice = createSlice({
     //   state.accessToken = action.payload.accessToken;  // 로그인 성공 시 인증 토큰을 업데이트합니다.
     // });
 
-    builder.addCase(login.rejected, (state, action) => {
-    });
+    builder.addCase(login.rejected, (state, action) => {});
 
     // logout 액션이 실행되었을 때 각 상태(pending, fulfilled, rejected)에 따라 상태를 업데이트합니다.
     builder.addCase(logout.fulfilled, state => {
       state.isAuthenticated = false; // 로그아웃 성공 시 인증 상태를 false로 설정합니다.
       state.accessToken = null; // 인증 토큰을 null로 설정합니다.
     });
-    builder.addCase(logout.rejected, (state, action) => {
-    });
+    builder.addCase(logout.rejected, (state, action) => {});
     builder.addCase(kakaoLogin.fulfilled, (state, action) => {
       state.isAuthenticated = action.payload.isAuthenticated; // 로그아웃 성공 시 인증 상태를 false로 설정합니다.
       state.nickname = action.payload.nickname;
       state.accessToken = action.payload.accessToken; // 인증 토큰을 null로 설정합니다.
       state.isKakaoLoggedIn = action.payload.isKakaoLoggedIn;
     });
-    builder.addCase(kakaoLogin.rejected, (state, action) => {
-    });
+    builder.addCase(kakaoLogin.rejected, (state, action) => {});
   },
 });
 

@@ -40,4 +40,3 @@ const CustomButton = ({title, onPress, disabled}) => {
 };
 
 export default CustomButton;
-

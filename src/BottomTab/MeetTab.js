@@ -31,10 +31,7 @@ const MeetTab = ({navigation, route}) => {
         component={MeetMain}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="MeetCreate"
-        component={MeetCreate}
-      />
+      <Stack.Screen name="MeetCreate" component={MeetCreate} />
       <Stack.Screen name="MeetFilter" component={MeetFilter} />
       <Stack.Screen name="MeetDetail" component={MeetDetail} />
     </Stack.Navigator>

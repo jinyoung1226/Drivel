@@ -68,13 +68,13 @@ export const login = createAsyncThunk(
           accessToken: accessToken,
           nickname: nickname,
         }; // 액세스 토큰을 redux로 관리할 필요가 있을까??,, 흠..
-      } 
+      }
     } catch (error) {
       if (error.response) {
         if (error.response.status == 401) {
           console.log(error.response.data);
           Alert.alert(error.response.data.message);
-        } 
+        }
       } else {
         Alert.alert('서버접속오류');
       }

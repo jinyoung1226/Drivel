@@ -36,7 +36,7 @@ const MeetFilter = ({navigation}) => {
     navigation.setOptions({
       headerLeft: () => (
         <TouchableOpacity onPress={filterMeeting} style={{padding: 16}}>
-          <BackIcon color ={colors.Gray10}/>
+          <BackIcon color={colors.Gray10} />
         </TouchableOpacity>
       ),
     });
