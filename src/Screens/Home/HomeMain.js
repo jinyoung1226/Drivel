@@ -16,6 +16,7 @@ import DriveCourseCuration from './DriveCourseCuration';
 import Festival from './Festival';
 import Magazine from './Magazine';
 import {api, authApi} from '../../api/api';
+import GrayLine from '../../components/GrayLine';
 
 const {width} = Dimensions.get('window');
 
@@ -88,9 +89,9 @@ const HomeMain = ({navigation}) => {
           handleDriveCourse={handleDriveCourse}
           filteredDriveCourses={filteredDriveCourses}
         />
-        <View style={styles.bar}></View>
+        <GrayLine />
         <Magazine />
-        <View style={styles.bar}></View>
+        <GrayLine />
         <Festival />
       </ScrollView>
     </View>
@@ -119,13 +120,6 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     bottom: 37,
     left: 24,
-  },
-
-  bar: {
-    width: width,
-    height: 10,
-    marginTop: 24,
-    backgroundColor: '#F6F6F7',
   },
 });
 export default HomeMain;
