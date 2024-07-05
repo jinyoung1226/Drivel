@@ -61,6 +61,7 @@ export const login = createAsyncThunk(
         const accessToken = response.data.accessToken;
         const refreshToken = response.data.refreshToken;
         const nickname = response.data.nickname;
+        console.log(response.data, 'login');
         await AsyncStorage.setItem('accessToken', accessToken); //AsyncStorage에 저장하는 이유는 애플리케이션이 재시작될 때도 accessToken을 유지하기 위함. 자동로그인되야하니..
         await EncryptedStorage.setItem('refreshToken', refreshToken);
         return {

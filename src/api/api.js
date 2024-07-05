@@ -21,6 +21,7 @@ export const authApi = axios.create({
 
 authApi.interceptors.request.use(
   async config => {
+    console.log('헤더에 토큰 삽입');
     const token = await AsyncStorage.getItem('accessToken'); // AsyncStorage에서 토큰 가져오기
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`; // 헤더에 토큰 추가
@@ -35,6 +36,7 @@ authApi.interceptors.request.use(
 
 authApi.interceptors.response.use(
   response => {
+    console.log('응답');
     return response;
   },
   async error => {
@@ -45,19 +47,14 @@ authApi.interceptors.response.use(
       originalRequest._retry = true; // 재시도 플래그 설정
       // 토큰 재발급 로직...
       const refreshToken = await EncryptedStorage.getItem('refreshToken');
+      console.log(refreshToken)
       // console.log(refreshToken,'refreshToken')
       try {
-        const response = await axios.post(
-          `${config.SERVER_URL}/token/re-issue`,
-          {headers: {Authorization: `Bearer ${refreshToken}`}},
-        );
+        const response = await api.post(`/token/re-issue`, {}, {headers: {Authorization: `Bearer ${refreshToken}`}});
         if (response.status === 200) {
-          console.log(response.status, 're-issue');
+          console.log(response.data, 're-issue');
           await AsyncStorage.setItem('accessToken', response.data.accessToken);
-          await EncryptedStorage.setItem(
-            'refreshToken',
-            response.data.refreshToken,
-          );
+          await EncryptedStorage.setItem('refreshToken', response.data.refreshToken);
           // 새 토큰 저장
           authApi.defaults.headers.common[
             'Authorization'
