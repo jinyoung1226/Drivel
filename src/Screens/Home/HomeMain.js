@@ -19,9 +19,7 @@ import {api, authApi} from '../../api/api';
 
 const {width} = Dimensions.get('window');
 
-const HomeMain = () => {
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
+const HomeMain = ({navigation}) => {
   const category = ['바다와 함께', '자연친화', '노을맛집'];
   const [activeButton, setActiveButton] = useState(category[0]);
   const [filteredDriveCourse, setfilteredDriveCourse] = useState([
@@ -64,8 +62,7 @@ const HomeMain = () => {
   );
 
   const handleDriveCourse = id => {
-    dispatch(fetchDriveInfo({id}));
-    navigation.navigate('DriveDetail');
+    navigation.navigate('DriveTab', {screen: 'DriveDetail', params: {id: id}});
   };
 
   const handleButtonPress = button => {

@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {textStyles} from '../../styles/textStyles';
-import colors from '../../styles/colors';
+import {textStyles} from '../styles/textStyles';
+import colors from '../styles/colors';
 
-const DriveCourseInfoTab = () => {
-  const tabName = ['상세정보', '리뷰', '관광지'];
-  const [activeTab, setActiveTab] = useState(0);
+const TopTab = ({activeTab, tabName, setActiveTab}) => {
   return (
     <View style={styles.tabContainer}>
       {tabName.map((item, index) => (
@@ -56,4 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DriveCourseInfoTab;
+export default TopTab;

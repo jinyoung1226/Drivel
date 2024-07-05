@@ -1,12 +1,10 @@
-import { View, Pressable, Text, Animated, Dimensions } from 'react-native';
+import {View, Pressable, Text, Animated, Dimensions} from 'react-native';
 import React from 'react';
 
-
-
-const Tabs = ({ selectedIndex, onSelectHandler, menus }) => {
+const Tabs = ({selectedIndex, onSelectHandler, menus}) => {
   const width = Dimensions.get('window').width / menus.length;
   const animatedValue = React.useRef(
-    new Animated.Value(selectedIndex * width)
+    new Animated.Value(selectedIndex * width),
   ).current;
 
   React.useEffect(() => {
@@ -18,15 +16,15 @@ const Tabs = ({ selectedIndex, onSelectHandler, menus }) => {
   }, [selectedIndex]);
 
   return (
-    <View style={{ flexDirection: 'row', backgroundColor: "#FFF" }}>
+    <View style={{flexDirection: 'row', backgroundColor: '#FFF'}}>
       <Animated.View
         style={{
           position: 'absolute',
           left: 0,
           width: width,
           borderBottomWidth: 1,
-          borderBottomColor: "#5168F6",
-          transform: [{ translateX: animatedValue }],
+          borderBottomColor: '#5168F6',
+          transform: [{translateX: animatedValue}],
           bottom: 0,
         }}
       />
@@ -41,15 +39,13 @@ const Tabs = ({ selectedIndex, onSelectHandler, menus }) => {
           key={v}
           onPress={() => {
             onSelectHandler(i);
-          }}
-        >
+          }}>
           <Text
             style={[
               {
-                color: selectedIndex === i ? "#5168F6" : "#C5C5C6",
+                color: selectedIndex === i ? '#5168F6' : '#C5C5C6',
               },
-            ]}
-          >
+            ]}>
             {v}
           </Text>
         </Pressable>

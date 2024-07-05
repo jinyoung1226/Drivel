@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import {View, Text, Button, StyleSheet} from 'react-native';
 
 const MeetFilter = () => {
   return (
@@ -7,5 +7,5 @@ const MeetFilter = () => {
       <Text>MeetFilter</Text>
     </View>
   );
-}
+};
 export default MeetFilter;

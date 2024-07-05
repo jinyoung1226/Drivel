@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import {View, Text, Button, StyleSheet} from 'react-native';
 
 const MeetCreate = () => {
   return (
@@ -7,5 +7,5 @@ const MeetCreate = () => {
       <Text>MeetCreate</Text>
     </View>
   );
-}
+};
 export default MeetCreate;

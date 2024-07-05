@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import MyPageMain from '../Screens/Mypage/MypageMain';
 import ProfileSetting from '../Screens/Mypage/ProfileSetting';
 const Stack = createStackNavigator();
