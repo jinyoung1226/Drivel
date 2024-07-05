@@ -34,11 +34,6 @@ const MeetTab = ({navigation, route}) => {
       <Stack.Screen
         name="MeetCreate"
         component={MeetCreate}
-        options={{
-          title: '모임 만들기',
-          headerTitleAlign: 'center',
-          headerTitleStyle: [textStyles.H2, {color: colors.Gray10}],
-        }}
       />
       <Stack.Screen name="MeetFilter" component={MeetFilter} />
       <Stack.Screen name="MeetDetail" component={MeetDetail} />

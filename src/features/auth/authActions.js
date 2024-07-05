@@ -20,19 +20,24 @@ export const checkAuth = createAsyncThunk(
             accessToken: accessToken,
             nickname: nickname,
           };
-        } else {
-          return thunkAPI.rejectWithValue({
-            error: `Unexpected response status: ${response.status}`,
-          });
         }
       } catch (error) {
-        console.log(error);
-        return thunkAPI.rejectWithValue({
-          error: error,
-          isAuthenticated: false,
-          accessToken: null,
-          isLoading: false,
-        });
+        if (error.response) {
+          console.log(error.response.status);
+          Alert.alert('로그인이 필요합니다');
+          return thunkAPI.rejectWithValue({
+            isAuthenticated: false,
+            accessToken: null,
+            isLoading: false,
+          });
+        } else {
+          Alert.alert('서버 접속 오류');
+          return thunkAPI.rejectWithValue({
+            isAuthenticated: false,
+            accessToken: null,
+            isLoading: false,
+          });
+        }
       }
     } else {
       return {isAuthenticated: false, accessToken: null};
@@ -63,18 +68,15 @@ export const login = createAsyncThunk(
           accessToken: accessToken,
           nickname: nickname,
         }; // 액세스 토큰을 redux로 관리할 필요가 있을까??,, 흠..
-      } else {
-        return thunkAPI.rejectWithValue({
-          error: `Unexpected response status: ${response.status}`,
-        });
-      }
+      } 
     } catch (error) {
-      if (error.response.status == 401) {
-        console.log(error.response.data);
-        Alert.alert(error.response.data.message);
-        return thunkAPI.rejectWithValue({error: error.response.data.message}); // authSlice의 error 상태 변경
+      if (error.response) {
+        if (error.response.status == 401) {
+          console.log(error.response.data);
+          Alert.alert(error.response.data.message);
+        } 
       } else {
-        return thunkAPI.rejectWithValue({error: '서버접속오류'});
+        Alert.alert('서버접속오류');
       }
     }
   },
@@ -100,7 +102,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
         accessToken: null,
       });
     } else {
-      return thunkAPI.rejectWithValue({error: '로그아웃실패'});
+      Alert.alert('서버접속오류');
     }
   }
 });
@@ -123,17 +125,15 @@ export const kakaoLogin = createAsyncThunk(
           nickname: nickname,
           isKakaoLoggedIn: true,
         };
-      } else {
-        return thunkAPI.rejectWithValue({
-          error: `Unexpected response status: ${response.status}`,
-        });
       }
     } catch (error) {
-      if (error.response.status == 401) {
+      if (error.response) {
         console.log(error.response.status);
-        return thunkAPI.rejectWithValue({error: error.response.data.message}); // authSlice의 error 상태 변경
+        if (error.response.status == 401) {
+          Alert.alert(error.response.data.message);
+        }
       } else {
-        return thunkAPI.rejectWithValue({error: '서버접속오류'});
+        Alert.alert('서버접속오류');
       }
     }
   },
