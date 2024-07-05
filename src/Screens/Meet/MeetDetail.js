@@ -4,13 +4,17 @@ import BackIcon from '../../assets/icons/BackIcon';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {authApi} from '../../api/api';
 import colors from '../../styles/colors';
-import TabScreen from '../../components/TabScreen';
-
+import TopTab from '../../components/TopTab';
+import TabScreens from '../../components/TabScreens';
+import MeetInfo from './MeetInfo';
 const MeetDetail = ({route, navigation}) => {
   const [courseInfo, setCourseInfo] = useState(null);
   const [meetingInfo, setMeetingInfo] = useState(null);
+  const [activeTab, setActiveTab] = useState(0);
   const meetingId = route.params.meetingId;
   const courseId = route.params.courseId;
+  const tabName = ['모임 정보', '코스 정보', '게시판'];
+  const tabScreens = [(<MeetInfo item={meetingInfo}/>),(<View><Text>222222</Text></View>), (<View><Text>33333</Text></View>)];
   const getDriveCourseInfo = async () => {
     try {
       const response = await authApi.get(`course/${courseId}`);
@@ -66,27 +70,14 @@ const MeetDetail = ({route, navigation}) => {
   }, [navigation]);
 
   return (
-    <View>
+    <View style={{backgroundColor: colors.BG}}>
       <KeyboardAwareScrollView>
         {courseInfo !== null && (
           <ImageBackground
             style={{width: '100%', aspectRatio: 1}}
             src={courseInfo.courseInfo.imagePath}></ImageBackground>
         )}
-        <TabScreen
-          menus={['모임정보', '코스정보', '게시판']}
-          contents={[
-            <View>
-              <Text>화면1</Text>
-            </View>,
-            <View>
-              <Text>화면2</Text>
-            </View>,
-            <View>
-              <Text>화면3</Text>
-            </View>,
-          ]}
-        />
+      {meetingInfo !== null && <TabScreens tabName={tabName} tabScreens={tabScreens} />}
         <Text>
           {meetingId}
           {courseId}

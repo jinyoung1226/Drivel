@@ -26,6 +26,7 @@ const AuthNavigator = () => {
       />
       <Stack.Screen name="KakaoLogin" component={KakaoLogin} />
       <Stack.Screen name="PasswordReset" component={PasswordReset} />
+
     </Stack.Navigator>
   );
 };

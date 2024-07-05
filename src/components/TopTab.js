@@ -1,10 +1,24 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Dimensions, Animated} from 'react-native';
 import {textStyles} from '../styles/textStyles';
 import colors from '../styles/colors';
 
 const TopTab = ({activeTab, tabName, setActiveTab}) => {
+  const windowWidth = Dimensions.get('window').width;
+  const animatedValue = React.useRef(
+    new Animated.Value(activeTab * windowWidth/tabName.length),
+  ).current;
+
+  React.useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: activeTab * (windowWidth-32)/tabName.length,
+      duration: 250,
+      useNativeDriver: true,
+    }).start();
+  }, [activeTab]);
+
   return (
+    <View style={{padding:16}}>
     <View style={styles.tabContainer}>
       {tabName.map((item, index) => (
         <TouchableOpacity
@@ -17,40 +31,37 @@ const TopTab = ({activeTab, tabName, setActiveTab}) => {
             ]}>
             {item}
           </Text>
-          {activeTab === index && <View style={styles.activeTabUnderline} />}
         </TouchableOpacity>
       ))}
     </View>
+    <Animated.View
+      style={{
+        width: (windowWidth-32)/tabName.length,
+        borderBottomWidth: 3,
+        borderBottomColor: '#5168F6',
+        transform: [{translateX: animatedValue}],
+      }}
+    />
+  </View>
   );
 };
 
 const styles = StyleSheet.create({
   tabContainer: {
-    height: 36,
+    height: 52,
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 24,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.Gray04,
+
   },
 
   tabButton: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
 
   tabButtonText: [textStyles.H4, {color: colors.Gray04}],
   activeTabButton: {
     color: colors.Blue,
-  },
-  activeTabUnderline: {
-    position: 'absolute',
-    bottom: -1,
-    left: 0,
-    right: 0,
-    height: 2,
-    backgroundColor: '#0000FF', // 변경된 색상
   },
 });
 

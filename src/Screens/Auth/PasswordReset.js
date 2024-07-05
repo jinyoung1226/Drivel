@@ -1,29 +1,14 @@
-// reactNative version of PasswordReset.js
-import React, {useState} from 'react';
-import {View} from 'react-native';
-import CustomInput from '../../components/CustomInput';
-import CustomButton from '../../components/CustomButton';
-import InputTextMessage from '../../components/InputTextMessage';
-const PasswordReset = () => {
-  const [email, setEmail] = useState('');
+import React from "react";
+import { View, Text } from "react-native";
+import CustomInput from "../../components/CustomInput";
 
+const PasswordReset = () => {
   return (
-    <View>
-      <CustomInput
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Email"
-        isValid={true}
-        editable={true}
-      />
-      <CustomButton title="Send Email" onPress={() => {}} disabled={false} />
-      <InputTextMessage
-        isValid={true}
-        validMessage="Email has been sent"
-        errorMessage="Invalid email"
-      />
+    <View style={{flex:1}}>
+      <CustomInput placeholder={'이메일'}/>
+      <Text>이메일 주소가 올바르지 않습니다</Text>
     </View>
-  );
-};
+  )
+}
 
 export default PasswordReset;

@@ -32,7 +32,7 @@ const LoginScreen = ({navigation}) => {
       <KeyboardAwareScrollView>
         <View style={{padding: 16}}>
           <View style={{height: 64}} />
-          <Text style={[textStyles.H1, textStyles.Blue, {fontSize: 30}]}>
+          <Text style={[textStyles.H1, {fontSize: 30, color: colors.Blue}]}>
             Drivel과 함께{'\n'}달릴 준비 되셨나요?
           </Text>
           <View style={{height: 64}} />
@@ -55,8 +55,7 @@ const LoginScreen = ({navigation}) => {
             <Text
               style={[
                 textStyles.H5,
-                textStyles.Gray05,
-                {alignSelf: 'flex-end'},
+                {alignSelf: 'flex-end', color: colors.Gray05},
               ]}>
               비밀번호 재설정
             </Text>
@@ -83,7 +82,7 @@ const LoginScreen = ({navigation}) => {
           </TouchableOpacity>
           <View style={{height: 32}} />
           <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-            <Text style={[textStyles.H5, textStyles.Gray06]}>
+            <Text style={[textStyles.H5, {color: colors.Gray06}]}>
               아직 회원이 아니신가요?
             </Text>
             <View style={{width: 8}} />
@@ -91,8 +90,8 @@ const LoginScreen = ({navigation}) => {
               <Text
                 style={[
                   textStyles.H5,
-                  textStyles.Blue,
-                  {borderBottomWidth: 1, borderColor: '#5168F6'},
+                  
+                  {color: colors.Blue, borderBottomWidth: 1, borderColor: colors.Blue},
                 ]}>
                 이메일로 회원가입하기
               </Text>
