@@ -17,6 +17,8 @@ import TopTab from '../../components/TopTab';
 import {fetchDriveInfo} from '../../features/drive/driveActions';
 import {authApi} from '../../api/api';
 import {useFocusEffect} from '@react-navigation/native';
+import WebView from 'react-native-webview';
+import GrayLine from '../../components/GrayLine';
 
 const {width} = Dimensions.get('window');
 
@@ -70,6 +72,40 @@ const DriveDetail = ({route, navigation}) => {
     );
   }
 
+  const html = `
+  <!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+          body, html, #map {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+          }
+        </style>
+        <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=420a6167337b5c7d578c146f5d91b859"></script> 
+    </head>
+    <body>
+        <div id="map"></div>
+        <script type="text/javascript">
+            (function () {
+                const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+                const options = { //지도를 생성할 때 필요한 기본 옵션
+                    center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+                    level: 3 //지도의 레벨(확대, 축소 정도)
+                };
+                
+                const map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+                
+                // 주소-좌표 변환 객체를 생성합니다
+                const geocoder = new kakao.maps.services.Geocoder();
+            })();
+        </script>       
+    </body>
+</html>`;
+
   return (
     <ScrollView style={styles.container}>
       <Image
@@ -92,13 +128,13 @@ const DriveDetail = ({route, navigation}) => {
           {driveInfo.courseInfo.description}
         </Text>
       </View>
-      <View style={styles.bar}></View>
+      <GrayLine />
       <TopTab
         tabName={tabName}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />
-      <View style={styles.contentContainer}>
+      <View>
         <View style={[{display: activeTab === 0 ? 'flex' : 'none'}]}>
           <View
             style={{
@@ -113,7 +149,7 @@ const DriveDetail = ({route, navigation}) => {
                 justifyContent: 'space-between',
               }}>
               <Text style={[textStyles.H4]}>코스 길이</Text>
-              <Text style={[textStyles.B5, {color: colors.Gray09}]}>
+              <Text style={[textStyles.B3, {color: colors.Gray09}]}>
                 {driveInfo.courseInfo.distance + 'km'}
               </Text>
             </View>
@@ -145,16 +181,27 @@ const DriveDetail = ({route, navigation}) => {
                       {index + 1}
                     </Text>
                   </View>
-                  <Text style={[textStyles.B5, {color: colors.Gray10}]}>
+                  <Text style={[textStyles.B3, {color: colors.Gray10}]}>
                     {waypoint.name}
                   </Text>
                 </View>
               ))}
             </View>
-            <View>
-              <Text>dsd</Text>
+            <View
+              style={{
+                marginTop: 16,
+                height: 200,
+                width: '100%',
+                padding: 0,
+              }}>
+              <WebView
+                originWhitelist={['*']}
+                source={{html: html}}
+                style={{flex: 1, borderRadius: 4}}
+              />
             </View>
           </View>
+          <GrayLine style={{marginTop: 38}} />
         </View>
         <View style={[{display: activeTab === 1 ? 'flex' : 'none'}]}>
           <Text>리뷰에 대한 글</Text>
