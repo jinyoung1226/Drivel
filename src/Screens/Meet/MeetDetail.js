@@ -8,7 +8,7 @@ import TopTab from '../../components/TopTab';
 import TabScreens from '../../components/TabScreens';
 import MeetInfo from './MeetInfo';
 import LinearGradient from 'react-native-linear-gradient';
-import { textStyles } from '../../styles/textStyles';
+import {textStyles} from '../../styles/textStyles';
 const MeetDetail = ({route, navigation}) => {
   const [courseInfo, setCourseInfo] = useState(null);
   const [meetingInfo, setMeetingInfo] = useState(null);
@@ -16,7 +16,15 @@ const MeetDetail = ({route, navigation}) => {
   const meetingId = route.params.meetingId;
   const courseId = route.params.courseId;
   const tabName = ['모임 정보', '코스 정보', '게시판'];
-  const tabScreens = [(<MeetInfo item={meetingInfo}/>),(<View><Text>222222</Text></View>), (<View><Text>33333</Text></View>)];
+  const tabScreens = [
+    <MeetInfo item={meetingInfo} />,
+    <View>
+      <Text>222222</Text>
+    </View>,
+    <View>
+      <Text>33333</Text>
+    </View>,
+  ];
   const getDriveCourseInfo = async () => {
     try {
       const response = await authApi.get(`course/${courseId}`);
@@ -83,12 +91,11 @@ const MeetDetail = ({route, navigation}) => {
           <ImageBackground
             style={{width: '100%', aspectRatio: 1}}
             src={courseInfo.courseInfo.imagePath}>
-            <LinearGradient 
-            style={{width: '100%', aspectRatio: 1}}
-            colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.7)']}
-            >
-              <View style={{flex:1, padding:16}}>
-                <View style={{flex:1}}/> 
+            <LinearGradient
+              style={{width: '100%', aspectRatio: 1}}
+              colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.7)']}>
+              <View style={{flex: 1, padding: 16}}>
+                <View style={{flex: 1}} />
                 <Text style={[textStyles.H1, {color: colors.white}]}>
                   {meetingInfo.meetingInfo.title}
                 </Text>
@@ -112,7 +119,9 @@ const MeetDetail = ({route, navigation}) => {
             </LinearGradient>
           </ImageBackground>
         )}
-      {meetingInfo !== null && <TabScreens tabName={tabName} tabScreens={tabScreens} />}
+        {meetingInfo !== null && (
+          <TabScreens tabName={tabName} tabScreens={tabScreens} />
+        )}
       </KeyboardAwareScrollView>
     </View>
   );

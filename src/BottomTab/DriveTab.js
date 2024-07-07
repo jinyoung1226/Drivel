@@ -32,7 +32,7 @@ const DriveTab = ({navigation, route}) => {
           headerLeft: () => (
             <Pressable onPress={() => navigation.goBack()}>
               <View style={styles.leftIconContainer}>
-                <BackIcon color={colors.Gray10}/>
+                <BackIcon color={colors.Gray10} />
               </View>
             </Pressable>
           ),

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import GrayLine from '../../components/GrayLine';
 import {View, Text} from 'react-native';
 import colors from '../../styles/colors';
@@ -9,7 +9,7 @@ const DriveReview = ({item}) => {
     <View>
       <Text>리뷰에 대한 글</Text>
     </View>
-  )
-}
+  );
+};
 
 export default DriveReview;

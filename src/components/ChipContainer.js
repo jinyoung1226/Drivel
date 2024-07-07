@@ -43,15 +43,16 @@ const ChipContainer = ({
   return (
     <View style={[containerStyle, {flexDirection: 'row', flexWrap: 'wrap'}]}>
       {data.map(item => {
-        const isActive = Array.isArray(selectedItem) ?
-        selectedItem.includes(item.id) : selectedItem === item.id;
+        const isActive = Array.isArray(selectedItem)
+          ? selectedItem.includes(item.id)
+          : selectedItem === item.id;
         return (
-            <CustomChip
-              key={item.id}
-              item={item.displayName}
-              isActive={isActive}
-              onPressHandler={() => onPressHandler(isActive, item.id)}
-            />
+          <CustomChip
+            key={item.id}
+            item={item.displayName}
+            isActive={isActive}
+            onPressHandler={() => onPressHandler(isActive, item.id)}
+          />
         );
       })}
     </View>

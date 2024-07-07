@@ -47,14 +47,21 @@ authApi.interceptors.response.use(
       originalRequest._retry = true; // 재시도 플래그 설정
       // 토큰 재발급 로직...
       const refreshToken = await EncryptedStorage.getItem('refreshToken');
-      console.log(refreshToken)
+      console.log(refreshToken);
       // console.log(refreshToken,'refreshToken')
       try {
-        const response = await api.post(`/token/re-issue`, {}, {headers: {Authorization: `Bearer ${refreshToken}`}});
+        const response = await api.post(
+          `/token/re-issue`,
+          {},
+          {headers: {Authorization: `Bearer ${refreshToken}`}},
+        );
         if (response.status === 200) {
           console.log(response.data, 're-issue');
           await AsyncStorage.setItem('accessToken', response.data.accessToken);
-          await EncryptedStorage.setItem('refreshToken', response.data.refreshToken);
+          await EncryptedStorage.setItem(
+            'refreshToken',
+            response.data.refreshToken,
+          );
           // 새 토큰 저장
           authApi.defaults.headers.common[
             'Authorization'

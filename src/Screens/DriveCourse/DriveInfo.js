@@ -1,13 +1,11 @@
-import React from "react";
+import React from 'react';
 import GrayLine from '../../components/GrayLine';
 import {WebView} from 'react-native-webview';
 import {View, Text} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 
-
 const DriveInfo = ({item}) => {
-
   const html = `
   <!DOCTYPE html>
     <html>
@@ -46,7 +44,6 @@ const DriveInfo = ({item}) => {
     <View>
       <View
         style={{
-          
           marginTop: 24,
           paddingHorizontal: 16,
         }}>
@@ -65,6 +62,7 @@ const DriveInfo = ({item}) => {
           <Text style={[textStyles.H4]}>코스 정보</Text>
           {item.waypoints.map((waypoint, index) => (
             <View
+              key={index}
               style={{
                 flexDirection: 'row',
                 gap: 8,
@@ -112,6 +110,6 @@ const DriveInfo = ({item}) => {
       <GrayLine style={{marginTop: 38}} />
     </View>
   );
-}
+};
 
 export default DriveInfo;

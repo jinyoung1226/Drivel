@@ -12,7 +12,7 @@ import XIcon from '../../assets/icons/XIcon.svg';
 import BackIcon from '../../assets/icons/BackIcon.svg';
 import SpinIcon from '../../assets/icons/SpinIcon.svg';
 import ChipContainer from '../../components/ChipContainer';
-import { driveStyle } from '../../assets/onboardingData/onBoardingData';
+import {driveStyle} from '../../assets/onboardingData/onBoardingData';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {
@@ -39,12 +39,23 @@ const MeetFilter = ({navigation}) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity onPress={()=> {filterMeeting()}} style={{padding: 16}}>
+        <TouchableOpacity
+          onPress={() => {
+            filterMeeting();
+          }}
+          style={{padding: 16}}>
           <BackIcon color={colors.Gray10} />
         </TouchableOpacity>
       ),
     });
-  }, [navigation, filterDriveStyle, filterGender, filterAge, filterCarModel, filterCarCareer]);
+  }, [
+    navigation,
+    filterDriveStyle,
+    filterGender,
+    filterAge,
+    filterCarModel,
+    filterCarCareer,
+  ]);
 
   useEffect(() => {
     const backAction = () => {
@@ -52,11 +63,11 @@ const MeetFilter = ({navigation}) => {
       return true;
     };
     const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress', 
-      backAction
+      'hardwareBackPress',
+      backAction,
     );
     return () => backHandler.remove();
-}, [filterGender, filterAge, filterCarModel, filterCarCareer]);
+  }, [filterGender, filterAge, filterCarModel, filterCarCareer]);
 
   const filterMeeting = () => {
     dispatch(
@@ -73,11 +84,12 @@ const MeetFilter = ({navigation}) => {
     navigation.navigate('MeetMain');
   };
   const resetFilter = () => {
+    dispatch(setFilterDriveStyle(''));
     dispatch(setFilterGender(''));
     dispatch(setFilterAge(''));
     dispatch(setFilterCarModel(''));
     dispatch(setFilterCarCareer(''));
-  }
+  };
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
@@ -92,7 +104,7 @@ const MeetFilter = ({navigation}) => {
             type={'single'}
             data={driveStyle}
             selectedItem={filterDriveStyle}
-            onSelectedHandler={(items) => dispatch(setFilterDriveStyle(items))}
+            onSelectedHandler={items => dispatch(setFilterDriveStyle(items))}
           />
           {/* <CustomInput
             showButton={true}
@@ -117,7 +129,10 @@ const MeetFilter = ({navigation}) => {
           <ChipContainer
             containerStyle={{flexDirection: 'row'}}
             type={'single'}
-            data={[{id:1, displayName:'남성'}, {id:2, displayName:'여성'}]}
+            data={[
+              {id: 1, displayName: '남성'},
+              {id: 2, displayName: '여성'},
+            ]}
             selectedItem={filterGender}
             onSelectedHandler={items => dispatch(setFilterGender(items))}
           />
@@ -178,8 +193,27 @@ const MeetFilter = ({navigation}) => {
           />
         </View>
       </KeyboardAwareScrollView>
-      <View style={{padding: 16, elevation: 10, backgroundColor: colors.BG, flexDirection: 'row', alignItems: 'center'}}>
-        <TouchableOpacity style={{flexDirection:'row', display: filterAge == '' && filterCarModel == '' && filterCarCareer == '' && filterGender == '' ? 'none' : 'flex'}} onPress={resetFilter}> 
+      <View
+        style={{
+          padding: 16,
+          elevation: 10,
+          backgroundColor: colors.BG,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            display:
+              filterDriveStyle == '' &&
+              filterAge == '' &&
+              filterCarModel == '' &&
+              filterCarCareer == '' &&
+              filterGender == ''
+                ? 'none'
+                : 'flex',
+          }}
+          onPress={resetFilter}>
           <SpinIcon />
           <View style={{width: 8}} />
           <Text style={[textStyles.H4, {color: colors.Gray08}]}>재설정</Text>

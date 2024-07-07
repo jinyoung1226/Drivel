@@ -90,8 +90,12 @@ const LoginScreen = ({navigation}) => {
               <Text
                 style={[
                   textStyles.H5,
-                  
-                  {color: colors.Blue, borderBottomWidth: 1, borderColor: colors.Blue},
+
+                  {
+                    color: colors.Blue,
+                    borderBottomWidth: 1,
+                    borderColor: colors.Blue,
+                  },
                 ]}>
                 이메일로 회원가입하기
               </Text>

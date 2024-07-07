@@ -23,7 +23,7 @@ import {
   setFilterCarModel,
   setFilterCarCareer,
 } from '../../features/meet/meetActions';
-import { driveStyle } from '../../assets/onboardingData/onBoardingData';
+import {driveStyle} from '../../assets/onboardingData/onBoardingData';
 const MeetBrowse = ({goFilter, goMeetDetail}) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {
@@ -89,13 +89,15 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
     }
   };
   const driveStyleDisplayName = filterDriveStyle
-  ? driveStyle.find(style => style.id === filterDriveStyle)?.displayName
-  : '';
+    ? driveStyle.find(style => style.id === filterDriveStyle)?.displayName
+    : '';
 
   const genderDisplayName = filterGender
-  ? [{id:1, displayName:'남성'}, {id:2, displayName:'여성'}].find(style => style.id === filterGender)?.displayName
-  : '';
-
+    ? [
+        {id: 1, displayName: '남성'},
+        {id: 2, displayName: '여성'},
+      ].find(style => style.id === filterGender)?.displayName
+    : '';
 
   const category = [
     {key: '드라이브 스타일', value: driveStyleDisplayName, unit: ''},

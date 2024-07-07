@@ -84,7 +84,7 @@ const DriveDetail = ({route, navigation}) => {
       />
       <View style={styles.tagContainer}>
         {theme.map((item, index) => (
-          <View style={styles.tagButton}>
+          <View key={index} style={styles.tagButton}>
             <Text style={styles.tagText}>{item}</Text>
           </View>
         ))}
@@ -99,11 +99,16 @@ const DriveDetail = ({route, navigation}) => {
         </Text>
       </View>
       <GrayLine />
-      {courseInfo !== null &&
-      <TabScreens
-        tabName={tabName}
-        tabScreens={[<DriveInfo item={courseInfo}/>, <DriveReview/>, <DriveTourSpot/> ]}
-      />}
+      {courseInfo !== null && (
+        <TabScreens
+          tabName={tabName}
+          tabScreens={[
+            <DriveInfo item={courseInfo} />,
+            <DriveReview />,
+            <DriveTourSpot />,
+          ]}
+        />
+      )}
       <View>
         <View style={[{display: activeTab === 2 ? 'flex' : 'none'}]}>
           <Text>관광지에 대한 글</Text>

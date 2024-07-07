@@ -34,8 +34,7 @@ const MeetMainTopTab = ({selectedIndex, onSelectHandler, menus}) => {
             <Text
               style={[
                 textStyles.H3,
-                {color: selectedIndex === i ? colors.Gray10 : colors.Gray03}
-                
+                {color: selectedIndex === i ? colors.Gray10 : colors.Gray03},
               ]}>
               {v}
             </Text>

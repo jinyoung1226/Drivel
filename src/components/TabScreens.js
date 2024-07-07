@@ -1,5 +1,13 @@
 import React, {useRef, useEffect} from 'react';
-import {View, ScrollView, Dimensions, Animated, StyleSheet, Text, Pressable} from 'react-native';
+import {
+  View,
+  ScrollView,
+  Dimensions,
+  Animated,
+  StyleSheet,
+  Text,
+  Pressable,
+} from 'react-native';
 import {textStyles} from '../styles/textStyles';
 import colors from '../styles/colors';
 
@@ -14,7 +22,7 @@ const TabScreens = ({tabName, tabScreens}) => {
   useEffect(() => {
     if (!isAnimating.current) {
       Animated.timing(animatedValue, {
-        toValue: activeTab * (windowWidth - 32) / tabName.length,
+        toValue: (activeTab * (windowWidth - 32)) / tabName.length,
         duration: 250,
         useNativeDriver: true,
       }).start(() => {
@@ -23,15 +31,17 @@ const TabScreens = ({tabName, tabScreens}) => {
     }
   }, [activeTab]);
 
-  const handleScroll = (event) => {
+  const handleScroll = event => {
     const offsetX = event.nativeEvent.contentOffset.x;
     const newIndex = Math.round(offsetX / windowWidth);
     setActiveTab(newIndex);
 
-    animatedValue.setValue(offsetX / windowWidth * (windowWidth - 32) / tabName.length);
+    animatedValue.setValue(
+      ((offsetX / windowWidth) * (windowWidth - 32)) / tabName.length,
+    );
   };
 
-  const handlePress = (index) => {
+  const handlePress = index => {
     isAnimating.current = true;
     scrollViewRef.current.scrollTo({x: index * windowWidth, animated: true});
     setTimeout(() => {
@@ -41,8 +51,13 @@ const TabScreens = ({tabName, tabScreens}) => {
   };
 
   return (
-    <View style={{flex: 1 }}>
-      <View style={{paddingHorizontal: 16, borderBottomWidth:1, borderColor: colors.Gray02}}>
+    <View style={{flex: 1}}>
+      <View
+        style={{
+          paddingHorizontal: 16,
+          borderBottomWidth: 1,
+          borderColor: colors.Gray02,
+        }}>
         <View style={styles.tabContainer}>
           {tabName.map((item, index) => (
             <Pressable
@@ -52,7 +67,7 @@ const TabScreens = ({tabName, tabScreens}) => {
               <Text
                 style={[
                   textStyles.H4,
-                  {color: activeTab === index ? colors.Blue : colors.Gray04}
+                  {color: activeTab === index ? colors.Blue : colors.Gray04},
                 ]}>
                 {item}
               </Text>
@@ -61,16 +76,17 @@ const TabScreens = ({tabName, tabScreens}) => {
         </View>
         <Animated.View
           style={{
-            paddingHorizontal:8,
+            paddingHorizontal: 8,
             width: (windowWidth - 32) / tabName.length,
             transform: [{translateX: animatedValue}],
-          }}
-        >
-          <View 
+          }}>
+          <View
             style={{
               borderBottomWidth: 2,
               borderBottomColor: '#5168F6',
-              width: '100%'}}/>
+              width: '100%',
+            }}
+          />
         </Animated.View>
       </View>
       <ScrollView
@@ -79,8 +95,7 @@ const TabScreens = ({tabName, tabScreens}) => {
         pagingEnabled
         onScroll={handleScroll}
         scrollEventThrottle={16}
-        showsHorizontalScrollIndicator={false}
-      >
+        showsHorizontalScrollIndicator={false}>
         {tabScreens.map((screen, index) => (
           <View key={index} style={{width: windowWidth, height: '100%'}}>
             {screen}

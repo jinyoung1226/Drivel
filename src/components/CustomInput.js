@@ -45,7 +45,11 @@ const CustomInput = ({
           inputMode={inputMode}
         />
         {showTimer && (
-          <Text style={[textStyles.H5, {marginRight: 8, color: colors.Gray04, alignSelf: 'center'}]}>
+          <Text
+            style={[
+              textStyles.H5,
+              {marginRight: 8, color: colors.Gray04, alignSelf: 'center'},
+            ]}>
             {timerText}
           </Text>
         )}
