@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {checkAuth, kakaoLogin, login, logout} from './authActions';
+import {checkAuth, kakaoLogin, login, logout, setOnboarded} from './authActions';
 
 // authSlice 정의: 인증 관련 상태와 리듀서를 관리합니다.
 const initialState = {
@@ -8,6 +8,7 @@ const initialState = {
   accessToken: null,
   isLoading: false,
   isKakaoLoggedIn: false,
+  onboarded: false,
 };
 const authSlice = createSlice({
   name: 'auth', // 슬라이스의 이름을 'auth'로 설정합니다.
@@ -28,7 +29,8 @@ const authSlice = createSlice({
     builder.addCase(checkAuth.fulfilled, (state, action) => {
       state.isAuthenticated = action.payload.isAuthenticated; // 인증이 성공하면 인증 상태를 업데이트합니다.
       state.nickname = action.payload.nickname;
-      state.accessToken = action.payload.accessToken; // 인증 토큰을 업데이트합니다.
+      state.accessToken = action.payload.accessToken;
+      state.onboarded = action.payload.onboarded;
       state.isLoading = false; // 로딩이 완료되었으므로 false로 설정합니다.
     });
     builder.addCase(checkAuth.rejected, (state, action) => {
@@ -36,13 +38,17 @@ const authSlice = createSlice({
       state.accessToken = action.payload.accessToken; // 인증 토큰을 null로 설정합니다.
       state.isLoading = action.payload.isLoading; // 로딩이 완료되었으므로 false로 설정합니다.
     });
-
+    builder.addCase(login.pending, state => {
+      state.isLoading = true; // 인증 상태를 확인하는 중이므로 로딩 상태를 true로 설정합니다.
+    });
     // login 액션이 실행되었을 때 각 상태(pending, fulfilled, rejected)에 따라 상태를 업데이트합니다.
     builder.addCase(login.fulfilled, (state, action) => {
       //첫번째 인자인 액션타입은 authActions에서 임포트한 변수명으로 써도 되고, authActions에서 createAsyncThunk의 첫번째 인자로 전달한 문자열로 써도됨.
       state.isAuthenticated = action.payload.isAuthenticated; // 로그인 성공 시 인증 상태를 업데이트합니다.
       state.nickname = action.payload.nickname;
-      state.accessToken = action.payload.accessToken; // 로그인 성공 시 인증 토큰을 업데이트합니다.
+      state.accessToken = action.payload.accessToken;
+      state.onboarded = action.payload.onboarded;
+      state.isLoading = false;
     });
     // 참고
     // builder.addCase('auth/login/fulfilled', (state, action) => { //첫번째 인자인 액션타입은 authActions에서 임포트한 변수명으로 써도 되고, authActions에서 createAsyncThunk의 첫번째 인자로 전달한 문자열로 써도됨.
@@ -65,6 +71,10 @@ const authSlice = createSlice({
       state.isKakaoLoggedIn = action.payload.isKakaoLoggedIn;
     });
     builder.addCase(kakaoLogin.rejected, (state, action) => {});
+
+    builder.addCase(setOnboarded, (state, action) => {
+      state.onboarded = action.payload;
+    });
   },
 });
 

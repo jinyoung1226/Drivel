@@ -1,5 +1,5 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, ImageBackground} from 'react-native';
+import {View, Text, TouchableOpacity, ImageBackground, Alert} from 'react-native';
 import BackIcon from '../../assets/icons/BackIcon';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {authApi} from '../../api/api';
@@ -9,6 +9,7 @@ import TabScreens from '../../components/TabScreens';
 import MeetInfo from './MeetInfo';
 import LinearGradient from 'react-native-linear-gradient';
 import {textStyles} from '../../styles/textStyles';
+import CustomButton from '../../components/CustomButton';
 const MeetDetail = ({route, navigation}) => {
   const [courseInfo, setCourseInfo] = useState(null);
   const [meetingInfo, setMeetingInfo] = useState(null);
@@ -85,7 +86,7 @@ const MeetDetail = ({route, navigation}) => {
   };
 
   return (
-    <View style={{backgroundColor: colors.BG}}>
+    <View style={{backgroundColor: colors.BG, flex:1}}>
       <KeyboardAwareScrollView>
         {courseInfo !== null && meetingInfo !== null && (
           <ImageBackground
@@ -123,6 +124,17 @@ const MeetDetail = ({route, navigation}) => {
           <TabScreens tabName={tabName} tabScreens={tabScreens} />
         )}
       </KeyboardAwareScrollView>
+      <View
+        style={{
+          padding: 16,
+          elevation: 10,
+          backgroundColor: colors.BG,
+        }}>
+        <CustomButton
+          title={'참여하기'}
+          onPress={() => {Alert.alert('준비중입니다!')}}
+        />
+      </View>
     </View>
   );
 };

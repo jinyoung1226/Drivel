@@ -15,10 +15,10 @@ const CustomButton = ({title, onPress, disabled}) => {
         {
           height: 50,
           backgroundColor: disabled
-            ? '#EEF0FE'
+            ? colors.Gray02
             : pressed
             ? '#4153C5'
-            : '#5168F6',
+            : colors.Blue,
           justifyContent: 'center',
           alignItems: 'center',
           borderRadius: 10,
@@ -30,7 +30,7 @@ const CustomButton = ({title, onPress, disabled}) => {
         <Text
           style={[
             textStyles.H4,
-            {color: disabled ? '#9FABF2' : colors.Light_Blue},
+            {color: disabled ? colors.Gray07 : colors.Light_Blue},
           ]}>
           {title}
         </Text>

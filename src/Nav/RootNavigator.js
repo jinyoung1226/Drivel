@@ -5,9 +5,10 @@ import {checkAuth} from '../features/auth/authActions';
 import AuthNavigator from './AuthNavigator';
 import MainNavigator from './MainNavigator';
 import SplashScreen from '../SplashScreen';
+import OnboardingPage from './OnboardNavigator';  
 
 const RootNavigator = () => {
-  const {isAuthenticated, isLoading} = useSelector(state => state.auth);
+  const {isAuthenticated, onboarded, isLoading} = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,6 +17,10 @@ const RootNavigator = () => {
 
   if (isLoading) {
     return <SplashScreen />;
+  }
+
+  if (isAuthenticated && !onboarded) {
+    return <OnboardingPage />;
   }
 
   return (

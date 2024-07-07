@@ -29,7 +29,7 @@ const MeetListItem = ({
       backgroundColor: colors.BG,
       marginHorizontal: 16,
       marginVertical: 8,
-      height: 136,
+      height: 148,
       borderWidth: 1,
       borderColor: colors.Gray01,
       padding: 16,
@@ -41,7 +41,7 @@ const MeetListItem = ({
     <View
       style={{
         width: 104,
-        height: 104,
+        height: 113,
         backgroundColor: 'grey',
         borderRadius: 10,
         overflow: 'hidden',
@@ -62,8 +62,9 @@ const MeetListItem = ({
       <Text style={[textStyles.H4, {color: colors.Gray10}]} numberOfLines={1}>
         {item.meetingTitle}
       </Text>
+      <View style={{height: 4}} />
+      <Text style={[textStyles.B3, {color: colors.Gray08, backgroundColor: colors.Gray02, padding:4, borderRadius:3}]} numberOfLines={1}>{item.courseTitle}</Text>
       <View style={{height: 8}} />
-      {/* <Text style={[textStyles.B3, {color: colors.Gray08}]} numberOfLines={1}>{item.courseTitle}</Text> 웨이포인트의 시작과 끝만 하는게 제일 나을듯 */}
       <View style={{flexDirection: 'row'}}>
         <PinIcon marginTop={2} />
         <Text
@@ -88,10 +89,9 @@ const MeetListItem = ({
         </Text>
       </View>
       <View style={{height: 8}} />
+      {(item.minCarCareer !== null || item.carModel !== null) &&  
       <View style={{flexDirection: 'row'}}>
-        {(item.minCarCareer !== null || item.carModel !== null) && (
-          <CarIcon marginTop={1.5} />
-        )}
+        <CarIcon marginTop={1.5} />
         <Text
           style={[textStyles.B3, {color: colors.Gray08, marginLeft: 4}]}
           numberOfLines={1}>
@@ -101,7 +101,7 @@ const MeetListItem = ({
           {item.minCarCareer == null || item.carModel == null ? null : ' · '}
           {item.carModel == null ? null : item.carModel}
         </Text>
-      </View>
+      </View>}
     </View>
   </TouchableOpacity>
 );

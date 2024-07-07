@@ -24,11 +24,12 @@ const CustomInput = ({
   maxLength,
   keyboardType,
   inputMode,
+  containerStyle,
 }) => {
   return (
-    <View>
       <View
         style={[
+          containerStyle,
           styles.inputContainer,
           {borderColor: isValid === false ? colors.red : colors.Gray03},
         ]}>
@@ -64,7 +65,6 @@ const CustomInput = ({
           </TouchableOpacity>
         )}
       </View>
-    </View>
   );
 };
 

@@ -206,7 +206,8 @@ const MeetFilter = ({navigation}) => {
         }}>
         <TouchableOpacity
           style={{
-            flexDirection: 'row',
+            justifyContent: 'center',
+            height:50,
             display:
               filterDriveStyle == '' &&
               filterAge == '' &&
@@ -217,10 +218,12 @@ const MeetFilter = ({navigation}) => {
                 : 'flex',
           }}
           onPress={resetFilter}>
+          <View style={{flexDirection: 'row', height:22}}>
           <SpinIcon />
           <View style={{width: 8}} />
           <Text style={[textStyles.H4, {color: colors.Gray08}]}>재설정</Text>
           <View style={{width: 16}} />
+          </View>
         </TouchableOpacity>
         <View style={{flex: 1}}>
           <CustomButton title={'모임 검색'} onPress={filterMeeting} />

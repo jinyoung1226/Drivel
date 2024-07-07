@@ -167,7 +167,7 @@ const MeetMy = ({goMeetDetail}) => {
               {myMeetList !== '' && <FlatList
                 data={data}
                 renderItem={renderMeetingItem}
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={item => item.meetingId}
                 ItemSeparatorComponent={() => (
                   <View
                     style={{

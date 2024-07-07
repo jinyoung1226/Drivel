@@ -8,6 +8,7 @@ const ChipContainer = ({
   selectedItem,
   onSelectedHandler,
   containerStyle,
+  maxSelection = 3,
 }) => {
   const onPressHandler = (isActive, item) => {
     if (type === 'single') {
@@ -31,9 +32,10 @@ const ChipContainer = ({
           selectedItems.splice(index, 1);
         }
       } else {
-        selectedItems.push(item);
+        if (selectedItems.length < maxSelection) {
+          selectedItems.push(item);
+        }
       }
-
       if (onSelectedHandler) {
         onSelectedHandler(selectedItems);
       }
