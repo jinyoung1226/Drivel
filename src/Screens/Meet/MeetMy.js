@@ -95,7 +95,7 @@ const MeetMy = ({goMeetDetail}) => {
   const renderMeetingItem = ({item}) => (
     <TouchableOpacity 
       style={{flexDirection: 'row', alignItems: 'center'}}
-      onPress={() => goMeetDetail(item.id)}>
+      onPress={() => goMeetDetail(item)}>
       <Text style={[textStyles.B3, {color: '#B0B0B0', height: 17}]}>
         {formatDate(item.meetingDate)}
       </Text>
