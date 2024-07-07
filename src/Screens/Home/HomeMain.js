@@ -63,7 +63,7 @@ const HomeMain = ({navigation}) => {
   );
 
   const handleDriveCourse = id => {
-    navigation.navigate('DriveTab', {screen: 'DriveDetail', params: {id: id}});
+    navigation.navigate('DriveDetail', {id: id});
   };
 
   const handleButtonPress = button => {

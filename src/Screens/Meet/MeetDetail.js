@@ -87,7 +87,7 @@ const MeetDetail = ({route, navigation}) => {
   return (
     <View style={{backgroundColor: colors.BG}}>
       <KeyboardAwareScrollView>
-        {courseInfo !== null && (
+        {courseInfo !== null && meetingInfo !== null && (
           <ImageBackground
             style={{width: '100%', aspectRatio: 1}}
             src={courseInfo.courseInfo.imagePath}>

@@ -1,13 +1,27 @@
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeMain from '../Screens/Home/HomeMain';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import Alarm from '../assets/homeIcon/alarm.svg';
 import Search from '../assets/homeIcon/search.svg';
-
+import Share from '../assets/icons/ShareIcon.svg';
+import BackIcon from '../assets/icons/BackIcon.svg';
+import colors from '../styles/colors';
+import DriveDetail from '../Screens/DriveCourse/DriveDetail';
 const Stack = createStackNavigator();
 
-const HomeTab = () => {
+const HomeTab = ({navigation, route}) => {
+  useLayoutEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    if (routeName === 'Home' || routeName === undefined) {
+      navigation.setOptions({
+        tabBarStyle: {height: Platform.OS === 'ios' ? 93 : 70, display: 'flex'},
+      });
+    } else {
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+  }, [navigation, route]);
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -28,6 +42,9 @@ const HomeTab = () => {
           headerBackground: () => <View style={styles.headerBackground} />,
         }}
       />
+      <Stack.Screen 
+        name="DriveDetail" 
+        component={DriveDetail}/>
     </Stack.Navigator>
   );
 };

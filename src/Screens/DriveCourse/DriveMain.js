@@ -7,7 +7,7 @@ const DriveMain = ({navigation}) => {
       <Text>Drive Main Screen</Text>
       <Button
         title="Go to Detail"
-        onPress={() => navigation.navigate('DriveDetail')}
+        onPress={() => navigation.navigate('DriveDetail', {id: 1})}
       />
     </View>
   );

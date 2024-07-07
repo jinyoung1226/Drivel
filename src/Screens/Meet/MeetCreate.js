@@ -52,7 +52,7 @@ const MeetCreate = ({navigation}) => {
     navigation.setOptions({
       title: '모임 만들기',
       headerTitleAlign: 'center',
-      headerTitleStyle: [textStyles.H2, {color: colors.Gray10}],
+      headerTitleStyle: [textStyles.H3, {color: colors.Gray10}],
       headerLeft: () => (
         <TouchableOpacity onPress={handleBackPress} style={{padding: 16}}>
           <BackIcon color={colors.Gray10} />

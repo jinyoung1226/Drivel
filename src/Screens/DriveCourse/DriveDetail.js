@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useLayoutEffect} from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Dimensions,
   Alert,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {textStyles} from '../../styles/textStyles';
@@ -18,6 +19,7 @@ import {fetchDriveInfo} from '../../features/drive/driveActions';
 import {authApi} from '../../api/api';
 import {useFocusEffect} from '@react-navigation/native';
 import WebView from 'react-native-webview';
+import BackIcon from '../../assets/icons/BackIcon';
 import GrayLine from '../../components/GrayLine';
 import DriveInfo from './DriveInfo';
 import DriveReview from './DriveReview';
@@ -31,6 +33,23 @@ const DriveDetail = ({route, navigation}) => {
   const theme = ['노을 맛집', '해변길', '자연친화'];
   const tabName = ['상세정보', '리뷰', '관광지'];
   const [activeTab, setActiveTab] = useState(0);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '상세정보',
+      headerTitleStyle: [textStyles.H3, {color: colors.Gray10}],
+      headerTitleAlign: 'center',
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+          style={{padding: 16}}>
+          <BackIcon color={colors.Gray10} />
+        </TouchableOpacity>
+      )
+    });
+  }, [navigation]);
 
   useEffect(() => {
     const getDriveInfo = async () => {
@@ -53,20 +72,7 @@ const DriveDetail = ({route, navigation}) => {
     };
     getDriveInfo();
   }, [driveId]);
-
-  useFocusEffect(
-    useCallback(() => {
-      // DriveDetail 화면이 포커스를 얻을 때 실행
-      return () => {
-        // DriveDetail 화면이 포커스를 잃을 때 실행
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'DriveMain'}],
-        });
-      };
-    }, [navigation]),
-  );
-
+  
   if (!courseInfo) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
     return (

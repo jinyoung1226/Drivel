@@ -13,9 +13,13 @@ import colors from '../../styles/colors';
 import MeetList from './MeetList';
 import {setTab} from '../../features/meet/meetActions';
 import {getMeetListRecommended} from '../../features/meet/meetActions';
+import {authApi} from '../../api/api';
 const MeetMy = ({goMeetDetail}) => {
   const dispatch = useDispatch();
+  const [myMeetList, setMyMeetList] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [data, setData] = useState([]);
+  const [showMore, setShowMore] = useState(false);
   const {meetListRecommended, inititalPage} = useSelector(state => state.meet);
 
   useEffect(() => {
@@ -28,25 +32,45 @@ const MeetMy = ({goMeetDetail}) => {
     dispatch(getMeetListRecommended({page: inititalPage, size: 3}));
     setIsRefreshing(false);
   };
+  const getUpcomingMeet = async() => {
+    try {
+      const response = await authApi.get(`meeting/upcoming`);
+      if (response.status === 200) {
+        console.log(response.data, '@@@');
+        setMyMeetList(response.data);
+        setData(response.data.filter(meeting => isThisWeek(meeting.meetingDate)))
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.status);
+      } else {
+        console.log('서버 접속 오류');
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUpcomingMeet();
+  }, []);
 
   const nickname = useSelector(state => state.auth.nickname);
-  const myMeetList = [
-    {
-      id: 1,
-      date: '2024-06-28',
-      title: '네바퀴 모임',
-    },
-    {
-      id: 2,
-      date: '2024-06-29',
-      title: '같이 수원 갈사람',
-    },
-    {
-      id: 3,
-      date: '2024-07-06',
-      title: '같이 수원 갈사람',
-    },
-  ];
+  // const myMeetList = [
+  //   {
+  //     id: 1,
+  //     date: '2024-06-28',
+  //     title: '네바퀴 모임',
+  //   },
+  //   {
+  //     id: 2,
+  //     date: '2024-06-29',
+  //     title: '같이 수원 갈사람',
+  //   },
+  //   {
+  //     id: 3,
+  //     date: '2024-07-06',
+  //     title: '같이 수원 갈사람',
+  //   },
+  // ];
 
   const today = new Date();
 
@@ -59,10 +83,7 @@ const MeetMy = ({goMeetDetail}) => {
     const d = new Date(date);
     return d >= startOfWeek && d <= endOfWeek;
   };
-  const [data, setData] = useState(
-    myMeetList.filter(meeting => isThisWeek(meeting.date)),
-  );
-  const [showMore, setShowMore] = useState(false);
+  
 
   const formatDate = dateString => {
     const date = new Date(dateString);
@@ -72,9 +93,11 @@ const MeetMy = ({goMeetDetail}) => {
   };
 
   const renderMeetingItem = ({item}) => (
-    <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}>
+    <TouchableOpacity 
+      style={{flexDirection: 'row', alignItems: 'center'}}
+      onPress={() => goMeetDetail(item.id)}>
       <Text style={[textStyles.B3, {color: '#B0B0B0', height: 17}]}>
-        {formatDate(item.date)}
+        {formatDate(item.meetingDate)}
       </Text>
       <View style={{width: 32}} />
       <Text style={[textStyles.B2, {color: colors.Blue}]}>{item.title}</Text>
@@ -87,7 +110,7 @@ const MeetMy = ({goMeetDetail}) => {
     if (!showMore) {
       setData(myMeetList);
     } else {
-      setData(myMeetList.filter(meeting => isThisWeek(meeting.date)));
+      setData(myMeetList.filter(meeting => isThisWeek(meeting.meetingDate)));
     }
     setShowMore(!showMore);
   };
@@ -113,7 +136,7 @@ const MeetMy = ({goMeetDetail}) => {
                 {nickname}님, 이번주에{'\n'}모임이
                 <Text style={{color: colors.Blue}}>
                   {` ${
-                    myMeetList.filter(meeting => isThisWeek(meeting.date))
+                    myMeetList.filter(meeting => isThisWeek(meeting.meetingDate))
                       .length
                   }건 `}
                 </Text>
@@ -141,7 +164,7 @@ const MeetMy = ({goMeetDetail}) => {
                 borderColor: colors.Gray01,
                 borderRadius: 10,
               }}>
-              <FlatList
+              {myMeetList !== '' && <FlatList
                 data={data}
                 renderItem={renderMeetingItem}
                 keyExtractor={item => item.id.toString()}
@@ -199,7 +222,7 @@ const MeetMy = ({goMeetDetail}) => {
                     </TouchableOpacity>
                   )
                 }
-              />
+              />}
             </View>
             <View style={{height: 24}} />
             <View style={{height: 10, backgroundColor: colors.Gray02}} />

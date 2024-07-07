@@ -38,6 +38,9 @@ const MeetFilter = ({navigation}) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      title: '필터',
+      headerTitleAlign: 'center',
+      headerTitleStyle: [textStyles.H3, {color: colors.Gray10}],
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => {

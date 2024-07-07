@@ -4,7 +4,6 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import DriveMain from '../Screens/DriveCourse/DriveMain';
 import DriveDetail from '../Screens/DriveCourse/DriveDetail';
-import {useNavigation} from '@react-navigation/native';
 import Share from '../assets/icons/ShareIcon.svg';
 import BackIcon from '../assets/icons/BackIcon.svg';
 import colors from '../styles/colors';
@@ -25,30 +24,7 @@ const DriveTab = ({navigation, route}) => {
   return (
     <Stack.Navigator initialRouteName="DriveMain">
       <Stack.Screen name="DriveMain" component={DriveMain} />
-      <Stack.Screen
-        name="DriveDetail"
-        component={DriveDetail}
-        options={{
-          headerLeft: () => (
-            <Pressable onPress={() => navigation.goBack()}>
-              <View style={styles.leftIconContainer}>
-                <BackIcon color={colors.Gray10} />
-              </View>
-            </Pressable>
-          ),
-          headerTitle: () => (
-            <View style={styles.headerTitleContainer}>
-              <Text style={styles.headerTitleText}>상세정보</Text>
-            </View>
-          ),
-          headerRight: () => (
-            <View style={styles.rightIconContainer}>
-              <Share />
-            </View>
-          ),
-          headerTitleAlign: 'center',
-        }}
-      />
+      <Stack.Screen name="DriveDetail" component={DriveDetail}/>
     </Stack.Navigator>
   );
 };
