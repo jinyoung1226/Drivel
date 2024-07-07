@@ -1,7 +1,8 @@
-import React, {useState, useLayoutEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import React, {useState, useLayoutEffect, useEffect} from 'react';
+import {View, Text, TouchableOpacity, BackHandler} from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
+import {useFocusEffect} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
@@ -9,10 +10,14 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import SearchIcon from '../../assets/icons/SearchIcon.svg';
 import XIcon from '../../assets/icons/XIcon.svg';
 import BackIcon from '../../assets/icons/BackIcon.svg';
+import SpinIcon from '../../assets/icons/SpinIcon.svg';
 import ChipContainer from '../../components/ChipContainer';
+import { driveStyle } from '../../assets/onboardingData/onBoardingData';
 import {useDispatch, useSelector} from 'react-redux';
+
 import {
   getMeetList,
+  setFilterDriveStyle,
   setFilterAge,
   setFilterGender,
   setFilterCarModel,
@@ -22,9 +27,8 @@ import {
 const MeetFilter = ({navigation}) => {
   const dispatch = useDispatch();
   const [driveCourse, setDriveCourse] = useState('');
-  const [minCarCareer, setMinCarCareer] = useState('');
   const {
-    totalMeeting,
+    filterDriveStyle,
     filterGender,
     filterAge,
     filterCarModel,
@@ -35,12 +39,24 @@ const MeetFilter = ({navigation}) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity onPress={filterMeeting} style={{padding: 16}}>
+        <TouchableOpacity onPress={()=> {filterMeeting()}} style={{padding: 16}}>
           <BackIcon color={colors.Gray10} />
         </TouchableOpacity>
       ),
     });
-  }, [navigation, filterGender, filterAge, filterCarModel, filterCarCareer]);
+  }, [navigation, filterDriveStyle, filterGender, filterAge, filterCarModel, filterCarCareer]);
+
+  useEffect(() => {
+    const backAction = () => {
+      filterMeeting();
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress', 
+      backAction
+    );
+    return () => backHandler.remove();
+}, [filterGender, filterAge, filterCarModel, filterCarCareer]);
 
   const filterMeeting = () => {
     dispatch(
@@ -56,16 +72,29 @@ const MeetFilter = ({navigation}) => {
     );
     navigation.navigate('MeetMain');
   };
+  const resetFilter = () => {
+    dispatch(setFilterGender(''));
+    dispatch(setFilterAge(''));
+    dispatch(setFilterCarModel(''));
+    dispatch(setFilterCarCareer(''));
+  }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
       <KeyboardAwareScrollView>
         <View style={{padding: 16}}>
           <Text style={[textStyles.H4, {color: colors.Gray10}]}>
-            드라이브 코스
+            드라이브 스타일
           </Text>
           <View style={{height: 16}} />
-          <CustomInput
+          <ChipContainer
+            containerStyle={{flexDirection: 'row'}}
+            type={'single'}
+            data={driveStyle}
+            selectedItem={filterDriveStyle}
+            onSelectedHandler={(items) => dispatch(setFilterDriveStyle(items))}
+          />
+          {/* <CustomInput
             showButton={true}
             isButtonText={false}
             buttonIcon={
@@ -80,7 +109,7 @@ const MeetFilter = ({navigation}) => {
             value={driveCourse}
             onChangeText={setDriveCourse}
             buttonDisabled={driveCourse.length === 0}
-          />
+          /> */}
           <View style={{height: 32}} />
           <Text style={[textStyles.H4, {color: colors.Gray10}]}>성별</Text>
           <View style={{height: 16}} />
@@ -88,7 +117,7 @@ const MeetFilter = ({navigation}) => {
           <ChipContainer
             containerStyle={{flexDirection: 'row'}}
             type={'single'}
-            data={['남성', '여성']}
+            data={[{id:1, displayName:'남성'}, {id:2, displayName:'여성'}]}
             selectedItem={filterGender}
             onSelectedHandler={items => dispatch(setFilterGender(items))}
           />
@@ -149,8 +178,16 @@ const MeetFilter = ({navigation}) => {
           />
         </View>
       </KeyboardAwareScrollView>
-      <View style={{padding: 16, elevation: 10, backgroundColor: colors.BG}}>
-        <CustomButton title={'모임 검색'} onPress={filterMeeting} />
+      <View style={{padding: 16, elevation: 10, backgroundColor: colors.BG, flexDirection: 'row', alignItems: 'center'}}>
+        <TouchableOpacity style={{flexDirection:'row', display: filterAge == '' && filterCarModel == '' && filterCarCareer == '' && filterGender == '' ? 'none' : 'flex'}} onPress={resetFilter}> 
+          <SpinIcon />
+          <View style={{width: 8}} />
+          <Text style={[textStyles.H4, {color: colors.Gray08}]}>재설정</Text>
+          <View style={{width: 16}} />
+        </TouchableOpacity>
+        <View style={{flex: 1}}>
+          <CustomButton title={'모임 검색'} onPress={filterMeeting} />
+        </View>
       </View>
     </SafeAreaView>
   );

@@ -7,6 +7,8 @@ import colors from '../../styles/colors';
 import TopTab from '../../components/TopTab';
 import TabScreens from '../../components/TabScreens';
 import MeetInfo from './MeetInfo';
+import LinearGradient from 'react-native-linear-gradient';
+import { textStyles } from '../../styles/textStyles';
 const MeetDetail = ({route, navigation}) => {
   const [courseInfo, setCourseInfo] = useState(null);
   const [meetingInfo, setMeetingInfo] = useState(null);
@@ -69,19 +71,48 @@ const MeetDetail = ({route, navigation}) => {
     });
   }, [navigation]);
 
+  const formatDateString = dateString => {
+    const [year, month, day] = dateString.split('-');
+    return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
+  };
+
   return (
     <View style={{backgroundColor: colors.BG}}>
       <KeyboardAwareScrollView>
         {courseInfo !== null && (
           <ImageBackground
             style={{width: '100%', aspectRatio: 1}}
-            src={courseInfo.courseInfo.imagePath}></ImageBackground>
+            src={courseInfo.courseInfo.imagePath}>
+            <LinearGradient 
+            style={{width: '100%', aspectRatio: 1}}
+            colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.7)']}
+            >
+              <View style={{flex:1, padding:16}}>
+                <View style={{flex:1}}/> 
+                <Text style={[textStyles.H1, {color: colors.white}]}>
+                  {meetingInfo.meetingInfo.title}
+                </Text>
+                <View style={{height: 8}} />
+                <Text style={[textStyles.B3, {color: colors.Gray02}]}>
+                  {courseInfo.courseInfo.title}
+                </Text>
+                <View style={{height: 4}} />
+                <Text style={[textStyles.B3, {color: colors.Gray02}]}>
+                  {formatDateString(meetingInfo.meetingInfo.date)} 모임
+                </Text>
+              </View>
+              {/* {courseInfo.waypoints.map(
+                item => (
+                  <Text>
+                    {item.name}
+                  </Text>
+                  )
+                )
+              } */}
+            </LinearGradient>
+          </ImageBackground>
         )}
       {meetingInfo !== null && <TabScreens tabName={tabName} tabScreens={tabScreens} />}
-        <Text>
-          {meetingId}
-          {courseId}
-        </Text>
       </KeyboardAwareScrollView>
     </View>
   );

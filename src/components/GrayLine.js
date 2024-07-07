@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
   bar: {
     width: width,
     height: 10,
-    marginTop: 24,
     backgroundColor: '#F6F6F7',
   },
 });

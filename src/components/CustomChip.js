@@ -3,7 +3,7 @@ import {Pressable, Text} from 'react-native';
 import colors from '../styles/colors';
 import {textStyles} from '../styles/textStyles';
 
-const CustomChip = ({item, onPressHandler, isActive = false, style}) => {
+const CustomChip = ({item, onPressHandler, isActive = false}) => {
   return (
     <Pressable
       onPress={onPressHandler}
@@ -17,6 +17,7 @@ const CustomChip = ({item, onPressHandler, isActive = false, style}) => {
         borderColor: isActive ? colors.Blue : colors.Gray03,
         backgroundColor: isActive ? colors.Blue : null,
         marginRight: 8,
+        marginBottom: 8,
       }}>
       <Text
         style={[

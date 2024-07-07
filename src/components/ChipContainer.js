@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, Dimensions} from 'react-native';
 import CustomChip from './CustomChip';
 
 const ChipContainer = ({
@@ -8,7 +8,6 @@ const ChipContainer = ({
   selectedItem,
   onSelectedHandler,
   containerStyle,
-  chipStyle,
 }) => {
   const onPressHandler = (isActive, item) => {
     if (type === 'single') {
@@ -42,20 +41,17 @@ const ChipContainer = ({
   };
 
   return (
-    <View style={containerStyle}>
+    <View style={[containerStyle, {flexDirection: 'row', flexWrap: 'wrap'}]}>
       {data.map(item => {
-        const isActive = Array.isArray(selectedItem)
-          ? selectedItem.includes(item)
-          : selectedItem === item;
-
+        const isActive = Array.isArray(selectedItem) ?
+        selectedItem.includes(item.id) : selectedItem === item.id;
         return (
-          <CustomChip
-            key={item}
-            item={item}
-            style={chipStyle}
-            isActive={isActive}
-            onPressHandler={() => onPressHandler(isActive, item)}
-          />
+            <CustomChip
+              key={item.id}
+              item={item.displayName}
+              isActive={isActive}
+              onPressHandler={() => onPressHandler(isActive, item.id)}
+            />
         );
       })}
     </View>

@@ -90,6 +90,6 @@ export const setFilterCarModel = createAction('meet/filterCarModel');
 
 export const setFilterCarCareer = createAction('meet/filterCarCareer');
 
-export const setFilterDriveCourse = createAction('meet/filterDriveCourse');
+export const setFilterDriveStyle = createAction('meet/filterDriveStyle');
 
 export const setSort = createAction('meet/setSort');

@@ -7,7 +7,7 @@ import {
   setFilterAge,
   setFilterCarCareer,
   setFilterCarModel,
-  setFilterDriveCourse,
+  setFilterDriveStyle,
   setFilterGender,
 } from './meetActions';
 
@@ -21,7 +21,8 @@ const initialState = {
   initialPage: 0,
   currentPage: null,
   sort: 'id,DESC',
-  filterDriveCourse: '',
+
+  filterDriveStyle: null,
   filterGender: '',
   filterAge: '',
   filterCarModel: '',
@@ -82,8 +83,8 @@ const meetSlice = createSlice({
     builder.addCase(setFilterCarCareer, (state, action) => {
       state.filterCarCareer = action.payload;
     });
-    builder.addCase(setFilterDriveCourse, (state, action) => {
-      state.filterDriveCourse = action.payload;
+    builder.addCase(setFilterDriveStyle, (state, action) => {
+      state.filterDriveStyle = action.payload;
     });
     builder.addCase(setFilterGender, (state, action) => {
       state.filterGender = action.payload;

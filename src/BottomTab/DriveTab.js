@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import DriveMain from '../Screens/DriveCourse/DriveMain';
@@ -10,9 +11,17 @@ import colors from '../styles/colors';
 
 const Stack = createStackNavigator();
 
-const DriveTab = () => {
-  const navigation = useNavigation();
-
+const DriveTab = ({navigation, route}) => {
+  useLayoutEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    if (routeName === 'DriveMain' || routeName === undefined) {
+      navigation.setOptions({
+        tabBarStyle: {height: Platform.OS === 'ios' ? 93 : 70, display: 'flex'},
+      });
+    } else {
+      navigation.setOptions({tabBarStyle: {display: 'none'}});
+    }
+  }, [navigation, route]);
   return (
     <Stack.Navigator initialRouteName="DriveMain">
       <Stack.Screen name="DriveMain" component={DriveMain} />

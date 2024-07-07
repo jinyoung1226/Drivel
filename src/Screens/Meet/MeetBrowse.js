@@ -23,6 +23,7 @@ import {
   setFilterCarModel,
   setFilterCarCareer,
 } from '../../features/meet/meetActions';
+import { driveStyle } from '../../assets/onboardingData/onBoardingData';
 const MeetBrowse = ({goFilter, goMeetDetail}) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {
@@ -32,6 +33,7 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
     inititalPage,
     currentPage,
     sort,
+    filterDriveStyle,
     filterGender,
     filterAge,
     filterCarModel,
@@ -86,14 +88,28 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
       console.log(isLastPage);
     }
   };
+  const driveStyleDisplayName = filterDriveStyle
+  ? driveStyle.find(style => style.id === filterDriveStyle)?.displayName
+  : '';
+
+  const genderDisplayName = filterGender
+  ? [{id:1, displayName:'남성'}, {id:2, displayName:'여성'}].find(style => style.id === filterGender)?.displayName
+  : '';
+
 
   const category = [
-    {key: '텍스트', value: '', unit: ''},
-    {key: '성별', value: filterGender, unit: ''},
+    {key: '드라이브 스타일', value: driveStyleDisplayName, unit: ''},
+    {key: '성별', value: genderDisplayName, unit: ''},
     {key: '나이', value: filterAge, unit: '세'},
     {key: '차종', value: filterCarModel, unit: ''},
     {key: '운전경력', value: filterCarCareer, unit: '년'},
   ];
+
+  const sortedCategory = category.sort((a, b) => {
+    if (a.value === '' && b.value !== '') return 1;
+    if (a.value !== '' && b.value === '') return -1;
+    return 0;
+  });
 
   const renderCategory = ({item}) => {
     const isActive = item.value !== '';
@@ -150,7 +166,7 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
           borderBottomColor: colors.Gray02,
         }}>
         <FlatList
-          data={category}
+          data={sortedCategory}
           renderItem={renderCategory}
           horizontal
           ListHeaderComponent={<View style={{width: 16}} />}
