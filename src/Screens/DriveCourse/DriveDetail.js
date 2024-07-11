@@ -33,6 +33,7 @@ const DriveDetail = ({route, navigation}) => {
   const theme = ['노을 맛집', '해변길', '자연친화'];
   const tabName = ['상세정보', '리뷰', '관광지'];
   const [activeTab, setActiveTab] = useState(0);
+  console.log(courseInfo, 'asd ');
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -47,7 +48,7 @@ const DriveDetail = ({route, navigation}) => {
           style={{padding: 16}}>
           <BackIcon color={colors.Gray10} />
         </TouchableOpacity>
-      )
+      ),
     });
   }, [navigation]);
 
@@ -72,7 +73,7 @@ const DriveDetail = ({route, navigation}) => {
     };
     getDriveInfo();
   }, [driveId]);
-  
+
   if (!courseInfo) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
     return (
@@ -83,44 +84,41 @@ const DriveDetail = ({route, navigation}) => {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <Image
-        src={courseInfo.courseInfo.imagePath}
-        style={[styles.image, {width: width}]}
-      />
-      <View style={styles.tagContainer}>
-        {theme.map((item, index) => (
-          <View key={index} style={styles.tagButton}>
-            <Text style={styles.tagText}>{item}</Text>
-          </View>
-        ))}
-      </View>
-      <View style={{paddingHorizontal: 16, marginTop: 16}}>
-        <Text style={[textStyles.H1, {color: colors.Gray10}]}>
-          {courseInfo.courseInfo.title}
-        </Text>
-        <View style={{height: 8}} />
-        <Text style={[textStyles.M14, {color: colors.Gray07}]}>
-          {courseInfo.courseInfo.description}
-        </Text>
-      </View>
-      <GrayLine />
-      {courseInfo !== null && (
-        <TabScreens
-          tabName={tabName}
-          tabScreens={[
-            <DriveInfo item={courseInfo} />,
-            <DriveReview />,
-            <DriveTourSpot />,
-          ]}
+    <View style={styles.container}>
+      <ScrollView>
+        <Image
+          src={courseInfo.courseInfo.imagePath}
+          style={[styles.image, {width: width}]}
         />
-      )}
-      <View>
-        <View style={[{display: activeTab === 2 ? 'flex' : 'none'}]}>
-          <Text>관광지에 대한 글</Text>
+        <View style={styles.tagContainer}>
+          {theme.map((item, index) => (
+            <View key={index} style={styles.tagButton}>
+              <Text style={styles.tagText}>{item}</Text>
+            </View>
+          ))}
         </View>
-      </View>
-    </ScrollView>
+        <View style={{paddingHorizontal: 16, marginTop: 16}}>
+          <Text style={[textStyles.H1, {color: colors.Gray10}]}>
+            {courseInfo.courseInfo.title}
+          </Text>
+          <View style={{height: 8}} />
+          <Text style={[textStyles.M14, {color: colors.Gray07}]}>
+            {courseInfo.courseInfo.description}
+          </Text>
+        </View>
+        <GrayLine />
+        {courseInfo !== null && (
+          <TabScreens
+            tabName={tabName}
+            tabScreens={[
+              <DriveInfo item={courseInfo} />,
+              <DriveReview />,
+              <DriveTourSpot item={courseInfo} />,
+            ]}
+          />
+        )}
+      </ScrollView>
+    </View>
   );
 };
 

@@ -19,7 +19,7 @@ const DriveCourseCuration = ({
   handleButtonPress,
   handleDriveCourse,
   category,
-  filteredDriveCourses,
+  driveCourseLists,
 }) => {
   const nickname = useSelector(state => state.auth.nickname);
   return (
@@ -50,7 +50,7 @@ const DriveCourseCuration = ({
       <View style={{flex: 1, marginTop: 16}}>
         <View style={{flexDirection: 'row'}}>
           <FlatList
-            data={filteredDriveCourses}
+            data={driveCourseLists}
             renderItem={({item}) => (
               <CurationList item={item} handleDriveCourse={handleDriveCourse} />
             )}

@@ -8,6 +8,7 @@ import {
   Dimensions,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -21,46 +22,54 @@ import GrayLine from '../../components/GrayLine';
 const {width} = Dimensions.get('window');
 
 const HomeMain = ({navigation}) => {
-  const category = ['바다와 함께', '자연친화', '노을맛집'];
-  const [activeButton, setActiveButton] = useState(category[0]);
-  const [filteredDriveCourse, setfilteredDriveCourse] = useState([
-    {
-      id: 1,
-      tag: '바다와 함께',
-      title1: '아름다운 해안을 따라 달리는',
-      title2: '삼척 새천년 해안도로',
-      imagePath:
-        'https://wimg.mk.co.kr/meet/neds/2021/11/image_readbot_2021_1053506_16362360634839726.jpg',
-    },
-    {
-      id: 2,
-      tag: '바다와 함께',
-      title1: '아름다운ㄴ 해안을 따라 달리는',
-      title2: '삼척 새천년 해안도로',
-      imagePath:
-        'https://wimg.mk.co.kr/meet/neds/2021/11/image_readbot_2021_1053506_16362360634839726.jpg',
-    },
-    {
-      id: 3,
-      tag: '자연친화',
-      title1: '아름다운 해안을 따라 달리는',
-      title2: '삼척 새천년 해안도로',
-      imagePath:
-        'https://media.istockphoto.com/id/1473243967/ko/%EC%82%AC%EC%A7%84/%EC%A0%9C%EC%A3%BC%EB%8F%84-%EB%82%A8%EA%B2%BD-%EC%A0%9C%EC%A3%BC%EB%8F%84-%EC%84%B1%EC%82%B0-%EC%9D%BC%EC%B6%9C%EB%B4%89%EC%9D%98-%EC%9D%BC%EC%B6%9C-%EC%9E%90%EC%97%B0%EA%B2%BD%EA%B4%80.webp?b=1&s=170667a&w=0&k=20&c=0M21WaltW-x_8nK5yB9MgCPfy_hJGpCEWflUix6YihI=',
-    },
-    {
-      id: 4,
-      tag: '노을맛집',
-      title1: '아름다운 해안을 따라 달리는',
-      title2: '삼척 새천년 해안도로',
-      imagePath:
-        'https://media.istockphoto.com/id/1439634913/ko/%EC%82%AC%EC%A7%84/%EC%84%B1%EC%82%B0%EC%9D%BC%EC%B6%9C%EB%B4%89%EA%B3%BC-%EA%B4%91%EC%B9%98%EA%B8%B0-%ED%95%B4%EC%88%98%EC%9A%95%EC%9E%A5-%EC%A0%9C%EC%A3%BC%EB%8F%84.webp?b=1&s=170667a&w=0&k=20&c=8MGJ3VOhsE-KWmNc8TeOqRqWD01c2ND8EXYzEYryr5o=',
-    },
-  ]);
+  const [driveCourseList, setDriveCourseList] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [activeButton, setActiveButton] = useState('');
+  const [festivalList, setFestivalList] = useState([]);
 
-  const filteredDriveCourses = filteredDriveCourse.filter(
-    course => course.tag === activeButton,
-  );
+  useEffect(() => {
+    const getDriveCurationInfo = async () => {
+      try {
+        const response = await authApi.get('course/my-theme');
+        if (response.status === 200) {
+          const driveData = response.data.map(data => ({
+            themeId: data.theme.id,
+            themeName: data.theme.displayName,
+            courses: data.courses.map(course => ({
+              id: course.id,
+              liked: course.liked,
+              title: course.title,
+              description: course.description,
+              imagePath: course.imagePath,
+            })),
+          }));
+          setDriveCourseList(driveData);
+
+          const categoryData = driveData.map(data => data.themeName);
+          setCategory(categoryData);
+          if (categoryData.length > 0) {
+            setActiveButton(categoryData[0]);
+          }
+
+          console.log(JSON.stringify(driveData, null, 2), 'api 응답 데이터');
+        }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status === 400) {
+            Alert.alert('코스를 불러올 수 없습니다.');
+          }
+        } else {
+          console.log(error);
+          Alert.alert('서버와의 통신 실패');
+        }
+      }
+    };
+    getDriveCurationInfo();
+  }, []);
+
+  const driveCourseLists = driveCourseList
+    .filter(course => course.themeName === activeButton)
+    .flatMap(item => item.courses);
 
   const handleDriveCourse = id => {
     navigation.navigate('DriveDetail', {id: id});
@@ -69,6 +78,15 @@ const HomeMain = ({navigation}) => {
   const handleButtonPress = button => {
     setActiveButton(button);
   };
+
+  if (driveCourseList.length === 0) {
+    // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -87,7 +105,7 @@ const HomeMain = ({navigation}) => {
           category={category}
           handleButtonPress={handleButtonPress}
           handleDriveCourse={handleDriveCourse}
-          filteredDriveCourses={filteredDriveCourses}
+          driveCourseLists={driveCourseLists}
         />
         <GrayLine />
         <Magazine />

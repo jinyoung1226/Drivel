@@ -22,7 +22,7 @@ const CurationList = ({item, handleDriveCourse}) => {
           bottom: 51,
           left: 17,
         }}>
-        {item.title1}
+        {item.id}
       </Text>
       <Text
         style={{
@@ -33,7 +33,7 @@ const CurationList = ({item, handleDriveCourse}) => {
           bottom: 25,
           left: 17,
         }}>
-        {item.title2}
+        {item.title}
       </Text>
     </Pressable>
   );
