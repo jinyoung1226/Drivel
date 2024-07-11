@@ -6,6 +6,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {textStyles} from '../../styles/textStyles';
@@ -19,7 +20,7 @@ import { getMyMeetList } from '../../features/meet/meetActions';
 const MeetMy = ({goMeetDetail}) => {
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [data, setData] = useState([]);  
+  const [data, setData] = useState(null);  
   const [showMore, setShowMore] = useState(false);
   const {meetListRecommended, inititalPage, myMeetList} = useSelector(state => state.meet);
 
@@ -31,7 +32,7 @@ const MeetMy = ({goMeetDetail}) => {
   }, []);
 
   useEffect(() => {
-    if (myMeetList.length > 0) {
+    if (myMeetList) {
       setData(myMeetList.filter(meeting => isThisWeek(meeting.meetingDate)));
     }
   }, [myMeetList]);
@@ -106,6 +107,15 @@ const MeetMy = ({goMeetDetail}) => {
     }
     setShowMore(!showMore);
   };
+
+  if (!meetListRecommended || !myMeetList) {
+    // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <View style={{flex: 1, backgroundColor: colors.BG}}>

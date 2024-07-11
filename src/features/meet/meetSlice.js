@@ -22,7 +22,7 @@ const initialState = {
   initialPage: 0,
   currentPage: null,
   sort: 'id,DESC',
-  myMeetList: [],
+  myMeetList: null,
   filterDriveStyle: '',
   filterGender: '',
   filterAge: '',
