@@ -42,9 +42,7 @@ const HomeTab = ({navigation, route}) => {
           headerBackground: () => <View style={styles.headerBackground} />,
         }}
       />
-      <Stack.Screen 
-        name="DriveDetail" 
-        component={DriveDetail}/>
+      <Stack.Screen name="DriveDetail" component={DriveDetail} />
     </Stack.Navigator>
   );
 };
