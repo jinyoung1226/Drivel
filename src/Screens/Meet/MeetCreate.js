@@ -1,5 +1,5 @@
 import React, {useState, useLayoutEffect, useEffect} from 'react';
-import {View, Text, TouchableOpacity, Alert, BackHandler, Image, Dimensions} from 'react-native';
+import {View, Text, TouchableOpacity, Alert, BackHandler, Image, Dimensions, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import BackIcon from '../../assets/icons/BackIcon.svg';
 import {textStyles} from '../../styles/textStyles';
@@ -17,13 +17,16 @@ import {useDispatch} from 'react-redux';
 import {
   getMeetList,
   getMeetListRecommended,
+  getMyMeetList
 } from '../../features/meet/meetActions';
 import {authApi} from '../../api/api';
-import {courses} from '../../assets/driveCourseData/driveCourseData';
-
+import CourseListItem from './CourseListItem';
+import ProgressBar from '../../components/ProgressBar';
+import formatDate from '../../utils/formatDate';
+import koFilter from '../../utils/koFilter';
+import {api} from '../../api/api';
 const MeetCreate = ({navigation}) => {
   const dispatch = useDispatch();
-
   const [step, setStep] = useState(1);
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
@@ -42,66 +45,30 @@ const MeetCreate = ({navigation}) => {
   const [carModel, setCarModel] = useState('');
   const [minCarCareer, setMinCarCareer] = useState(null);
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
-  const [filteredData, setFilteredData] = useState(courses);
+  const [courses, setCourses] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  
+  const getDriveCourseList = async () => {
+    try {
+      const response = await api.get('https://drivel-course-data.s3.ap-northeast-2.amazonaws.com/course-data')
+      if (response.status === 200) {
+        setCourses(response.data.courses)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  const width = Dimensions.get('window').width;
+
   const handleSearch = (e) => {
     setDriveCourse(e);
-    setFilteredData(filterData(courses, e));
-  };
-  const decomposeHangul = (s) => {
-    const CHO = [
-      'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
-    ];
-    const JUNG = [
-      'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ'
-    ];
-    const JONG = [
-      '', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
-    ];
-  
-    const chars = s.split('');
-    let result = '';
-  
-    for (let i = 0; i < chars.length; i++) {
-      const code = chars[i].charCodeAt(0) - 44032;
-  
-      if (code >= 0 && code <= 11171) {
-        const cho = Math.floor(code / 588);
-        const jung = Math.floor((code - (cho * 588)) / 28);
-        const jong = code % 28;
-  
-        result += CHO[cho] + JUNG[jung] + JONG[jong];
-      } else {
-        result += chars[i];
-      }
-    }
-  
-    return result;
-  };
-  
-
-  const filterData = (data, query) => {
-    const decomposedQuery = decomposeHangul(query);
-  
-    const startsWith = [];
-    const contains = [];
-  
-    data.forEach(item => {
-      const decomposedItem = decomposeHangul(item.title);
-      if (decomposedItem.startsWith(decomposedQuery) || item.title.startsWith(query)) {
-        startsWith.push(item);
-      } else if (decomposedItem.includes(decomposedQuery) || item.title.includes(query)) {
-        contains.push(item);
-      }
-    });
-  
-    return [...startsWith, ...contains].slice(0, 10);;
+    setFilteredData(koFilter(courses, e));
   };
 
   useEffect(() => {
-    console.log('@@@', courseId);
-  }, [courseId]);
+    getDriveCourseList();
+  }, []);
+
   const handleBackPress = () => {
     if (step === 1) {
       navigation.goBack(); // 기본 동작: 이전 화면으로 돌아가기
@@ -156,17 +123,6 @@ const MeetCreate = ({navigation}) => {
     return () => backHandler.remove();
   }, [step]);
 
-
-  useEffect(() => {
-    console.log(date, 'meetCreate date');
-    console.log(selectedAge, selectedCarCareer, selectedCarModel, 'xptm', )
-  }, [selectedAge, selectedCarCareer, selectedCarModel]);
-
-  const formatDateString = dateString => {
-    const [year, month, day] = dateString.split('-');
-    return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
-  };
-
   const createMeeting = async () => {
     try {
       const response = await authApi.post('/meeting', {
@@ -192,6 +148,7 @@ const MeetCreate = ({navigation}) => {
         });
         dispatch(getMeetList({page: 0, size: 10, sort: 'id,DESC'}));
         dispatch(getMeetListRecommended({page: 0, size: 3}));
+        dispatch(getMyMeetList());
       }
     } catch (error) {
       console.log(error);
@@ -219,33 +176,12 @@ const MeetCreate = ({navigation}) => {
     }
   };
 
-  const ProgressBar = () => (
-    <View
-      style={{
-        backgroundColor: colors.Gray02,
-        height: 5,
-        flexDirection: 'row',
-        marginHorizontal: 16,
-        borderRadius: 100,
-      }}>
-      {step == 1 && (
-        <View
-          style={{flex: 1, backgroundColor: colors.Blue, borderRadius: 100}}
-        />
-      )}
-      {step == 2 && (
-        <View
-          style={{flex: 2, backgroundColor: colors.Blue, borderRadius: 100}}
-        />
-      )}
-      {step == 3 && (
-        <View
-          style={{flex: 3, backgroundColor: colors.Blue, borderRadius: 100}}
-        />
-      )}
-      <View style={{flex: 4 - step}} />
-    </View>
-  );
+  const selectDriveCourse =(item) => {
+    setCourseId(item.id);
+    setDriveCourse(item.title);
+    setSelectedDriveCourse(item);
+    setFilteredData([]);
+  }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
@@ -253,44 +189,14 @@ const MeetCreate = ({navigation}) => {
         visible={isDatePickerVisible}
         onClose={() => setIsDatePickerVisible(false)}
         onSelect={selectedDate => {
-          setDate(
-            `${selectedDate.getFullYear()}-${String(
-              selectedDate.getMonth() + 1,
-            ).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(
-              2,
-              '0',
-            )}`,
-          );
+          setDate(selectedDate);
           setIsDatePickerVisible(false);
+          console.log(selectedDate);
         }}
       />
       <View style={{height: 16}} />
-      <ProgressBar />
+      <ProgressBar step={step} stepCount={3}/>
       <View style={{height: 8}} />
-      {step ===2 && 
-      <View style={{paddingHorizontal:16}}>
-        <View style={{height: 16}} />
-        <Text style={[textStyles.H2, {color: colors.Gray10}]}>
-          드라이브 코스를 선택해주세요
-        </Text>
-        <View style={{height: 32}} />
-        <CustomInput
-          showButton={true}
-          isButtonText={false}
-          buttonIcon={
-            driveCourse.length > 0 ? (
-              <XIcon />
-            ) : (
-              <SearchIcon color={colors.Gray04} />
-            )
-          }
-          onButtonPress={() => {setDriveCourse(''); setCourseId('')}}
-          placeholder="드라이브 코스"
-          value={driveCourse}
-          onChangeText={handleSearch}
-          buttonDisabled={driveCourse.length === 0}
-        />
-      </View>}
         {step === 1 ? (
           <KeyboardAwareScrollView>
           <View style={{padding: 16}}>
@@ -328,7 +234,7 @@ const MeetCreate = ({navigation}) => {
                   textStyles.H5,
                   {color: date ? colors.Gray09 : colors.Gray04},
                 ]}>
-                {date ? formatDateString(date) : '날짜를 선택하세요'}
+                {date ? formatDate(date) : '날짜를 선택하세요'}
               </Text>
               <View style={{flex: 1}} />
               <SearchIcon color={colors.Gray04} />
@@ -356,59 +262,41 @@ const MeetCreate = ({navigation}) => {
           </View>
           </KeyboardAwareScrollView>
         ) : step === 2 ? (
-          <KeyboardAwareScrollView style={{margin:16, borderRadius:10}}>
-            {driveCourse !== '' && 
-            <View>
+          <View style={{flex:1, padding:16}}>
+            <View style={{height: 16}} />
+            <Text style={[textStyles.H2, {color: colors.Gray10}]}>
+              드라이브 코스를 선택해주세요
+            </Text>
+            <View style={{height: 32}} />
+            <CustomInput
+              showButton={true}
+              isButtonText={false}
+              buttonIcon={
+                driveCourse.length > 0 ? (
+                  <XIcon />
+                ) : (
+                  <SearchIcon color={colors.Gray04} />
+                )
+              }
+              onButtonPress={() => {setDriveCourse(''); setCourseId('')}}
+              placeholder="드라이브 코스"
+              value={driveCourse}
+              onChangeText={handleSearch}
+              buttonDisabled={driveCourse.length === 0}
+            />
+            <View style={{height: 8}} />
+            {(filteredData.length !== 0 && driveCourse.length !== 0) &&
+            <KeyboardAwareScrollView style={{ borderRadius:10, borderWidth:1, borderColor: colors.Gray03, flexGrow:0}}>
               {filteredData.map((item) => (
-                <TouchableOpacity 
-                  key={item.id} 
-                  style={{flexDirection: 'row', padding:16, borderBottomWidth:1, borderColor:colors.Gray02}}
-                  onPress={() => {setCourseId(item.id); setDriveCourse(item.title); setSelectedDriveCourse(item); setFilteredData([]);}}
-                  >
-                  <View style={{flex:1}}>
-                  <Text style={[textStyles.H5, {color:colors.Gray10}]} numberOfLines={1}>{item.title}</Text>
-                  <View style={{height:4}}/>
-                  <Text style={[textStyles.H5, {color:colors.Gray10}]} numberOfLines={1}>{item.waypoints}</Text>
-                  <View style={{height:8}}/>
-                  <View style={{flexDirection: 'row', alignItems:'center'}}>
-                    <StarIcon/>
-                    <View style={{width:4}}/>
-                    <Text style={[textStyles.B4, {color:colors.Gray08}]} numberOfLines={1}>{item.rating}</Text>
-                    <View style={{width:4}}/>
-                    <Text style={[textStyles.B4, {color:colors.Gray05}]} numberOfLines={1}>({item.reviewCount})</Text>
-                  </View>
-                  </View>
-                  <View style={{width:16}}/>
-                  <View style={{width: 70, height: 70, borderRadius:10, overflow: 'hidden'}}>
-                  <Image src={item.imagePath} style={{flex:1}}/>
-                  </View>
-                </TouchableOpacity>
+                <CourseListItem key={item.id} item={item} onPress={() => selectDriveCourse(item)}/>
               ))}
-              
-            </View>}
-            
-            {courseId !== '' ? (
-              
-              <View>
-                <Text style={[textStyles.H2, {color: colors.Gray10}]}>
-                  선택한 드라이브 코스
-                </Text>
-                <View style={{height: 16}} />
-                <View style={{flexDirection: 'row'}}>
-                <View style={{width: 90, height: 90, borderRadius:10, overflow: 'hidden'}}>
-                    <Image src={selctedDriveCourse.imagePath} style={{flex:1}}/>
-                  </View>
-                  <View style={{width: 16}} />
-                  <View style={{flex:1}}>
-                    <Text style={[textStyles.H4, {color: colors.Gray09}]}>{selctedDriveCourse.title}</Text>
-                  </View>
-                   
-                </View>
+            </KeyboardAwareScrollView>}
+            {courseId !== '' && (
+              <View style={{borderWidth:1, borderColor:colors.Blue, borderRadius:10}}> 
+                <CourseListItem item={selctedDriveCourse} disabled={true}/>
               </View>
-              ) : (
-              <View style={{height: 32}} />
-              )}
-          </KeyboardAwareScrollView>
+            )}
+          </View>
         ) : (
           <KeyboardAwareScrollView>
             <View style={{padding: 16}}>
@@ -620,7 +508,7 @@ const MeetCreate = ({navigation}) => {
             </View>
           </KeyboardAwareScrollView>
         )}
-      <View style={{flex:1}} />
+      
       <View
         style={{
           padding: 16,

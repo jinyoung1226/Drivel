@@ -26,7 +26,6 @@ import {
 
 const MeetFilter = ({navigation}) => {
   const dispatch = useDispatch();
-  const [driveCourse, setDriveCourse] = useState('');
   const {
     filterDriveStyle,
     filterGender,
@@ -61,6 +60,7 @@ const MeetFilter = ({navigation}) => {
   ]);
 
   useEffect(() => {
+    console.log(filterDriveStyle, filterGender, filterAge, filterCarModel, filterCarCareer, '값 잘 변하나?');
     const backAction = () => {
       filterMeeting();
       return true;
@@ -70,7 +70,7 @@ const MeetFilter = ({navigation}) => {
       backAction,
     );
     return () => backHandler.remove();
-  }, [filterGender, filterAge, filterCarModel, filterCarCareer]);
+  }, [filterGender, filterAge, filterCarModel, filterCarCareer, filterDriveStyle]);
 
   const filterMeeting = () => {
     dispatch(
@@ -78,10 +78,11 @@ const MeetFilter = ({navigation}) => {
         page: 0,
         size: 10,
         sort: sort,
-        gender: filterGender == '' ? null : filterGender == '남성' ? 1 : 2,
+        styleId: filterDriveStyle,
+        genderId: filterGender,
         age: filterAge == '' ? null : filterAge,
         carModel: filterCarModel == '' ? null : filterCarModel,
-        minCarCareer: filterCarCareer == '' ? null : filterCarCareer,
+        carCareer: filterCarCareer == '' ? null : filterCarCareer,
       }),
     );
     navigation.navigate('MeetMain');
@@ -109,22 +110,6 @@ const MeetFilter = ({navigation}) => {
             selectedItem={filterDriveStyle}
             onSelectedHandler={items => dispatch(setFilterDriveStyle(items))}
           />
-          {/* <CustomInput
-            showButton={true}
-            isButtonText={false}
-            buttonIcon={
-              driveCourse.length > 0 ? (
-                <XIcon />
-              ) : (
-                <SearchIcon color={colors.Gray04} />
-              )
-            }
-            onButtonPress={() => setDriveCourse('')}
-            placeholder="드라이브 코스"
-            value={driveCourse}
-            onChangeText={setDriveCourse}
-            buttonDisabled={driveCourse.length === 0}
-          /> */}
           <View style={{height: 32}} />
           <Text style={[textStyles.H4, {color: colors.Gray10}]}>성별</Text>
           <View style={{height: 16}} />

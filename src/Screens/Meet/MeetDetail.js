@@ -1,5 +1,5 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, ImageBackground, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, ImageBackground, Alert, BackHandler} from 'react-native';
 import BackIcon from '../../assets/icons/BackIcon';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {authApi} from '../../api/api';
@@ -10,6 +10,7 @@ import MeetInfo from './MeetInfo';
 import LinearGradient from 'react-native-linear-gradient';
 import {textStyles} from '../../styles/textStyles';
 import CustomButton from '../../components/CustomButton';
+import formatDate from '../../utils/formatDate';
 const MeetDetail = ({route, navigation}) => {
   const [courseInfo, setCourseInfo] = useState(null);
   const [meetingInfo, setMeetingInfo] = useState(null);
@@ -80,10 +81,17 @@ const MeetDetail = ({route, navigation}) => {
     });
   }, [navigation]);
 
-  const formatDateString = dateString => {
-    const [year, month, day] = dateString.split('-');
-    return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
-  };
+  useEffect(() => {
+    const backAction = () => {
+      navigation.navigate('MeetMain');
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <View style={{backgroundColor: colors.BG, flex:1}}>
@@ -106,7 +114,7 @@ const MeetDetail = ({route, navigation}) => {
                 </Text>
                 <View style={{height: 4}} />
                 <Text style={[textStyles.B3, {color: colors.Gray02}]}>
-                  {formatDateString(meetingInfo.meetingInfo.date)} 모임
+                  {formatDate(meetingInfo.meetingInfo.date)} 모임
                 </Text>
               </View>
               {/* {courseInfo.waypoints.map(

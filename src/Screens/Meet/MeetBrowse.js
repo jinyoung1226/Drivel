@@ -47,10 +47,11 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
         page: inititalPage,
         size: 10,
         sort: sort,
-        gender: filterGender == '' ? null : filterGender == '남성' ? 1 : 2,
+        styleId: filterDriveStyle,
+        genderId: filterGender,
         age: filterAge == '' ? null : filterAge,
         carModel: filterCarModel == '' ? null : filterCarModel,
-        minCarCareer: filterCarCareer == '' ? null : filterCarCareer,
+        carCareer: filterCarCareer == '' ? null : filterCarCareer,
       }),
     );
     console.log(meetList);
@@ -63,10 +64,11 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
         page: inititalPage,
         size: 10,
         sort: sort,
-        gender: filterGender == '' ? null : filterGender == '남성' ? 1 : 2,
+        styleId: filterDriveStyle,
+        genderId: filterGender,
         age: filterAge == '' ? null : filterAge,
         carModel: filterCarModel == '' ? null : filterCarModel,
-        minCarCareer: filterCarCareer == '' ? null : filterCarCareer,
+        carCareer: filterCarCareer == '' ? null : filterCarCareer,
       }),
     ).finally(() => setIsRefreshing(false));
     console.log('@@@');
@@ -79,10 +81,11 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
           page: currentPage + 1,
           size: 10,
           sort: sort,
-          gender: filterGender == '' ? null : filterGender == '남성' ? 1 : 2,
+          styleId: filterDriveStyle,
+          genderId: filterGender == '' ? null : filterGender == '남성' ? 1 : 2,
           age: filterAge == '' ? null : filterAge,
           carModel: filterCarModel == '' ? null : filterCarModel,
-          minCarCareer: filterCarCareer == '' ? null : filterCarCareer,
+          carCareer: filterCarCareer == '' ? null : filterCarCareer,
         }),
       );
       console.log(isLastPage);

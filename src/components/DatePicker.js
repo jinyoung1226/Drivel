@@ -3,6 +3,7 @@ import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import colors from '../styles/colors';
 import {textStyles} from '../styles/textStyles';
 import LinearGradient from 'react-native-linear-gradient';
+
 const BUTTON_HEIGHT = 38;
 const VISIBLE_ITEMS_COUNT = 5;
 const currentYear = new Date().getFullYear();
@@ -11,15 +12,16 @@ const MONTH_ITEMS = Array.from(
   {length: 12},
   (_, i) => `${(i + 1).toString().padStart(2, '0')}월`,
 );
-const DAY_ITEMS = Array.from(
-  {length: 31},
-  (_, i) => `${(i + 1).toString().padStart(2, '0')}일`,
-);
+
+const getDaysInMonth = (year, month) => {
+  return new Date(year, month + 1, 0).getDate();
+};
 
 const DatePicker = ({value, onChange}) => {
   const yearRef = useRef(null);
   const monthRef = useRef(null);
   const dayRef = useRef(null);
+
   const [selectedYearIndex, setSelectedYearIndex] = useState(
     YEAR_ITEMS.indexOf(`${value.getFullYear()}년`),
   );
@@ -33,6 +35,13 @@ const DatePicker = ({value, onChange}) => {
     day: false,
   });
 
+  const [DAY_ITEMS, setDAY_ITEMS] = useState(
+    Array.from(
+      {length: getDaysInMonth(value.getFullYear(), value.getMonth())},
+      (_, i) => `${(i + 1).toString().padStart(2, '0')}일`,
+    ),
+  );
+
   useEffect(() => {
     const yearIndex = YEAR_ITEMS.indexOf(`${value.getFullYear()}년`);
     const monthIndex = value.getMonth();
@@ -45,8 +54,25 @@ const DatePicker = ({value, onChange}) => {
     setSelectedYearIndex(yearIndex);
     setSelectedMonthIndex(monthIndex);
     setSelectedDayIndex(dayIndex);
-    console.log('value', value);
+    setDAY_ITEMS(
+      Array.from(
+        {length: getDaysInMonth(value.getFullYear(), value.getMonth())},
+        (_, i) => `${(i + 1).toString().padStart(2, '0')}일`,
+      ),
+    );
   }, [value]);
+
+  useEffect(() => {
+    setDAY_ITEMS(
+      Array.from(
+        {length: getDaysInMonth(currentYear + selectedYearIndex, selectedMonthIndex)},
+        (_, i) => `${(i + 1).toString().padStart(2, '0')}일`,
+      ),
+    );
+    if (selectedDayIndex >= DAY_ITEMS.length) {
+      setSelectedDayIndex(DAY_ITEMS.length - 1);
+    }
+  }, [selectedYearIndex, selectedMonthIndex]);
 
   const handleScroll = (items, key) => {
     return event => {

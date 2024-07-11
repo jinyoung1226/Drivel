@@ -3,11 +3,12 @@ import {api, authApi} from '../../api/api';
 
 export const getMeetList = createAsyncThunk(
   'meet/getMeetList',
-  async ({page, size, sort, age, gender, carModel}, thunkAPI) => {
+  async ({page, size, sort, age, genderId , carModel, carCareer, styleId}, thunkAPI) => {
     try {
       const response = await authApi.get('/meeting', {
-        params: {page, size, sort, age, gender, carModel},
+        params: {page, size, sort, age, genderId , carModel, carCareer, styleId},
       });
+      console.log(page, size, sort, age, genderId , carModel, carCareer, styleId, '필터들')
       if (response.status == 200) {
         console.log(response.data.number, '현재페이지');
         const meetList = response.data.content;
@@ -34,10 +35,10 @@ export const getMeetList = createAsyncThunk(
 
 export const getMeetListMore = createAsyncThunk(
   'meet/getMeetListMore',
-  async ({page, size, sort, age, gender, carModel}, thunkAPI) => {
+  async ({page, size, sort, age, genderId , carModel, carCareer, styleId}, thunkAPI) => {
     try {
       const response = await authApi.get('/meeting', {
-        params: {page, size, sort, age, gender, carModel},
+        params: {page, size, sort, age, genderId , carModel, carCareer, styleId},
       });
       if (response.status === 200) {
         console.log(response.data.number, '현재페이지');
@@ -79,6 +80,26 @@ export const getMeetListRecommended = createAsyncThunk(
     }
   },
 );
+
+export const getMyMeetList = createAsyncThunk(
+  'meet/getMyMeetList',
+  async (_, thunkAPI) => {
+    try {
+      const response = await authApi.get(`meeting/upcoming`);
+      if (response.status === 200) {
+        console.log(response.data, '@@@');
+        const myMeetList = response.data;
+        return {myMeetList: myMeetList};
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.status);
+      } else {
+        console.log('서버 접속 오류');
+      }
+    }
+  }
+); 
 
 export const setTab = createAction('meet/setTab');
 

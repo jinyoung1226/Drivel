@@ -14,64 +14,56 @@ import MeetList from './MeetList';
 import {setTab} from '../../features/meet/meetActions';
 import {getMeetListRecommended} from '../../features/meet/meetActions';
 import {authApi} from '../../api/api';
+import CustomButton from '../../components/CustomButton';
+import { getMyMeetList } from '../../features/meet/meetActions';
 const MeetMy = ({goMeetDetail}) => {
   const dispatch = useDispatch();
-  const [myMeetList, setMyMeetList] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([]);  
   const [showMore, setShowMore] = useState(false);
-  const {meetListRecommended, inititalPage} = useSelector(state => state.meet);
+  const {meetListRecommended, inititalPage, myMeetList} = useSelector(state => state.meet);
 
   useEffect(() => {
     dispatch(getMeetListRecommended({page: inititalPage, size: 3}));
+    dispatch(getMyMeetList())
+    // setData(myMeetList.filter(meeting => isThisWeek(meeting.meetingDate)))
     console.log(meetListRecommended);
-  }, [dispatch]);
+  }, []);
 
+  useEffect(() => {
+    if (myMeetList.length > 0) {
+      setData(myMeetList.filter(meeting => isThisWeek(meeting.meetingDate)));
+    }
+  }, [myMeetList]);
+  
   const onRefresh = () => {
     setIsRefreshing(true);
     dispatch(getMeetListRecommended({page: inititalPage, size: 3}));
     setIsRefreshing(false);
   };
-  const getUpcomingMeet = async() => {
-    try {
-      const response = await authApi.get(`meeting/upcoming`);
-      if (response.status === 200) {
-        console.log(response.data, '@@@');
-        setMyMeetList(response.data);
-        setData(response.data.filter(meeting => isThisWeek(meeting.meetingDate)))
-      }
-    } catch (error) {
-      if (error.response) {
-        console.log(error.response.status);
-      } else {
-        console.log('서버 접속 오류');
-      }
-    }
-  };
+  // const getUpcomingMeet = async() => {
+  //   try {
+  //     const response = await authApi.get(`meeting/upcoming`);
+  //     if (response.status === 200) {
+  //       console.log(response.data, '@@@');
+  //       setMyMeetList(response.data);
+  //       setData(response.data.filter(meeting => isThisWeek(meeting.meetingDate)))
+  //     }
+  //   } catch (error) {
+  //     if (error.response) {
+  //       console.log(error.response.status);
+  //     } else {
+  //       console.log('서버 접속 오류');
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
-    getUpcomingMeet();
+    
   }, []);
 
   const nickname = useSelector(state => state.auth.nickname);
-  // const myMeetList = [
-  //   {
-  //     id: 1,
-  //     date: '2024-06-28',
-  //     title: '네바퀴 모임',
-  //   },
-  //   {
-  //     id: 2,
-  //     date: '2024-06-29',
-  //     title: '같이 수원 갈사람',
-  //   },
-  //   {
-  //     id: 3,
-  //     date: '2024-07-06',
-  //     title: '같이 수원 갈사람',
-  //   },
-  // ];
-
+  
   const today = new Date();
 
   const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
@@ -154,76 +146,89 @@ const MeetMy = ({goMeetDetail}) => {
               />
             </View>
             <View style={{height: 24}} />
-            <View
-              style={{
-                padding: 16,
-                marginHorizontal: 16,
-                elevation: 10,
-                backgroundColor: '#FFF',
-                borderWidth: 1,
-                borderColor: colors.Gray01,
-                borderRadius: 10,
-              }}>
-              {myMeetList !== '' && <FlatList
-                data={data}
-                renderItem={renderMeetingItem}
-                keyExtractor={item => item.meetingId}
-                ItemSeparatorComponent={() => (
-                  <View
-                    style={{
-                      height: 1,
-                      backgroundColor: colors.Gray02,
-                      marginVertical: 8,
-                    }}
-                  />
-                )}
-                ListFooterComponent={
-                  showMore ? (
-                    <TouchableOpacity
+            {myMeetList.length > 0 ? (
+              <View
+                style={{
+                  padding: 16,
+                  marginHorizontal: 16,
+                  elevation: 10,
+                  backgroundColor: '#FFF',
+                  borderWidth: 1,
+                  borderColor: colors.Gray01,
+                  borderRadius: 10,
+                }}>
+                <FlatList
+                  data={data}
+                  renderItem={renderMeetingItem}
+                  keyExtractor={item => item.meetingId}
+                  ItemSeparatorComponent={() => (
+                    <View
                       style={{
-                        marginTop: 24,
-                        paddingVertical: 4,
-                        justifyContent: 'center',
-                        flexDirection: 'row',
+                        height: 1,
+                        backgroundColor: colors.Gray02,
+                        marginVertical: 8,
                       }}
-                      onPress={handleShowMore}>
-                      <Text style={[textStyles.B3, {color: '#B0B0B0'}]}>
-                        {'접기'}
-                      </Text>
-                      <View style={{width: 8}} />
-                      <Text
-                        style={[
-                          textStyles.B2,
-                          {color: '#C4C4C4', transform: [{rotate: '-90deg'}]},
-                        ]}>
-                        {'>'}
-                      </Text>
-                    </TouchableOpacity>
-                  ) : (
-                    <TouchableOpacity
-                      style={{
-                        marginTop: 24,
-                        paddingVertical: 4,
-                        justifyContent: 'center',
-                        flexDirection: 'row',
-                      }}
-                      onPress={handleShowMore}>
-                      <Text style={[textStyles.B3, {color: '#B0B0B0'}]}>
-                        {'더보기'}
-                      </Text>
-                      <View style={{width: 8}} />
-                      <Text
-                        style={[
-                          textStyles.B2,
-                          {color: '#C4C4C4', transform: [{rotate: '90deg'}]},
-                        ]}>
-                        {'>'}
-                      </Text>
-                    </TouchableOpacity>
-                  )
-                }
-              />}
-            </View>
+                    />
+                  )}
+                  ListFooterComponent={
+                    showMore ? (
+                      <TouchableOpacity
+                        style={{
+                          marginTop: 24,
+                          paddingVertical: 4,
+                          justifyContent: 'center',
+                          flexDirection: 'row',
+                        }}
+                        onPress={handleShowMore}>
+                        <Text style={[textStyles.B3, {color: '#B0B0B0'}]}>
+                          {'접기'}
+                        </Text>
+                        <View style={{width: 8}} />
+                        <Text
+                          style={[
+                            textStyles.B2,
+                            {color: '#C4C4C4', transform: [{rotate: '-90deg'}]},
+                          ]}>
+                          {'>'}
+                        </Text>
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        style={{
+                          marginTop: 24,
+                          paddingVertical: 4,
+                          justifyContent: 'center',
+                          flexDirection: 'row',
+                        }}
+                        onPress={handleShowMore}>
+                        <Text style={[textStyles.B3, {color: '#B0B0B0'}]}>
+                          {myMeetList.filter(
+                            meeting => isThisWeek(meeting.meetingDate)).length == 0 ? 
+                            '이번주 외 모임보기' : '더보기'
+                          }
+                        </Text>
+                        <View style={{width: 8}} />
+                        <Text
+                          style={[
+                            textStyles.B2,
+                            {color: '#C4C4C4', transform: [{rotate: '90deg'}]},
+                          ]}>
+                          {'>'}
+                        </Text>
+                      </TouchableOpacity>
+                    )
+                  }
+                />
+              </View>
+            ) : (
+              <View style={{paddingHorizontal:16}}>
+                <CustomButton 
+                  title={'나한테 딱 맞는 모임 구경하러 가기'}
+                  onPress={() => {
+                    dispatch(setTab(1));
+                  }}/>
+              </View>
+            )}
             <View style={{height: 24}} />
             <View style={{height: 10, backgroundColor: colors.Gray02}} />
             <View style={{height: 24}} />

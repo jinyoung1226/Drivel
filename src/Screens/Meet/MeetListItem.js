@@ -1,10 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
   Text,
-  Button,
-  StyleSheet,
-  FlatList,
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
@@ -49,12 +46,6 @@ const MeetListItem = ({
       <ImageBackground
         src={item.imagePath}
         style={{flex: 1, alignItems: 'flex-end', padding: 7}}>
-        {/* <TouchableOpacity 
-          onPress={() => {likeMeet(item.id)}}
-          style={{width:18, height:18}}
-        >
-          {isLike ? <LikeIcon/> : <LikedIcon/>}
-        </TouchableOpacity> */}
       </ImageBackground>
     </View>
     <View style={{width: 16}} />
@@ -63,7 +54,10 @@ const MeetListItem = ({
         {item.meetingTitle}
       </Text>
       <View style={{height: 4}} />
-      <Text style={[textStyles.B3, {color: colors.Gray08, backgroundColor: colors.Gray02, padding:4, borderRadius:3}]} numberOfLines={1}>{item.courseTitle}</Text>
+      <View style={{flexDirection:'row'}}>
+        <Text style={[textStyles.B3, {color: colors.Gray08, borderRadius:3, backgroundColor:colors.Gray02, padding:4}]} numberOfLines={1}>{item.courseTitle}</Text>
+        <View style={{flex:1}}/>
+      </View>
       <View style={{height: 8}} />
       <View style={{flexDirection: 'row'}}>
         <PinIcon marginTop={2} />

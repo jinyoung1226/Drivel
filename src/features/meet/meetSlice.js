@@ -4,6 +4,7 @@ import {
   setTab,
   getMeetListRecommended,
   getMeetListMore,
+  getMyMeetList,
   setFilterAge,
   setFilterCarCareer,
   setFilterCarModel,
@@ -21,8 +22,8 @@ const initialState = {
   initialPage: 0,
   currentPage: null,
   sort: 'id,DESC',
-
-  filterDriveStyle: null,
+  myMeetList: [],
+  filterDriveStyle: '',
   filterGender: '',
   filterAge: '',
   filterCarModel: '',
@@ -71,6 +72,16 @@ const meetSlice = createSlice({
     builder.addCase(getMeetListMore.rejected, state => {
       state.isLoading = false;
     });
+    builder.addCase(getMyMeetList.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(getMyMeetList.fulfilled, (state, action) => {
+      state.myMeetList = action.payload.myMeetList;
+      state.isLoading = false;
+    });
+    builder.addCase(getMyMeetList.rejected, state => {
+      state.isLoading = false;
+    });
     builder.addCase(setTab, (state, action) => {
       state.currentTab = action.payload;
     });
@@ -89,6 +100,8 @@ const meetSlice = createSlice({
     builder.addCase(setFilterGender, (state, action) => {
       state.filterGender = action.payload;
     });
+    
+    
   },
 });
 

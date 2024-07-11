@@ -9,7 +9,7 @@ import {regions ,driveStyle, driveView, driveWith} from '../assets/onboardingDat
 import { authApi } from "../api/api";
 import { setOnboarded } from "../features/auth/authActions";
 import { useDispatch } from "react-redux";
-
+import ProgressBar from "../components/ProgressBar";
 const OnboardingPage = ({ navigation }) => {
   const dispatch = useDispatch();
   const [step, setStep] = useState(1);
@@ -92,39 +92,6 @@ const OnboardingPage = ({ navigation }) => {
     return () => backHandler.remove();
   }, [step]);
   
-  const ProgressBar = () => (
-    <View
-      style={{
-        backgroundColor: colors.Gray02,
-        height: 5,
-        flexDirection: 'row',
-        marginHorizontal: 16,
-        borderRadius: 100,
-      }}>
-      {step == 1 && (
-        <View
-          style={{flex: 1, backgroundColor: colors.Blue, borderRadius: 100}}
-        />
-      )}
-      {step == 2 && (
-        <View
-          style={{flex: 2, backgroundColor: colors.Blue, borderRadius: 100}}
-        />
-      )}
-      {step == 3 && (
-        <View
-          style={{flex: 3, backgroundColor: colors.Blue, borderRadius: 100}}
-        />
-      )}
-      {step == 4 && (
-        <View
-          style={{flex: 1, backgroundColor: colors.Blue, borderRadius: 100}}
-        />
-      )}
-      <View style={{flex: 4 - step}} />
-    </View>
-  );
-
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
       {step == 1 || 5 ? (
@@ -134,7 +101,7 @@ const OnboardingPage = ({ navigation }) => {
           <BackIcon color={colors.Gray10} />
       </TouchableOpacity>)
       }
-      {step !== 5 && <ProgressBar />}
+      {step !== 5 && <ProgressBar step={step} stepCount={4}/>}
       {step === 1 ? (
         <View style={{flex:1, padding: 16}}>
           <Text style={[textStyles.H1, {color: colors.Gray10}]}>
