@@ -134,7 +134,7 @@ const MeetMy = ({goMeetDetail}) => {
                 paddingHorizontal: 16,
               }}>
               <Text
-                style={[textStyles.H1, {color: colors.Gray10, lineHeight: 34}]}>
+                style={[textStyles.H1, {color: colors.Gray10}]}>
                 {nickname}님, 이번주에{'\n'}모임이
                 <Text style={{color: colors.Blue}}>
                   {` ${

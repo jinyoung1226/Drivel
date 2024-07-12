@@ -32,7 +32,7 @@ const LoginScreen = ({navigation}) => {
       <KeyboardAwareScrollView>
         <View style={{padding: 16}}>
           <View style={{height: 64}} />
-          <Text style={[textStyles.H1, {fontSize: 30, color: colors.Blue}]}>
+          <Text style={[textStyles.H1, {fontSize: 30, color: colors.Blue, lineHeight: 50}]}>
             Drivel과 함께{'\n'}달릴 준비 되셨나요?
           </Text>
           <View style={{height: 64}} />

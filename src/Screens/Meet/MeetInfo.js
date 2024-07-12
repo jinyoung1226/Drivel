@@ -57,8 +57,8 @@ const MeetInfo = ({item}) => {
         <View style={{height: 32}} />
         <Text style={[textStyles.H4, {color: colors.Gray10}]}>모임 조건</Text>
         <View style={{height: 16}} />
-        <View style={{flexDirection: 'row'}}>
-          <PinIcon marginTop={2} />
+        <View style={{flexDirection: 'row', alignItems:'center'}}>
+          <PinIcon />
           <Text
             style={[textStyles.M14, {color: colors.Gray08, marginLeft: 4}]}
             numberOfLines={1}>
@@ -66,8 +66,8 @@ const MeetInfo = ({item}) => {
           </Text>
         </View>
         <View style={{height: 16}} />
-        <View style={{flexDirection: 'row'}}>
-          <PersonIcon marginTop={1.5} />
+        <View style={{flexDirection: 'row', alignItems:'center'}}>
+          <PersonIcon />
           <Text
             style={[textStyles.M14, {color: colors.Gray08, marginLeft: 4}]}
             numberOfLines={1}>
@@ -89,9 +89,9 @@ const MeetInfo = ({item}) => {
         </View>
         <View style={{height: 16}} />
         {(item.meetingInfo.condition.minCarCareer !== null || item.meetingInfo.condition.carModel !== null) && 
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', alignItems:'center'}}>
           
-          <CarIcon marginTop={1.5} />
+          <CarIcon />
           <Text
             style={[textStyles.M14, {color: colors.Gray08, marginLeft: 4}]}
             numberOfLines={1}>

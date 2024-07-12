@@ -11,6 +11,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {textStyles} from '../../styles/textStyles';
 import CustomButton from '../../components/CustomButton';
 import formatDate from '../../utils/formatDate';
+import DriveInfo from '../DriveCourse/DriveInfo';
 const MeetDetail = ({route, navigation}) => {
   const [courseInfo, setCourseInfo] = useState(null);
   const [meetingInfo, setMeetingInfo] = useState(null);
@@ -20,9 +21,7 @@ const MeetDetail = ({route, navigation}) => {
   const tabName = ['모임 정보', '코스 정보', '게시판'];
   const tabScreens = [
     <MeetInfo item={meetingInfo} />,
-    <View>
-      <Text>222222</Text>
-    </View>,
+    <DriveInfo item={courseInfo} />,
     <View>
       <Text>33333</Text>
     </View>,
@@ -31,7 +30,7 @@ const MeetDetail = ({route, navigation}) => {
     try {
       const response = await authApi.get(`course/${courseId}`);
       if (response.status == 200) {
-        console.log(response.data, 'course');
+        console.log(response.data.waypoints, 'course');
         setCourseInfo(response.data);
       }
     } catch (error) {
@@ -102,7 +101,7 @@ const MeetDetail = ({route, navigation}) => {
             src={courseInfo.courseInfo.imagePath}>
             <LinearGradient
               style={{width: '100%', aspectRatio: 1}}
-              colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.7)']}>
+              colors={['rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0.7)']}>
               <View style={{flex: 1, padding: 16}}>
                 <View style={{flex: 1}} />
                 <Text style={[textStyles.H1, {color: colors.white}]}>
@@ -128,7 +127,7 @@ const MeetDetail = ({route, navigation}) => {
             </LinearGradient>
           </ImageBackground>
         )}
-        {meetingInfo !== null && (
+        {(meetingInfo !== null && courseInfo !== null) && (
           <TabScreens tabName={tabName} tabScreens={tabScreens} />
         )}
       </KeyboardAwareScrollView>

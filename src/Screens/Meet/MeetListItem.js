@@ -59,8 +59,8 @@ const MeetListItem = ({
         <View style={{flex:1}}/>
       </View>
       <View style={{height: 8}} />
-      <View style={{flexDirection: 'row'}}>
-        <PinIcon marginTop={2} />
+      <View style={{flexDirection: 'row', alignItems:'center'}}>
+        <PinIcon />
         <Text
           style={[textStyles.B3, {color: colors.Gray08, marginLeft: 4}]}
           numberOfLines={1}>
@@ -68,8 +68,8 @@ const MeetListItem = ({
         </Text>
       </View>
       <View style={{height: 8}} />
-      <View style={{flexDirection: 'row'}}>
-        <PersonIcon marginTop={1.5} />
+      <View style={{flexDirection: 'row', alignItems:'center'}}>
+        <PersonIcon />
         <Text
           style={[textStyles.B3, {color: colors.Gray08, marginLeft: 4}]}
           numberOfLines={1}>
@@ -84,8 +84,8 @@ const MeetListItem = ({
       </View>
       <View style={{height: 8}} />
       {(item.minCarCareer !== null || item.carModel !== null) &&  
-      <View style={{flexDirection: 'row'}}>
-        <CarIcon marginTop={1.5} />
+      <View style={{flexDirection: 'row', alignItems:'center'}}>
+        <CarIcon />
         <Text
           style={[textStyles.B3, {color: colors.Gray08, marginLeft: 4}]}
           numberOfLines={1}>
