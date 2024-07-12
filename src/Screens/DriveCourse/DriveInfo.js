@@ -25,7 +25,7 @@ const DriveInfo = ({item}) => {
           paddingHorizontal: 16,
         }}>
         <View>
-          <Text style={[textStyles.H4]}>코스 정보</Text>
+          <Text style={[textStyles.H4, {color: colors.Gray10}]}>코스 정보</Text>
           {item.waypoints.map((waypoint, index) => (
             <View
               key={index}
