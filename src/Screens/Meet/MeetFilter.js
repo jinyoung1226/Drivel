@@ -172,7 +172,7 @@ const MeetFilter = ({navigation}) => {
           />
           <View style={{height: 32}} />
           <Text style={[textStyles.H4, {color: colors.Gray10}]}>
-            드라이브 풍경
+            드라이브 형태
           </Text>
           <View style={{height: 16}} />
           <ChipContainer
