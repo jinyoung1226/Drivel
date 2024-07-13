@@ -5,7 +5,7 @@ import {View, Text} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import {fetchRoute} from '../../utils/fetchRoute';
-
+import CustomChip from '../../components/CustomChip';
 const DriveInfo = ({item}) => {
   const [htmlContent, setHtmlContent] = useState('');
   const center = {
@@ -65,6 +65,35 @@ const DriveInfo = ({item}) => {
             source={{html: htmlContent}}
             style={{flex: 1, borderRadius: 4}}
           />
+        </View>
+        <View style={{height: 32}} />
+        <Text style={[textStyles.H4, {color: colors.Gray10}]}>
+          키워드
+        </Text>
+        <View style={{height: 16}} />
+        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+          {item.tags.map((tag, index) => (
+            <View
+            key={index}
+            style={{
+              alignSelf: 'flex-start',
+              height: 35,
+              paddingHorizontal: 16,
+              borderRadius: 24,
+              justifyContent: 'center',
+              marginRight: 8,
+              marginBottom: 8,
+              backgroundColor: colors.Gray02
+            }}>
+              <Text
+                style={[
+                  textStyles.B4,
+                  {height: 15, color: colors.Gray10},
+                ]}>
+                {tag}
+              </Text>
+            </View>))
+          }
         </View>
       </View>
       <GrayLine />

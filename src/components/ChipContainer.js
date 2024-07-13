@@ -43,7 +43,7 @@ const ChipContainer = ({
   };
 
   return (
-    <View style={[containerStyle, {flexDirection: 'row', flexWrap: 'wrap'}]}>
+    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
       {data.map(item => {
         const isActive = Array.isArray(selectedItem)
           ? selectedItem.includes(item.id)
