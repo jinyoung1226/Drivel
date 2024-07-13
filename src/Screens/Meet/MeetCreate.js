@@ -1,5 +1,5 @@
 import React, {useState, useLayoutEffect, useEffect} from 'react';
-import {View, Text, TouchableOpacity, Alert, BackHandler, Image, Dimensions, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, Alert, BackHandler, Image, Dimensions, ScrollView, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import BackIcon from '../../assets/icons/BackIcon.svg';
 import {textStyles} from '../../styles/textStyles';
@@ -25,6 +25,7 @@ import ProgressBar from '../../components/ProgressBar';
 import formatDate from '../../utils/formatDate';
 import koFilter from '../../utils/koFilter';
 import {api} from '../../api/api';
+import { carModelData } from '../../assets/driveCourseData/carModelData';
 const MeetCreate = ({navigation}) => {
   const dispatch = useDispatch();
   const [step, setStep] = useState(1);
@@ -47,7 +48,9 @@ const MeetCreate = ({navigation}) => {
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
   const [courses, setCourses] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  
+  const [filteredCarData, setFilteredCarData] = useState([]); 
+
+
   const getDriveCourseList = async () => {
     try {
       const response = await api.get('https://drivel-course-data.s3.ap-northeast-2.amazonaws.com/course-data')
@@ -59,6 +62,10 @@ const MeetCreate = ({navigation}) => {
     }
   };
 
+  const handleSearchCarModel = (e) => {
+    setCarModel(e);
+    setFilteredCarData(koFilter(carModelData, e));
+  };
 
   const handleSearch = (e) => {
     setDriveCourse(e);
@@ -183,6 +190,11 @@ const MeetCreate = ({navigation}) => {
     setFilteredData([]);
   }
 
+  const selectCarModel = (item) => {
+    setCarModel(item.title);
+    setFilteredCarData([]);
+  }
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
       <DatePickerModal
@@ -202,6 +214,10 @@ const MeetCreate = ({navigation}) => {
           <View style={{padding: 16}}>
             <Text style={[textStyles.H2, {color: colors.Gray10}]}>
               모임의 기본 정보를 입력해주세요
+            </Text>
+            <View style={{height: 16}} />
+            <Text style={[textStyles.B4, {color: colors.Gray05}]}>
+            * 커뮤니티 이용 규칙에 벗어나는 모임은 사전 고지 없이 삭제될 수 있으며,{'\n'}서비스 이용이 일정 기간 제한될 수 있어요.
             </Text>
             <View style={{height: 40}} />
             <Text style={[textStyles.H4, {color: colors.Gray10}]}>모임명</Text>
@@ -468,13 +484,23 @@ const MeetCreate = ({navigation}) => {
                     onButtonPress={() => setCarModel('')}
                     placeholder="차종을 입력해주세요"
                     value={carModel}
-                    onChangeText={setCarModel}
+                    onChangeText={handleSearchCarModel}
                     buttonDisabled={carModel.length === 0}
                   />
-                  <View style={{height: 16}} />
+                  {(filteredCarData.length !== 0 && carModel.length !== 0) &&
+                  <View style={{ borderRadius:10, borderWidth:1, borderColor: colors.Gray03, flexGrow:0, marginTop:8, paddingVertical:4}}>
+                    {filteredCarData.map((item) => (
+                      <Pressable style={({pressed})=> [{padding:8, marginHorizontal:8, marginVertical:4, backgroundColor: pressed ? colors.Light_Blue:null, borderRadius:5}]} key={item.title} onPress={() => selectCarModel(item)}>
+                        {({pressed}) => (
+                          <Text style={[textStyles.B4, {color: pressed ? colors.Blue : colors.Gray10}]}>
+                            {item.title}
+                          </Text>)}
+                      </Pressable>
+                    ))}
+                  </View>}
                 </View>
               )}
-              <View style={{height: 16}} />
+              <View style={{height: 32}} />
               <Text style={[textStyles.H4, {color: colors.Gray10}]}>
                 운전 경력
               </Text>

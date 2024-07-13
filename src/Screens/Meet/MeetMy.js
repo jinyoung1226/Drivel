@@ -27,7 +27,6 @@ const MeetMy = ({goMeetDetail}) => {
   useEffect(() => {
     dispatch(getMeetListRecommended({page: inititalPage, size: 3}));
     dispatch(getMyMeetList())
-    // setData(myMeetList.filter(meeting => isThisWeek(meeting.meetingDate)))
     console.log(meetListRecommended);
   }, []);
 
@@ -95,7 +94,7 @@ const MeetMy = ({goMeetDetail}) => {
       <View style={{width: 32}} />
       <Text style={[textStyles.B2, {color: colors.Blue}]}>{item.title}</Text>
       <View style={{flex: 1}} />
-      <Text style={[textStyles.B2, {color: '#C4C4C4'}]}>{'>'}</Text>
+      <Text style={[textStyles.B2, {fontFamily: 'SUIT-Bold', color: '#C4C4C4'}]}>{'>'}</Text>
     </TouchableOpacity>
   );
 
@@ -197,7 +196,7 @@ const MeetMy = ({goMeetDetail}) => {
                         <Text
                           style={[
                             textStyles.B2,
-                            {color: '#C4C4C4', transform: [{rotate: '-90deg'}]},
+                            {fontFamily: 'SUIT-Bold', color: '#C4C4C4', transform: [{rotate: '-90deg'}]},
                           ]}>
                           {'>'}
                         </Text>
@@ -221,7 +220,7 @@ const MeetMy = ({goMeetDetail}) => {
                         <Text
                           style={[
                             textStyles.B2,
-                            {color: '#C4C4C4', transform: [{rotate: '90deg'}]},
+                            {fontFamily: 'SUIT-Bold', color: '#C4C4C4', transform: [{rotate: '90deg'}]},
                           ]}>
                           {'>'}
                         </Text>
@@ -256,7 +255,7 @@ const MeetMy = ({goMeetDetail}) => {
                 onPress={() => {
                   dispatch(setTab(1));
                 }}>
-                <Text style={[textStyles.B2, {color: colors.Gray04}]}>
+                <Text style={[textStyles.B2, {fontFamily: 'SUIT-Bold', color: colors.Gray04}]}>
                   {'더보기  >'}
                 </Text>
               </TouchableOpacity>

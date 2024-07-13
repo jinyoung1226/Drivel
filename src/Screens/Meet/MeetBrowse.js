@@ -18,12 +18,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import {
   getMeetList,
   getMeetListMore,
-  setFilterGender,
-  setFilterAge,
-  setFilterCarModel,
-  setFilterCarCareer,
 } from '../../features/meet/meetActions';
-import {driveStyle} from '../../assets/onboardingData/onBoardingData';
+import {driveStyle, driveTheme, driveWith} from '../../assets/onboardingData/onBoardingData';
 const MeetBrowse = ({goFilter, goMeetDetail}) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {
@@ -33,6 +29,8 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
     inititalPage,
     currentPage,
     sort,
+    filterDriveTheme,
+    filterDriveWith,
     filterDriveStyle,
     filterGender,
     filterAge,
@@ -46,9 +44,11 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
       getMeetList({
         page: inititalPage,
         size: 10,
-        sort: sort,
-        styleId: filterDriveStyle,
-        genderId: filterGender,
+        orderBy: sort,
+        themeId: filterDriveTheme == '' ? null : filterDriveTheme,
+        togetherId: filterDriveWith == '' ? null : filterDriveWith,
+        styleId: filterDriveStyle == '' ? null : filterDriveStyle,
+        genderId: filterGender == '' ? null : filterGender,
         age: filterAge == '' ? null : filterAge,
         carModel: filterCarModel == '' ? null : filterCarModel,
         carCareer: filterCarCareer == '' ? null : filterCarCareer,
@@ -63,9 +63,11 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
       getMeetList({
         page: inititalPage,
         size: 10,
-        sort: sort,
-        styleId: filterDriveStyle,
-        genderId: filterGender,
+        orderBy: sort,
+        themeId: filterDriveTheme == '' ? null : filterDriveTheme,
+        togetherId: filterDriveWith == '' ? null : filterDriveWith,
+        styleId: filterDriveStyle == '' ? null : filterDriveStyle,
+        genderId: filterGender == '' ? null : filterGender,
         age: filterAge == '' ? null : filterAge,
         carModel: filterCarModel == '' ? null : filterCarModel,
         carCareer: filterCarCareer == '' ? null : filterCarCareer,
@@ -80,9 +82,11 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
         getMeetListMore({
           page: currentPage + 1,
           size: 10,
-          sort: sort,
-          styleId: filterDriveStyle,
-          genderId: filterGender == '' ? null : filterGender == '남성' ? 1 : 2,
+          orderBy: sort,
+          themeId: filterDriveTheme == '' ? null : filterDriveTheme,
+          togetherId: filterDriveWith == '' ? null : filterDriveWith,
+          styleId: filterDriveStyle == '' ? null : filterDriveStyle,
+          genderId: filterGender == '' ? null : filterGender,
           age: filterAge == '' ? null : filterAge,
           carModel: filterCarModel == '' ? null : filterCarModel,
           carCareer: filterCarCareer == '' ? null : filterCarCareer,
@@ -91,6 +95,15 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
       console.log(isLastPage);
     }
   };
+
+  const driveThemeDisplayName = filterDriveTheme
+  ? driveTheme.find(style => style.id === filterDriveTheme)?.displayName
+  : '';
+
+  const driveWithDisplayName = filterDriveWith
+    ? driveWith.find(style => style.id === filterDriveWith)?.displayName
+    : '';
+
   const driveStyleDisplayName = filterDriveStyle
     ? driveStyle.find(style => style.id === filterDriveStyle)?.displayName
     : '';
@@ -103,7 +116,9 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
     : '';
 
   const category = [
-    {key: '드라이브 스타일', value: driveStyleDisplayName, unit: ''},
+    {key: '풍경', value: driveThemeDisplayName, unit: ''},
+    {key: '스타일', value: driveStyleDisplayName, unit: ''},
+    {key: '형태', value: driveWithDisplayName, unit: ''},
     {key: '성별', value: genderDisplayName, unit: ''},
     {key: '나이', value: filterAge, unit: '세'},
     {key: '차종', value: filterCarModel, unit: ''},

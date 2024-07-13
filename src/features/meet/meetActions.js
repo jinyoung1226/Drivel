@@ -3,12 +3,12 @@ import {api, authApi} from '../../api/api';
 
 export const getMeetList = createAsyncThunk(
   'meet/getMeetList',
-  async ({page, size, sort, age, genderId , carModel, carCareer, styleId}, thunkAPI) => {
+  async ({page, size, orderBy, age, genderId , carModel, carCareer, styleId, themeId, togetherId}, thunkAPI) => {
     try {
       const response = await authApi.get('/meeting', {
-        params: {page, size, sort, age, genderId , carModel, carCareer, styleId},
+        params: {page, size, orderBy, age, genderId , carModel, carCareer, styleId, themeId, togetherId},
       });
-      console.log(page, size, sort, age, genderId , carModel, carCareer, styleId, '필터들')
+      console.log(page, size, orderBy, age, genderId , carModel, carCareer, styleId, themeId, togetherId, '필터들')
       if (response.status == 200) {
         console.log(response.data.number, '현재페이지');
         const meetList = response.data.content;
@@ -35,10 +35,10 @@ export const getMeetList = createAsyncThunk(
 
 export const getMeetListMore = createAsyncThunk(
   'meet/getMeetListMore',
-  async ({page, size, sort, age, genderId , carModel, carCareer, styleId}, thunkAPI) => {
+  async ({page, size, orderBy, age, genderId , carModel, carCareer, styleId, themeId, togetherId}, thunkAPI) => {
     try {
       const response = await authApi.get('/meeting', {
-        params: {page, size, sort, age, genderId , carModel, carCareer, styleId},
+        params: {page, size, orderBy, age, genderId , carModel, carCareer, styleId, themeId, togetherId},
       });
       if (response.status === 200) {
         console.log(response.data.number, '현재페이지');
@@ -64,7 +64,7 @@ export const getMeetListRecommended = createAsyncThunk(
   async ({page, size}, thunkAPI) => {
     try {
       const response = await authApi.get('/meeting', {
-        params: {page: page, size: size, sort: 'id,DESC'},
+        params: {page: page, size: size, orderBy: 'LATEST'},
       }); //이후 추천순으로 sort 바꾸기
       if (response.status == 200) {
         console.log(response.data);
@@ -112,5 +112,9 @@ export const setFilterCarModel = createAction('meet/filterCarModel');
 export const setFilterCarCareer = createAction('meet/filterCarCareer');
 
 export const setFilterDriveStyle = createAction('meet/filterDriveStyle');
+
+export const setFilterDriveTheme = createAction('meet/filterDriveTheme');
+
+export const setFilterDriveWith = createAction('meet/filterDriveWith');
 
 export const setSort = createAction('meet/setSort');

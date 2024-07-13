@@ -26,7 +26,7 @@ const MeetListItem = ({
       backgroundColor: colors.BG,
       marginHorizontal: 16,
       marginVertical: 8,
-      height: 148,
+      height: 145,
       borderWidth: 1,
       borderColor: colors.Gray01,
       padding: 16,
@@ -45,7 +45,8 @@ const MeetListItem = ({
       }}>
       <ImageBackground
         src={item.imagePath}
-        style={{flex: 1, alignItems: 'flex-end', padding: 7}}>
+        style={{flex: 1}}>
+          <View style={{backgroundColor: '#00000010', flex:1}}/>
       </ImageBackground>
     </View>
     <View style={{width: 16}} />
@@ -55,14 +56,14 @@ const MeetListItem = ({
       </Text>
       <View style={{height: 4}} />
       <View style={{flexDirection:'row'}}>
-        <Text style={[textStyles.B3, {color: colors.Gray08, borderRadius:3, backgroundColor:colors.Gray02, padding:4}]} numberOfLines={1}>{item.courseTitle}</Text>
+        <Text style={[textStyles.B4, {color: colors.Gray08, borderRadius:3, backgroundColor:colors.Gray02, padding:4}]} numberOfLines={1}>{item.courseTitle}</Text>
         <View style={{flex:1}}/>
       </View>
       <View style={{height: 8}} />
       <View style={{flexDirection: 'row', alignItems:'center'}}>
         <PinIcon />
         <Text
-          style={[textStyles.B3, {color: colors.Gray08, marginLeft: 4}]}
+          style={[textStyles.B4, {color: colors.Gray08, marginLeft: 4}]}
           numberOfLines={1}>
           {item.meetingPoint}
         </Text>
@@ -71,7 +72,7 @@ const MeetListItem = ({
       <View style={{flexDirection: 'row', alignItems:'center'}}>
         <PersonIcon />
         <Text
-          style={[textStyles.B3, {color: colors.Gray08, marginLeft: 4}]}
+          style={[textStyles.B4, {color: colors.Gray08, marginLeft: 4}]}
           numberOfLines={1}>
           {item.participantsCount}/{item.capacity}
           {item.startAge == null && item.endAge == null ? null : ' · '}
@@ -87,7 +88,7 @@ const MeetListItem = ({
       <View style={{flexDirection: 'row', alignItems:'center'}}>
         <CarIcon />
         <Text
-          style={[textStyles.B3, {color: colors.Gray08, marginLeft: 4}]}
+          style={[textStyles.B4, {color: colors.Gray08, marginLeft: 4}]}
           numberOfLines={1}>
           {item.minCarCareer == null
             ? null

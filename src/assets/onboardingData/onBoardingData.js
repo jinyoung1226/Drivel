@@ -16,15 +16,15 @@ export const driveWith = [
   {id: 5, displayName: '나 홀로 여행'},
 ];
 
-export const driveView = [
+export const driveTheme = [
   {id: 1, displayName: '🌲  자연'},
   {id: 2, displayName: '🌄  경치(전망)'},
   {id: 3, displayName: '🏖  바다'},
   {id: 4, displayName: '📜  역사'},
   {id: 5, displayName: '🌃  야경'},
-  {id: 6, displayName: '  사찰'},
+  {id: 6, displayName: '️🪷  사찰'},
   {id: 7, displayName: '🏛  건축, 대교'},
-  {id: 8, displayName: '계절'},
+  {id: 8, displayName: '🌸  계절'},
 ];
 
 export const driveStyle = [

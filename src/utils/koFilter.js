@@ -33,6 +33,16 @@ const decomposeHangul = (s) => {
 };
 
 const koFilter = (data, query) => {
+  const isHangul = /[가-힣ㄱ-ㅎ]/.test(query);
+  if (!isHangul) {
+    // 영어 검색
+    const lowerCaseQuery = query.toLowerCase();
+    const startsWith = data.filter(item => item.title.toLowerCase().startsWith(lowerCaseQuery));
+    const contains = data.filter(item => item.title.toLowerCase().includes(lowerCaseQuery) && !item.title.toLowerCase().startsWith(lowerCaseQuery));
+    return [...startsWith, ...contains].slice(0, 10);
+  }
+
+  // 한글 검색
   const { full: decomposedQueryFull, cho: decomposedQueryCho } = decomposeHangul(query);
   const isChoSearch = query.split('').every(char => 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ'.includes(char));
 

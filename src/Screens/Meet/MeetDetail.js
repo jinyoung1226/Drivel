@@ -30,7 +30,7 @@ const MeetDetail = ({route, navigation}) => {
     try {
       const response = await authApi.get(`course/${courseId}`);
       if (response.status == 200) {
-        console.log(response.data.waypoints, 'course');
+        console.log(response.data, 'course');
         setCourseInfo(response.data);
       }
     } catch (error) {
