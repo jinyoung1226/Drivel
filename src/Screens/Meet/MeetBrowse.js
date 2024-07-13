@@ -225,13 +225,16 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
           <FilterIcon />
         </TouchableOpacity>
       </View>
+      <View style={{flex:1}}>
       <MeetList
+        ListHeaderComponent={<View style={{height: 8}} />}
         goMeetDetail={goMeetDetail}
         data={meetList}
         refreshing={isRefreshing}
         onRefresh={onRefresh}
         onEndReached={onEndReached}
       />
+      </View>
     </View>
   );
 };

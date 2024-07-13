@@ -37,12 +37,12 @@ const authSlice = createSlice({
       state.nickname = action.payload.nickname;
       state.accessToken = action.payload.accessToken;
       state.onboarded = action.payload.onboarded;
-      state.isLoading = false; // 로딩이 완료되었으므로 false로 설정합니다.
-    });
-    builder.addCase(checkAuth.rejected, (state, action) => {
-      state.isAuthenticated = action.payload.isAuthenticated; // 인증이 실패하면 인증 상태를 false로 설정합니다.
-      state.accessToken = action.payload.accessToken; // 인증 토큰을 null로 설정합니다.
       state.isLoading = action.payload.isLoading; // 로딩이 완료되었으므로 false로 설정합니다.
+    });
+    builder.addCase(checkAuth.rejected, (state) => {
+      state.isAuthenticated = action.payload.isAuthenticated; 
+      state.accessToken = action.payload.accessToken;
+      state.isLoading = action.payload.isLoading;
     });
     builder.addCase(login.pending, state => {
       state.isLoading = true; // 인증 상태를 확인하는 중이므로 로딩 상태를 true로 설정합니다.
@@ -54,29 +54,45 @@ const authSlice = createSlice({
       state.nickname = action.payload.nickname;
       state.accessToken = action.payload.accessToken;
       state.onboarded = action.payload.onboarded;
-      state.isLoading = false;
+      state.isLoading = action.payload.isLoading;
     });
-    // 참고
-    // builder.addCase('auth/login/fulfilled', (state, action) => { //첫번째 인자인 액션타입은 authActions에서 임포트한 변수명으로 써도 되고, authActions에서 createAsyncThunk의 첫번째 인자로 전달한 문자열로 써도됨.
-    //   state.isAuthenticated = action.payload.isAuthenticated;  // 로그인 성공 시 인증 상태를 업데이트합니다.
-    //   state.accessToken = action.payload.accessToken;  // 로그인 성공 시 인증 토큰을 업데이트합니다.
-    // });
-
-    builder.addCase(login.rejected, (state, action) => {});
+    builder.addCase(login.rejected, (state, action) => {
+      state.isAuthenticated = action.payload.isAuthenticated; 
+      state.accessToken = action.payload.accessToken;
+      state.isLoading = action.payload.isLoading;
+    });
 
     // logout 액션이 실행되었을 때 각 상태(pending, fulfilled, rejected)에 따라 상태를 업데이트합니다.
-    builder.addCase(logout.fulfilled, state => {
-      state.isAuthenticated = false; // 로그아웃 성공 시 인증 상태를 false로 설정합니다.
-      state.accessToken = null; // 인증 토큰을 null로 설정합니다.
+    builder.addCase(logout.fulfilled, (state, action) => {
+      state.isAuthenticated = action.payload.isAuthenticated; 
+      state.accessToken = action.payload.accessToken;
+      state.isLoading = action.payload.isLoading;
     });
-    builder.addCase(logout.rejected, (state, action) => {});
+    builder.addCase(logout.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(logout.rejected, (state, action) => {
+      state.isAuthenticated = action.payload.isAuthenticated; 
+      state.accessToken = action.payload.accessToken;
+      state.isLoading = action.payload.isLoading;
+    });
+
     builder.addCase(kakaoLogin.fulfilled, (state, action) => {
       state.isAuthenticated = action.payload.isAuthenticated; // 로그아웃 성공 시 인증 상태를 false로 설정합니다.
       state.nickname = action.payload.nickname;
       state.accessToken = action.payload.accessToken; // 인증 토큰을 null로 설정합니다.
       state.isKakaoLoggedIn = action.payload.isKakaoLoggedIn;
+      state.onboarded = action.payload.onboarded;
+      state.isLoading = action.payload.isLoading; 
     });
-    builder.addCase(kakaoLogin.rejected, (state, action) => {});
+    builder.addCase(kakaoLogin.pending, state => {
+      state.isLoading = true; 
+    });
+    builder.addCase(kakaoLogin.rejected, (state, action) => {
+      state.isAuthenticated = action.payload.isAuthenticated; 
+      state.accessToken = action.payload.accessToken;
+      state.isLoading = action.payload.isLoading;
+    });
 
     builder.addCase(setOnboarded, (state, action) => {
       state.onboarded = action.payload;

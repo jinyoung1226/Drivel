@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList} from 'react-native';
+import {FlatList,View} from 'react-native';
 import MeetListItem from './MeetListItem';
 import {RefreshControl} from 'react-native-gesture-handler';
 const MeetList = ({
@@ -12,6 +12,7 @@ const MeetList = ({
 }) => {
   return (
     <FlatList
+      ListFooterComponent={<View style={{height: 8}} />}
       ListHeaderComponent={ListHeaderComponent}
       data={data}
       renderItem={({item}) => (

@@ -21,6 +21,7 @@ export const checkAuth = createAsyncThunk(
               accessToken: accessToken,
               nickname: nickname,
               onboarded: true,
+              isLoading: false
             };
           }
           if (response.data.onboarded == false) {
@@ -29,6 +30,7 @@ export const checkAuth = createAsyncThunk(
               accessToken: accessToken,
               nickname: nickname,
               onboarded: false,
+              isLoading: false
             };
           }
         }
@@ -51,7 +53,7 @@ export const checkAuth = createAsyncThunk(
         }
       }
     } else {
-      return {isAuthenticated: false, accessToken: null};
+      return {isAuthenticated: false, accessToken: null, isLoading: false};
     }
   },
 );
@@ -81,6 +83,7 @@ export const login = createAsyncThunk(
             accessToken: accessToken,
             nickname: nickname,
             onboarded: true,
+            isLoading: false
           };
         }
         if (response.data.onboarded == false) {
@@ -89,6 +92,7 @@ export const login = createAsyncThunk(
             accessToken: accessToken,
             nickname: nickname,
             onboarded: false,
+            isLoading: false
           };
         }
       }
@@ -97,9 +101,19 @@ export const login = createAsyncThunk(
         if (error.response.status == 401) {
           console.log(error.response.data);
           Alert.alert(error.response.data.message);
+          return thunkAPI.rejectWithValue({
+            isAuthenticated: false,
+            accessToken: null,
+            isLoading: false,
+          });
         }
       } else {
         Alert.alert('서버접속오류');
+        return thunkAPI.rejectWithValue({
+          isAuthenticated: false,
+          accessToken: null,
+          isLoading: false,
+        });
       }
     }
   },
@@ -113,7 +127,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
       console.log(response.status);
       await AsyncStorage.removeItem('accessToken');
       await EncryptedStorage.removeItem('refreshToken');
-      return {isAuthenticated: false, accessToken: null};
+      return {isAuthenticated: false, accessToken: null, isLoading: false};
     }
   } catch (error) {
     console.log(error.response.status);
@@ -123,9 +137,17 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
       return thunkAPI.rejectWithValue({
         isAuthenticated: false,
         accessToken: null,
+        isLoading: false,
       });
     } else {
+      await AsyncStorage.removeItem('accessToken');
+      await EncryptedStorage.removeItem('refreshToken');
       Alert.alert('서버접속오류');
+      return thunkAPI.rejectWithValue({
+        isAuthenticated: false,
+        accessToken: null,
+        isLoading: false,
+      });
     }
   }
 });
@@ -148,6 +170,7 @@ export const kakaoLogin = createAsyncThunk(
             accessToken: accessToken,
             nickname: nickname,
             onboarded: true,
+            isLoading: false
           };
         }
         if (response.data.onboarded == false) {
@@ -156,6 +179,7 @@ export const kakaoLogin = createAsyncThunk(
             accessToken: accessToken,
             nickname: nickname,
             onboarded: false,
+            isLoading: false
           };
         }
       }
@@ -164,9 +188,19 @@ export const kakaoLogin = createAsyncThunk(
         console.log(error.response.status);
         if (error.response.status == 401) {
           Alert.alert(error.response.data.message);
+          return thunkAPI.rejectWithValue({
+            isAuthenticated: false,
+            accessToken: null,
+            isLoading: false,
+          });
         }
       } else {
         Alert.alert('서버접속오류');
+        return thunkAPI.rejectWithValue({
+          isAuthenticated: false,
+          accessToken: null,
+          isLoading: false,
+        });
       }
     }
   },
