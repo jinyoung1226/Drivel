@@ -22,7 +22,7 @@ export const checkAuth = createAsyncThunk(
               nickname: nickname,
               onboarded: true,
             };
-          } 
+          }
           if (response.data.onboarded == false) {
             return {
               isAuthenticated: true,
@@ -82,7 +82,7 @@ export const login = createAsyncThunk(
             nickname: nickname,
             onboarded: true,
           };
-        } 
+        }
         if (response.data.onboarded == false) {
           return {
             isAuthenticated: true,
@@ -149,7 +149,7 @@ export const kakaoLogin = createAsyncThunk(
             nickname: nickname,
             onboarded: true,
           };
-        } 
+        }
         if (response.data.onboarded == false) {
           return {
             isAuthenticated: true,

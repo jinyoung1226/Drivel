@@ -110,8 +110,6 @@ const meetSlice = createSlice({
     builder.addCase(setFilterGender, (state, action) => {
       state.filterGender = action.payload;
     });
-    
-    
   },
 });
 

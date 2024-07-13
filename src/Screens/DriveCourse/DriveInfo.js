@@ -25,9 +25,7 @@ const DriveInfo = ({item}) => {
           paddingHorizontal: 16,
         }}>
         <View>
-          <Text style={[textStyles.H4, {color: colors.Gray10}]}>
-            코스 정보
-          </Text>
+          <Text style={[textStyles.H4, {color: colors.Gray10}]}>코스 정보</Text>
           {item.waypoints.map((waypoint, index) => (
             <View
               key={index}
@@ -69,12 +67,10 @@ const DriveInfo = ({item}) => {
           />
         </View>
       </View>
-      <GrayLine/>
+      <GrayLine />
       <View style={{height: 32}} />
-      <View style={{paddingHorizontal:16}}>
-        <Text style={[textStyles.H4, {color: colors.Gray10}]}>
-          지역 정보
-        </Text>
+      <View style={{paddingHorizontal: 16}}>
+        <Text style={[textStyles.H4, {color: colors.Gray10}]}>지역 정보</Text>
         <View style={{height: 16}} />
         <Text style={[textStyles.H4, {color: colors.Blue}]}>
           {item.regionName}
@@ -84,7 +80,7 @@ const DriveInfo = ({item}) => {
           {item.regionDescription}
         </Text>
         <View style={{height: 40}} />
-      </View> 
+      </View>
     </View>
   );
 };

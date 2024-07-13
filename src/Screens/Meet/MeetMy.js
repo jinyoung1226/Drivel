@@ -6,7 +6,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {textStyles} from '../../styles/textStyles';
@@ -16,17 +16,19 @@ import {setTab} from '../../features/meet/meetActions';
 import {getMeetListRecommended} from '../../features/meet/meetActions';
 import {authApi} from '../../api/api';
 import CustomButton from '../../components/CustomButton';
-import { getMyMeetList } from '../../features/meet/meetActions';
+import {getMyMeetList} from '../../features/meet/meetActions';
 const MeetMy = ({goMeetDetail}) => {
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [data, setData] = useState(null);  
+  const [data, setData] = useState(null);
   const [showMore, setShowMore] = useState(false);
-  const {meetListRecommended, inititalPage, myMeetList} = useSelector(state => state.meet);
+  const {meetListRecommended, inititalPage, myMeetList} = useSelector(
+    state => state.meet,
+  );
 
   useEffect(() => {
     dispatch(getMeetListRecommended({page: inititalPage, size: 3}));
-    dispatch(getMyMeetList())
+    dispatch(getMyMeetList());
     console.log(meetListRecommended);
   }, []);
 
@@ -35,7 +37,7 @@ const MeetMy = ({goMeetDetail}) => {
       setData(myMeetList.filter(meeting => isThisWeek(meeting.meetingDate)));
     }
   }, [myMeetList]);
-  
+
   const onRefresh = () => {
     setIsRefreshing(true);
     dispatch(getMeetListRecommended({page: inititalPage, size: 3}));
@@ -58,12 +60,10 @@ const MeetMy = ({goMeetDetail}) => {
   //   }
   // };
 
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   const nickname = useSelector(state => state.auth.nickname);
-  
+
   const today = new Date();
 
   const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
@@ -75,7 +75,6 @@ const MeetMy = ({goMeetDetail}) => {
     const d = new Date(date);
     return d >= startOfWeek && d <= endOfWeek;
   };
-  
 
   const formatDate = dateString => {
     const date = new Date(dateString);
@@ -85,7 +84,7 @@ const MeetMy = ({goMeetDetail}) => {
   };
 
   const renderMeetingItem = ({item}) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={{flexDirection: 'row', alignItems: 'center'}}
       onPress={() => goMeetDetail(item)}>
       <Text style={[textStyles.B3, {color: '#B0B0B0', height: 17}]}>
@@ -94,7 +93,10 @@ const MeetMy = ({goMeetDetail}) => {
       <View style={{width: 32}} />
       <Text style={[textStyles.B2, {color: colors.Blue}]}>{item.title}</Text>
       <View style={{flex: 1}} />
-      <Text style={[textStyles.B2, {fontFamily: 'SUIT-Bold', color: '#C4C4C4'}]}>{'>'}</Text>
+      <Text
+        style={[textStyles.B2, {fontFamily: 'SUIT-Bold', color: '#C4C4C4'}]}>
+        {'>'}
+      </Text>
     </TouchableOpacity>
   );
 
@@ -132,13 +134,13 @@ const MeetMy = ({goMeetDetail}) => {
                 alignItems: 'flex-end',
                 paddingHorizontal: 16,
               }}>
-              <Text
-                style={[textStyles.H1, {color: colors.Gray10}]}>
+              <Text style={[textStyles.H1, {color: colors.Gray10}]}>
                 {nickname}님, 이번주에{'\n'}모임이
                 <Text style={{color: colors.Blue}}>
                   {` ${
-                    myMeetList.filter(meeting => isThisWeek(meeting.meetingDate))
-                      .length
+                    myMeetList.filter(meeting =>
+                      isThisWeek(meeting.meetingDate),
+                    ).length
                   }건 `}
                 </Text>
                 있어요
@@ -196,7 +198,11 @@ const MeetMy = ({goMeetDetail}) => {
                         <Text
                           style={[
                             textStyles.B2,
-                            {fontFamily: 'SUIT-Bold', color: '#C4C4C4', transform: [{rotate: '-90deg'}]},
+                            {
+                              fontFamily: 'SUIT-Bold',
+                              color: '#C4C4C4',
+                              transform: [{rotate: '-90deg'}],
+                            },
                           ]}>
                           {'>'}
                         </Text>
@@ -211,16 +217,21 @@ const MeetMy = ({goMeetDetail}) => {
                         }}
                         onPress={handleShowMore}>
                         <Text style={[textStyles.B3, {color: '#B0B0B0'}]}>
-                          {myMeetList.filter(
-                            meeting => isThisWeek(meeting.meetingDate)).length == 0 ? 
-                            '이번주 외 모임보기' : '더보기'
-                          }
+                          {myMeetList.filter(meeting =>
+                            isThisWeek(meeting.meetingDate),
+                          ).length == 0
+                            ? '이번주 외 모임보기'
+                            : '더보기'}
                         </Text>
                         <View style={{width: 8}} />
                         <Text
                           style={[
                             textStyles.B2,
-                            {fontFamily: 'SUIT-Bold', color: '#C4C4C4', transform: [{rotate: '90deg'}]},
+                            {
+                              fontFamily: 'SUIT-Bold',
+                              color: '#C4C4C4',
+                              transform: [{rotate: '90deg'}],
+                            },
                           ]}>
                           {'>'}
                         </Text>
@@ -230,12 +241,13 @@ const MeetMy = ({goMeetDetail}) => {
                 />
               </View>
             ) : (
-              <View style={{paddingHorizontal:16}}>
-                <CustomButton 
+              <View style={{paddingHorizontal: 16}}>
+                <CustomButton
                   title={'나한테 딱 맞는 모임 구경하러 가기'}
                   onPress={() => {
                     dispatch(setTab(1));
-                  }}/>
+                  }}
+                />
               </View>
             )}
             <View style={{height: 24}} />
@@ -255,7 +267,11 @@ const MeetMy = ({goMeetDetail}) => {
                 onPress={() => {
                   dispatch(setTab(1));
                 }}>
-                <Text style={[textStyles.B2, {fontFamily: 'SUIT-Bold', color: colors.Gray04}]}>
+                <Text
+                  style={[
+                    textStyles.B2,
+                    {fontFamily: 'SUIT-Bold', color: colors.Gray04},
+                  ]}>
                   {'더보기  >'}
                 </Text>
               </TouchableOpacity>

@@ -26,7 +26,7 @@ authApi.interceptors.request.use(
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`; // 헤더에 토큰 추가
     }
-    console.log('액세스토큰 존재')
+    console.log('액세스토큰 존재');
     return config;
   },
   error => {

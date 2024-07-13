@@ -1,4 +1,4 @@
-const formatDate = (isoString) => {
+const formatDate = isoString => {
   const date = new Date(isoString);
   const options = {
     year: 'numeric',

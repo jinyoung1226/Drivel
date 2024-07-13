@@ -24,7 +24,7 @@ const DriveTab = ({navigation, route}) => {
   return (
     <Stack.Navigator initialRouteName="DriveMain">
       <Stack.Screen name="DriveMain" component={DriveMain} />
-      <Stack.Screen name="DriveDetail" component={DriveDetail}/>
+      <Stack.Screen name="DriveDetail" component={DriveDetail} />
     </Stack.Navigator>
   );
 };

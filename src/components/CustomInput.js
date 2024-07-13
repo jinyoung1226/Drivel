@@ -27,44 +27,44 @@ const CustomInput = ({
   containerStyle,
 }) => {
   return (
-      <View
-        style={[
-          containerStyle,
-          styles.inputContainer,
-          {borderColor: isValid === false ? colors.red : colors.Gray03},
-        ]}>
-        <TextInput
-          style={[styles.input, textStyles.H5]}
-          value={value}
-          onChangeText={onChangeText}
-          placeholder={placeholder}
-          placeholderTextColor={colors.Gray04}
-          editable={editable}
-          secureTextEntry={secureTextEntry}
-          maxLength={maxLength}
-          keyboardType={keyboardType}
-          inputMode={inputMode}
-        />
-        {showTimer && (
-          <Text
-            style={[
-              textStyles.H5,
-              {marginRight: 8, color: colors.Gray04, alignSelf: 'center'},
-            ]}>
-            {timerText}
-          </Text>
-        )}
-        {showButton && (
-          <TouchableOpacity
-            onPress={onButtonPress}
-            style={{alignSelf: 'center'}}
-            disabled={buttonDisabled}>
-            {typeof buttonIcon === 'function'
-              ? buttonIcon({buttonDisabled})
-              : buttonIcon}
-          </TouchableOpacity>
-        )}
-      </View>
+    <View
+      style={[
+        containerStyle,
+        styles.inputContainer,
+        {borderColor: isValid === false ? colors.red : colors.Gray03},
+      ]}>
+      <TextInput
+        style={[styles.input, textStyles.H5]}
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        placeholderTextColor={colors.Gray04}
+        editable={editable}
+        secureTextEntry={secureTextEntry}
+        maxLength={maxLength}
+        keyboardType={keyboardType}
+        inputMode={inputMode}
+      />
+      {showTimer && (
+        <Text
+          style={[
+            textStyles.H5,
+            {marginRight: 8, color: colors.Gray04, alignSelf: 'center'},
+          ]}>
+          {timerText}
+        </Text>
+      )}
+      {showButton && (
+        <TouchableOpacity
+          onPress={onButtonPress}
+          style={{alignSelf: 'center'}}
+          disabled={buttonDisabled}>
+          {typeof buttonIcon === 'function'
+            ? buttonIcon({buttonDisabled})
+            : buttonIcon}
+        </TouchableOpacity>
+      )}
+    </View>
   );
 };
 

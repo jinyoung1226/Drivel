@@ -24,7 +24,7 @@ import GrayLine from '../../components/GrayLine';
 import DriveInfo from './DriveInfo';
 import DriveReview from './DriveReview';
 import DriveTourSpot from './DriveTourSpot';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const {width} = Dimensions.get('window');
 
@@ -86,7 +86,7 @@ const DriveDetail = ({route, navigation}) => {
 
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView scrollIndicatorInsets={{right:0.1}}>
+      <KeyboardAwareScrollView scrollIndicatorInsets={{right: 0.1}}>
         <Image
           src={courseInfo.courseInfo.imagePath}
           style={[styles.image, {width: width}]}

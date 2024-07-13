@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ImageBackground,
-} from 'react-native';
+import {View, Text, TouchableOpacity, ImageBackground} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import CarIcon from '../../assets/icons/CarIcon.svg';
@@ -43,10 +38,8 @@ const MeetListItem = ({
         borderRadius: 10,
         overflow: 'hidden',
       }}>
-      <ImageBackground
-        src={item.imagePath}
-        style={{flex: 1}}>
-          <View style={{backgroundColor: '#00000010', flex:1}}/>
+      <ImageBackground src={item.imagePath} style={{flex: 1}}>
+        <View style={{backgroundColor: '#00000010', flex: 1}} />
       </ImageBackground>
     </View>
     <View style={{width: 16}} />
@@ -55,12 +48,24 @@ const MeetListItem = ({
         {item.meetingTitle}
       </Text>
       <View style={{height: 4}} />
-      <View style={{flexDirection:'row'}}>
-        <Text style={[textStyles.B4, {color: colors.Gray08, borderRadius:3, backgroundColor:colors.Gray02, padding:4}]} numberOfLines={1}>{item.courseTitle}</Text>
-        <View style={{flex:1}}/>
+      <View style={{flexDirection: 'row'}}>
+        <Text
+          style={[
+            textStyles.B4,
+            {
+              color: colors.Gray08,
+              borderRadius: 3,
+              backgroundColor: colors.Gray02,
+              padding: 4,
+            },
+          ]}
+          numberOfLines={1}>
+          {item.courseTitle}
+        </Text>
+        <View style={{flex: 1}} />
       </View>
       <View style={{height: 8}} />
-      <View style={{flexDirection: 'row', alignItems:'center'}}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <PinIcon />
         <Text
           style={[textStyles.B4, {color: colors.Gray08, marginLeft: 4}]}
@@ -69,7 +74,7 @@ const MeetListItem = ({
         </Text>
       </View>
       <View style={{height: 8}} />
-      <View style={{flexDirection: 'row', alignItems:'center'}}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <PersonIcon />
         <Text
           style={[textStyles.B4, {color: colors.Gray08, marginLeft: 4}]}
@@ -84,19 +89,20 @@ const MeetListItem = ({
         </Text>
       </View>
       <View style={{height: 8}} />
-      {(item.minCarCareer !== null || item.carModel !== null) &&  
-      <View style={{flexDirection: 'row', alignItems:'center'}}>
-        <CarIcon />
-        <Text
-          style={[textStyles.B4, {color: colors.Gray08, marginLeft: 4}]}
-          numberOfLines={1}>
-          {item.minCarCareer == null
-            ? null
-            : `운전경력 ${item.minCarCareer}년 이상`}
-          {item.minCarCareer == null || item.carModel == null ? null : ' · '}
-          {item.carModel == null ? null : item.carModel}
-        </Text>
-      </View>}
+      {(item.minCarCareer !== null || item.carModel !== null) && (
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <CarIcon />
+          <Text
+            style={[textStyles.B4, {color: colors.Gray08, marginLeft: 4}]}
+            numberOfLines={1}>
+            {item.minCarCareer == null
+              ? null
+              : `운전경력 ${item.minCarCareer}년 이상`}
+            {item.minCarCareer == null || item.carModel == null ? null : ' · '}
+            {item.carModel == null ? null : item.carModel}
+          </Text>
+        </View>
+      )}
     </View>
   </TouchableOpacity>
 );

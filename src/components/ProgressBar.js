@@ -10,8 +10,7 @@ const ProgressBar = ({step, stepCount}) => (
       flexDirection: 'row',
       marginHorizontal: 16,
       borderRadius: 100,
-    }}
-  >
+    }}>
     <View
       style={{flex: step, backgroundColor: colors.Blue, borderRadius: 100}}
     />

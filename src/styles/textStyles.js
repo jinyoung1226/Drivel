@@ -4,7 +4,7 @@ export const textStyles = StyleSheet.create({
   H1: {
     fontFamily: 'Pretendard-SemiBold',
     fontSize: 24,
-    lineHeight: 35
+    lineHeight: 35,
   },
   H2: {
     fontFamily: 'Pretendard-SemiBold',
@@ -65,6 +65,5 @@ export const textStyles = StyleSheet.create({
   C4: {
     fontFamily: 'Pretendard-Medium',
     fontSize: 14,
-
   },
 });

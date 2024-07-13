@@ -1,5 +1,12 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, ImageBackground, Alert, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
+  Alert,
+  BackHandler,
+} from 'react-native';
 import BackIcon from '../../assets/icons/BackIcon';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {authApi} from '../../api/api';
@@ -93,7 +100,7 @@ const MeetDetail = ({route, navigation}) => {
   }, []);
 
   return (
-    <View style={{backgroundColor: colors.BG, flex:1}}>
+    <View style={{backgroundColor: colors.BG, flex: 1}}>
       <KeyboardAwareScrollView>
         {courseInfo !== null && meetingInfo !== null && (
           <ImageBackground
@@ -101,7 +108,11 @@ const MeetDetail = ({route, navigation}) => {
             src={courseInfo.courseInfo.imagePath}>
             <LinearGradient
               style={{width: '100%', aspectRatio: 1}}
-              colors={['rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0.7)']}>
+              colors={[
+                'rgba(0, 0, 0, 0.2)',
+                'rgba(0, 0, 0, 0.5)',
+                'rgba(0, 0, 0, 0.7)',
+              ]}>
               <View style={{flex: 1, padding: 16}}>
                 <View style={{flex: 1}} />
                 <Text style={[textStyles.H1, {color: colors.white}]}>
@@ -127,7 +138,7 @@ const MeetDetail = ({route, navigation}) => {
             </LinearGradient>
           </ImageBackground>
         )}
-        {(meetingInfo !== null && courseInfo !== null) && (
+        {meetingInfo !== null && courseInfo !== null && (
           <TabScreens tabName={tabName} tabScreens={tabScreens} />
         )}
       </KeyboardAwareScrollView>
@@ -139,7 +150,9 @@ const MeetDetail = ({route, navigation}) => {
         }}>
         <CustomButton
           title={'참여하기'}
-          onPress={() => {Alert.alert('준비중입니다!')}}
+          onPress={() => {
+            Alert.alert('준비중입니다!');
+          }}
         />
       </View>
     </View>

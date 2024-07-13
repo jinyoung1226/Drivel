@@ -15,11 +15,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import {textStyles} from '../../styles/textStyles';
 import MeetList from './MeetList';
 import {useSelector, useDispatch} from 'react-redux';
+import {getMeetList, getMeetListMore} from '../../features/meet/meetActions';
 import {
-  getMeetList,
-  getMeetListMore,
-} from '../../features/meet/meetActions';
-import {driveStyle, driveTheme, driveWith} from '../../assets/onboardingData/onBoardingData';
+  driveStyle,
+  driveTheme,
+  driveWith,
+} from '../../assets/onboardingData/onBoardingData';
 const MeetBrowse = ({goFilter, goMeetDetail}) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {
@@ -97,8 +98,8 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
   };
 
   const driveThemeDisplayName = filterDriveTheme
-  ? driveTheme.find(style => style.id === filterDriveTheme)?.displayName
-  : '';
+    ? driveTheme.find(style => style.id === filterDriveTheme)?.displayName
+    : '';
 
   const driveWithDisplayName = filterDriveWith
     ? driveWith.find(style => style.id === filterDriveWith)?.displayName

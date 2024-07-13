@@ -3,12 +3,49 @@ import {api, authApi} from '../../api/api';
 
 export const getMeetList = createAsyncThunk(
   'meet/getMeetList',
-  async ({page, size, orderBy, age, genderId , carModel, carCareer, styleId, themeId, togetherId}, thunkAPI) => {
+  async (
+    {
+      page,
+      size,
+      orderBy,
+      age,
+      genderId,
+      carModel,
+      carCareer,
+      styleId,
+      themeId,
+      togetherId,
+    },
+    thunkAPI,
+  ) => {
     try {
       const response = await authApi.get('/meeting', {
-        params: {page, size, orderBy, age, genderId , carModel, carCareer, styleId, themeId, togetherId},
+        params: {
+          page,
+          size,
+          orderBy,
+          age,
+          genderId,
+          carModel,
+          carCareer,
+          styleId,
+          themeId,
+          togetherId,
+        },
       });
-      console.log(page, size, orderBy, age, genderId , carModel, carCareer, styleId, themeId, togetherId, '필터들')
+      console.log(
+        page,
+        size,
+        orderBy,
+        age,
+        genderId,
+        carModel,
+        carCareer,
+        styleId,
+        themeId,
+        togetherId,
+        '필터들',
+      );
       if (response.status == 200) {
         console.log(response.data.number, '현재페이지');
         const meetList = response.data.content;
@@ -35,10 +72,35 @@ export const getMeetList = createAsyncThunk(
 
 export const getMeetListMore = createAsyncThunk(
   'meet/getMeetListMore',
-  async ({page, size, orderBy, age, genderId , carModel, carCareer, styleId, themeId, togetherId}, thunkAPI) => {
+  async (
+    {
+      page,
+      size,
+      orderBy,
+      age,
+      genderId,
+      carModel,
+      carCareer,
+      styleId,
+      themeId,
+      togetherId,
+    },
+    thunkAPI,
+  ) => {
     try {
       const response = await authApi.get('/meeting', {
-        params: {page, size, orderBy, age, genderId , carModel, carCareer, styleId, themeId, togetherId},
+        params: {
+          page,
+          size,
+          orderBy,
+          age,
+          genderId,
+          carModel,
+          carCareer,
+          styleId,
+          themeId,
+          togetherId,
+        },
       });
       if (response.status === 200) {
         console.log(response.data.number, '현재페이지');
@@ -98,8 +160,8 @@ export const getMyMeetList = createAsyncThunk(
         console.log('서버 접속 오류');
       }
     }
-  }
-); 
+  },
+);
 
 export const setTab = createAction('meet/setTab');
 

@@ -1,5 +1,11 @@
 import React, {useState, useLayoutEffect, useEffect} from 'react';
-import {View, Text, TouchableOpacity, BackHandler, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  BackHandler,
+  Pressable,
+} from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import {useFocusEffect} from '@react-navigation/native';
@@ -12,9 +18,13 @@ import XIcon from '../../assets/icons/XIcon.svg';
 import BackIcon from '../../assets/icons/BackIcon.svg';
 import SpinIcon from '../../assets/icons/SpinIcon.svg';
 import ChipContainer from '../../components/ChipContainer';
-import {driveStyle, driveTheme, driveWith} from '../../assets/onboardingData/onBoardingData';
+import {
+  driveStyle,
+  driveTheme,
+  driveWith,
+} from '../../assets/onboardingData/onBoardingData';
 import {useDispatch, useSelector} from 'react-redux';
-import { carModelData } from '../../assets/driveCourseData/carModelData';
+import {carModelData} from '../../assets/driveCourseData/carModelData';
 import koFilter from '../../utils/koFilter';
 import {
   getMeetList,
@@ -39,7 +49,7 @@ const MeetFilter = ({navigation}) => {
     filterCarCareer,
     sort,
   } = useSelector(state => state.meet);
-  const [filteredCarData, setFilteredCarData] = useState([]); 
+  const [filteredCarData, setFilteredCarData] = useState([]);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '필터',
@@ -67,7 +77,16 @@ const MeetFilter = ({navigation}) => {
   ]);
 
   useEffect(() => {
-    console.log(filterDriveStyle, filterGender, filterAge, filterCarModel, filterCarCareer, filterDriveTheme, filterDriveWith, '값 잘 변하나?');
+    console.log(
+      filterDriveStyle,
+      filterGender,
+      filterAge,
+      filterCarModel,
+      filterCarCareer,
+      filterDriveTheme,
+      filterDriveWith,
+      '값 잘 변하나?',
+    );
     const backAction = () => {
       filterMeeting();
       return true;
@@ -77,7 +96,15 @@ const MeetFilter = ({navigation}) => {
       backAction,
     );
     return () => backHandler.remove();
-  }, [filterGender, filterAge, filterCarModel, filterCarCareer, filterDriveStyle, filterDriveTheme, filterDriveWith]);
+  }, [
+    filterGender,
+    filterAge,
+    filterCarModel,
+    filterCarCareer,
+    filterDriveStyle,
+    filterDriveTheme,
+    filterDriveWith,
+  ]);
 
   const filterMeeting = () => {
     dispatch(
@@ -106,15 +133,15 @@ const MeetFilter = ({navigation}) => {
     dispatch(setFilterCarCareer(''));
   };
 
-  const handleSearchCarModel = (e) => {
+  const handleSearchCarModel = e => {
     dispatch(setFilterCarModel(e));
     setFilteredCarData(koFilter(carModelData, e));
   };
 
-  const selectCarModel = (item) => {
+  const selectCarModel = item => {
     dispatch(setFilterCarModel(item.title));
     setFilteredCarData([]);
-  }
+  };
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
@@ -205,17 +232,42 @@ const MeetFilter = ({navigation}) => {
             onChangeText={handleSearchCarModel}
             buttonDisabled={filterCarModel.length === 0}
           />
-          {(filteredCarData.length !== 0 && filterCarModel.length !== 0) &&
-            <View style={{ borderRadius:10, borderWidth:1, borderColor: colors.Gray03, flexGrow:0, marginTop:8, paddingVertical:4}}>
-              {filteredCarData.map((item) => (
-                <Pressable style={({pressed})=> [{padding:8, marginHorizontal:8, marginVertical:4, backgroundColor: pressed ? colors.Light_Blue:null, borderRadius:5}]} key={item.title} onPress={() => selectCarModel(item)}>
+          {filteredCarData.length !== 0 && filterCarModel.length !== 0 && (
+            <View
+              style={{
+                borderRadius: 10,
+                borderWidth: 1,
+                borderColor: colors.Gray03,
+                flexGrow: 0,
+                marginTop: 8,
+                paddingVertical: 4,
+              }}>
+              {filteredCarData.map(item => (
+                <Pressable
+                  style={({pressed}) => [
+                    {
+                      padding: 8,
+                      marginHorizontal: 8,
+                      marginVertical: 4,
+                      backgroundColor: pressed ? colors.Light_Blue : null,
+                      borderRadius: 5,
+                    },
+                  ]}
+                  key={item.title}
+                  onPress={() => selectCarModel(item)}>
                   {({pressed}) => (
-                    <Text style={[textStyles.B4, {color: pressed ? colors.Blue : colors.Gray10}]}>
+                    <Text
+                      style={[
+                        textStyles.B4,
+                        {color: pressed ? colors.Blue : colors.Gray10},
+                      ]}>
                       {item.title}
-                    </Text>)}
+                    </Text>
+                  )}
                 </Pressable>
               ))}
-            </View>}
+            </View>
+          )}
           <View style={{height: 32}} />
           <Text style={[textStyles.H4, {color: colors.Gray10}]}>운전 경력</Text>
           <View style={{height: 16}} />
@@ -248,7 +300,7 @@ const MeetFilter = ({navigation}) => {
         <TouchableOpacity
           style={{
             justifyContent: 'center',
-            height:50,
+            height: 50,
             display:
               filterDriveWith == '' &&
               filterDriveTheme == '' &&
@@ -261,11 +313,11 @@ const MeetFilter = ({navigation}) => {
                 : 'flex',
           }}
           onPress={resetFilter}>
-          <View style={{flexDirection: 'row', height:22}}>
-          <SpinIcon />
-          <View style={{width: 8}} />
-          <Text style={[textStyles.H4, {color: colors.Gray08}]}>재설정</Text>
-          <View style={{width: 16}} />
+          <View style={{flexDirection: 'row', height: 22}}>
+            <SpinIcon />
+            <View style={{width: 8}} />
+            <Text style={[textStyles.H4, {color: colors.Gray08}]}>재설정</Text>
+            <View style={{width: 16}} />
           </View>
         </TouchableOpacity>
         <View style={{flex: 1}}>

@@ -65,7 +65,12 @@ const DatePicker = ({value, onChange}) => {
   useEffect(() => {
     setDAY_ITEMS(
       Array.from(
-        {length: getDaysInMonth(currentYear + selectedYearIndex, selectedMonthIndex)},
+        {
+          length: getDaysInMonth(
+            currentYear + selectedYearIndex,
+            selectedMonthIndex,
+          ),
+        },
         (_, i) => `${(i + 1).toString().padStart(2, '0')}일`,
       ),
     );
