@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -6,33 +6,36 @@ import {
   ImageBackground,
   Alert,
   BackHandler,
+  Dimensions,
+  Animated,
 } from 'react-native';
 import BackIcon from '../../assets/icons/BackIcon';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {authApi} from '../../api/api';
 import colors from '../../styles/colors';
-import TopTab from '../../components/TopTab';
-import TabScreens from '../../components/TabScreens';
 import MeetInfo from './MeetInfo';
 import LinearGradient from 'react-native-linear-gradient';
 import {textStyles} from '../../styles/textStyles';
 import CustomButton from '../../components/CustomButton';
 import formatDate from '../../utils/formatDate';
-import DriveInfo from '../DriveCourse/DriveInfo';
+import MeetCourseInfo from './MeetCourseInfo';
+import Tabs from '../../components/Tabs';
+
 const MeetDetail = ({route, navigation}) => {
+  const [activeTab, setActiveTab] = useState(0);
   const [courseInfo, setCourseInfo] = useState(null);
   const [meetingInfo, setMeetingInfo] = useState(null);
-  const [activeTab, setActiveTab] = useState(0);
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const [displayTabs, setDisplayTabs] = useState(false);
+  const [iconColor, setIconColor] = useState(colors.white);
+  const scrollViewRef = useRef(null); // ScrollView 참조
+  const [scrollOffset, setScrollOffset] = useState(0);
   const meetingId = route.params.meetingId;
   const courseId = route.params.courseId;
+
+  const width = Dimensions.get('window').width;
   const tabName = ['모임 정보', '코스 정보', '게시판'];
-  const tabScreens = [
-    <MeetInfo item={meetingInfo} />,
-    <DriveInfo item={courseInfo} />,
-    <View>
-      <Text>33333</Text>
-    </View>,
-  ];
+
   const getDriveCourseInfo = async () => {
     try {
       const response = await authApi.get(`course/${courseId}`);
@@ -48,6 +51,7 @@ const MeetDetail = ({route, navigation}) => {
       }
     }
   };
+
   const getMeetingInfo = async () => {
     try {
       const response = await authApi.get(`meeting/${meetingId}`);
@@ -63,29 +67,61 @@ const MeetDetail = ({route, navigation}) => {
       }
     }
   };
+
   useEffect(() => {
     getDriveCourseInfo();
     getMeetingInfo();
   }, []);
 
+  useEffect(() => {
+    if (scrollViewRef.current && scrollOffset > width - 56) {
+      // 원하는 위치로 스크롤
+      scrollViewRef.current.scrollToPosition(0, width - 56, true);
+    }
+  }, [activeTab]); // activeTab 변경 시 스크롤
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTransparent: true,
-      title: false,
+      title: '모임 상세',
+      headerTitleStyle: [
+        textStyles.H3,
+        {
+          color: scrollY.interpolate({
+            inputRange: [0, width / 4],
+            outputRange: ['rgba(0,0,0,0)', 'rgba(0,0,0,1)'],
+            extrapolate: 'clamp',
+          }),
+        },
+      ],
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('MeetMain');
           }}
           style={{padding: 16}}>
-          <BackIcon color={colors.white} />
+          <BackIcon color={iconColor} />
         </TouchableOpacity>
       ),
       headerBackground: () => (
-        <View style={{flex: 1, backgroundColor: 'rgba(0,0,0,0)'}}></View>
+        <Animated.View
+          style={{
+            flex: 1,
+            backgroundColor: scrollY.interpolate({
+              inputRange: [0, width / 4],
+              outputRange: ['rgba(0,0,0,0)', 'rgba(255,255,255,1)'],
+              extrapolate: 'clamp',
+            }),
+            elevation: scrollY.interpolate({
+              inputRange: [0, width / 2],
+              outputRange: [0, 3],
+              extrapolate: 'clamp',
+            }),
+          }}
+        />
       ),
     });
-  }, [navigation]);
+  }, [navigation, scrollY, iconColor]);
 
   useEffect(() => {
     const backAction = () => {
@@ -99,12 +135,46 @@ const MeetDetail = ({route, navigation}) => {
     return () => backHandler.remove();
   }, []);
 
+  const handleScroll = (event) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    setScrollOffset(offsetY);
+    Animated.event(
+      [{nativeEvent: {contentOffset: {y: scrollY}}}],
+      {useNativeDriver: false},
+    )(event);
+    if (offsetY > width - 56) {
+      setDisplayTabs(true);
+      setIconColor(colors.Gray10);
+    } else if (offsetY <= width - 56) {
+      setDisplayTabs(false);
+      setIconColor(colors.white);
+    }
+    if (offsetY > 10) {
+      setIconColor(colors.Gray10);
+    } else if (offsetY <= 10) {
+      setIconColor(colors.white);
+    }
+  };
+
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>
-      <KeyboardAwareScrollView>
+      <Tabs
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        tabName={tabName}
+        style={{
+          top: 56,
+          zIndex: 1,
+          display: displayTabs ? 'flex' : 'none',
+        }}
+      />
+      <KeyboardAwareScrollView
+        ref={scrollViewRef} // ScrollView 참조 연결
+        onScroll={handleScroll}
+        scrollEventThrottle={16}>
         {courseInfo !== null && meetingInfo !== null && (
           <ImageBackground
-            style={{width: '100%', aspectRatio: 1}}
+            style={{width: width, aspectRatio: 1}}
             src={courseInfo.courseInfo.imagePath}>
             <LinearGradient
               style={{width: '100%', aspectRatio: 1}}
@@ -127,19 +197,19 @@ const MeetDetail = ({route, navigation}) => {
                   {formatDate(meetingInfo.meetingInfo.date)} 모임
                 </Text>
               </View>
-              {/* {courseInfo.waypoints.map(
-                item => (
-                  <Text>
-                    {item.name}
-                  </Text>
-                  )
-                )
-              } */}
             </LinearGradient>
           </ImageBackground>
         )}
+        {meetingInfo !== null && courseInfo !== null && displayTabs == false ? (
+          <Tabs tabName={tabName} activeTab={activeTab} setActiveTab={setActiveTab}/>) : (<View style={{height:52}}/>)}
         {meetingInfo !== null && courseInfo !== null && (
-          <TabScreens tabName={tabName} tabScreens={tabScreens} />
+          <View>
+            {activeTab === 0 && <MeetInfo item={meetingInfo}/>}
+            {activeTab === 1 && <MeetCourseInfo item={courseInfo}/>}
+            <View style={{display: activeTab === 2 ? 'flex' : 'none'}}>
+              <Text>33333</Text>
+            </View>
+          </View>
         )}
       </KeyboardAwareScrollView>
       <View
@@ -158,4 +228,5 @@ const MeetDetail = ({route, navigation}) => {
     </View>
   );
 };
+
 export default MeetDetail;

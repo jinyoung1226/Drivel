@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import GrayLine from '../../components/GrayLine';
 import {WebView} from 'react-native-webview';
-import {View, Text} from 'react-native';
+import {View, Text, Dimensions} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import {fetchRoute} from '../../utils/fetchRoute';
@@ -12,13 +12,12 @@ const DriveInfo = ({item}) => {
     lat: item.waypoints[0].latitude,
     lng: item.waypoints[0].longitude,
   };
-
   useEffect(() => {
     fetchRoute(item, setHtmlContent, center);
   }, []);
 
   return (
-    <View>
+    <View> 
       <View
         style={{
           marginTop: 24,

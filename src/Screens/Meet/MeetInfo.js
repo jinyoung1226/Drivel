@@ -9,7 +9,6 @@ import {ScrollView} from 'react-native-gesture-handler';
 import GrayLine from '../../components/GrayLine';
 const MeetInfo = ({item}) => {
   const width = Dimensions.get('window').width;
-  console.log(width);
 
   const renderMemberInfo = (imagePath, nickname, description, index) => {
     return (
@@ -110,6 +109,13 @@ const MeetInfo = ({item}) => {
           item.meetingInfo.masterInfo.nickname,
           item.meetingInfo.masterInfo.description,
         )}
+      </View>
+      <GrayLine />
+      <View style={{padding: 16}}>
+        <View style={{height: 16}} />
+        <Text style={[textStyles.H4, {color: colors.Gray10}]}>
+          참여자 현황
+        </Text>
       </View>
       <GrayLine />
       <View style={{padding: 16}}>
