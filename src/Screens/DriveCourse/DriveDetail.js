@@ -1,40 +1,35 @@
-import React, {useEffect, useState, useLayoutEffect} from 'react';
+import React, {useEffect, useState, useLayoutEffect, useRef} from 'react';
 import {
   View,
   Text,
-  Button,
   Image,
-  StyleSheet,
   Dimensions,
   Alert,
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
-import {ScrollView} from 'react-native-gesture-handler';
-import TabScreens from '../../components/TabScreens';
-import {fetchDriveInfo} from '../../features/drive/driveActions';
 import {authApi} from '../../api/api';
-import {useFocusEffect} from '@react-navigation/native';
-import WebView from 'react-native-webview';
 import BackIcon from '../../assets/icons/BackIcon';
 import GrayLine from '../../components/GrayLine';
 import DriveInfo from './DriveInfo';
 import DriveReview from './DriveReview';
 import DriveTourSpot from './DriveTourSpot';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-
+import Tabs from '../../components/Tabs';
 const {width} = Dimensions.get('window');
 
 const DriveDetail = ({route, navigation}) => {
   const driveId = route.params.id;
   const [courseInfo, setCourseInfo] = useState(null);
-  const theme = ['노을 맛집', '해변길', '자연친화'];
-  const tabName = ['상세정보', '리뷰', '관광지'];
+  const [heightUntilGrayLine, setHeightUntilGrayLine] = useState(0);
+  const [imageHeight, setImageHeight] = useState(0);
+  const [titleHeight, setTitleHeight] = useState(0);
+  const scrollViewRef = useRef(null);
+  const [scrollOffset, setScrollOffset] = useState(0);
+  const tabName = ['상세정보', '리뷰', '관광정보'];
   const [activeTab, setActiveTab] = useState(0);
-  console.log(courseInfo, 'asd ');
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -53,6 +48,10 @@ const DriveDetail = ({route, navigation}) => {
     });
   }, [navigation]);
 
+  useEffect(() => {
+    setHeightUntilGrayLine(imageHeight + titleHeight );
+  }, [imageHeight, titleHeight, ]);
+  
   useEffect(() => {
     const getDriveInfo = async () => {
       try {
@@ -75,6 +74,19 @@ const DriveDetail = ({route, navigation}) => {
     getDriveInfo();
   }, [driveId]);
 
+  useEffect(() => {
+    if (scrollViewRef.current && scrollOffset > heightUntilGrayLine + 60) {
+      // 원하는 위치로 스크롤
+      scrollViewRef.current.scrollToPosition(0, heightUntilGrayLine + 60, true);
+    }
+  }, [activeTab]); // activeTab 변경 시 스크롤
+
+
+  const handleScroll = (event) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    setScrollOffset(offsetY);
+  }
+
   if (!courseInfo) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
     return (
@@ -85,20 +97,19 @@ const DriveDetail = ({route, navigation}) => {
   }
 
   return (
-    <View style={styles.container}>
-      <KeyboardAwareScrollView scrollIndicatorInsets={{right: 0.1}}>
+    <View style={{flex:1, backgroundColor: colors.BG}}>
+      <KeyboardAwareScrollView
+      ref={scrollViewRef}
+      onScroll={handleScroll} 
+      stickyHeaderIndices={[3]}>
         <Image
           src={courseInfo.courseInfo.imagePath}
-          style={[styles.image, {width: width}]}
+          style={{width: width, aspectRatio:1.8}}
+          onLayout={(event) => setImageHeight(event.nativeEvent.layout.height)}
         />
-        <View style={styles.tagContainer}>
-          {theme.map((item, index) => (
-            <View key={index} style={styles.tagButton}>
-              <Text style={styles.tagText}>{item}</Text>
-            </View>
-          ))}
-        </View>
-        <View style={{paddingHorizontal: 16, marginTop: 16}}>
+        <View 
+          style={{paddingHorizontal: 16, marginTop: 16}}
+          onLayout={(event) => setTitleHeight(event.nativeEvent.layout.height)}>
           <Text style={[textStyles.H1, {color: colors.Gray10}]}>
             {courseInfo.courseInfo.title}
           </Text>
@@ -109,55 +120,20 @@ const DriveDetail = ({route, navigation}) => {
         </View>
         <GrayLine />
         {courseInfo !== null && (
-          <TabScreens
-            tabName={tabName}
-            tabScreens={[
-              <DriveInfo item={courseInfo} />,
-              <DriveReview />,
-              <DriveTourSpot item={courseInfo} />,
-            ]}
-          />
+          <Tabs tabName={tabName} activeTab={activeTab} setActiveTab={setActiveTab}/>
+        )}
+        {courseInfo !== null && (
+          <View>
+            {activeTab === 0 && <DriveInfo item={courseInfo} />}
+            {activeTab === 1 && <DriveReview />}
+            <View style={{display: activeTab === 2 ? 'flex' : 'none'}}>
+              <DriveTourSpot item={courseInfo} />
+            </View>
+          </View>
         )}
       </KeyboardAwareScrollView>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
-
-  image: {
-    height: 210.94,
-  },
-
-  tagContainer: {
-    marginTop: 16.06,
-    paddingHorizontal: 16,
-    height: 30,
-    flexDirection: 'row',
-    justifyContent: 'left',
-    gap: 4,
-  },
-
-  tagButton: {
-    paddingHorizontal: 10,
-    height: 30,
-    backgroundColor: '#E3E7FF',
-    borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  tagText: [textStyles.B2, {color: colors.Blue}],
-
-  bar: {
-    height: 10,
-    marginTop: 17,
-    backgroundColor: '#F6F6F7',
-  },
-});
 
 export default DriveDetail;

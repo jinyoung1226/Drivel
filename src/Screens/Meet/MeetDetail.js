@@ -32,6 +32,7 @@ const MeetDetail = ({route, navigation}) => {
   const [scrollOffset, setScrollOffset] = useState(0);
   const meetingId = route.params.meetingId;
   const courseId = route.params.courseId;
+  const meetingTitle = route.params.meetingTitle;
 
   const width = Dimensions.get('window').width;
   const tabName = ['모임 정보', '코스 정보', '게시판'];
@@ -83,12 +84,12 @@ const MeetDetail = ({route, navigation}) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTransparent: true,
-      title: '모임 상세',
+      title: meetingTitle,
       headerTitleStyle: [
         textStyles.H3,
         {
           color: scrollY.interpolate({
-            inputRange: [0, width / 4],
+            inputRange: [width/2, width],
             outputRange: ['rgba(0,0,0,0)', 'rgba(0,0,0,1)'],
             extrapolate: 'clamp',
           }),
@@ -144,10 +145,8 @@ const MeetDetail = ({route, navigation}) => {
     )(event);
     if (offsetY > width - 56) {
       setDisplayTabs(true);
-      setIconColor(colors.Gray10);
     } else if (offsetY <= width - 56) {
       setDisplayTabs(false);
-      setIconColor(colors.white);
     }
     if (offsetY > 10) {
       setIconColor(colors.Gray10);
