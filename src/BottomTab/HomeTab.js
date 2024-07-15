@@ -9,6 +9,7 @@ import Share from '../assets/icons/ShareIcon.svg';
 import BackIcon from '../assets/icons/BackIcon.svg';
 import colors from '../styles/colors';
 import DriveDetail from '../Screens/DriveCourse/DriveDetail';
+import FestivalInfo from '../components/FestivalInfo';
 const Stack = createStackNavigator();
 
 const HomeTab = ({navigation, route}) => {
@@ -43,6 +44,7 @@ const HomeTab = ({navigation, route}) => {
         }}
       />
       <Stack.Screen name="DriveDetail" component={DriveDetail} />
+      <Stack.Screen name="FestivalInfo" component={FestivalInfo} />
     </Stack.Navigator>
   );
 };

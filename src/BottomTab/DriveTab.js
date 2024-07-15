@@ -7,6 +7,7 @@ import DriveDetail from '../Screens/DriveCourse/DriveDetail';
 import Share from '../assets/icons/ShareIcon.svg';
 import BackIcon from '../assets/icons/BackIcon.svg';
 import colors from '../styles/colors';
+import FestivalInfo from '../components/FestivalInfo';
 
 const Stack = createStackNavigator();
 
@@ -24,7 +25,8 @@ const DriveTab = ({navigation, route}) => {
   return (
     <Stack.Navigator initialRouteName="DriveMain">
       <Stack.Screen name="DriveMain" component={DriveMain} />
-      <Stack.Screen name="DriveDetail" component={DriveDetail}/>
+      <Stack.Screen name="DriveDetail" component={DriveDetail} />
+      <Stack.Screen name="FestivalInfo" component={FestivalInfo} />
     </Stack.Navigator>
   );
 };

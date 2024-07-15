@@ -2,13 +2,13 @@ import axios from 'axios';
 import {
   singlePointHtml,
   multiPointHtml,
+  noneMultiPointHtml,
 } from '../components/kakaoMapHtmlGenerators';
 import config from '../config/config';
 
 export const fetchRoute = async (item, setHtmlContent, center) => {
   let waypoints = [];
   let requestBody = {};
-
   if (item.waypoints.length === 1) {
     // 경유지가 없는 경우
     const html = singlePointHtml(
@@ -59,6 +59,7 @@ export const fetchRoute = async (item, setHtmlContent, center) => {
       alternatives: false,
       road_details: false,
     };
+    console.log(requestBody);
   }
 
   try {
@@ -75,24 +76,40 @@ export const fetchRoute = async (item, setHtmlContent, center) => {
 
     const data = response.data;
     console.log(data);
-    if (data.routes && data.routes.length > 0) {
-      const route = data.routes[0].sections.flatMap(section =>
-        section.roads.flatMap(road => road.vertexes),
-      );
-      const formattedRoute = [];
-      for (let i = 0; i < route.length; i += 2) {
-        formattedRoute.push({x: route[i], y: route[i + 1]});
-      }
-
-      const html = multiPointHtml(
+    if (data.routes[0].result_code === 101) {
+      const html = noneMultiPointHtml(
         center,
-        formattedRoute,
+        item.waypoints,
+        config.KAKAO_JAVASCRIPT_KEY,
+      );
+      setHtmlContent(html);
+    } else if (data.routes[0].result_code === 103) {
+      const html = noneMultiPointHtml(
+        center,
         item.waypoints,
         config.KAKAO_JAVASCRIPT_KEY,
       );
       setHtmlContent(html);
     } else {
-      console.error('No route data available');
+      if (data.routes && data.routes.length > 0) {
+        const route = data.routes[0].sections.flatMap(section =>
+          section.roads.flatMap(road => road.vertexes),
+        );
+        const formattedRoute = [];
+        for (let i = 0; i < route.length; i += 2) {
+          formattedRoute.push({x: route[i], y: route[i + 1]});
+        }
+
+        const html = multiPointHtml(
+          center,
+          formattedRoute,
+          item.waypoints,
+          config.KAKAO_JAVASCRIPT_KEY,
+        );
+        setHtmlContent(html);
+      } else {
+        console.error('No route data available');
+      }
     }
   } catch (error) {
     console.error('Error fetching route:', error);
