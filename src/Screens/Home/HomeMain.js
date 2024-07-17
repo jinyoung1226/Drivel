@@ -4,54 +4,39 @@ import {
   ScrollView,
   Pressable,
   Image,
-  StyleSheet,
   Dimensions,
   Text,
   TouchableOpacity,
   ActivityIndicator,
+  FlatList,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchDriveInfo} from '../../features/drive/driveActions';
 import DriveCourseCuration from './DriveCourseCuration';
-import Festival from './Festival';
 import Magazine from './Magazine';
 import {api, authApi} from '../../api/api';
 import GrayLine from '../../components/GrayLine';
+import {Alert} from 'react-native';
+import FestivalCuration from '../../components/FestivalCuration';
+import Sparkler from '../../assets/icons/Sparkler.svg';
+import {textStyles} from '../../styles/textStyles';
+import colors from '../../styles/colors';
 
 const {width} = Dimensions.get('window');
 
 const HomeMain = ({navigation}) => {
   const [driveCourseList, setDriveCourseList] = useState([]);
-  const [category, setCategory] = useState([]);
   const [activeButton, setActiveButton] = useState('');
   const [festivalList, setFestivalList] = useState([]);
+  console.log(festivalList, '$$$');
 
   useEffect(() => {
     const getDriveCurationInfo = async () => {
       try {
         const response = await authApi.get('course/my-theme');
         if (response.status === 200) {
-          const driveData = response.data.map(data => ({
-            themeId: data.theme.id,
-            themeName: data.theme.displayName,
-            courses: data.courses.map(course => ({
-              id: course.id,
-              liked: course.liked,
-              title: course.title,
-              description: course.description,
-              imagePath: course.imagePath,
-            })),
-          }));
-          setDriveCourseList(driveData);
-
-          const categoryData = driveData.map(data => data.themeName);
-          setCategory(categoryData);
-          if (categoryData.length > 0) {
-            setActiveButton(categoryData[0]);
-          }
-
-          console.log(JSON.stringify(driveData, null, 2), 'api 응답 데이터');
+          setDriveCourseList(response.data);
         }
       } catch (error) {
         if (error.response) {
@@ -67,9 +52,27 @@ const HomeMain = ({navigation}) => {
     getDriveCurationInfo();
   }, []);
 
-  const driveCourseLists = driveCourseList
-    .filter(course => course.themeName === activeButton)
-    .flatMap(item => item.courses);
+  useEffect(() => {
+    const getFestivalInfo = async () => {
+      try {
+        const response = await authApi.get('festival');
+        if (response.status === 200) {
+          console.log(response.data, '@@');
+          setFestivalList(response.data);
+        }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status === 400) {
+            Alert.alert('페스티벌을 불러올 수 없습니다.');
+          }
+        } else {
+          console.log(error);
+          Alert.alert('서버와의 통신 실패');
+        }
+      }
+    };
+    getFestivalInfo();
+  }, []);
 
   const handleDriveCourse = id => {
     navigation.navigate('DriveDetail', {id: id});
@@ -89,55 +92,72 @@ const HomeMain = ({navigation}) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{flex: 1, backgroundColor: '#ffffff'}}>
       <ScrollView>
-        <Pressable>
+        <Pressable style={{flex: 1}}>
           <Image
             source={require('../../assets/image/homeTopImg.jpg')}
-            style={[styles.topImage]}
+            style={{
+              width: width,
+              height: 516,
+              resizeMode: 'cover',
+              borderBottomRightRadius: 40,
+            }}
           />
-          <Text style={styles.textOverlay}>
+          <Text
+            style={{
+              position: 'absolute',
+              fontFamily: 'SUIT-Bold',
+              fontSize: 24,
+              color: '#ffffff',
+              bottom: 37,
+              left: 24,
+            }}>
             숨겨진 제주도 맛집이 {'\n'}어딘지 궁금하다면?
           </Text>
         </Pressable>
         <DriveCourseCuration
           activeButton={activeButton}
-          category={category}
           handleButtonPress={handleButtonPress}
           handleDriveCourse={handleDriveCourse}
-          driveCourseLists={driveCourseLists}
+          driveCourseLists={driveCourseList}
         />
-        <GrayLine />
+        <View
+          style={{
+            width: width,
+            height: 10,
+            backgroundColor: '#F6F6F7',
+            marginTop: 16,
+          }}
+        />
         <Magazine />
         <GrayLine />
-        <Festival />
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 4,
+            paddingLeft: 16,
+            paddingTop: 16,
+          }}>
+          <Sparkler />
+          <Text style={[textStyles.H2, {color: colors.Gray10}]}>
+            이 지역의 행사가 궁금하다면?
+          </Text>
+        </View>
+        <View style={{flex: 1, marginTop: 16}}>
+          <FlatList
+            data={festivalList}
+            renderItem={({item}) => <FestivalCuration item={item} />}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            ItemSeparatorComponent={() => <View style={{width: 16}} />}
+            ListHeaderComponent={<View style={{width: 16}} />}
+          />
+        </View>
       </ScrollView>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
-  Pressable: {
-    flex: 1,
-  },
-
-  topImage: {
-    width: width,
-    height: 516,
-    resizeMode: 'cover',
-    borderBottomRightRadius: 40,
-  },
-  textOverlay: {
-    position: 'absolute',
-    fontFamily: 'SUIT-Bold',
-    fontSize: 24,
-    color: '#ffffff',
-    bottom: 37,
-    left: 24,
-  },
-});
 export default HomeMain;

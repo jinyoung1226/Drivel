@@ -18,6 +18,7 @@ import DriveReview from './DriveReview';
 import DriveTourSpot from './DriveTourSpot';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Tabs from '../../components/Tabs';
+import RenderingPage from '../../components/RenderingPage';
 const {width} = Dimensions.get('window');
 
 const DriveDetail = ({route, navigation}) => {
@@ -49,9 +50,9 @@ const DriveDetail = ({route, navigation}) => {
   }, [navigation]);
 
   useEffect(() => {
-    setHeightUntilGrayLine(imageHeight + titleHeight );
-  }, [imageHeight, titleHeight, ]);
-  
+    setHeightUntilGrayLine(imageHeight + titleHeight);
+  }, [imageHeight, titleHeight]);
+
   useEffect(() => {
     const getDriveInfo = async () => {
       try {
@@ -81,35 +82,30 @@ const DriveDetail = ({route, navigation}) => {
     }
   }, [activeTab]); // activeTab 변경 시 스크롤
 
-
-  const handleScroll = (event) => {
+  const handleScroll = event => {
     const offsetY = event.nativeEvent.contentOffset.y;
     setScrollOffset(offsetY);
-  }
+  };
 
   if (!courseInfo) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
-    return (
-      <View>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
+    return <RenderingPage />;
   }
 
   return (
-    <View style={{flex:1, backgroundColor: colors.BG}}>
+    <View style={{flex: 1, backgroundColor: colors.BG}}>
       <KeyboardAwareScrollView
-      ref={scrollViewRef}
-      onScroll={handleScroll} 
-      stickyHeaderIndices={[3]}>
+        ref={scrollViewRef}
+        onScroll={handleScroll}
+        stickyHeaderIndices={[3]}>
         <Image
           src={courseInfo.courseInfo.imagePath}
-          style={{width: width, aspectRatio:1.8}}
-          onLayout={(event) => setImageHeight(event.nativeEvent.layout.height)}
+          style={{width: width, aspectRatio: 1.8}}
+          onLayout={event => setImageHeight(event.nativeEvent.layout.height)}
         />
-        <View 
+        <View
           style={{paddingHorizontal: 16, marginTop: 16}}
-          onLayout={(event) => setTitleHeight(event.nativeEvent.layout.height)}>
+          onLayout={event => setTitleHeight(event.nativeEvent.layout.height)}>
           <Text style={[textStyles.H1, {color: colors.Gray10}]}>
             {courseInfo.courseInfo.title}
           </Text>
@@ -120,7 +116,11 @@ const DriveDetail = ({route, navigation}) => {
         </View>
         <GrayLine />
         {courseInfo !== null && (
-          <Tabs tabName={tabName} activeTab={activeTab} setActiveTab={setActiveTab}/>
+          <Tabs
+            tabName={tabName}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
         )}
         {courseInfo !== null && (
           <View>
