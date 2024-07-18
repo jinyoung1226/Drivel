@@ -99,7 +99,6 @@ export const login = createAsyncThunk(
     } catch (error) {
       if (error.response) {
         if (error.response.status == 401) {
-          console.log(error.response.data);
           Alert.alert(error.response.data.message);
           return thunkAPI.rejectWithValue({
             isAuthenticated: false,

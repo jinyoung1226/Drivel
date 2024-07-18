@@ -89,7 +89,7 @@ const MeetDetail = ({route, navigation}) => {
         textStyles.H3,
         {
           color: scrollY.interpolate({
-            inputRange: [width/2, width],
+            inputRange: [width/3, width-100],
             outputRange: ['rgba(0,0,0,0)', 'rgba(0,0,0,1)'],
             extrapolate: 'clamp',
           }),
@@ -109,12 +109,12 @@ const MeetDetail = ({route, navigation}) => {
           style={{
             flex: 1,
             backgroundColor: scrollY.interpolate({
-              inputRange: [0, width / 4],
+              inputRange: [width/3, width-100],
               outputRange: ['rgba(0,0,0,0)', 'rgba(255,255,255,1)'],
               extrapolate: 'clamp',
             }),
             elevation: scrollY.interpolate({
-              inputRange: [0, width / 2],
+              inputRange: [width/3, width-100],
               outputRange: [0, 3],
               extrapolate: 'clamp',
             }),
@@ -148,9 +148,9 @@ const MeetDetail = ({route, navigation}) => {
     } else if (offsetY <= width - 56) {
       setDisplayTabs(false);
     }
-    if (offsetY > 10) {
+    if (offsetY > width/2) {
       setIconColor(colors.Gray10);
-    } else if (offsetY <= 10) {
+    } else if (offsetY <= width/2) {
       setIconColor(colors.white);
     }
   };

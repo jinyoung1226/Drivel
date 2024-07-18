@@ -20,7 +20,6 @@ const MeetCourseInfo = ({item}) => {
     <View> 
       <View
         style={{
-          marginTop: 24,
           paddingHorizontal: 16,
         }}>
         <View>
