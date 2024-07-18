@@ -1,17 +1,14 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  Image,
-  Pressable,
-} from 'react-native';
+import {TouchableOpacity, Text, Image, Pressable} from 'react-native';
 import Heart from '../../assets/icons/HeartIcon.svg';
 
 const CurationList = ({item, handleDriveCourse}) => {
   return (
     <Pressable onPress={() => handleDriveCourse(item.id)}>
-      <Image src={item.imagePath} style={styles.preferenceImage} />
+      <Image
+        src={item.imagePath}
+        style={{width: 227, height: 243, borderRadius: 10}}
+      />
       <Heart style={{position: 'absolute', right: 16, top: 16}} />
       <Text
         style={{
@@ -38,13 +35,5 @@ const CurationList = ({item, handleDriveCourse}) => {
     </Pressable>
   );
 };
-
-const styles = StyleSheet.create({
-  preferenceImage: {
-    width: 227,
-    height: 243,
-    borderRadius: 10,
-  },
-});
 
 export default CurationList;

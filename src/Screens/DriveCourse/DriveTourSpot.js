@@ -10,7 +10,7 @@ import colors from '../../styles/colors';
 import axios from 'axios';
 import weatherDescKo from '../../utils/weatherTranslation';
 import Sparkler from '../../assets/icons/Sparkler.svg';
-import FestivalCuration from '../DriveCourse/FestivalCuration';
+import FestivalCuration from '../../components/FestivalCuration';
 
 const {width} = Dimensions.get('window');
 
@@ -115,18 +115,25 @@ const DriveTourSpot = ({item}) => {
               {weather.description}
             </Text>
           </View>
-          {weather.icon ? 
-          (<Image
-            source={{uri: weather.icon}}
-            style={{
-              width: 101,
-              height: 101,
-              marginVertical: 15.94,
-              marginRight: 40,
-            }}
-          />
+          {weather.icon ? (
+            <Image
+              source={{uri: weather.icon}}
+              style={{
+                width: 101,
+                height: 101,
+                marginVertical: 15.94,
+                marginRight: 40,
+              }}
+            />
           ) : (
-          <View style={{backgroundColor:colors.Gray04, width:30, height:30, borderRadius:15}}/>    
+            <View
+              style={{
+                backgroundColor: colors.Gray04,
+                width: 30,
+                height: 30,
+                borderRadius: 15,
+              }}
+            />
           )}
         </View>
       </View>
@@ -153,7 +160,6 @@ const DriveTourSpot = ({item}) => {
         <View
           style={{
             marginTop: 32,
-            paddingHorizontal: 16,
           }}>
           <View style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
             <Sparkler />
