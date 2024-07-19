@@ -16,7 +16,7 @@ const MeetMain = ({navigation}) => {
     navigation.navigate('MeetDetail', {
       meetingId: item.meetingId,
       courseId: item.courseId,
-      meetingTitle: item.meetingTitle
+      meetingTitle: item.meetingTitle,
     });
   };
 

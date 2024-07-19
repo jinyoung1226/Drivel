@@ -24,6 +24,7 @@ authApi.interceptors.request.use(
     console.log('헤더에 토큰 삽입');
     const token = await AsyncStorage.getItem('accessToken'); // AsyncStorage에서 토큰 가져오기
     if (token) {
+      console.log(token);
       config.headers['Authorization'] = `Bearer ${token}`; // 헤더에 토큰 추가
     }
     console.log('액세스토큰 존재');
@@ -47,7 +48,7 @@ authApi.interceptors.response.use(
       originalRequest._retry = true; // 재시도 플래그 설정
       // 토큰 재발급 로직...
       const refreshToken = await EncryptedStorage.getItem('refreshToken');
-      console.log(refreshToken);
+      console.log(refreshToken, '리프레쉬');
       // console.log(refreshToken,'refreshToken')
       try {
         const response = await api.post(

@@ -19,11 +19,10 @@ const Tabs = ({tabName, style, activeTab, setActiveTab}) => {
   const scrollViewRef = useRef();
   const isAnimating = useRef(false);
 
-  
   useEffect(() => {
     if (!isAnimating.current) {
       Animated.timing(animatedValue, {
-        toValue: (activeTab * (windowWidth-32)) / tabName.length,
+        toValue: (activeTab * (windowWidth - 32)) / tabName.length,
         duration: 250,
         useNativeDriver: true,
       }).start(() => {
@@ -38,7 +37,7 @@ const Tabs = ({tabName, style, activeTab, setActiveTab}) => {
     setActiveTab(newIndex);
 
     animatedValue.setValue(
-      ((offsetX / windowWidth) * (windowWidth)) / tabName.length,
+      ((offsetX / windowWidth) * windowWidth) / tabName.length,
     );
   };
 
@@ -52,44 +51,50 @@ const Tabs = ({tabName, style, activeTab, setActiveTab}) => {
   };
 
   return (
-      <View
-        style={[{
+    <View
+      style={[
+        {
           backgroundColor: colors.BG,
-          flex: 1,
-          
-        }, style]}>
-        <View style={{
-          backgroundColor:colors.BG,
+        },
+        style,
+      ]}>
+      <View
+        style={{
+          backgroundColor: colors.BG,
           height: 52,
           paddingHorizontal: 16,
           flexDirection: 'row',
           borderBottomWidth: 1,
           borderBottomColor: colors.Gray02,
-          elevation:2
-          }}>
-          {tabName.map((item, index) => (
-            <Pressable
-              key={index}
-              onPress={() => handlePress(index)}
-              style={{flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',}}>
-              <View style={{flex:1}}/>
-              <Text
-                style={[
-                  textStyles.H4,
-                  {color: activeTab === index ? colors.Blue : colors.Gray04},
-                ]}>
-                {item}
-              </Text>
-              <View style={{flex:1}}/>
-              <View style={{height: 2, paddingHorizontal:8, width: (windowWidth-80)/tabName.length, backgroundColor: activeTab === index ? colors.Blue : null}} />
-            </Pressable>
-          ))}
-        </View>
+          elevation: 2,
+        }}>
+        {tabName.map((item, index) => (
+          <Pressable
+            key={index}
+            onPress={() => handlePress(index)}
+            style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <View style={{flex: 1}} />
+            <Text
+              style={[
+                textStyles.H4,
+                {color: activeTab === index ? colors.Blue : colors.Gray04},
+              ]}>
+              {item}
+            </Text>
+            <View style={{flex: 1}} />
+            <View
+              style={{
+                height: 2,
+                paddingHorizontal: 8,
+                width: (windowWidth - 80) / tabName.length,
+                backgroundColor: activeTab === index ? colors.Blue : null,
+              }}
+            />
+          </Pressable>
+        ))}
       </View>
+    </View>
   );
 };
-
 
 export default Tabs;

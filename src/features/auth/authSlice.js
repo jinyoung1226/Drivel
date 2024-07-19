@@ -40,11 +40,11 @@ const authSlice = createSlice({
       state.isLoading = action.payload.isLoading; // 로딩이 완료되었으므로 false로 설정합니다.
     });
     builder.addCase(checkAuth.rejected, (state, action) => {
-      state.isAuthenticated = action.payload.isAuthenticated; 
+      state.isAuthenticated = action.payload.isAuthenticated;
       state.accessToken = action.payload.accessToken;
       state.isLoading = action.payload.isLoading;
     });
-    
+
     // login 액션이 실행되었을 때 각 상태(pending, fulfilled, rejected)에 따라 상태를 업데이트합니다.
     builder.addCase(login.fulfilled, (state, action) => {
       //첫번째 인자인 액션타입은 authActions에서 임포트한 변수명으로 써도 되고, authActions에서 createAsyncThunk의 첫번째 인자로 전달한 문자열로 써도됨.
@@ -58,14 +58,14 @@ const authSlice = createSlice({
       state.isLoading = true; // 인증 상태를 확인하는 중이므로 로딩 상태를 true로 설정합니다.
     });
     builder.addCase(login.rejected, (state, action) => {
-      state.isAuthenticated = action.payload.isAuthenticated; 
+      state.isAuthenticated = action.payload.isAuthenticated;
       state.accessToken = action.payload.accessToken;
       state.isLoading = action.payload.isLoading;
     });
 
     // logout 액션이 실행되었을 때 각 상태(pending, fulfilled, rejected)에 따라 상태를 업데이트합니다.
     builder.addCase(logout.fulfilled, (state, action) => {
-      state.isAuthenticated = action.payload.isAuthenticated; 
+      state.isAuthenticated = action.payload.isAuthenticated;
       state.accessToken = action.payload.accessToken;
       state.isLoading = action.payload.isLoading;
     });
@@ -73,7 +73,7 @@ const authSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(logout.rejected, (state, action) => {
-      state.isAuthenticated = action.payload.isAuthenticated; 
+      state.isAuthenticated = action.payload.isAuthenticated;
       state.accessToken = action.payload.accessToken;
       state.isLoading = action.payload.isLoading;
     });
@@ -84,13 +84,13 @@ const authSlice = createSlice({
       state.accessToken = action.payload.accessToken; // 인증 토큰을 null로 설정합니다.
       state.isKakaoLoggedIn = action.payload.isKakaoLoggedIn;
       state.onboarded = action.payload.onboarded;
-      state.isLoading = action.payload.isLoading; 
+      state.isLoading = action.payload.isLoading;
     });
     builder.addCase(kakaoLogin.pending, state => {
-      state.isLoading = true; 
+      state.isLoading = true;
     });
     builder.addCase(kakaoLogin.rejected, (state, action) => {
-      state.isAuthenticated = action.payload.isAuthenticated; 
+      state.isAuthenticated = action.payload.isAuthenticated;
       state.accessToken = action.payload.accessToken;
       state.isLoading = action.payload.isLoading;
     });

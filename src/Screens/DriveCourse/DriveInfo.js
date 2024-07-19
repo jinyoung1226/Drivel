@@ -17,7 +17,7 @@ const DriveInfo = ({item}) => {
   }, []);
 
   return (
-    <View> 
+    <View>
       <View
         style={{
           marginTop: 24,
@@ -66,33 +66,27 @@ const DriveInfo = ({item}) => {
           />
         </View>
         <View style={{height: 32}} />
-        <Text style={[textStyles.H4, {color: colors.Gray10}]}>
-          키워드
-        </Text>
+        <Text style={[textStyles.H4, {color: colors.Gray10}]}>키워드</Text>
         <View style={{height: 16}} />
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
           {item.tags.map((tag, index) => (
             <View
-            key={index}
-            style={{
-              alignSelf: 'flex-start',
-              height: 35,
-              paddingHorizontal: 16,
-              borderRadius: 24,
-              justifyContent: 'center',
-              marginRight: 8,
-              marginBottom: 8,
-              backgroundColor: colors.Gray02
-            }}>
-              <Text
-                style={[
-                  textStyles.B4,
-                  {height: 15, color: colors.Gray10},
-                ]}>
+              key={index}
+              style={{
+                alignSelf: 'flex-start',
+                height: 35,
+                paddingHorizontal: 16,
+                borderRadius: 24,
+                justifyContent: 'center',
+                marginRight: 8,
+                marginBottom: 8,
+                backgroundColor: colors.Gray02,
+              }}>
+              <Text style={[textStyles.B4, {height: 15, color: colors.Gray10}]}>
                 {tag}
               </Text>
-            </View>))
-          }
+            </View>
+          ))}
         </View>
       </View>
       <GrayLine />

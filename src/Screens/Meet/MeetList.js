@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList,View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import MeetListItem from './MeetListItem';
 import {RefreshControl} from 'react-native-gesture-handler';
 const MeetList = ({

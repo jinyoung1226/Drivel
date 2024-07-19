@@ -113,9 +113,7 @@ const MeetInfo = ({item}) => {
       <GrayLine />
       <View style={{padding: 16}}>
         <View style={{height: 16}} />
-        <Text style={[textStyles.H4, {color: colors.Gray10}]}>
-          참여자 현황
-        </Text>
+        <Text style={[textStyles.H4, {color: colors.Gray10}]}>참여자 현황</Text>
       </View>
       <GrayLine />
       <View style={{padding: 16}}>

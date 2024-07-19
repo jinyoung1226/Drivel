@@ -89,7 +89,7 @@ const MeetDetail = ({route, navigation}) => {
         textStyles.H3,
         {
           color: scrollY.interpolate({
-            inputRange: [width/3, width-100],
+            inputRange: [width / 3, width - 100],
             outputRange: ['rgba(0,0,0,0)', 'rgba(0,0,0,1)'],
             extrapolate: 'clamp',
           }),
@@ -109,12 +109,12 @@ const MeetDetail = ({route, navigation}) => {
           style={{
             flex: 1,
             backgroundColor: scrollY.interpolate({
-              inputRange: [width/3, width-100],
+              inputRange: [width / 3, width - 100],
               outputRange: ['rgba(0,0,0,0)', 'rgba(255,255,255,1)'],
               extrapolate: 'clamp',
             }),
             elevation: scrollY.interpolate({
-              inputRange: [width/3, width-100],
+              inputRange: [width / 3, width - 100],
               outputRange: [0, 3],
               extrapolate: 'clamp',
             }),
@@ -136,21 +136,20 @@ const MeetDetail = ({route, navigation}) => {
     return () => backHandler.remove();
   }, []);
 
-  const handleScroll = (event) => {
+  const handleScroll = event => {
     const offsetY = event.nativeEvent.contentOffset.y;
     setScrollOffset(offsetY);
-    Animated.event(
-      [{nativeEvent: {contentOffset: {y: scrollY}}}],
-      {useNativeDriver: false},
-    )(event);
+    Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
+      useNativeDriver: false,
+    })(event);
     if (offsetY > width - 56) {
       setDisplayTabs(true);
     } else if (offsetY <= width - 56) {
       setDisplayTabs(false);
     }
-    if (offsetY > width/2) {
+    if (offsetY > width / 2) {
       setIconColor(colors.Gray10);
-    } else if (offsetY <= width/2) {
+    } else if (offsetY <= width / 2) {
       setIconColor(colors.white);
     }
   };
@@ -200,11 +199,18 @@ const MeetDetail = ({route, navigation}) => {
           </ImageBackground>
         )}
         {meetingInfo !== null && courseInfo !== null && displayTabs == false ? (
-          <Tabs tabName={tabName} activeTab={activeTab} setActiveTab={setActiveTab}/>) : (<View style={{height:52}}/>)}
+          <Tabs
+            tabName={tabName}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
+        ) : (
+          <View style={{height: 52}} />
+        )}
         {meetingInfo !== null && courseInfo !== null && (
           <View>
-            {activeTab === 0 && <MeetInfo item={meetingInfo}/>}
-            {activeTab === 1 && <MeetCourseInfo item={courseInfo}/>}
+            {activeTab === 0 && <MeetInfo item={meetingInfo} />}
+            {activeTab === 1 && <MeetCourseInfo item={courseInfo} />}
             <View style={{display: activeTab === 2 ? 'flex' : 'none'}}>
               <Text>33333</Text>
             </View>
