@@ -29,7 +29,7 @@ const HomeMain = ({navigation}) => {
   const [driveCourseList, setDriveCourseList] = useState([]);
   const [activeButton, setActiveButton] = useState('');
   const [festivalList, setFestivalList] = useState([]);
-  console.log(festivalList, '$$$');
+  // console.log(festivalList, '$$$');
 
   useEffect(() => {
     const getDriveCurationInfo = async () => {

@@ -49,7 +49,6 @@ authApi.interceptors.response.use(
       // 토큰 재발급 로직...
       const refreshToken = await EncryptedStorage.getItem('refreshToken');
       console.log(refreshToken, '리프레쉬');
-      // console.log(refreshToken,'refreshToken')
       try {
         const response = await api.post(
           `/token/re-issue`,
@@ -61,7 +60,7 @@ authApi.interceptors.response.use(
           await AsyncStorage.setItem('accessToken', response.data.accessToken);
           await EncryptedStorage.setItem(
             'refreshToken',
-            response.data.refreshToken,
+            response.data.refreshToken
           );
           // 새 토큰 저장
           authApi.defaults.headers.common[

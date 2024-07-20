@@ -36,17 +36,17 @@ const MeetDetail = ({route, navigation}) => {
 
   const width = Dimensions.get('window').width;
   const tabName = ['모임 정보', '코스 정보', '게시판'];
-
+  
   const getDriveCourseInfo = async () => {
     try {
       const response = await authApi.get(`course/${courseId}`);
       if (response.status == 200) {
-        console.log(response.data, 'course');
+        // console.log(response.data, 'course');
         setCourseInfo(response.data);
       }
     } catch (error) {
       if (error.response) {
-        console.log(error.response.status);
+        // console.log(error.response.status);
       } else {
         console.log('서버 접속 오류');
       }
@@ -57,12 +57,12 @@ const MeetDetail = ({route, navigation}) => {
     try {
       const response = await authApi.get(`meeting/${meetingId}`);
       if (response.status == 200) {
-        console.log(response.data, 'meeting');
+        // console.log(response.data, 'meeting');
         setMeetingInfo(response.data);
       }
     } catch (error) {
       if (error.response) {
-        console.log(error.response.status);
+        // console.log(error.response.status);
       } else {
         console.log('서버 접속 오류');
       }
