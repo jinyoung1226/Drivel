@@ -7,6 +7,7 @@ import {
   Alert,
   ActivityIndicator,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
@@ -19,6 +20,10 @@ import DriveTourSpot from './DriveTourSpot';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Tabs from '../../components/Tabs';
 import RenderingPage from '../../components/RenderingPage';
+import BorderBlueHeart from '../../assets/icons/BorderBlueHeart.svg';
+import {toggleLike} from '../../features/like/likeActions';
+import {useSelector, useDispatch} from 'react-redux';
+
 const {width} = Dimensions.get('window');
 
 const DriveDetail = ({route, navigation}) => {
@@ -31,6 +36,14 @@ const DriveDetail = ({route, navigation}) => {
   const [scrollOffset, setScrollOffset] = useState(0);
   const tabName = ['상세정보', '리뷰', '관광정보'];
   const [activeTab, setActiveTab] = useState(0);
+
+  const likedItems = useSelector(state => state.like.likedItems);
+  const liked = likedItems[driveId] || false;
+  const dispatch = useDispatch();
+
+  const handleLikePress = () => {
+    dispatch(toggleLike(driveId));
+  };
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -59,7 +72,7 @@ const DriveDetail = ({route, navigation}) => {
         const response = await authApi.get(`course/${driveId}`);
         if (response.status === 200) {
           setCourseInfo(response.data);
-          console.log(response.data);
+          console.log(response.data, '@@@@');
         }
       } catch (error) {
         if (error.response) {
@@ -97,7 +110,8 @@ const DriveDetail = ({route, navigation}) => {
       <KeyboardAwareScrollView
         ref={scrollViewRef}
         onScroll={handleScroll}
-        stickyHeaderIndices={[3]}>
+        stickyHeaderIndices={[3]}
+        contentContainerStyle={{paddingBottom: 120}}>
         <Image
           src={courseInfo.courseInfo.imagePath}
           style={{width: width, aspectRatio: 1.8}}
@@ -125,13 +139,51 @@ const DriveDetail = ({route, navigation}) => {
         {courseInfo !== null && (
           <View>
             {activeTab === 0 && <DriveInfo item={courseInfo} />}
-            {activeTab === 1 && <DriveReview />}
+            {activeTab === 1 && <DriveReview item={courseInfo} />}
             <View style={{display: activeTab === 2 ? 'flex' : 'none'}}>
               <DriveTourSpot item={courseInfo} />
             </View>
           </View>
         )}
       </KeyboardAwareScrollView>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 100,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 16,
+          paddingHorizontal: 26.5,
+          backgroundColor: '#ffffff',
+          borderWidth: 0.1,
+          borderColor: '#e0e0e0',
+          shadowColor: '#000',
+          shadowOffset: {width: 0, height: 2},
+          shadowOpacity: 0.1,
+          shadowRadius: 5,
+          elevation: 5, // 안드로이드 그림자 설정
+        }}>
+        <Pressable onPress={handleLikePress}>
+          <BorderBlueHeart fill={liked ? '#5168F6' : 'rgba(0, 0, 0, 0)'} />
+        </Pressable>
+        <View
+          style={{
+            width: 276,
+            height: 50,
+            backgroundColor: colors.Blue,
+            borderRadius: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={[textStyles.H4, {color: colors.Light_Blue}]}>
+            드라이브 시작하기
+          </Text>
+        </View>
+      </View>
     </View>
   );
 };

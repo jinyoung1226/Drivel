@@ -179,7 +179,7 @@ const DriveTourSpot = ({item}) => {
           </View>
         </View>
       ) : null}
-      <View style={{width: width, height: 96.46}} />
+      {/* <View style={{width: width, height: 96.46}} /> */}
     </View>
   );
 };
