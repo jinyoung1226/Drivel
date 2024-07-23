@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import { Provider } from 'react-redux';
 import store from './src/store/store';
 import RootNavigator from './src/Nav/RootNavigator';
@@ -8,15 +8,19 @@ import config from './src/config/config';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const App = () => {
-
+const App = () => { 
+  const eventSourceRef = useRef(null);
   useEffect(() => {
-
     const setupEventSource = async () => {
-      const accessToken = await AsyncStorage.getItem('accessToken');
-      if (accessToken) {
-        console.log(accessToken, 'sse 액세스토큰');
-        const eventSource = new EventSourcePolyfill(
+      try {
+        const accessToken = await AsyncStorage.getItem('accessToken');
+
+        if (!accessToken) {
+          console.error('Access token is missing.');
+          return;
+        }
+
+        eventSourceRef.current = new EventSourcePolyfill(
           `${config.SERVER_URL}/sse/connect`,
           {
             heartbeatTimeout: 86400000,
@@ -26,31 +30,33 @@ const App = () => {
           }
         );
 
-        console.log(eventSource);
-        eventSource.addEventListener('CONNECT', event => {
+        console.log(eventSourceRef.current);
+
+        eventSourceRef.current.addEventListener('CONNECT', event => {
           console.log(event);
         });
 
-        eventSource.addEventListener('JOIN', event => {
+        eventSourceRef.current.addEventListener('JOIN', event => {
           const data = JSON.parse(event.data);
           console.log(data);
         });
 
-        eventSource.addEventListener('error', event => {
+        eventSourceRef.current.addEventListener('error', event => {
           console.error('SSE Error:', event);
-          eventSource.close();
+          eventSourceRef.current.close();
         });
-
-        return () => {
-          eventSource.removeListener('JOIN');
-          eventSource.removeListener('error');
-          eventSource.close();
-
-        };
+      } catch (error) {
+        console.error('Error fetching access token:', error);
       }
     };
 
     setupEventSource();
+
+    return () => {
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close();
+      }
+    };
   }, []);
 
   const getFcmToken = async () => {

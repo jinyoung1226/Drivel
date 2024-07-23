@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, Button, StyleSheet, TouchableOpacity, Alert, Modal} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../../features/auth/authActions';
 import {textStyles} from '../../styles/textStyles';
@@ -10,17 +10,73 @@ import ScrapIcon from '../../assets/icons/ScrapIcon';
 import ReviewIcon from '../../assets/icons/ReviewIcon';
 import DriveHistoryIcon from '../../assets/icons/DriveHistoryIcon';
 import {ScrollView} from 'react-native-gesture-handler';
-import {tags} from 'react-native-svg/lib/typescript/xml';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { formDataApi } from '../../api/api';
+
 const MyPage = ({navigation}) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [photo, setPhoto] = useState(null);
   const nickname = useSelector(state => state.auth.nickname);
   const dispatch = useDispatch();
   const item = {tags: ['태그1', '태그2', '태그3']};
   const handleLogout = () => {
     dispatch(logout());
   };
-
+  const changeProfileImageDefault = async() => {
+    try {
+      const response = await formDataApi.post('/profile/image');
+      if (response.status == 200) {
+        console.log(response.status);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const getPhoto = async () => {
+    try {
+      const result = await launchImageLibrary({mediaType: 'photo', });
+      if (result.didCancel) {
+        return;
+      }
+      setPhoto(result.assets[0]);
+      navigation.navigate('SelectedProfileImage', {photo: result.assets[0]});
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+    
   return (
     <ScrollView style={{backgroundColor: colors.BG}}>
+      <Modal 
+        animationType='fade'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={{flex:1, backgroundColor:'#00000070', justifyContent: 'center', alignItems: 'center', padding:32}}>
+          <View style={{width:'100%', backgroundColor: colors.BG, borderRadius:10, padding:16}}>
+            <Text style={[textStyles.H3, {color:colors.Gray10}]}>프로필 사진 설정</Text>
+            <TouchableOpacity
+              onPress={()=> {getPhoto(); setModalVisible(!modalVisible);}}  
+            >
+              <Text style={[textStyles.B3, {color:colors.Gray08}]}>앨범에서 사진 선택</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={()=> {changeProfileImageDefault(); setModalVisible(!modalVisible);}}  
+            >
+              <Text style={[textStyles.B3, {color:colors.Gray08}]}>기본 이미지 적용</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={()=> {setModalVisible(!modalVisible)}}  
+            >
+              <Text style={[textStyles.B3, {color:colors.Gray08}]}>닫기</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       <View style={{height: 32}} />
       <View
         style={{
@@ -30,7 +86,10 @@ const MyPage = ({navigation}) => {
         }}>
         <TouchableOpacity
           style={{width: 90, height: 90}}
-          onPress={() => navigation.navigate('ProfileSetting')}>
+          onPress={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
           <View
             style={{
               width: 90,
@@ -57,17 +116,26 @@ const MyPage = ({navigation}) => {
           </View>
         </TouchableOpacity>
         <View style={{width: 16}} />
-        <View>
-          <Text style={[textStyles.H2, {color: colors.Gray10}]}>
-            {nickname}
+        <TouchableOpacity 
+          style={{flexDirection: 'row', alignItems:'center', flex:1}}
+          onPress={() => navigation.navigate('ProfileSetting')}
+        >  
+          <View>
+            <Text style={[textStyles.H2, {color: colors.Gray10}]}>
+              {nickname}
+            </Text>
+            <Text style={[textStyles.C4, {color: colors.Gray05}]}>
+              {'차종,경력,성별,나이'}
+            </Text>
+            <Text style={[textStyles.C4, {color: colors.Gray08}]}>
+              {'소개글'}
+            </Text>
+          </View>
+          <View style={{flex: 1}}/> 
+          <Text style={{fontFamily: 'SUIT-Bold', color:colors.Gray03, fontSize:20}}>
+            {'>'}
           </Text>
-          <Text style={[textStyles.C4, {color: colors.Gray05}]}>
-            {'차종,경력,성별,나이'}
-          </Text>
-          <Text style={[textStyles.C4, {color: colors.Gray08}]}>
-            {'소개글'}
-          </Text>
-        </View>
+        </TouchableOpacity>
       </View>
       <View style={{height: 8}} />
       <View

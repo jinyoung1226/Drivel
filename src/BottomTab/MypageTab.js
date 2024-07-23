@@ -5,6 +5,7 @@ import MyPageMain from '../Screens/Mypage/MypageMain';
 import ProfileSetting from '../Screens/Mypage/ProfileSetting';
 import MyScrap from '../Screens/Mypage/MyScrap';
 import DriveDetail from '../Screens/DriveCourse/DriveDetail';
+import SelectedProfileImage from '../Screens/Mypage/SelectedProfileImage';
 const Stack = createStackNavigator();
 
 const MypageTab = ({navigation, route}) => {
@@ -24,6 +25,7 @@ const MypageTab = ({navigation, route}) => {
       <Stack.Screen name="ProfileSetting" component={ProfileSetting} />
       <Stack.Screen name="MyScrap" component={MyScrap} />
       <Stack.Screen name="DriveDetail" component={DriveDetail} />
+      <Stack.Screen name="SelectedProfileImage" component={SelectedProfileImage} />
     </Stack.Navigator>
   );
 };
