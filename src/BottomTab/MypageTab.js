@@ -2,7 +2,7 @@ import React, {useLayoutEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import MyPageMain from '../Screens/Mypage/MypageMain';
-import ProfileSetting from '../Screens/Mypage/ProfileSetting';
+import MyInfo from '../Screens/Mypage/MyInfo';
 import MyScrap from '../Screens/Mypage/MyScrap';
 import DriveDetail from '../Screens/DriveCourse/DriveDetail';
 import SelectedProfileImage from '../Screens/Mypage/SelectedProfileImage';
@@ -22,7 +22,7 @@ const MypageTab = ({navigation, route}) => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Mypage" component={MyPageMain} />
-      <Stack.Screen name="ProfileSetting" component={ProfileSetting} />
+      <Stack.Screen name="MyInfo" component={MyInfo} />
       <Stack.Screen name="MyScrap" component={MyScrap} />
       <Stack.Screen name="DriveDetail" component={DriveDetail} />
       <Stack.Screen name="SelectedProfileImage" component={SelectedProfileImage} />

@@ -118,7 +118,7 @@ const MyPage = ({navigation}) => {
         <View style={{width: 16}} />
         <TouchableOpacity 
           style={{flexDirection: 'row', alignItems:'center', flex:1}}
-          onPress={() => navigation.navigate('ProfileSetting')}
+          onPress={() => navigation.navigate('MyInfo')}
         >  
           <View>
             <Text style={[textStyles.H2, {color: colors.Gray10}]}>
@@ -146,9 +146,17 @@ const MyPage = ({navigation}) => {
           borderRadius: 20,
           elevation: 2,
         }}>
-        <Text style={[textStyles.B3, {color: colors.Gray10}]}>
-          나의 드라이브 태그
-        </Text>
+        <View style={{flexDirection:'row'}}> 
+          <Text style={[textStyles.B3, {color: colors.Gray10}]}>
+            나의 드라이브 태그
+          </Text>
+          <View style={{flex:1}}/>
+          <TouchableOpacity>
+            <Text style={[textStyles.B4, {color: colors.Gray05}]}>
+              수정
+            </Text>
+          </TouchableOpacity>
+        </View> 
         <View style={{height: 16}} />
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
           {item.tags.map((tag, index) => (
@@ -156,7 +164,7 @@ const MyPage = ({navigation}) => {
               key={index}
               style={{
                 alignSelf: 'flex-start',
-                height: 35,
+                paddingVertical:8,
                 paddingHorizontal: 16,
                 borderRadius: 24,
                 justifyContent: 'center',
@@ -164,7 +172,7 @@ const MyPage = ({navigation}) => {
                 marginBottom: 8,
                 backgroundColor: colors.Light_Blue,
               }}>
-              <Text style={[textStyles.B4, {height: 15, color: colors.Blue}]}>
+              <Text style={[textStyles.B4, {color: colors.Blue}]}>
                 {tag}
               </Text>
             </View>
