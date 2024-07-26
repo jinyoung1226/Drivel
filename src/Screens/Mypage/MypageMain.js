@@ -56,25 +56,28 @@ const MyPage = ({navigation}) => {
           setModalVisible(!modalVisible);
         }}
       >
-        <View style={{flex:1, backgroundColor:'#00000070', justifyContent: 'center', alignItems: 'center', padding:32}}>
-          <View style={{width:'100%', backgroundColor: colors.BG, borderRadius:10, padding:16}}>
-            <Text style={[textStyles.H3, {color:colors.Gray10}]}>프로필 사진 설정</Text>
-            <TouchableOpacity
-              onPress={()=> {getPhoto(); setModalVisible(!modalVisible);}}  
-            >
-              <Text style={[textStyles.B3, {color:colors.Gray08}]}>앨범에서 사진 선택</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={()=> {changeProfileImageDefault(); setModalVisible(!modalVisible);}}  
-            >
-              <Text style={[textStyles.B3, {color:colors.Gray08}]}>기본 이미지 적용</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={()=> {setModalVisible(!modalVisible)}}  
-            >
-              <Text style={[textStyles.B3, {color:colors.Gray08}]}>닫기</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={{flex:1, backgroundColor:'#00000070'}}>
+          <TouchableOpacity style={{flex:1}} onPress={()=>{setModalVisible(!modalVisible)}} />
+            <View style={{flexDirection:'row'}} >
+            <TouchableOpacity style={{width:32}} onPress={()=>{setModalVisible(!modalVisible)}} />
+              <View style={{flex:1, backgroundColor: colors.BG, borderRadius:10, padding:16}}>
+                <Text style={[textStyles.H3, {color:colors.Gray10}]}>프로필 사진 설정</Text>
+                <View style={{height:8}}/>
+                <TouchableOpacity
+                  onPress={()=> {getPhoto(); setModalVisible(!modalVisible);}}  
+                >
+                  <Text style={[textStyles.B3, {color:colors.Gray08}]}>앨범에서 사진 선택</Text>
+                </TouchableOpacity>
+                <View style={{height:8}}/>
+                <TouchableOpacity
+                  onPress={()=> {changeProfileImageDefault(); setModalVisible(!modalVisible);}}  
+                >
+                  <Text style={[textStyles.B3, {color:colors.Gray08}]}>기본 이미지 적용</Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity style={{width:32}} onPress={()=>{setModalVisible(!modalVisible)}} />
+            </View>
+          <TouchableOpacity style={{flex:1}} onPress={()=>{setModalVisible(!modalVisible)}} />
         </View>
       </Modal>
       <View style={{height: 32}} />
