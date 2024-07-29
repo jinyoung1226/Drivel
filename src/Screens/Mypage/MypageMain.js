@@ -62,13 +62,13 @@ const MyPage = ({navigation}) => {
             <TouchableOpacity style={{width:32}} onPress={()=>{setModalVisible(!modalVisible)}} />
               <View style={{flex:1, backgroundColor: colors.BG, borderRadius:10, padding:16}}>
                 <Text style={[textStyles.H3, {color:colors.Gray10}]}>프로필 사진 설정</Text>
-                <View style={{height:8}}/>
+                <View style={{height:16}}/>
                 <TouchableOpacity
                   onPress={()=> {getPhoto(); setModalVisible(!modalVisible);}}  
                 >
                   <Text style={[textStyles.B3, {color:colors.Gray08}]}>앨범에서 사진 선택</Text>
                 </TouchableOpacity>
-                <View style={{height:8}}/>
+                <View style={{height:16}}/>
                 <TouchableOpacity
                   onPress={()=> {changeProfileImageDefault(); setModalVisible(!modalVisible);}}  
                 >
@@ -154,7 +154,7 @@ const MyPage = ({navigation}) => {
             나의 드라이브 태그
           </Text>
           <View style={{flex:1}}/>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=> navigation.navigate('MyDriveTagEdit')}>
             <Text style={[textStyles.B4, {color: colors.Gray05}]}>
               수정
             </Text>
@@ -201,7 +201,8 @@ const MyPage = ({navigation}) => {
         </TouchableOpacity>
         <View style={{width: 1, height: 39, backgroundColor: colors.Gray02}} />
         <TouchableOpacity
-          style={{flex: 1, alignItems: 'center', paddingVertical: 16}}>
+          style={{flex: 1, alignItems: 'center', paddingVertical: 16}}
+          onPress={() => navigation.navigate('MyReview')}>
           <ReviewIcon />
           <View style={{height: 16}} />
           <Text style={[textStyles.B3, {color: colors.Gray10}]}>내 리뷰</Text>

@@ -6,6 +6,9 @@ import MyInfo from '../Screens/Mypage/MyInfo';
 import MyScrap from '../Screens/Mypage/MyScrap';
 import DriveDetail from '../Screens/DriveCourse/DriveDetail';
 import SelectedProfileImage from '../Screens/Mypage/SelectedProfileImage';
+import MyDriveTagEdit from '../Screens/Mypage/MyDriveTagEdit';
+import MyReview from '../Screens/Mypage/MyReview';
+import MyInfoEdit from '../Screens/Mypage/MyInfoEdit';
 const Stack = createStackNavigator();
 
 const MypageTab = ({navigation, route}) => {
@@ -26,6 +29,9 @@ const MypageTab = ({navigation, route}) => {
       <Stack.Screen name="MyScrap" component={MyScrap} />
       <Stack.Screen name="DriveDetail" component={DriveDetail} />
       <Stack.Screen name="SelectedProfileImage" component={SelectedProfileImage} />
+      <Stack.Screen name="MyDriveTagEdit" component={MyDriveTagEdit} />
+      <Stack.Screen name="MyReview" component={MyReview} />
+      <Stack.Screen name="MyInfoEdit" component={MyInfoEdit} />
     </Stack.Navigator>
   );
 };

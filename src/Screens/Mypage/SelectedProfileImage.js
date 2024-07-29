@@ -1,13 +1,31 @@
-import React from 'react';
-import {View, Text, Button, StyleSheet, Image} from 'react-native';
+import React, {useLayoutEffect} from 'react';
+import {View, Text, Button, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../../features/auth/authActions';
 import {textStyles} from '../../styles/textStyles';
 import CustomButton from '../../components/CustomButton';
 import colors from '../../styles/colors';
 import {formDataApi} from '../../api/api';
+import BackIcon from '../../assets/icons/BackIcon';
 const SelectedProfileImage = ({route, navigation}) => {
   const image = route.params.photo;
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '프로필 사진 수정',
+      headerTitleStyle: [textStyles.H3, {color: colors.Gray10}],
+      headerTitleAlign: 'center',
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+          style={{padding: 16}}>
+          <BackIcon color={colors.Gray10} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   const changeProfileImage = async() => {
     console.log(image, '이미지');

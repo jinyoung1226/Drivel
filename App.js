@@ -7,57 +7,58 @@ import { Alert } from 'react-native';
 import config from './src/config/config';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { Platform } from 'react-native';
+import SSE from './src/utils/SSE';
 const App = () => {
-  const eventSourceRef = useRef(null);
-  useEffect(() => {
-    const setupEventSource = async () => {
-      try {
-        const accessToken = await AsyncStorage.getItem('accessToken');
+  // const eventSourceRef = useRef(null);
+  // useEffect(() => {
+  //   const setupEventSource = async () => {
+  //     try {
+  //       const accessToken = await AsyncStorage.getItem('accessToken');
 
-        if (!accessToken) {
-          console.error('Access token is missing.');
-          return;
-        }
+  //       if (!accessToken) {
+  //         console.error('Access token is missing.');
+  //         return;
+  //       }
 
-        eventSourceRef.current = new EventSourcePolyfill(
-          `${config.SERVER_URL}/sse/connect`,
-          {
-            heartbeatTimeout: 86400000,
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+  //       eventSourceRef.current = new EventSourcePolyfill(
+  //         `${config.SERVER_URL}/sse/connect`,
+  //         {
+  //           heartbeatTimeout: 50000,
+  //           headers: {
+  //             Authorization: `Bearer ${accessToken}`,
+  //           },
+  //         }
+  //       );
 
-        console.log(eventSourceRef.current);
+  //       console.log(eventSourceRef.current);
 
-        eventSourceRef.current.addEventListener('CONNECT', event => {
-          console.log(event);
-        });
+  //       eventSourceRef.current.addEventListener('CONNECT', event => {
+  //         console.log(event);
+  //       });
 
-        eventSourceRef.current.addEventListener('JOIN', event => {
-          const data = JSON.parse(event.data);
-          console.log(data);
-        });
+  //       eventSourceRef.current.addEventListener('JOIN', event => {
+  //         const data = JSON.parse(event.data);
+  //         console.log(data);
+  //       });
 
-        eventSourceRef.current.addEventListener('error', event => {
-          console.error('SSE Error:', event);
-          eventSourceRef.current.close();
-        });
-      } catch (error) {
-        console.error('Error fetching access token:', error);
-      }
-    };
+  //       eventSourceRef.current.addEventListener('error', event => {
+  //         console.error('SSE Error:', event);
+  //         eventSourceRef.current.close();
+  //       });
+  //     } catch (error) {
+  //       console.error('Error fetching access token:', error);
+  //     }
+  //   };
 
-    setupEventSource();
+  //   setupEventSource();
 
-    return () => {
-      if (eventSourceRef.current) {
-        eventSourceRef.current.close();
-      }
-    };
-  }, []);
+  //   return () => {
+  //     if (eventSourceRef.current) {
+  //       eventSourceRef.current.close();
+  //     }
+  //   };
+  // }, []);
 
   const getFcmToken = async () => {
     try {
@@ -103,6 +104,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
+      <SSE/>
       <RootNavigator />
     </Provider>
   );

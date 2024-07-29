@@ -25,6 +25,7 @@ const CustomInput = ({
   keyboardType,
   inputMode,
   containerStyle,
+  multiline,
 }) => {
   return (
     <View
@@ -44,6 +45,7 @@ const CustomInput = ({
         maxLength={maxLength}
         keyboardType={keyboardType}
         inputMode={inputMode}
+        multiline={multiline}
       />
       {showTimer && (
         <Text
