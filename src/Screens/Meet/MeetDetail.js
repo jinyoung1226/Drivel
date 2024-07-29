@@ -73,6 +73,24 @@ const MeetDetail = ({route, navigation}) => {
     getDriveCourseInfo();
     getMeetingInfo();
   }, []);
+  
+  participateMeeting = async () => {
+    try {
+      const response = await authApi.post(`/meeting/join`, {id: meetingId});
+      if (response.status == 200) {
+        console.log(response.data, 'participate')
+        Alert.alert(response.data.message);
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response);
+        console.log(error.response.status);
+        console.log(error.response.data.message);
+      } else {
+        console.log('서버 접속 오류');
+      }
+    }
+  };
 
   useEffect(() => {
     if (scrollViewRef.current && scrollOffset > width - 56) {
@@ -226,7 +244,7 @@ const MeetDetail = ({route, navigation}) => {
         <CustomButton
           title={'참여하기'}
           onPress={() => {
-            Alert.alert('준비중입니다!');
+            participateMeeting();
           }}
         />
       </View>

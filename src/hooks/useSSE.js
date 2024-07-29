@@ -12,7 +12,7 @@ export const useSSE = () => {
     const EventSource = NativeEventSource || EventSourcePolyfill;
     // 새로운 EventSource 연결
       eventSourceRef.current = new EventSource(
-        `${config.SERVER_URL}/sse/connect`,
+        `${config.SERVER_URL}/alert/connect`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
