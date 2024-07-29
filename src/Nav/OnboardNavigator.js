@@ -14,7 +14,7 @@ import ChipContainer from '../components/ChipContainer';
 import {
   regions,
   driveStyle,
-  driveView,
+  driveTheme,
   driveWith,
 } from '../assets/onboardingData/onBoardingData';
 import {authApi} from '../api/api';
@@ -151,7 +151,7 @@ const OnboardingPage = ({navigation}) => {
           <ChipContainer
             containerStyle={{flexDirection: 'row', width: '70%'}}
             type={'multi'}
-            data={driveView}
+            data={driveTheme}
             selectedItem={selectedDriveView}
             onSelectedHandler={items => setSelectedDriveView(items)}
           />

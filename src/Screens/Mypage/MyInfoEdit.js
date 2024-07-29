@@ -140,19 +140,19 @@ const MyInfoEdit = ({navigation, route}) => {
         <Text style={[textStyles.H5, {color:colors.Gray10}]}>운전 경력</Text>
         <View style={{height:16}}/>
         <CustomInput
-                  placeholder="0"
-                  value={minCarCareer}
-                  onChangeText={setMinCarCareer}
-                  showButton={true}
-                  buttonIcon={
-                    <Text style={[textStyles.B3, {color: colors.Gray10}]}>
-                      년차
-                    </Text>
-                  }
-                  buttonDisabled={true}
-                  maxLength={2}
-                  keyboardType="number-pad"
-                />
+          placeholder="0"
+          value={minCarCareer}
+          onChangeText={setMinCarCareer}
+          showButton={true}
+          buttonIcon={
+            <Text style={[textStyles.B3, {color: colors.Gray10}]}>
+              년차
+            </Text>
+          }
+          buttonDisabled={true}
+          maxLength={2}
+          keyboardType="number-pad"
+        />
       </View>
     }
     {page == '활동 지역 설정' &&
