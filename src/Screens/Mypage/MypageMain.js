@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Button, StyleSheet, TouchableOpacity, Alert, Modal} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../../features/auth/authActions';
@@ -11,11 +11,13 @@ import ReviewIcon from '../../assets/icons/ReviewIcon';
 import DriveHistoryIcon from '../../assets/icons/DriveHistoryIcon';
 import {ScrollView} from 'react-native-gesture-handler';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import { formDataApi } from '../../api/api';
+import { authApi, formDataApi } from '../../api/api';
+import LinearGradient from 'react-native-linear-gradient';
+import RenderingPage from '../../components/RenderingPage';
 
 const MyPage = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [photo, setPhoto] = useState(null);
+  const [myProfileInfo, setMyProfileInfo] = useState(null);
   const nickname = useSelector(state => state.auth.nickname);
   const dispatch = useDispatch();
   const item = {tags: ['태그1', '태그2', '태그3']};
@@ -38,16 +40,41 @@ const MyPage = ({navigation}) => {
       if (result.didCancel) {
         return;
       }
-      setPhoto(result.assets[0]);
       navigation.navigate('SelectedProfileImage', {photo: result.assets[0]});
       console.log(result);
     } catch (error) {
       console.log(error);
     }
   }
-    
-  return (
-    <ScrollView style={{backgroundColor: colors.BG}}>
+
+  const getMyProfileInfo = async () => {
+    try {
+      const response = await authApi.get('/profile/my');
+      if (response.status == 200) {
+        console.log(response.data);
+        setMyProfileInfo(response.data);
+      }
+    } catch (error) {
+      if (error.response) {
+        Alert.alert(error.response.data.message);
+      } else {
+        console.log('서버 접속 오류');
+      }   
+    }
+  }
+  
+  useEffect(() => {
+    getMyProfileInfo();
+  }, []);
+
+  if (myProfileInfo === null) {
+    return (
+      <RenderingPage/>
+    )
+  }
+  
+  const ProfileImageModal = () => {
+    return (
       <Modal 
         animationType='fade'
         transparent={true}
@@ -80,13 +107,20 @@ const MyPage = ({navigation}) => {
           <TouchableOpacity style={{flex:1}} onPress={()=>{setModalVisible(!modalVisible)}} />
         </View>
       </Modal>
+    )
+  }
+
+  return (
+    <ScrollView style={{backgroundColor: colors.BG}}>
+      <ProfileImageModal/>
       <View style={{height: 32}} />
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          marginHorizontal: 16,
-        }}>
+          paddingHorizontal: 16,
+        }}
+      >
         <TouchableOpacity
           style={{width: 90, height: 90}}
           onPress={() => {
@@ -121,20 +155,20 @@ const MyPage = ({navigation}) => {
         <View style={{width: 16}} />
         <TouchableOpacity 
           style={{flexDirection: 'row', alignItems:'center', flex:1}}
-          onPress={() => navigation.navigate('MyInfo')}
+          onPress={() => navigation.navigate('MyInfo', {item: myProfileInfo})}
         >  
-          <View>
+          <View style={{flex:1}}>
             <Text style={[textStyles.H2, {color: colors.Gray10}]}>
               {nickname}
             </Text>
-            <Text style={[textStyles.C4, {color: colors.Gray05}]}>
-              {'차종,경력,성별,나이'}
+            <Text style={[textStyles.C4, {color: colors.Gray05}]} numberOfLines={2}>
+              {`${myProfileInfo.carModel} • 운전경력 ${myProfileInfo.carCareer}년\n${myProfileInfo.gender} • ${myProfileInfo.age}세`}
             </Text>
             <Text style={[textStyles.C4, {color: colors.Gray08}]}>
-              {'소개글'}
+              {myProfileInfo.description}
             </Text>
           </View>
-          <View style={{flex: 1}}/> 
+          <View style={{width: 10}}/> 
           <Text style={{fontFamily: 'SUIT-Bold', color:colors.Gray03, fontSize:20}}>
             {'>'}
           </Text>
@@ -162,7 +196,7 @@ const MyPage = ({navigation}) => {
         </View> 
         <View style={{height: 16}} />
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-          {item.tags.map((tag, index) => (
+          {myProfileInfo.styles.concat(myProfileInfo.themes, myProfileInfo.togethers).map((item, index) => (
             <View
               key={index}
               style={{
@@ -176,7 +210,7 @@ const MyPage = ({navigation}) => {
                 backgroundColor: colors.Light_Blue,
               }}>
               <Text style={[textStyles.B4, {color: colors.Blue}]}>
-                {tag}
+                {item.displayName}
               </Text>
             </View>
           ))}
@@ -216,6 +250,48 @@ const MyPage = ({navigation}) => {
             드라이브 기록
           </Text>
         </TouchableOpacity>
+      </View>
+      <View 
+        style={{
+          flex: 1,
+          margin: 16,
+          backgroundColor: colors.white,
+          borderRadius: 10,
+          elevation: 2,
+          padding:16
+        }}
+      >
+        <View style={{flexDirection:'row'}}>
+          <Text style={[textStyles.B3, {color:colors.Gray10}]}>
+            매너 연료
+          </Text>
+          <View style={{width:4}}/>
+          <Text style={[textStyles.C1, {color:colors.Blue}]}>
+              {'30'}L
+          </Text>
+        </View>
+        <View style={{flexDirection:'row', alignItems:'center'}}>
+          <Text style={[textStyles.H6, {color:colors.Gray06, marginRight:8}]}>
+            E
+          </Text>
+
+          <View style={{flex:1, height:8, borderRadius:100, backgroundColor: colors.Gray02, flexDirection:'row'}}>
+            <LinearGradient 
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              colors={[
+                '#509DF6',
+                '#5168F6',
+              ]} 
+              style={{flex:1, borderRadius:100}}
+            />
+            <View style={{flex:1}}/>
+            {/* 이부분은 100분의 연료 비율로 처리 */}
+          </View>
+          <Text style={[textStyles.H6, {color:colors.Gray06, marginLeft:8}]}>
+            F
+          </Text>  
+        </View>
       </View>
       <Text>My Page</Text>
       <Button title="Logout" onPress={handleLogout} />

@@ -7,9 +7,6 @@ import colors from '../../styles/colors';
 import { ScrollView } from 'react-native-gesture-handler';
 import BackIcon from '../../assets/icons/BackIcon';
 
-const nickname = '환수';
-const item = {tags: ['태그1', '태그2', '태그3']};
-
 InfoEditButton = ({title, onPress}) => {
   return(
     <View style={{flexDirection:'row', alignItems:'center'}}>
@@ -30,12 +27,13 @@ const DetailInfo = ({title, info}) => {
     <View>
       <Text style={[textStyles.B4, {color:colors.Gray04}]}>{title}</Text>
       <View style={{height:8}}/>
-      <Text style={[textStyles.B3, {color:colors.Gray08}]}>{info}</Text>
+      {info !== null && <Text style={[textStyles.B3, {color:colors.Gray08}]}>{info}</Text>}
     </View>
   )
 }
 
-const MyInfo = ({navigation}) => {
+const MyInfo = ({navigation, route}) => {
+  const item = route.params.item;
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -62,19 +60,19 @@ const MyInfo = ({navigation}) => {
           <View style={{height:24}}/>
           <InfoEditButton title={'기본 정보'} onPress={()=>{navigation.navigate('MyInfoEdit', {page: '기본 정보 설정'})}}/>
           <View style={{height:16}}/>
-          <DetailInfo title={'닉네임'} info={nickname} />
+          <DetailInfo title={'닉네임'} info={item.nickname} />
           <View style={{height:16}}/>
-          <DetailInfo title={'한줄 소개'} info={nickname} />
+          <DetailInfo title={'한줄 소개'} info={item.description} />
           <View style={{height:1, backgroundColor:colors.Gray02, marginVertical:12}}/>
           <InfoEditButton title={'운전 정보'} onPress={()=>{navigation.navigate('MyInfoEdit', {page: '운전 정보 설정'})}}/>
           <View style={{height:16}}/>
-          <DetailInfo title={'차종'} info={nickname} />
+          <DetailInfo title={'차종'} info={item.carModel} />
           <View style={{height:16}}/>
-          <DetailInfo title={'운전 경력'} info={nickname} />
+          <DetailInfo title={'운전 경력'} info={`${item.carCareer}년차`} />
           <View style={{height:1, backgroundColor:colors.Gray02, marginVertical:12}}/>
           <InfoEditButton title={'활동 지역'} onPress={()=>{navigation.navigate('MyInfoEdit', {page: '활동 지역 설정'})}}/>
           <View style={{height:16}}/>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+          {/* <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
             {item.tags.map((tag, index) => (
               <View
                 key={index}
@@ -94,7 +92,7 @@ const MyInfo = ({navigation}) => {
                 </Text>
               </View>
             ))}
-          </View>
+          </View> */}
         </ScrollView>
       </View>
   )
