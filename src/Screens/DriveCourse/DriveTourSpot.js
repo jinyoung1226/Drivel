@@ -169,6 +169,7 @@ const DriveTourSpot = ({item}) => {
           </View>
           <View style={{flex: 1, marginTop: 16}}>
             <FlatList
+              key={item.id}
               data={festivalList}
               renderItem={({item}) => <FestivalCuration item={item} />}
               horizontal
