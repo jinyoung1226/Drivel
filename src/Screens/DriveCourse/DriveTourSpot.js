@@ -161,7 +161,13 @@ const DriveTourSpot = ({item}) => {
           style={{
             marginTop: 32,
           }}>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap: 4}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 4,
+              paddingHorizontal: 16,
+            }}>
             <Sparkler />
             <Text style={[textStyles.H4, {color: colors.Gray10}]}>
               이 지역의 행사가 궁금하다면?
