@@ -303,8 +303,6 @@ const MyPage = ({navigation}) => {
           </Text>  
         </View>
       </View>
-      <Text>My Page</Text>
-      <Button title="Logout" onPress={handleLogout} />
     </ScrollView>
   );
 };
