@@ -11,7 +11,7 @@ const MyReview = ({navigation}) => {
     try {
       const response = await authApi.get('review/my');
       if (response.status == 200) {
-        console.log(response.data.reviews[5].images, 'review');
+        // console.log(response.data.reviews[5].images, 'review');
         setMyReviews(response.data.reviews);
       }
     } catch (error) {

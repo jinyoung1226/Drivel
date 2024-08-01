@@ -8,7 +8,7 @@ const ChipContainer = ({
   selectedItem,
   onSelectedHandler,
   containerStyle,
-  maxSelection = 3,
+  maxSelection = 8
 }) => {
   const onPressHandler = (isActive, item) => {
     if (type === 'single') {

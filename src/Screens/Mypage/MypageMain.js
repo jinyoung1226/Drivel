@@ -20,7 +20,7 @@ const MyPage = ({navigation}) => {
   const [myProfileInfo, setMyProfileInfo] = useState(null);
   const nickname = useSelector(state => state.auth.nickname);
   const dispatch = useDispatch();
-  const item = {tags: ['태그1', '태그2', '태그3']};
+
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -73,6 +73,14 @@ const MyPage = ({navigation}) => {
     )
   }
   
+  const handlePressMyInfo = () => {
+    if (myProfileInfo.gender === null) {
+      navigation.navigate('RequiredInfo');
+    } else {
+      navigation.navigate('MyInfo', {item: myProfileInfo});
+    }
+  };
+
   const ProfileImageModal = () => {
     return (
       <Modal 
@@ -155,18 +163,20 @@ const MyPage = ({navigation}) => {
         <View style={{width: 16}} />
         <TouchableOpacity 
           style={{flexDirection: 'row', alignItems:'center', flex:1}}
-          onPress={() => navigation.navigate('MyInfo', {item: myProfileInfo})}
+          onPress={() => {handlePressMyInfo()}}
         >  
           <View style={{flex:1}}>
             <Text style={[textStyles.H2, {color: colors.Gray10}]}>
               {nickname}
             </Text>
-            <Text style={[textStyles.C4, {color: colors.Gray05}]} numberOfLines={2}>
-              {`${myProfileInfo.carModel} • 운전경력 ${myProfileInfo.carCareer}년\n${myProfileInfo.gender} • ${myProfileInfo.age}세`}
-            </Text>
-            <Text style={[textStyles.C4, {color: colors.Gray08}]}>
-              {myProfileInfo.description}
-            </Text>
+            {myProfileInfo.gender !== null && <View>
+              <Text style={[textStyles.C4, {color: colors.Gray05}]} numberOfLines={2}>
+                {`${myProfileInfo.carModel} • 운전경력 ${myProfileInfo.carCareer}년\n${myProfileInfo.gender} • ${myProfileInfo.age}세`}
+              </Text>
+              <Text style={[textStyles.C4, {color: colors.Gray08}]}>
+                {myProfileInfo.description}
+              </Text>
+            </View>}
           </View>
           <View style={{width: 10}}/> 
           <Text style={{fontFamily: 'SUIT-Bold', color:colors.Gray03, fontSize:20}}>
@@ -188,7 +198,7 @@ const MyPage = ({navigation}) => {
             나의 드라이브 태그
           </Text>
           <View style={{flex:1}}/>
-          <TouchableOpacity onPress={()=> navigation.navigate('MyDriveTagEdit')}>
+          <TouchableOpacity onPress={()=> navigation.navigate('MyDriveTagEdit', {item: myProfileInfo})}>
             <Text style={[textStyles.B4, {color: colors.Gray05}]}>
               수정
             </Text>

@@ -9,6 +9,7 @@ import SelectedProfileImage from '../Screens/Mypage/SelectedProfileImage';
 import MyDriveTagEdit from '../Screens/Mypage/MyDriveTagEdit';
 import MyReview from '../Screens/Mypage/MyReview';
 import MyInfoEdit from '../Screens/Mypage/MyInfoEdit';
+import RequiredInfo from '../Screens/Mypage/RequiredInfo';
 import { textStyles } from '../styles/textStyles';
 import colors from '../styles/colors';
 const Stack = createStackNavigator();
@@ -34,6 +35,7 @@ const MypageTab = ({navigation, route}) => {
       <Stack.Screen name="MyDriveTagEdit" component={MyDriveTagEdit} />
       <Stack.Screen name="MyReview" component={MyReview} />
       <Stack.Screen name="MyInfoEdit" component={MyInfoEdit} />
+      <Stack.Screen name="RequiredInfo" component={RequiredInfo} />
     </Stack.Navigator>
   );
 };
