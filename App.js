@@ -104,7 +104,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <SSE/>
+      {/* <SSE/> */}
       <RootNavigator />
     </Provider>
   );

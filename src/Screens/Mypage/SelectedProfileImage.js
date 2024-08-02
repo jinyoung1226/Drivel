@@ -7,9 +7,10 @@ import CustomButton from '../../components/CustomButton';
 import colors from '../../styles/colors';
 import {formDataApi} from '../../api/api';
 import BackIcon from '../../assets/icons/BackIcon';
+import { getMyProfileInfo } from '../../features/profile/profileActions';
 const SelectedProfileImage = ({route, navigation}) => {
   const image = route.params.photo;
-
+  const dispatch = useDispatch();
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '프로필 사진 수정',
@@ -38,6 +39,7 @@ const SelectedProfileImage = ({route, navigation}) => {
       });
       const response = await formDataApi.post('/profile/image', formData);
       if (response.status == 200) {
+        dispatch(getMyProfileInfo());
         console.log(response.status);
         navigation.goBack();
       }

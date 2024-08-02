@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button, StyleSheet, TouchableOpacity, Alert, Modal} from 'react-native';
+import {View, Text, Button, StyleSheet, TouchableOpacity, Alert, Modal, Image} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../../features/auth/authActions';
 import {textStyles} from '../../styles/textStyles';
@@ -14,16 +14,14 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { authApi, formDataApi } from '../../api/api';
 import LinearGradient from 'react-native-linear-gradient';
 import RenderingPage from '../../components/RenderingPage';
+import { getMyProfileInfo } from '../../features/profile/profileActions';
 
 const MyPage = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [myProfileInfo, setMyProfileInfo] = useState(null);
+  const myProfileInfo = useSelector(state => state.profile.myProfileInfo);
   const nickname = useSelector(state => state.auth.nickname);
   const dispatch = useDispatch();
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
   const changeProfileImageDefault = async() => {
     try {
       const response = await formDataApi.post('/profile/image');
@@ -47,24 +45,24 @@ const MyPage = ({navigation}) => {
     }
   }
 
-  const getMyProfileInfo = async () => {
-    try {
-      const response = await authApi.get('/profile/my');
-      if (response.status == 200) {
-        console.log(response.data);
-        setMyProfileInfo(response.data);
-      }
-    } catch (error) {
-      if (error.response) {
-        Alert.alert(error.response.data.message);
-      } else {
-        console.log('서버 접속 오류');
-      }   
-    }
-  }
+  // const getMyProfileInfo = async () => {
+  //   try {
+  //     const response = await authApi.get('/profile/my');
+  //     if (response.status == 200) {
+  //       console.log(response.data);
+  //       setMyProfileInfo(response.data);
+  //     }
+  //   } catch (error) {
+  //     if (error.response) {
+  //       Alert.alert(error.response.data.message);
+  //     } else {
+  //       console.log('서버 접속 오류');
+  //     }   
+  //   }
+  // }
   
   useEffect(() => {
-    getMyProfileInfo();
+    dispatch(getMyProfileInfo());
   }, []);
 
   if (myProfileInfo === null) {
@@ -143,7 +141,7 @@ const MyPage = ({navigation}) => {
               borderRadius: 45,
               overflow: 'hidden',
             }}>
-            <UserIcon />
+            <Image src={myProfileInfo.imagePath} style={{flex:1}}/>
           </View>
           <View
             style={{
