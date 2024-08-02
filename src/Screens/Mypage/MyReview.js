@@ -5,7 +5,7 @@ import RenderingPage from "../../components/RenderingPage";
 import ReiviewList from "./ReviewList";
 import colors from "../../styles/colors";
 const MyReview = ({navigation}) => {
-  const [myReviews, setMyReviews] = useState([]);
+  const [myReviews, setMyReviews] = useState(null);
 
   const getMyReview = async () => {
     try {
@@ -31,7 +31,7 @@ const MyReview = ({navigation}) => {
     navigation.navigate('DriveDetail', {id: id});
   };
 
-  if (myReviews.length == 0) {
+  if (myReviews == null) {
     return (
       <RenderingPage/>
     )
