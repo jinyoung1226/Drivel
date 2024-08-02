@@ -15,11 +15,11 @@ import { authApi, formDataApi } from '../../api/api';
 import LinearGradient from 'react-native-linear-gradient';
 import RenderingPage from '../../components/RenderingPage';
 import { getMyProfileInfo } from '../../features/profile/profileActions';
+import chageBrithToAge from '../../utils/changeBrithToAge';
 
 const MyPage = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const myProfileInfo = useSelector(state => state.profile.myProfileInfo);
-  const nickname = useSelector(state => state.auth.nickname);
   const dispatch = useDispatch();
 
   const changeProfileImageDefault = async() => {
@@ -72,9 +72,10 @@ const MyPage = ({navigation}) => {
   }
   
   const handlePressMyInfo = () => {
-    if (myProfileInfo.gender === null) {
+    if (myProfileInfo.gender == null) {
       navigation.navigate('RequiredInfo');
-    } else {
+    }
+    if (myProfileInfo.gender !== null) {
       navigation.navigate('MyInfo', {item: myProfileInfo});
     }
   };
@@ -165,11 +166,11 @@ const MyPage = ({navigation}) => {
         >  
           <View style={{flex:1}}>
             <Text style={[textStyles.H2, {color: colors.Gray10}]}>
-              {nickname}
+              {myProfileInfo.nickname}
             </Text>
             {myProfileInfo.gender !== null && <View>
               <Text style={[textStyles.C4, {color: colors.Gray05}]} numberOfLines={2}>
-                {`${myProfileInfo.carModel} • 운전경력 ${myProfileInfo.carCareer}년\n${myProfileInfo.gender} • ${myProfileInfo.age}세`}
+                {`${myProfileInfo.carModel} • 운전경력 ${myProfileInfo.carCareer}년\n${myProfileInfo.gender} • ${chageBrithToAge(myProfileInfo.birth)}세`}
               </Text>
               <Text style={[textStyles.C4, {color: colors.Gray08}]}>
                 {myProfileInfo.description}

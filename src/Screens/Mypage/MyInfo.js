@@ -1,5 +1,5 @@
-import React, {useState, useLayoutEffect} from 'react';
-import {StyleSheet, Text, View, Button, TextInput, TouchableOpacity} from 'react-native';
+import React, {useState, useLayoutEffect, useEffect} from 'react';
+import {StyleSheet, Text, View, Button, TextInput, TouchableOpacity, BackHandler} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../../features/auth/authActions';
 import {textStyles} from '../../styles/textStyles';
@@ -27,14 +27,15 @@ const DetailInfo = ({title, info}) => {
     <View>
       <Text style={[textStyles.B4, {color:colors.Gray04}]}>{title}</Text>
       <View style={{height:8}}/>
-      {info !== null && <Text style={[textStyles.B3, {color:colors.Gray08}]}>{info}</Text>}
+      {info !== null && <Text style={[textStyles.B3, {color:colors.Gray08}]}>{info}{title === '운전 경력' && info !== null && <Text>년차</Text>}</Text>}
     </View>
   )
 }
 
-const MyInfo = ({navigation, route}) => {
-  const item = route.params.item;
+const MyInfo = ({navigation}) => {
 
+  const item = useSelector(state => state.profile.myProfileInfo);
+  
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '내 정보',
@@ -43,7 +44,7 @@ const MyInfo = ({navigation, route}) => {
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => {
-            navigation.goBack();
+            navigation.navigate('Mypage');
           }}
           style={{padding: 16}}>
           <BackIcon color={colors.Gray10} />
@@ -52,6 +53,18 @@ const MyInfo = ({navigation, route}) => {
     });
   }, [navigation]);
 
+  useEffect(() => {
+    const backAction = () => {
+      navigation.navigate('Mypage');
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => backHandler.remove();
+  }, []);
+  
   return(
     
       <View style={{padding:16, backgroundColor:colors.BG, flex:1}}>
@@ -68,12 +81,12 @@ const MyInfo = ({navigation, route}) => {
           <View style={{height:16}}/>
           <DetailInfo title={'차종'} info={item.carModel} />
           <View style={{height:16}}/>
-          <DetailInfo title={'운전 경력'} info={`${item.carCareer}년차`} />
+          <DetailInfo title={'운전 경력'} info={item.carCareer} />
           <View style={{height:1, backgroundColor:colors.Gray02, marginVertical:12}}/>
-          <InfoEditButton title={'활동 지역'} onPress={()=>{navigation.navigate('MyInfoEdit', {page: '활동 지역 설정'})}}/>
+          <InfoEditButton title={'활동 지역'} onPress={()=>{navigation.navigate('MyInfoEdit', {page: '활동 지역 설정', myRegions: item.regions})}}/>
           <View style={{height:16}}/>
-          {/* <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            {item.tags.map((tag, index) => (
+          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+            {item.regions.map((item, index) => (
               <View
                 key={index}
                 style={{
@@ -88,11 +101,11 @@ const MyInfo = ({navigation, route}) => {
                   borderColor:colors.Gray03,
                 }}>
                 <Text style={[textStyles.B4, {color: colors.Gray10}]}>
-                  {tag}
+                  {item.displayName}
                 </Text>
               </View>
             ))}
-          </View> */}
+          </View>
         </ScrollView>
       </View>
   )

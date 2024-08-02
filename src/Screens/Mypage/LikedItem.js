@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -14,11 +14,10 @@ import {useSelector, useDispatch} from 'react-redux';
 import {toggleLike} from '../../features/like/likeActions';
 import Heart from '../../assets/icons/HeartIcon.svg';
 const LikedItem = ({item, goDriveDetail}) => {
-  const likedItems = useSelector(state => state.like.likedItems);
-  const liked = likedItems[item.id] || false;
   const dispatch = useDispatch();
-
+  const [liked, setLiked] = useState(item.liked);
   const handleLikePress = () => {
+    setLiked(!liked);
     dispatch(toggleLike(item.id));
   };
   const width = Dimensions.get('window').width;

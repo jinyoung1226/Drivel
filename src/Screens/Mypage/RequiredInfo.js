@@ -7,12 +7,14 @@ import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import InputTextMessage from "../../components/InputTextMessage";
 import BackIcon from "../../assets/icons/BackIcon";
-
+import { authApi } from "../../api/api";
+import { useDispatch } from "react-redux";
+import { getMyProfileInfo } from "../../features/profile/profileActions";
 const RequiredInfo = ({navigation}) => {
 
   const [gender, setGender] = useState(null);
   const [birth, setBirth] = useState('');
-  
+  const dispatch = useDispatch(); 
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '필수 정보 설정',
@@ -36,6 +38,27 @@ const RequiredInfo = ({navigation}) => {
     return birthRegEx.test(birth);
     }
  
+    const setRequiredInfo = async() => {
+      const brithWithHyphen = birth.slice(0,4) + '-' + birth.slice(4,6) + '-' + birth.slice(6,8);
+      try {
+        const response = await authApi.patch('profile/gender', {
+          gender: gender,
+          birth: brithWithHyphen,
+        });
+        if (response.status == 200) {
+          console.log(response.data)
+          dispatch(getMyProfileInfo());
+          navigation.navigate('MyInfo');
+        }
+      } catch (error) {
+        if (error.response) {
+          console.log(error.response.status);
+        } else {
+          console.log('서버 접속 오류');
+        }
+      }
+    }
+
       return (
     <View style={{flex:1, backgroundColor: colors.BG, padding:16}}>
       <Text style={[textStyles.H1, {color: colors.Gray10}]}>
@@ -108,7 +131,7 @@ const RequiredInfo = ({navigation}) => {
       />
       <View style={{flex:1}} />
       <KeyboardAvoidingView>
-        <CustomButton title={'완료하기'} disabled={gender == null || !isValidBirth(birth)}/>
+        <CustomButton title={'완료하기'} disabled={gender == null || !isValidBirth(birth)} onPress={() => {setRequiredInfo()}}/>
       </KeyboardAvoidingView>
     </View>
   );
