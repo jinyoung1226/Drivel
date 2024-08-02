@@ -10,10 +10,16 @@ const DriveBlogList = ({item}) => {
   };
 
   const formatDate = data => {
-    const year = date.substring(0, 4);
-    const month = date.substring(4, 6);
-    const date = date.substring(6, 8);
-    return `${year}년${month}월${date}일`;
+    const year = data.substring(0, 4);
+    const month = data.substring(4, 6);
+    const date = data.substring(6, 8);
+    return `${year}년 ${month}월 ${date}일`;
+  };
+
+  const handlePress = () => {
+    Linking.openURL(item.link).catch(err => {
+      console.error('Failed to open URL:', err);
+    });
   };
 
   const title = removeHtmlTags(item.title);
@@ -21,7 +27,7 @@ const DriveBlogList = ({item}) => {
   const postDate = formatDate(item.postdate);
 
   return (
-    <Pressable>
+    <Pressable onPress={handlePress}>
       <View
         style={{
           padding: 16,
