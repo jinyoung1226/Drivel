@@ -102,6 +102,23 @@ const MyInfoEdit = ({navigation, route}) => {
       }
     } else if (page == '활동 지역 설정') {
       console.log(selectedRegion);
+      try {
+        const response = await authApi.patch('profile/region', {
+          regionIds: selectedRegion
+        });
+        if (response.status == 200) {
+          console.log(response.data);
+          dispatch(getMyProfileInfo());
+          navigation.goBack()
+        }
+      } catch (error) {
+        if (error.response) {
+          Alert.alert(error.response.data.message);
+          console.log(error.response.data);
+        } else {
+          console.log('서버 접속 오류');
+        }
+      }
     }
   }
 
@@ -247,6 +264,7 @@ const MyInfoEdit = ({navigation, route}) => {
         </Text>
         <View style={{height:16}}/>
         <ChipContainer
+          maxSelection={3}
           containerStyle={{flexDirection: 'row', width: '70%'}}
           type={'multi'}
           data={regions}
