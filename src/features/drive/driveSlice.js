@@ -1,25 +1,60 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {fetchDriveInfo} from './driveActions';
+import {
+  getDriveList,
+  getDriveListMore,
+  setFilterDriveStyle,
+  setFilterDriveTheme,
+  setFilterDriveWith,
+} from './driveActions';
+
+const initialState = {
+  driveList: null,
+  initialPage: 0,
+  filterDriveWith: '',
+  filterDriveTheme: '',
+  filterDriveStyle: '',
+  isLoading: false,
+  isLastPage: false,
+  currentPage: null,
+};
 
 const driveSlice = createSlice({
   name: 'drive',
-  initialState: {
-    driveInfo: null,
-    isLoading: null,
-    error: null,
-  },
+  initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchDriveInfo.pending, state => {
-      state.isLoading = 'loading';
+    builder.addCase(getDriveList.pending, state => {
+      state.isLoading = true;
     });
-    builder.addCase(fetchDriveInfo.fulfilled, (state, action) => {
-      state.driveInfo = action.payload;
-      state.isLoading = 'succeeded';
+    builder.addCase(getDriveList.fulfilled, (state, action) => {
+      state.driveList = action.payload.driveList;
+      state.isLastPage = action.payload.isLastPage;
+      state.currentPage = action.payload.currentPage;
+      state.isLoading = false;
     });
-    builder.addCase(fetchDriveInfo.rejected, (state, action) => {
-      state.error = action.payload;
-      state.isLoading = 'failed';
+    builder.addCase(getDriveList.rejected, (state, action) => {
+      state.isLoading = false;
+    });
+    builder.addCase(getDriveListMore.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(getDriveListMore.fulfilled, (state, action) => {
+      state.driveList = [...state.driveList, ...action.payload.driveList];
+      state.isLoading = false;
+      state.isLastPage = action.payload.isLastPage;
+      state.currentPage = action.payload.currentPage;
+    });
+    builder.addCase(getDriveListMore.rejected, state => {
+      state.isLoading = false;
+    });
+    builder.addCase(setFilterDriveStyle, (state, action) => {
+      state.filterDriveStyle = action.payload;
+    });
+    builder.addCase(setFilterDriveTheme, (state, action) => {
+      state.filterDriveTheme = action.payload;
+    });
+    builder.addCase(setFilterDriveWith, (state, action) => {
+      state.filterDriveWith = action.payload;
     });
   },
 });

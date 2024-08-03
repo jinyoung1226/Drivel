@@ -37,7 +37,7 @@ const FestivalCuration = ({item}) => {
   return (
     <Pressable onPress={() => handleFestivalInfo(item.id)}>
       <Image
-        src={item.firstImagePath}
+        src={item.imagePath}
         style={{width: 160, height: 221.54, borderRadius: 8.79}}
       />
       <Text
