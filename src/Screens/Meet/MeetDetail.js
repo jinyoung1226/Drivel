@@ -20,6 +20,7 @@ import CustomButton from '../../components/CustomButton';
 import formatDate from '../../utils/formatDate';
 import MeetCourseInfo from './MeetCourseInfo';
 import Tabs from '../../components/Tabs';
+import MeetChatBoard from './MeetChatBoard';
 
 const MeetDetail = ({route, navigation}) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -229,9 +230,7 @@ const MeetDetail = ({route, navigation}) => {
           <View>
             {activeTab === 0 && <MeetInfo item={meetingInfo} />}
             {activeTab === 1 && <MeetCourseInfo item={courseInfo} />}
-            <View style={{display: activeTab === 2 ? 'flex' : 'none'}}>
-              <Text>33333</Text>
-            </View>
+            {activeTab === 2 && <MeetChatBoard/>}
           </View>
         )}
       </KeyboardAwareScrollView>

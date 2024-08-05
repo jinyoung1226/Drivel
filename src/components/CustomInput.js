@@ -30,8 +30,8 @@ const CustomInput = ({
   return (
     <View
       style={[
-        containerStyle,
         styles.inputContainer,
+        containerStyle,
         {borderColor: isValid === false ? colors.red : colors.Gray03},
       ]}>
       <TextInput
@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 47,
+    color: colors.Gray10,
   },
   buttonText: {
     fontSize: 14,

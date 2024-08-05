@@ -81,12 +81,13 @@ const MyInfoEdit = ({navigation, route}) => {
         }
       }
     } else if (page == '운전 정보 설정') {
-      console.log(carModel, minCarCareer);
+      console.log('@@@');
       try {
         const response = await authApi.patch('profile/car', {
-          carModel: carModel = '' ? null : carModel,
+          carModel: carModel == '' ? null : carModel,
           carCareer: minCarCareer == '' ? null : minCarCareer
         });
+        console.log('@@@');
         if (response.status == 200) {
           console.log(response.data);
           dispatch(getMyProfileInfo());

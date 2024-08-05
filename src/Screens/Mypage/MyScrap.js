@@ -56,11 +56,11 @@ const MyScrap = ({navigation}) => {
   };
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>
-      <Tabs
+      {/* <Tabs
         tabName={tabName}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-      />
+      /> */}
       <View style={{flexDirection: 'row', alignItems: 'center', padding: 16}}>
         <Text style={[textStyles.B2, {color: colors.Gray10}]}>
           총 {likedDriveCourse.length}개

@@ -1,4 +1,4 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {View, Text, Button, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../../features/auth/authActions';
@@ -8,7 +8,9 @@ import colors from '../../styles/colors';
 import {formDataApi} from '../../api/api';
 import BackIcon from '../../assets/icons/BackIcon';
 import { getMyProfileInfo } from '../../features/profile/profileActions';
+import RenderingPage from '../../components/RenderingPage';
 const SelectedProfileImage = ({route, navigation}) => {
+  const [isLoading, setIsLoading] = useState(false);
   const image = route.params.photo;
   const dispatch = useDispatch();
   useLayoutEffect(() => {
@@ -37,15 +39,23 @@ const SelectedProfileImage = ({route, navigation}) => {
         type: image.type,
         uri: image.uri,
       });
+      setIsLoading(true);
       const response = await formDataApi.post('/profile/image', formData);
       if (response.status == 200) {
         dispatch(getMyProfileInfo());
+        setIsLoading(false);
         console.log(response.status);
         navigation.goBack();
       }
     } catch (error) {
       console.log(error);
     }
+  }
+
+  if (isLoading) {
+    return (
+      <RenderingPage/>
+    )
   }
 
   return (
