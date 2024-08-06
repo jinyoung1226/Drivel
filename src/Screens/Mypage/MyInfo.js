@@ -1,114 +1,93 @@
-import React, {useState, useLayoutEffect, useEffect} from 'react';
-import {StyleSheet, Text, View, Button, TextInput, TouchableOpacity, BackHandler} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {logout} from '../../features/auth/authActions';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
-import { ScrollView } from 'react-native-gesture-handler';
-import BackIcon from '../../assets/icons/BackIcon';
+import PenIcon from '../../assets/icons/PenIcon';
+import chageBrithToAge from '../../utils/changeBrithToAge';
+import { useNavigation } from '@react-navigation/native';
+const MyInfo = ({myProfileInfo, setModalVisible, modalVisible}) => {
+  
+  const navigation = useNavigation();
 
-InfoEditButton = ({title, onPress}) => {
-  return(
-    <View style={{flexDirection:'row', alignItems:'center'}}>
-      <Text style={[textStyles.H4, {color:colors.Gray10}]}>{title}</Text>
-      <View style={{flex:1}}/>
-      <TouchableOpacity 
-        style={{backgroundColor:colors.Gray02, borderRadius:100, paddingVertical:8, paddingHorizontal:16}}
-        onPress={onPress}
+  const handlePressMyInfo = () => {
+    if (myProfileInfo.gender == null) {
+      navigation.navigate('RequiredInfo');
+    }
+    if (myProfileInfo.gender !== null) {
+      navigation.navigate('MyInfoDetail', {item: myProfileInfo});
+    }
+  };
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+      }}
+    >
+      <TouchableOpacity
+        style={{width: 90, height: 90}}
+        onPress={() => {
+          setModalVisible(!modalVisible);
+        }}
       >
-        <Text style={[textStyles.B4, {color:colors.Gray10}]}>수정</Text>
+        <View
+          style={{
+            width: 90,
+            height: 90,
+            backgroundColor: colors.Gray02,
+            borderRadius: 45,
+            overflow: 'hidden',
+          }}>
+          <Image src={myProfileInfo.imagePath} style={{flex:1}}/>
+        </View>
+        <View
+          style={{
+            position: 'absolute',
+            width: 24,
+            height: 24,
+            backgroundColor: colors.Gray04,
+            borderRadius: 12,
+            alignSelf: 'flex-end',
+            alignItems: 'center',
+            justifyContent: 'center',
+            bottom: 0,
+          }}>
+          <PenIcon />
+        </View>
+      </TouchableOpacity>
+      <View style={{width: 16}} />
+      <TouchableOpacity 
+        style={{flexDirection: 'row', alignItems:'center', flex:1}}
+        onPress={() => {handlePressMyInfo()}}
+      >  
+        <View style={{flex:1}}>
+          <Text style={[textStyles.H2, {color: colors.Gray10}]}>
+            {myProfileInfo.nickname}
+          </Text>
+          {myProfileInfo.gender !== null && <View>
+            <Text style={[textStyles.C4, {color: colors.Gray05}]} numberOfLines={2}>
+              {`${myProfileInfo.carModel} • 운전경력 ${myProfileInfo.carCareer}년\n${myProfileInfo.gender} • ${chageBrithToAge(myProfileInfo.birth)}세`}
+            </Text>
+            <Text style={[textStyles.C4, {color: colors.Gray08}]}>
+              {myProfileInfo.description}
+            </Text>
+          </View>}
+        </View>
+        <View style={{width: 10}}/> 
+        <Text style={{fontFamily: 'SUIT-Bold', color:colors.Gray03, fontSize:20}}>
+          {'>'}
+        </Text>
       </TouchableOpacity>
     </View>
-  )
-}
-
-const DetailInfo = ({title, info}) => {
-  return (
-    <View>
-      <Text style={[textStyles.B4, {color:colors.Gray04}]}>{title}</Text>
-      <View style={{height:8}}/>
-      {info !== null && <Text style={[textStyles.B3, {color:colors.Gray08}]}>{info}{title === '운전 경력' && info !== null && <Text>년차</Text>}</Text>}
-    </View>
-  )
-}
-
-const MyInfo = ({navigation}) => {
-
-  const item = useSelector(state => state.profile.myProfileInfo);
-  
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: '내 정보',
-      headerTitleStyle: [textStyles.H3, {color: colors.Gray10}],
-      headerTitleAlign: 'center',
-      headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Mypage');
-          }}
-          style={{padding: 16}}>
-          <BackIcon color={colors.Gray10} />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
-
-  useEffect(() => {
-    const backAction = () => {
-      navigation.navigate('Mypage');
-      return true;
-    };
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-    return () => backHandler.remove();
-  }, []);
-  
-  return(
-    
-      <View style={{padding:16, backgroundColor:colors.BG, flex:1}}>
-        <ScrollView>
-          <Text style={[textStyles.B4, {color:colors.Blue}]}>* 모임 생성/가입을 원하시는 경우, 하단의 정보를 모두 입력하셔야 합니다</Text>
-          <View style={{height:24}}/>
-          <InfoEditButton title={'기본 정보'} onPress={()=>{navigation.navigate('MyInfoEdit', {page: '기본 정보 설정'})}}/>
-          <View style={{height:16}}/>
-          <DetailInfo title={'닉네임'} info={item.nickname} />
-          <View style={{height:16}}/>
-          <DetailInfo title={'한줄 소개'} info={item.description} />
-          <View style={{height:1, backgroundColor:colors.Gray02, marginVertical:12}}/>
-          <InfoEditButton title={'운전 정보'} onPress={()=>{navigation.navigate('MyInfoEdit', {page: '운전 정보 설정'})}}/>
-          <View style={{height:16}}/>
-          <DetailInfo title={'차종'} info={item.carModel} />
-          <View style={{height:16}}/>
-          <DetailInfo title={'운전 경력'} info={item.carCareer} />
-          <View style={{height:1, backgroundColor:colors.Gray02, marginVertical:12}}/>
-          <InfoEditButton title={'활동 지역'} onPress={()=>{navigation.navigate('MyInfoEdit', {page: '활동 지역 설정', myRegions: item.regions})}}/>
-          <View style={{height:16}}/>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            {item.regions.map((item, index) => (
-              <View
-                key={index}
-                style={{
-                  alignSelf: 'flex-start',
-                  paddingVertical: 8,
-                  paddingHorizontal: 16,
-                  borderRadius: 24,
-                  justifyContent: 'center',
-                  marginRight: 8,
-                  marginBottom: 8,
-                  borderWidth: 1,
-                  borderColor:colors.Gray03,
-                }}>
-                <Text style={[textStyles.B4, {color: colors.Gray10}]}>
-                  {item.displayName}
-                </Text>
-              </View>
-            ))}
-          </View>
-        </ScrollView>
-      </View>
-  )
+  );
 }
 
 export default MyInfo;

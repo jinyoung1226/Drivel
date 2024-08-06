@@ -13,6 +13,8 @@ import { regions } from "../../assets/onboardingData/onBoardingData";
 import ChipContainer from "../../components/ChipContainer";
 import { authApi } from "../../api/api";
 import { getMyProfileInfo } from "../../features/profile/profileActions";
+import { setGlobalNickname } from "../../features/auth/authSlice";
+
 import { useDispatch } from "react-redux";
 const MyInfoEdit = ({navigation, route}) => {
   const page = route.params.page;
@@ -68,8 +70,13 @@ const MyInfoEdit = ({navigation, route}) => {
           description: intro == '' ? null : intro
         });
         if (response.status == 200) {
+          // if (nickname != '') {
+          //   dispatch(setGlobalNickname(nickname))
+          // }
           console.log(response.data);
           dispatch(getMyProfileInfo());
+          
+
           navigation.goBack()
         }
       } catch (error) {

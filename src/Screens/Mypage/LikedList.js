@@ -1,7 +1,7 @@
 import React from 'react';
 import {FlatList, View} from 'react-native';
 import LikedItem from './LikedItem';
-const LikedList = ({goDriveDetail, ListHeaderComponent, data}) => {
+const LikedList = ({ListHeaderComponent, data}) => {
   return (
     <FlatList
       ListHeaderComponent={ListHeaderComponent}
@@ -14,7 +14,7 @@ const LikedList = ({goDriveDetail, ListHeaderComponent, data}) => {
       data={data}
       numColumns={2}
       renderItem={({item}) => (
-        <LikedItem item={item} goDriveDetail={goDriveDetail} />
+        <LikedItem item={item}/>
       )}
       keyExtractor={item => item.id}
     />

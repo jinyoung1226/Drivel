@@ -50,10 +50,7 @@ const MyScrap = ({navigation}) => {
   useEffect(() => {
     getLikedDriveCourse();
   }, []);
-
-  const goDriveDetail = id => {
-    navigation.navigate('DriveDetail', {id: id});
-  };
+  
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>
       {/* <Tabs
@@ -66,7 +63,7 @@ const MyScrap = ({navigation}) => {
           총 {likedDriveCourse.length}개
         </Text>
       </View>
-      <LikedList data={likedDriveCourse} goDriveDetail={goDriveDetail} />
+      <LikedList data={likedDriveCourse}/>
     </View>
   );
 };

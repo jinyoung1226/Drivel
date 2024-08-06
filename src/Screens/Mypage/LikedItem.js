@@ -13,8 +13,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useSelector, useDispatch} from 'react-redux';
 import {toggleLike} from '../../features/like/likeActions';
 import Heart from '../../assets/icons/HeartIcon.svg';
-const LikedItem = ({item, goDriveDetail}) => {
+import { useNavigation } from '@react-navigation/native';
+
+const LikedItem = ({item}) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [liked, setLiked] = useState(item.liked);
   const handleLikePress = () => {
     setLiked(!liked);
@@ -27,10 +30,10 @@ const LikedItem = ({item, goDriveDetail}) => {
         width: (width - 48) / 2,
         borderRadius: 10,
         backgroundColor: colors.BG,
-        height: 174,
+        aspectRatio: 1,
         overflow: 'hidden',
       }}
-      onPress={() => goDriveDetail(item.id)}>
+      onPress={() => navigation.navigate('DriveDetail', {id: item.id})}>
       <ImageBackground src={item.imagePath} style={{flex: 1}}>
         <LinearGradient
           style={{flex: 1, padding: 16}}
