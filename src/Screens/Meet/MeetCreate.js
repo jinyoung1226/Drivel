@@ -160,10 +160,7 @@ const MeetCreate = ({navigation}) => {
       if (response.status === 200) {
         Alert.alert(response.data.message);
         console.log(response.data);
-        navigation.navigate('MeetDetail', {
-          meetingId: response.data.meetingId,
-          courseId: response.data.courseId,
-        });
+        navigation.goBack();
         dispatch(getMeetList({page: 0, size: 10, sort: 'id,DESC'}));
         dispatch(getMeetListRecommended({page: 0, size: 3}));
         dispatch(getMyMeetList());
