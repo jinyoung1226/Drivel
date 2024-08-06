@@ -26,6 +26,9 @@ const authSlice = createSlice({
       state.isAuthenticated = action.payload.isAuthenticated;
       state.accessToken = action.payload.accessToken;
     },
+    setGlobalNickname: (state, action) => {
+      state.nickname = action.payload;
+    }
   },
   extraReducers: builder => {
     // checkAuth 액션이 실행되었을 때 각 상태(pending, fulfilled, rejected)에 따라 상태를 업데이트합니다.
@@ -102,5 +105,5 @@ const authSlice = createSlice({
 });
 
 // authSlice에서 생성된 액션과 리듀서를 export 합니다.
-export const {setAuth} = authSlice.actions; // setAuth 액션 생성자를 export 합니다. 외부 컴포넌트에서 setAuth를 사용할 일이 있으면 이거 사용
+export const {setAuth, setGlobalNickname} = authSlice.actions; // setAuth 액션 생성자를 export 합니다. 외부 컴포넌트에서 setAuth를 사용할 일이 있으면 이거 사용
 export default authSlice.reducer; // auth 리듀서를 기본 export 합니다.
