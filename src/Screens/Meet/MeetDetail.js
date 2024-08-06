@@ -117,7 +117,7 @@ const MeetDetail = ({route, navigation}) => {
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('MeetMain');
+            navigation.goBack();
           }}
           style={{padding: 16}}>
           <BackIcon color={iconColor} />
