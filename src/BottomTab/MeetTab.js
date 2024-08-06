@@ -9,20 +9,23 @@ import EyeIcon from '../assets/icons/EyeIcon.svg';
 import MeetDetail from '../Screens/Meet/MeetDetail';
 import colors from '../styles/colors';
 import {textStyles} from '../styles/textStyles';
+import { useDispatch } from 'react-redux';
+import { showTabBar, hideTabBar } from '../features/tabBar/tabBarSlice';
 
 const Stack = createStackNavigator();
 
-const MeetTab = ({navigation, route}) => {
+const MeetTab = ({route}) => {
+
+  const dispatch = useDispatch();
+  
   useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
     if (routeName === 'MeetMain' || routeName === undefined) {
-      navigation.setOptions({
-        tabBarStyle: {height: Platform.OS === 'ios' ? 93 : 70, display: 'flex'},
-      });
+      dispatch(showTabBar())
     } else {
-      navigation.setOptions({tabBarStyle: {display: 'none'}});
+      dispatch(hideTabBar())
     }
-  }, [navigation, route]);
+  }, [route]);
 
   return (
     <Stack.Navigator>

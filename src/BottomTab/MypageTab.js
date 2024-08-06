@@ -2,7 +2,7 @@ import React, {useLayoutEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import MyPageMain from '../Screens/Mypage/MypageMain';
-import MyInfo from '../Screens/Mypage/MyInfo';
+import MyInfoDetail from '../Screens/Mypage/MyInfoDetail';
 import MyScrap from '../Screens/Mypage/MyScrap';
 import DriveDetail from '../Screens/DriveCourse/DriveDetail';
 import SelectedProfileImage from '../Screens/Mypage/SelectedProfileImage';
@@ -11,23 +11,28 @@ import MyReview from '../Screens/Mypage/MyReview';
 import MyInfoEdit from '../Screens/Mypage/MyInfoEdit';
 import RequiredInfo from '../Screens/Mypage/RequiredInfo';
 import Setting from '../Screens/Mypage/Setting';
+import MeetDetail from '../Screens/Meet/MeetDetail';
 import { textStyles } from '../styles/textStyles';
 import colors from '../styles/colors';
 import GearIcon from '../assets/icons/GearIcon';
 import { TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { showTabBar, hideTabBar } from '../features/tabBar/tabBarSlice';
+
 const Stack = createStackNavigator();
 
-const MypageTab = ({navigation, route}) => {
+const MypageTab = ({route}) => {
+
+  const dispatch = useDispatch();
+
   useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
     if (routeName === 'Mypage' || routeName === undefined) {
-      navigation.setOptions({
-        tabBarStyle: {height: Platform.OS === 'ios' ? 93 : 70, display: 'flex'},
-      });
+      dispatch(showTabBar())
     } else {
-      navigation.setOptions({tabBarStyle: {display: 'none'}});
+      dispatch(hideTabBar())
     }
-  }, [navigation, route]);
+  }, [route]);
   return (
     <Stack.Navigator>
       <Stack.Screen 
@@ -49,7 +54,7 @@ const MypageTab = ({navigation, route}) => {
           </TouchableOpacity>
         )}}
       />
-      <Stack.Screen name="MyInfo" component={MyInfo} />
+      <Stack.Screen name="MyInfoDetail" component={MyInfoDetail} />
       <Stack.Screen name="MyScrap" component={MyScrap} />
       <Stack.Screen name="DriveDetail" component={DriveDetail} />
       <Stack.Screen name="SelectedProfileImage" component={SelectedProfileImage} />
@@ -58,6 +63,7 @@ const MypageTab = ({navigation, route}) => {
       <Stack.Screen name="MyInfoEdit" component={MyInfoEdit} />
       <Stack.Screen name="RequiredInfo" component={RequiredInfo} />
       <Stack.Screen name="Setting" component={Setting} />
+      <Stack.Screen name="MeetDetail" component={MeetDetail} />
     </Stack.Navigator>
   );
 };

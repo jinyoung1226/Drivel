@@ -8,20 +8,23 @@ import Share from '../assets/icons/ShareIcon.svg';
 import BackIcon from '../assets/icons/BackIcon.svg';
 import colors from '../styles/colors';
 import FestivalInfo from '../components/FestivalInfo';
+import { useDispatch } from 'react-redux';
+import { showTabBar, hideTabBar } from '../features/tabBar/tabBarSlice';
 
 const Stack = createStackNavigator();
 
-const DriveTab = ({navigation, route}) => {
+const DriveTab = ({route}) => {
+  
+  const dispatch = useDispatch();
+
   useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
     if (routeName === 'DriveMain' || routeName === undefined) {
-      navigation.setOptions({
-        tabBarStyle: {height: Platform.OS === 'ios' ? 93 : 70, display: 'flex'},
-      });
+      dispatch(showTabBar())
     } else {
-      navigation.setOptions({tabBarStyle: {display: 'none'}});
+      dispatch(hideTabBar())
     }
-  }, [navigation, route]);
+  }, [route]);
   return (
     <Stack.Navigator initialRouteName="DriveMain">
       <Stack.Screen name="DriveMain" component={DriveMain} />

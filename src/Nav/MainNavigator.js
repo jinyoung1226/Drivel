@@ -9,22 +9,27 @@ import HomeIcon from '../assets/tabBarIcon/HomeIcon.svg';
 import MeetIcon from '../assets/tabBarIcon/MeetIcon.svg';
 import DriveCourseIcon from '../assets/tabBarIcon/DriveCourseIcon.svg';
 import MypageIcon from '../assets/tabBarIcon/MypageIcon.svg';
+import CustomTabBar from '../components/CustomTabBar';
+
 const Tab = createBottomTabNavigator();
 
 const MainNavigator = () => {
+
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarItemStyle: {},
-        tabBarLabelStyle: {
-          height: Platform.OS === 'ios' ? 37 : 25,
-          fontSize: 12,
-          fontFamily: 'SUIT-SemiBold',
-        },
-        tabBarStyle: {height: Platform.OS === 'ios' ? 93 : 70},
-        tabBarActiveTintColor: '#5168F6',
-        tabBarInactiveTintColor: '#ACACAD',
-      })}>
+      // screenOptions={({route}) => ({
+      //   tabBarItemStyle: {},
+      //   tabBarLabelStyle: {
+      //     height: Platform.OS === 'ios' ? 37 : 25,
+      //     fontSize: 12,
+      //     fontFamily: 'SUIT-SemiBold',
+      //   },
+      //   tabBarStyle: {height: Platform.OS === 'ios' ? 93 : 70},
+      //   tabBarActiveTintColor: '#5168F6',
+      //   tabBarInactiveTintColor: '#ACACAD',
+      // })}
+      tabBar={(props) => <CustomTabBar {...props} />}
+      >
       <Tab.Screen
         name="HomeTab"
         component={HomeTab}

@@ -10,19 +10,24 @@ import BackIcon from '../assets/icons/BackIcon.svg';
 import colors from '../styles/colors';
 import DriveDetail from '../Screens/DriveCourse/DriveDetail';
 import FestivalInfo from '../components/FestivalInfo';
+import { useDispatch } from 'react-redux';
+import { showTabBar, hideTabBar } from '../features/tabBar/tabBarSlice';
+
 const Stack = createStackNavigator();
 
-const HomeTab = ({navigation, route}) => {
+const HomeTab = ({route}) => {
+
+  const dispatch = useDispatch();
+
   useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
     if (routeName === 'Home' || routeName === undefined) {
-      navigation.setOptions({
-        tabBarStyle: {height: Platform.OS === 'ios' ? 93 : 70, display: 'flex'},
-      });
+      dispatch(showTabBar())
     } else {
-      navigation.setOptions({tabBarStyle: {display: 'none'}});
+      dispatch(hideTabBar())
     }
-  }, [navigation, route]);
+  }, [route]);
+
   return (
     <Stack.Navigator>
       <Stack.Screen
