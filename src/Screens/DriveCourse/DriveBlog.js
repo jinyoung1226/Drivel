@@ -12,6 +12,7 @@ import {
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import DriveBlogList from './DriveBlogList';
+import config from '../../config/config';
 
 const DriveBlog = ({item}) => {
   const [blogData, setBlogData] = useState(null);
@@ -24,8 +25,8 @@ const DriveBlog = ({item}) => {
           {
             params: {query: item.courseInfo.title},
             headers: {
-              'X-Naver-Client-Id': '0IBq6SS46vwudQUnrhfc',
-              'X-Naver-Client-Secret': 'nxxzio8tXu',
+              'X-Naver-Client-Id': config.NAVERBLOG_ID_KEY,
+              'X-Naver-Client-Secret': config.NAVERBLOG_SECRET_KEY,
             },
           },
         );

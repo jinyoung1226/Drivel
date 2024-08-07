@@ -4,6 +4,7 @@ import {View, Text, FlatList} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import RestaurantBlogList from './RestaurantBlogList';
+import config from '../../config/config';
 
 const RestaurantReviewTab = ({placeInfo}) => {
   const [blogData, setBlogData] = useState(null);
@@ -16,8 +17,8 @@ const RestaurantReviewTab = ({placeInfo}) => {
           {
             params: {query: placeInfo.name},
             headers: {
-              'X-Naver-Client-Id': '0IBq6SS46vwudQUnrhfc',
-              'X-Naver-Client-Secret': 'nxxzio8tXu',
+              'X-Naver-Client-Id': config.NAVERBLOG_ID_KEY,
+              'X-Naver-Client-Secret': config.NAVERBLOG_SECRET_KEY,
             },
           },
         );
