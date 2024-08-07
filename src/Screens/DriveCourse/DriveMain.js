@@ -38,7 +38,7 @@ const DriveMain = ({navigation}) => {
     filterDriveTheme,
     filterDriveStyle,
   } = useSelector(state => state.drive);
-  console.log(driveList, '@@@@@@@@@@@@@');
+  console.log(driveList, '@@@@@@@@@@@@@@@@@@@@333');
 
   const goFilter = () => {
     navigation.navigate('DriveFilter');

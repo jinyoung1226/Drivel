@@ -1,13 +1,49 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import Star from '../../assets/icons/Star.svg';
+import {useNavigation} from '@react-navigation/native';
+import {authApi} from '../../api/api';
+import RenderingPage from '../../components/RenderingPage';
 
 const DriveCourseListItem = ({item}) => {
-  console.log(item);
+  const navigation = useNavigation();
+  console.log(item, '@@@@@@@@@');
+  const [courseInfo, setCourseInfo] = useState(null);
+
+  const handleDriveDetail = id => {
+    navigation.navigate('DriveDetail', {id: id});
+  };
+
+  useEffect(() => {
+    const getDriveInfo = async () => {
+      try {
+        const response = await authApi.get(`course/${item.id}`);
+        if (response.status === 200) {
+          setCourseInfo(response.data);
+          console.log(response.data, '@@@@');
+        }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status === 400) {
+            Alert.alert('코스를 불러올 수 없습니다.');
+          }
+        } else {
+          console.log(error);
+          Alert.alert('서버와의 통신 실패');
+        }
+      }
+    };
+    getDriveInfo();
+  }, [item.id]);
+
+  // courseInfo가 존재할 때만 렌더링하도록 수정
+  if (!courseInfo) return null;
+
   return (
     <TouchableOpacity
+      onPress={() => handleDriveDetail(item.id)}
       style={{
         flex: 1,
         flexDirection: 'row',
@@ -28,11 +64,13 @@ const DriveCourseListItem = ({item}) => {
         <Text style={[textStyles.H5, {color: colors.Gray10}]}>
           {item.title}
         </Text>
-        <Text style={{color: colors.Gray07, marginTop: 4}}>{item.id}</Text>
+        <Text style={{color: colors.Gray07, marginTop: 4}}>
+          {courseInfo.regionName}
+        </Text>
         <Text
           style={{color: colors.Gray07, marginTop: 8, width: 200}}
           numberOfLines={2}>
-          {item.description}
+          {courseInfo.tags}
         </Text>
       </View>
       <View

@@ -57,7 +57,9 @@ const DriveBlog = ({item}) => {
           renderItem={({item}) => <DriveBlogList item={item} />}
           showsHorizontalScrollIndicator={false}
         />
-      ) : null}
+      ) : (
+        <Text>Loading...</Text>
+      )}
     </View>
   );
 };
