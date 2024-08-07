@@ -66,7 +66,7 @@ const Tabs = ({tabName, style, activeTab, setActiveTab}) => {
           flexDirection: 'row',
           borderBottomWidth: 1,
           borderBottomColor: colors.Gray02,
-          elevation: 2,
+          // elevation: 2,
         }}>
         {tabName.map((item, index) => (
           <Pressable
