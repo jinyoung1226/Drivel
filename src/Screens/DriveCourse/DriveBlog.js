@@ -53,6 +53,7 @@ const DriveBlog = ({item}) => {
       }}>
       {blogData ? (
         <FlatList
+          scrollEnabled={false}
           key={blogData.id}
           data={blogData}
           renderItem={({item}) => <DriveBlogList item={item} />}

@@ -23,6 +23,7 @@ import RenderingPage from '../../components/RenderingPage';
 import BorderBlueHeart from '../../assets/icons/BorderBlueHeart.svg';
 import {toggleLike} from '../../features/like/likeActions';
 import {useSelector, useDispatch} from 'react-redux';
+import CustomButton from '../../components/CustomButton';
 
 const {width} = Dimensions.get('window');
 
@@ -111,7 +112,7 @@ const DriveDetail = ({route, navigation}) => {
         ref={scrollViewRef}
         onScroll={handleScroll}
         stickyHeaderIndices={[3]}
-        contentContainerStyle={{paddingBottom: 120}}>
+      >
         <Image
           src={courseInfo.courseInfo.imagePath}
           style={{width: width, aspectRatio: 1.8}}
@@ -150,40 +151,23 @@ const DriveDetail = ({route, navigation}) => {
       </KeyboardAwareScrollView>
       <View
         style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: 100,
           flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 16,
-          paddingHorizontal: 26.5,
-          backgroundColor: '#ffffff',
-          borderWidth: 0.1,
-          borderColor: '#e0e0e0',
+          padding: 16,
+          elevation: 10,
+          backgroundColor: colors.BG,
           shadowColor: '#000',
           shadowOffset: {width: 0, height: 2},
           shadowOpacity: 0.1,
-          shadowRadius: 5,
-          elevation: 5, // 안드로이드 그림자 설정
+          shadowRadius: 5
         }}>
-        <Pressable onPress={handleLikePress}>
-          <BorderBlueHeart fill={liked ? '#5168F6' : 'rgba(0, 0, 0, 0)'} />
-        </Pressable>
-        <View
-          style={{
-            width: 276,
-            height: 50,
-            backgroundColor: colors.Blue,
-            borderRadius: 10,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text style={[textStyles.H4, {color: colors.Light_Blue}]}>
-            드라이브 시작하기
-          </Text>
+        <View style={{justifyContent:'center'}}>
+          <Pressable onPress={handleLikePress}>
+            <BorderBlueHeart fill={liked ? '#5168F6' : 'rgba(0, 0, 0, 0)'} />
+          </Pressable>
+        </View>
+        <View style={{width: 16}} />
+        <View style={{flex:1}}>
+          <CustomButton  title={'드라이브 시작하기'} onPress={() => {}} />
         </View>
       </View>
     </View>
