@@ -3,6 +3,7 @@ import {
   singlePointHtml,
   multiPointHtml,
   noneMultiPointHtml,
+  restaurantPointHtml,
 } from '../components/kakaoMapHtmlGenerators';
 import config from '../config/config';
 
@@ -114,4 +115,9 @@ export const fetchRoute = async (item, setHtmlContent, center) => {
   } catch (error) {
     console.error('Error fetching route:', error);
   }
+};
+
+export const fetchReataurantRoute = async (setHtmlContent, center) => {
+  const html = restaurantPointHtml(center, config.KAKAO_JAVASCRIPT_KEY);
+  setHtmlContent(html);
 };

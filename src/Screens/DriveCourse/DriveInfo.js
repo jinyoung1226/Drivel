@@ -1,17 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import GrayLine from '../../components/GrayLine';
 import {WebView} from 'react-native-webview';
-import {View, Text, Dimensions} from 'react-native';
+import {View, Text, Dimensions, FlatList} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import {fetchRoute} from '../../utils/fetchRoute';
 import CustomChip from '../../components/CustomChip';
-const DriveInfo = ({item}) => {
+import DriveRestaurantCuration from './DriveRestaurantCuration';
+
+const DriveInfo = ({item, driveId}) => {
   const [htmlContent, setHtmlContent] = useState('');
   const center = {
     lat: item.waypoints[0].latitude,
     lng: item.waypoints[0].longitude,
   };
+  const places = item.places;
+
   useEffect(() => {
     fetchRoute(item, setHtmlContent, center);
   }, []);
@@ -90,19 +94,31 @@ const DriveInfo = ({item}) => {
         </View>
       </View>
       <GrayLine />
-      <View style={{height: 32}} />
-      <View style={{paddingHorizontal: 16}}>
-        <Text style={[textStyles.H4, {color: colors.Gray10}]}>지역 정보</Text>
-        <View style={{height: 16}} />
-        <Text style={[textStyles.H4, {color: colors.Blue}]}>
-          {item.regionName}
-        </Text>
-        <View style={{height: 8}} />
-        <Text style={[textStyles.C4, {color: colors.Gray06}]}>
-          {item.regionDescription}
-        </Text>
-        <View style={{height: 40}} />
-      </View>
+      {places.length > 0 ? (
+        <View>
+          <View style={{height: 24}} />
+          <Text
+            style={[
+              textStyles.H3,
+              {color: colors.Gray10, paddingHorizontal: 16},
+            ]}>
+            근처에 이런 카페/식당이 있어요!
+          </Text>
+          <View style={{flex: 1, marginTop: 16}}>
+            <FlatList
+              data={places}
+              keyExtractor={item => item.id.toString()} // keyExtractor를 사용하여 고유 키 설정
+              renderItem={({item}) => (
+                <DriveRestaurantCuration item={item} driveId={driveId} />
+              )}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              ItemSeparatorComponent={() => <View style={{width: 16}} />}
+              ListHeaderComponent={<View style={{width: 16}} />}
+            />
+          </View>
+        </View>
+      ) : null}
     </View>
   );
 };
