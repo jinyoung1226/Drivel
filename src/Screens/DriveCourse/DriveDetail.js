@@ -138,7 +138,9 @@ const DriveDetail = ({route, navigation}) => {
         )}
         {courseInfo !== null && (
           <View>
-            {activeTab === 0 && <DriveInfo item={courseInfo} />}
+            {activeTab === 0 && (
+              <DriveInfo item={courseInfo} driveId={driveId} />
+            )}
             {activeTab === 1 && <DriveReview item={courseInfo} />}
             <View style={{display: activeTab === 2 ? 'flex' : 'none'}}>
               <DriveTourSpot item={courseInfo} />

@@ -4,12 +4,14 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import DriveMain from '../Screens/DriveCourse/DriveMain';
 import DriveDetail from '../Screens/DriveCourse/DriveDetail';
+import DriveFilter from '../Screens/DriveCourse/DriveFilter';
 import Share from '../assets/icons/ShareIcon.svg';
 import BackIcon from '../assets/icons/BackIcon.svg';
 import colors from '../styles/colors';
 import FestivalInfo from '../components/FestivalInfo';
 import { useDispatch } from 'react-redux';
 import { showTabBar, hideTabBar } from '../features/tabBar/tabBarSlice';
+import RestaurantInfo from '../Screens/DriveCourse/RestaurantInfo';
 
 const Stack = createStackNavigator();
 
@@ -27,9 +29,15 @@ const DriveTab = ({route}) => {
   }, [route]);
   return (
     <Stack.Navigator initialRouteName="DriveMain">
-      <Stack.Screen name="DriveMain" component={DriveMain} />
+      <Stack.Screen
+        name="DriveMain"
+        component={DriveMain}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen name="DriveFilter" component={DriveFilter} />
       <Stack.Screen name="DriveDetail" component={DriveDetail} />
       <Stack.Screen name="FestivalInfo" component={FestivalInfo} />
+      <Stack.Screen name="RestaurantInfo" component={RestaurantInfo} />
     </Stack.Navigator>
   );
 };

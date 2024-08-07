@@ -13,6 +13,7 @@ import FestivalInfo from '../components/FestivalInfo';
 import { useDispatch } from 'react-redux';
 import { showTabBar, hideTabBar } from '../features/tabBar/tabBarSlice';
 
+import RestaurantInfo from '../Screens/DriveCourse/RestaurantInfo';
 const Stack = createStackNavigator();
 
 const HomeTab = ({route}) => {
@@ -50,6 +51,7 @@ const HomeTab = ({route}) => {
       />
       <Stack.Screen name="DriveDetail" component={DriveDetail} />
       <Stack.Screen name="FestivalInfo" component={FestivalInfo} />
+      <Stack.Screen name="RestaurantInfo" component={RestaurantInfo} />
     </Stack.Navigator>
   );
 };
