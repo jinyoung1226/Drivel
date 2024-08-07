@@ -3,7 +3,6 @@ import {FlatList, View} from 'react-native';
 import MeetListItem from './MeetListItem';
 import {RefreshControl} from 'react-native-gesture-handler';
 const MeetList = ({
-  goMeetDetail,
   ListHeaderComponent,
   data,
   refreshing,
@@ -16,7 +15,7 @@ const MeetList = ({
       ListHeaderComponent={ListHeaderComponent}
       data={data}
       renderItem={({item}) => (
-        <MeetListItem item={item} goMeetDetail={goMeetDetail} />
+        <MeetListItem item={item}/>
       )}
       keyExtractor={item => item.meetingId}
       refreshControl={

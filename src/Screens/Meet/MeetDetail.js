@@ -58,7 +58,7 @@ const MeetDetail = ({route, navigation}) => {
     try {
       const response = await authApi.get(`meeting/${meetingId}`);
       if (response.status == 200) {
-        // console.log(response.data, 'meeting');
+        // console.log(response.data.meetingInfo.participantsInfo.membersInfo, 'meeting', '@@@@');
         setMeetingInfo(response.data);
       }
     } catch (error) {

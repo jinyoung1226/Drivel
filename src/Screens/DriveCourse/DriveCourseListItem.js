@@ -9,37 +9,11 @@ import RenderingPage from '../../components/RenderingPage';
 
 const DriveCourseListItem = ({item}) => {
   const navigation = useNavigation();
-  console.log(item, '@@@@@@@@@');
-  const [courseInfo, setCourseInfo] = useState(null);
+  // const [courseInfo, setCourseInfo] = useState(null);
 
   const handleDriveDetail = id => {
     navigation.navigate('DriveDetail', {id: id});
   };
-
-  useEffect(() => {
-    const getDriveInfo = async () => {
-      try {
-        const response = await authApi.get(`course/${item.id}`);
-        if (response.status === 200) {
-          setCourseInfo(response.data);
-          console.log(response.data, '@@@@');
-        }
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status === 400) {
-            Alert.alert('코스를 불러올 수 없습니다.');
-          }
-        } else {
-          console.log(error);
-          Alert.alert('서버와의 통신 실패');
-        }
-      }
-    };
-    getDriveInfo();
-  }, [item.id]);
-
-  // courseInfo가 존재할 때만 렌더링하도록 수정
-  if (!courseInfo) return null;
 
   return (
     <TouchableOpacity
@@ -49,6 +23,7 @@ const DriveCourseListItem = ({item}) => {
         flexDirection: 'row',
         borderRadius: 10,
         backgroundColor: colors.BG,
+        marginHorizontal: 16,
         marginVertical: 8,
         height: 147,
         borderWidth: 1,
@@ -59,23 +34,26 @@ const DriveCourseListItem = ({item}) => {
         shadowOpacity: 0.1,
         shadowRadius: 3,
         elevation: 3,
+        
       }}>
       <View style={{flex: 1}}>
         <Text style={[textStyles.H5, {color: colors.Gray10}]}>
           {item.title}
         </Text>
-        <Text style={{color: colors.Gray07, marginTop: 4}}>
-          {courseInfo.regionName}
+        <Text style={[textStyles.B4, {color: colors.Gray07}]}>
+          강원도 · 30km
         </Text>
+        <View style={{height: 8}} />
         <Text
-          style={{color: colors.Gray07, marginTop: 8, width: 200}}
-          numberOfLines={2}>
-          {courseInfo.tags}
-        </Text>
+          style={[textStyles.B4, {color: colors.Gray04}]}
+        >
+          자연 · 경치... 매핑써서 하면 될듯
+        </Text> 
       </View>
+      <View style={{width:16}}/>
       <View
-        style={{width: 100, height: 115, borderRadius: 10, overflow: 'hidden'}}>
-        <Image source={{uri: item.imagePath}} style={{height: 115}} />
+        style={{width: 84, height: 115, borderRadius: 10, overflow: 'hidden'}}>
+        <Image source={{uri: item.imagePath}} style={{flex:1}} />
       </View>
       <View
         style={{

@@ -21,7 +21,11 @@ import {
   driveTheme,
   driveWith,
 } from '../../assets/onboardingData/onBoardingData';
-const MeetBrowse = ({goFilter, goMeetDetail}) => {
+import { useNavigation } from '@react-navigation/native';
+
+const MeetBrowse = () => {
+
+  const navigation = useNavigation();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {
     meetList,
@@ -58,6 +62,9 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
     console.log(meetList);
   }, [dispatch]);
 
+  const goFilter = () => {
+    navigation.navigate('MeetFilter');
+  };
   const onRefresh = () => {
     setIsRefreshing(true);
     dispatch(
@@ -228,7 +235,6 @@ const MeetBrowse = ({goFilter, goMeetDetail}) => {
       <View style={{flex: 1}}>
         <MeetList
           ListHeaderComponent={<View style={{height: 8}} />}
-          goMeetDetail={goMeetDetail}
           data={meetList}
           refreshing={isRefreshing}
           onRefresh={onRefresh}

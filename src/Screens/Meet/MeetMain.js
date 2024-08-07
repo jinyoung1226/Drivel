@@ -49,12 +49,7 @@ const MeetMain = ({navigation}) => {
           <MeetMy goMeetDetail={goMeetDetail} />
         </View>
         <View style={{display: currentTab === 1 ? 'flex' : 'none', flex: 1}}>
-          <MeetBrowse
-            goFilter={() => {
-              navigation.navigate('MeetFilter');
-            }}
-            goMeetDetail={goMeetDetail}
-          />
+          <MeetBrowse/>
         </View>
       </View>
     </SafeAreaView>

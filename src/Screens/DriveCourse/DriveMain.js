@@ -25,6 +25,7 @@ import {
   driveTheme,
   driveWith,
 } from '../../assets/onboardingData/onBoardingData';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const DriveMain = ({navigation}) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -148,29 +149,36 @@ const DriveMain = ({navigation}) => {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: colors.BG, paddingHorizontal: 16}}>
-      <View
+    <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
+      <TouchableOpacity
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
           backgroundColor: colors.Gray02,
-          height: 41,
-          borderRadius: 1000,
-          marginTop: 70, // 검색바의 상단 마진 조절
-          marginBottom: 16, // 검색바와 필터 탭 사이의 간격을 16으로 설정
+          height: 47,
+          borderRadius: 21,
+          margin: 16, // 검색바와 필터 탭 사이의 간격을 16으로 설정
           paddingHorizontal: 16,
         }}>
-        <TextInput style={[textStyles.B3, {color: colors.Gray06}]}>
+        <Text style={[textStyles.B3, {color: colors.Gray06}]}>
           원하는 드라이브코스를 검색해보세요
-        </TextInput>
-        <SmallSearchIcon style={{color: colors.Gray06}} />
-      </View>
-      <View style={{flexDirection: 'row'}}>
+        </Text>
+        <SmallSearchIcon/>
+      </TouchableOpacity>
+      <View 
+        style={{flexDirection: 'row',
+          paddingRight: 16,
+          paddingBottom: 8,
+          borderBottomWidth: 1,
+          borderBottomColor: colors.Gray02,
+        }}
+      >
         <FlatList
           data={sortedCategory}
           renderItem={renderCategory}
           horizontal
+          ListHeaderComponent={<View style={{width: 16}} />}
           ListFooterComponent={<View style={{width: 16}} />}
           ItemSeparatorComponent={<View style={{width: 8}} />}
           showsHorizontalScrollIndicator={false}
@@ -200,7 +208,7 @@ const DriveMain = ({navigation}) => {
           onEndReached={onEndReached}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
