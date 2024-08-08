@@ -59,7 +59,7 @@ const MeetBrowse = () => {
         carCareer: filterCarCareer == '' ? null : filterCarCareer,
       }),
     );
-    console.log(meetList);
+    // console.log(meetList);
   }, [dispatch]);
 
   const goFilter = () => {
@@ -81,7 +81,6 @@ const MeetBrowse = () => {
         carCareer: filterCarCareer == '' ? null : filterCarCareer,
       }),
     ).finally(() => setIsRefreshing(false));
-    console.log('@@@');
   };
 
   const onEndReached = () => {
@@ -100,7 +99,7 @@ const MeetBrowse = () => {
           carCareer: filterCarCareer == '' ? null : filterCarCareer,
         }),
       );
-      console.log(isLastPage);
+      // console.log(isLastPage);
     }
   };
 

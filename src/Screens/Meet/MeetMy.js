@@ -29,7 +29,7 @@ const MeetMy = ({goMeetDetail}) => {
   useEffect(() => {
     dispatch(getMeetListRecommended({page: inititalPage, size: 3}));
     dispatch(getMyMeetList());
-    console.log(meetListRecommended);
+    // console.log(meetListRecommended);
   }, []);
 
   useEffect(() => {

@@ -21,7 +21,7 @@ import { showTabBar, hideTabBar } from '../features/tabBar/tabBarSlice';
 
 const Stack = createStackNavigator();
 
-const MypageTab = ({route}) => {
+const MypageTab = ({route, navigation}) => {
 
   const dispatch = useDispatch();
 

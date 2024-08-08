@@ -39,7 +39,6 @@ const DriveMain = ({navigation}) => {
     filterDriveTheme,
     filterDriveStyle,
   } = useSelector(state => state.drive);
-  console.log(driveList, '@@@@@@@@@@@@@@@@@@@@333');
 
   const goFilter = () => {
     navigation.navigate('DriveFilter');
@@ -68,7 +67,6 @@ const DriveMain = ({navigation}) => {
         styleId: filterDriveStyle == '' ? null : filterDriveStyle,
       }),
     ).finally(() => setIsRefreshing(false));
-    console.log('@@@');
   };
 
   const onEndReached = () => {
@@ -82,7 +80,7 @@ const DriveMain = ({navigation}) => {
           styleId: filterDriveStyle == '' ? null : filterDriveStyle,
         }),
       );
-      console.log(isLastPage, '22222');
+      // console.log(isLastPage, '22222');
     }
   };
 

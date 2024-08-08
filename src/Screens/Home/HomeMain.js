@@ -29,7 +29,6 @@ const HomeMain = ({navigation}) => {
   const [driveCourseList, setDriveCourseList] = useState([]);
   const [activeButton, setActiveButton] = useState('');
   const [festivalList, setFestivalList] = useState([]);
-  console.log(festivalList, '$$$');
 
   useEffect(() => {
     const getDriveCurationInfo = async () => {
@@ -57,7 +56,7 @@ const HomeMain = ({navigation}) => {
       try {
         const response = await authApi.get('festival');
         if (response.status === 200) {
-          console.log(response.data, '@@');
+          // console.log(response.data, '@@');
           setFestivalList(response.data);
         }
       } catch (error) {

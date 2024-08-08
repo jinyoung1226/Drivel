@@ -14,7 +14,7 @@ export const getDriveList = createAsyncThunk(
           size,
         },
       });
-      console.log(themeId, styleId, togetherId, page, size);
+      // console.log(themeId, styleId, togetherId, page, size);
       if (response.status == 200) {
         const driveList = response.data.content;
         const isLastPage = response.data.last;
@@ -49,8 +49,8 @@ export const getDriveListMore = createAsyncThunk(
         },
       });
       if (response.status === 200) {
-        console.log(response.data.number, '현재페이지');
-        console.log(response.data.last);
+        // console.log(response.data.number, '현재페이지');
+        // console.log(response.data.last);
         const driveList = response.data.content;
         const isLastPage = response.data.last;
         const currentPage = response.data.number;
