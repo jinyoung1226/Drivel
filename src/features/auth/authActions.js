@@ -1,7 +1,7 @@
 import {createAsyncThunk, createAction} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import {api, authApi} from '../../api/api';
+import {api, authApi, refreshApi} from '../../api/api';
 import {Alert} from 'react-native';
 
 // 사용자의 인증 상태를 확인하는 비동기 액션
@@ -75,7 +75,7 @@ export const login = createAsyncThunk(
         const refreshToken = response.data.refreshToken;
         const nickname = response.data.nickname;
         console.log(response.data, 'login');
-        await AsyncStorage.setItem('accessToken', accessToken); //AsyncStorage에 저장하는 이유는 애플리케이션이 재시작될 때도 accessToken을 유지하기 위함. 자동로그인되야하니..
+        await AsyncStorage.setItem('accessToken', accessToken); 
         await EncryptedStorage.setItem('refreshToken', refreshToken);
         if (response.data.onboarded == true) {
           return {
@@ -119,7 +119,7 @@ export const login = createAsyncThunk(
 // 사용자가 로그아웃하는 비동기 액션
 export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
-    const response = await authApi.post('/auth/signOut');
+    const response = await refreshApi.post('/auth/signOut');
     if (response.status == 200) {
       console.log(response.status);
       await AsyncStorage.removeItem('accessToken');

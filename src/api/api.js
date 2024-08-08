@@ -11,6 +11,35 @@ export const api = axios.create({
   },
 });
 
+export const refreshApi = axios.create({
+  baseURL: config.SERVER_URL,
+  headers: {
+    'Content-Type': 'application/json;charset=UTF-8',
+  },
+});
+
+refreshApi.interceptors.request.use(
+  async config => {
+    console.log('헤더에 토큰 삽입');
+    const refreshToken = await EncryptedStorage.getItem('refreshToken'); // AsyncStorage에서 토큰 가져오기
+    if (refreshToken) {
+      console.log(refreshToken, '리프레쉬 토큰');
+      config.headers['Authorization'] = `Bearer ${refreshToken}`; // 헤더에 토큰 추가
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  },
+);
+
+refreshApi.interceptors.response.use(
+  response => {
+    console.log('refreshApi응답');
+    return response;
+  }
+);
+
 export const authApi = axios.create({
   baseURL: config.SERVER_URL,
   headers: {
@@ -36,7 +65,7 @@ authApi.interceptors.request.use(
 
 authApi.interceptors.response.use(
   response => {
-    console.log('응답');
+    console.log('authApi응답');
     return response;
   },
   async error => {
@@ -49,11 +78,7 @@ authApi.interceptors.response.use(
       const refreshToken = await EncryptedStorage.getItem('refreshToken');
       console.log(refreshToken, '리프레쉬');
       try {
-        const response = await api.post(
-          `/token/re-issue`,
-          {},
-          {headers: {Authorization: `Bearer ${refreshToken}`}},
-        );
+        const response = await refreshApi.post(`/token/re-issue`);
         if (response.status === 200) {
           console.log(response.data, 're-issue');
           await AsyncStorage.setItem('accessToken', response.data.accessToken);
@@ -103,7 +128,7 @@ formDataApi.interceptors.request.use(
 
 formDataApi.interceptors.response.use(
   response => {
-    console.log('응답');
+    console.log('formDataApi응답');
     return response;
   },
   async error => {
@@ -116,11 +141,7 @@ formDataApi.interceptors.response.use(
       const refreshToken = await EncryptedStorage.getItem('refreshToken');
       console.log(refreshToken, '리프레쉬');
       try {
-        const response = await api.post(
-          `/token/re-issue`,
-          {},
-          {headers: {Authorization: `Bearer ${refreshToken}`}},
-        );
+        const response = await refreshApi.post(`/token/re-issue`);
         if (response.status === 200) {
           console.log(response.data, 're-issue');
           await AsyncStorage.setItem('accessToken', response.data.accessToken);
@@ -144,3 +165,4 @@ formDataApi.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
