@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import colors from '../../styles/colors';
 import PlusIcon from '../../assets/icons/PlusIcon';
@@ -41,6 +42,7 @@ const MeetBrowse = () => {
     filterAge,
     filterCarModel,
     filterCarCareer,
+    isLoading,
   } = useSelector(state => state.meet);
   const dispatch = useDispatch();
 
@@ -238,8 +240,14 @@ const MeetBrowse = () => {
           refreshing={isRefreshing}
           onRefresh={onRefresh}
           onEndReached={onEndReached}
+          ListFooterComponent={<View style={{height:8}}/>}
         />
       </View>
+      {isLoading && 
+      <View style={{position:'absolute', bottom: 24, alignSelf:'center', alignItems:'center', justifyContent:'center', elevation:5}}>
+        <View style={{position:'absolute', width:32, height:32, backgroundColor:colors.Gray10, opacity:0.7, borderRadius:20}}/>
+        <ActivityIndicator size={'small'} style={{position:'absolute' }} color={colors.BG}/>
+      </View>}
     </View>
   );
 };

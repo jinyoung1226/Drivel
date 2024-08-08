@@ -17,6 +17,7 @@ import {getMeetListRecommended} from '../../features/meet/meetActions';
 import {authApi} from '../../api/api';
 import CustomButton from '../../components/CustomButton';
 import {getMyMeetList} from '../../features/meet/meetActions';
+import RenderingPage from '../../components/RenderingPage';
 const MeetMy = ({goMeetDetail}) => {
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -112,9 +113,7 @@ const MeetMy = ({goMeetDetail}) => {
   if (!meetListRecommended || !myMeetList) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
     return (
-      <View>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
+      <RenderingPage/>
     );
   }
 
@@ -279,6 +278,7 @@ const MeetMy = ({goMeetDetail}) => {
             <View style={{height: 8}} />
           </View>
         }
+        ListFooterComponent={<View style={{height: 8}} />}
       />
     </View>
   );

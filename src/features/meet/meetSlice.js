@@ -42,17 +42,17 @@ const meetSlice = createSlice({
   extraReducers: builder => {
     // checkAuth 액션이 실행되었을 때 각 상태(pending, fulfilled, rejected)에 따라 상태를 업데이트합니다.
     builder.addCase(getMeetList.pending, state => {
-      state.isLoading = true; // 인증 상태를 확인하는 중이므로 로딩 상태를 true로 설정합니다.
+      // state.isLoading = true; // 인증 상태를 확인하는 중이므로 로딩 상태를 true로 설정합니다.
     });
     builder.addCase(getMeetList.fulfilled, (state, action) => {
       state.meetList = action.payload.meetList;
       state.totalMeeting = action.payload.totalMeeting;
-      state.isLoading = false;
+      // state.isLoading = false;
       state.isLastPage = action.payload.isLastPage;
       state.currentPage = action.payload.currentPage;
     });
     builder.addCase(getMeetList.rejected, state => {
-      state.isLoading = false; // 로딩이 완료되었으므로 false로 설정합니다.
+      // state.isLoading = false; // 로딩이 완료되었으므로 false로 설정합니다.
     });
     builder.addCase(getMeetListRecommended.pending, state => {
       state.isLoading = true; // 인증 상태를 확인하는 중이므로 로딩 상태를 true로 설정합니다.

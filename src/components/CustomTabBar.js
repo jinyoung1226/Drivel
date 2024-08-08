@@ -12,7 +12,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
   }
 
   return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const label = options.tabBarLabel !== undefined
@@ -61,7 +61,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
             </TouchableOpacity>
           );
         })}
-      </SafeAreaView>
+      </View>
   );
 };
 

@@ -8,10 +8,11 @@ const MeetList = ({
   refreshing,
   onRefresh,
   onEndReached,
+  ListFooterComponent,
 }) => {
   return (
     <FlatList
-      ListFooterComponent={<View style={{height: 8}} />}
+      ListFooterComponent={ListFooterComponent}
       ListHeaderComponent={ListHeaderComponent}
       data={data}
       renderItem={({item}) => (
