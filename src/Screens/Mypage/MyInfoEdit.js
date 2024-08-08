@@ -61,7 +61,7 @@ const MyInfoEdit = ({navigation, route}) => {
     if (page == '기본 정보 설정') {
       console.log(nickname, intro);
       if (!isNicknameValid && nickname != '') {
-        alert('닉네임 중복 확인을 해주세요');
+        Alert.alert('닉네임 중복 확인을 해주세요');
         return;
       }
       try {
@@ -132,9 +132,14 @@ const MyInfoEdit = ({navigation, route}) => {
 
   const checkNickname = async() => {
     try {
-      setIsNicknameValid(!isNicknameValid)
+      const response = await authApi.put('members/check-nickname', {nickname: nickname});
+      if (response.status == 200) {
+        Alert.alert(response.data);
+        setIsNicknameValid(!isNicknameValid)
+      };
     } catch (error) {
       if (error.response) {
+        Alert.alert(error.response.data);
         console.log(error.response.data);
       } else {
         console.log('서버 접속 오류');
@@ -163,6 +168,7 @@ const MyInfoEdit = ({navigation, route}) => {
             placeholder={'최대 10자까지 입력 가능합니다'}
             containerStyle={{flex:1}}
             maxLength={10}
+            editable={!isNicknameValid}
             />
             <View style={{width:16}}/>
             <TouchableOpacity 
@@ -174,7 +180,8 @@ const MyInfoEdit = ({navigation, route}) => {
                 borderRadius:10, 
                 borderColor: colors.Blue, 
                 backgroundColor: isNicknameValid ? colors.Blue : undefined
-                }}
+              }}
+              disabled={isNicknameValid}
               onPress={()=>{checkNickname()}}
               >
               <Text style={[textStyles.H5, {color:isNicknameValid ? colors.Light_Blue : colors.Blue}]}>{isNicknameValid ? "확인 완료": "중복 확인"}</Text>

@@ -35,7 +35,7 @@ const CustomInput = ({
         {borderColor: isValid === false ? colors.red : colors.Gray03},
       ]}>
       <TextInput
-        style={[styles.input, textStyles.H5]}
+        style={[styles.input, textStyles.H5, {color: editable?  colors.Gray10 : colors.Gray06}]}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}

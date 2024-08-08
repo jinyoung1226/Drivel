@@ -7,14 +7,14 @@ import {Alert} from 'react-native';
 export const api = axios.create({
   baseURL: config.SERVER_URL,
   headers: {
-    'Content-Type': 'application/json;charset=UTF-8',
+    'Content-Type': 'application/json',
   },
 });
 
 export const refreshApi = axios.create({
   baseURL: config.SERVER_URL,
   headers: {
-    'Content-Type': 'application/json;charset=UTF-8',
+    'Content-Type': 'application/json',
   },
 });
 
