@@ -1303,7 +1303,7 @@ PODS:
     - FirebaseCoreExtension
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.17.1):
+  - RNGestureHandler (2.18.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1324,7 +1324,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.32.0):
+  - RNScreens (3.34.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1346,7 +1346,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSVG (15.4.0):
+  - RNSVG (15.5.0):
     - React-Core
   - SocketRocket (0.7.0)
   - Yoga (0.0.0)
@@ -1641,9 +1641,9 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
   RNFBApp: a7aff07a7f212149539fce51a1326c6d208b03ad
   RNFBMessaging: f1fdc7ac62df96e3c8362d516caaf84fab69085d
-  RNGestureHandler: 8dbcccada4a7e702e7dec9338c251b1cf393c960
-  RNScreens: 5aeecbb09aa7285379b6e9f3c8a3c859bb16401c
-  RNSVG: cb24fb322de8c1ebf59904e7aca0447bb8dbed5a
+  RNGestureHandler: efed690b8493a00b99654043daeb1335276ac4a2
+  RNScreens: aa943ad421c3ced3ef5a47ede02b0cbfc43a012e
+  RNSVG: b986585e367f4a49d8aa43065066cc9c290b3d9b
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: 348f8b538c3ed4423eb58a8e5730feec50bce372
 

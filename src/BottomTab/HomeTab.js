@@ -5,27 +5,24 @@ import HomeMain from '../Screens/Home/HomeMain';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import Alarm from '../assets/homeIcon/alarm.svg';
 import Search from '../assets/homeIcon/search.svg';
-import Share from '../assets/icons/ShareIcon.svg';
-import BackIcon from '../assets/icons/BackIcon.svg';
-import colors from '../styles/colors';
 import DriveDetail from '../Screens/DriveCourse/DriveDetail';
 import FestivalInfo from '../components/FestivalInfo';
-import { useDispatch } from 'react-redux';
-import { showTabBar, hideTabBar } from '../features/tabBar/tabBarSlice';
+import {useDispatch} from 'react-redux';
+import {showTabBar, hideTabBar} from '../features/tabBar/tabBarSlice';
+import DriveStart from '../Screens/DriveCourse/DriveStart';
 
 import RestaurantInfo from '../Screens/DriveCourse/RestaurantInfo';
 const Stack = createStackNavigator();
 
 const HomeTab = ({route}) => {
-
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
     if (routeName === 'Home' || routeName === undefined) {
-      dispatch(showTabBar())
+      dispatch(showTabBar());
     } else {
-      dispatch(hideTabBar())
+      dispatch(hideTabBar());
     }
   }, [route]);
 
@@ -52,6 +49,7 @@ const HomeTab = ({route}) => {
       <Stack.Screen name="DriveDetail" component={DriveDetail} />
       <Stack.Screen name="FestivalInfo" component={FestivalInfo} />
       <Stack.Screen name="RestaurantInfo" component={RestaurantInfo} />
+      <Stack.Screen name="DriveStart" component={DriveStart} />
     </Stack.Navigator>
   );
 };
