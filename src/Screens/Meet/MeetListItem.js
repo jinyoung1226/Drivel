@@ -32,7 +32,7 @@ const MeetListItem = ({
         borderRadius: 10,
         backgroundColor: colors.BG,
         marginHorizontal: 16,
-        marginVertical: 8,
+        marginBottom: 16,
         height: 145,
         borderWidth: 1,
         borderColor: colors.Gray01,

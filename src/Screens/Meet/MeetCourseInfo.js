@@ -84,7 +84,7 @@ const MeetCourseInfo = ({item}) => {
                 marginBottom: 8,
                 backgroundColor: colors.Gray02,
               }}>
-              <Text style={[textStyles.B4, {height: 15, color: colors.Gray10}]}>
+              <Text style={[textStyles.B4, {color: colors.Gray10}]}>
                 {tag}
               </Text>
             </View>

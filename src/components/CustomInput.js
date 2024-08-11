@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import {textStyles} from '../styles/textStyles';
 import colors from '../styles/colors';
+import { Tuple } from '@reduxjs/toolkit';
 const CustomInput = ({
   value,
   onChangeText,
@@ -16,7 +17,7 @@ const CustomInput = ({
   onButtonPress,
   buttonIcon,
   isValid,
-  editable,
+  editable = true,
   buttonDisabled,
   secureTextEntry = false,
   showTimer,
@@ -35,7 +36,7 @@ const CustomInput = ({
         {borderColor: isValid === false ? colors.red : colors.Gray03},
       ]}>
       <TextInput
-        style={[styles.input, textStyles.H5, {color: editable?  colors.Gray10 : colors.Gray06}]}
+        style={[styles.input, textStyles.H5, {color: editable ?  colors.Gray10 : colors.Gray06}]}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}

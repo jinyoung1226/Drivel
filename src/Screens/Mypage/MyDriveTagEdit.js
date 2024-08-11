@@ -1,5 +1,5 @@
 import React, {useEffect, useLayoutEffect, useState} from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, Alert } from "react-native";
 import { textStyles } from "../../styles/textStyles";
 import colors from "../../styles/colors";
 import BackIcon from "../../assets/icons/BackIcon";
@@ -10,11 +10,15 @@ import {
 } from '../../assets/onboardingData/onBoardingData';
 import ChipContainer from "../../components/ChipContainer";
 import CustomButton from "../../components/CustomButton";
+import { authApi } from "../../api/api";
+import { useDispatch } from "react-redux";
+import { getMyProfileInfo } from "../../features/profile/profileActions";
 const MyDriveTagEdit = ({navigation, route}) => {
   const item = route.params.item;
   const [selectedDriveStyle, setSelectedDriveStyle] = useState([]);
   const [selectedDriveTheme, setSelectedDriveTheme] = useState([]);
   const [selectedDriveTogether, setSelectedDriveTogether] = useState([]);
+  const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -38,6 +42,30 @@ const MyDriveTagEdit = ({navigation, route}) => {
     setSelectedDriveTheme(item.themes.map((e)=>e.id));
     setSelectedDriveTogether(item.togethers.map((e)=>e.id));
   },[]);
+
+  const MyDriveTagUpdate = async() => {
+    try {
+      const response = await authApi.patch('profile/profileUpdate', {
+        styleIds: selectedDriveStyle,
+        themeIds: selectedDriveTheme,
+        togetherIds: selectedDriveTogether,
+      });
+      if (response.status == 200) {
+        console.log(response.data, 'update');
+        dispatch(getMyProfileInfo());
+        navigation.goBack();
+      }
+    } catch (error) {
+      if (error.response) {
+        Alert.alert(error.response.data.message);
+        console.log(error.response.data);
+      } else {
+        console.log('서버 접속 오류');
+      }
+    }
+  }
+
+    
   return (
     <View style={{backgroundColor:colors.BG, flex:1, padding:16}}>
       <Text style={[textStyles.H5, {color:colors.Gray10}]}>드라이브 풍경</Text>
@@ -82,7 +110,7 @@ const MyDriveTagEdit = ({navigation, route}) => {
         onSelectedHandler={items => setSelectedDriveTogether(items)}
       />
       <View style={{flex:1}}/>
-      <CustomButton title={'완료하기'} onPress={()=>{navigation.goBack()}}/>
+      <CustomButton title={'완료하기'} onPress={()=>{MyDriveTagUpdate()}}/>
     </View>
   )
   }

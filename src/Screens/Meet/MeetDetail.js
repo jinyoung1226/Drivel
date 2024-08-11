@@ -21,7 +21,8 @@ import formatDate from '../../utils/formatDate';
 import MeetCourseInfo from './MeetCourseInfo';
 import Tabs from '../../components/Tabs';
 import MeetChatBoard from './MeetChatBoard';
-
+import { useDispatch } from 'react-redux';
+import { subscribeToChannel, unsubscribeToChannel } from '../../features/websocket/websocketActions';
 const MeetDetail = ({route, navigation}) => {
   const [activeTab, setActiveTab] = useState(0);
   const [courseInfo, setCourseInfo] = useState(null);
@@ -31,6 +32,8 @@ const MeetDetail = ({route, navigation}) => {
   const [iconColor, setIconColor] = useState(colors.white);
   const scrollViewRef = useRef(null); // ScrollView 참조
   const [scrollOffset, setScrollOffset] = useState(0);
+  const dispatch = useDispatch();
+
   const meetingId = route.params.meetingId;
   const courseId = route.params.courseId;
   const meetingTitle = route.params.meetingTitle;
@@ -73,6 +76,10 @@ const MeetDetail = ({route, navigation}) => {
   useEffect(() => {
     getDriveCourseInfo();
     getMeetingInfo();
+    dispatch(subscribeToChannel({channel: `/meeting/${meetingId}`}));
+    return () => {
+      dispatch(unsubscribeToChannel());
+    };
   }, []);
   
   participateMeeting = async () => {

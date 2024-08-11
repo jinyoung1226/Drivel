@@ -5,6 +5,7 @@ import meetReducer from '../features/meet/meetSlice';
 import likeReducer from '../features/like/likeSlice';
 import profileReducer from '../features/profile/profileSlice';
 import tabBarReducer from '../features/tabBar/tabBarSlice';
+import websocketReducer from '../features/websocket/websocketSlice';
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -13,6 +14,7 @@ const store = configureStore({
     like: likeReducer,
     profile: profileReducer,
     tabBar: tabBarReducer,
+    websocket: websocketReducer,
   },
 });
 

@@ -106,7 +106,7 @@ const FestivalInfo = ({route}) => {
       </View>
       <View style={{height: 24}} />
       <Image
-        src={festivalInfo.firstImagePath}
+        src={festivalInfo.imagePath}
         style={{flex: 1, borderRadius: 0, resizeMode: 'contain'}}
       />
     </View>

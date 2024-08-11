@@ -235,12 +235,11 @@ const MeetBrowse = () => {
       </View>
       <View style={{flex: 1}}>
         <MeetList
-          ListHeaderComponent={<View style={{height: 8}} />}
+          ListHeaderComponent={<View style={{height: 16}} />}
           data={meetList}
           refreshing={isRefreshing}
           onRefresh={onRefresh}
           onEndReached={onEndReached}
-          ListFooterComponent={<View style={{height:8}}/>}
         />
       </View>
       {isLoading && 

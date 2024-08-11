@@ -275,12 +275,12 @@ const MeetMy = ({goMeetDetail}) => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <View style={{height: 8}} />
+            <View style={{height: 16}} />
           </View>
         }
-        ListFooterComponent={<View style={{height: 8}} />}
       />
     </View>
   );
 };
+
 export default MeetMy;

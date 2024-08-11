@@ -1,14 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import store from './src/store/store';
 import RootNavigator from './src/Nav/RootNavigator';
 import messaging from '@react-native-firebase/messaging';
 import { Alert } from 'react-native';
-import config from './src/config/config';
-import { EventSourcePolyfill } from 'event-source-polyfill';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
-import SSE from './src/utils/SSE';
+import * as encoding from 'text-encoding';
+
+
 const App = () => {
 
   const getFcmToken = async () => {
@@ -54,10 +54,9 @@ const App = () => {
   }, []);
 
   return (
-    <Provider store={store}>
-      {/* <SSE/> */}
-      <RootNavigator />
-    </Provider>
+      <Provider store={store}>
+        <RootNavigator />
+      </Provider>
   );
 };
 

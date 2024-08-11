@@ -58,6 +58,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
               <Text style={[textStyles.B5 ,styles.label, isFocused && styles.focusedLabel]}>
                 {label}
               </Text>
+              <View style={{ height: Platform.OS === 'ios' ? 21 : 0 }} />
             </TouchableOpacity>
           );
         })}
@@ -68,7 +69,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
-    height: 72,
+    height: Platform.OS === 'ios' ? 93 : 72,
     flexDirection: 'row',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
