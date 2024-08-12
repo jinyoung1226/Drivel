@@ -6,30 +6,28 @@ import {
   Image,
   Dimensions,
   Text,
-  TouchableOpacity,
-  ActivityIndicator,
   FlatList,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchDriveInfo} from '../../features/drive/driveActions';
 import DriveCourseCuration from './DriveCourseCuration';
 import Magazine from './Magazine';
-import {api, authApi} from '../../api/api';
+import {authApi} from '../../api/api';
 import GrayLine from '../../components/GrayLine';
 import {Alert} from 'react-native';
 import FestivalCuration from '../../components/FestivalCuration';
 import Sparkler from '../../assets/icons/Sparkler.svg';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
+import RenderingPage from '../../components/RenderingPage';
+import DriveRegionCuraiton from './DriveRegionCuraiton';
 
 const {width} = Dimensions.get('window');
 
 const HomeMain = ({navigation}) => {
   const [driveCourseList, setDriveCourseList] = useState([]);
-  const [activeButton, setActiveButton] = useState('');
+  const [driveRegionList, setDriveRegionList] = useState([]);
   const [festivalList, setFestivalList] = useState([]);
-  console.log(festivalList, '$$$');
+  const [category, setCategory] = useState([]);
+  const [activeButton, setActiveButton] = useState('');
 
   useEffect(() => {
     const getDriveCurationInfo = async () => {
@@ -53,11 +51,38 @@ const HomeMain = ({navigation}) => {
   }, []);
 
   useEffect(() => {
+    const getRegionCurationInfo = async () => {
+      try {
+        const response = await authApi.get('course/my-region');
+        if (response.status === 200) {
+          console.log(response.data, '@@@@@');
+          setDriveRegionList(response.data);
+
+          const categoryData = response.data.map(data => data.tagName);
+          setCategory(categoryData);
+          if (categoryData.length > 0) {
+            setActiveButton(categoryData[0]);
+          }
+        }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status === 400) {
+            Alert.alert('코스를 불러올 수 없습니다.');
+          }
+        } else {
+          console.log(error);
+          Alert.alert('서버와의 통신 실패');
+        }
+      }
+    };
+    getRegionCurationInfo();
+  }, []);
+
+  useEffect(() => {
     const getFestivalInfo = async () => {
       try {
         const response = await authApi.get('festival');
         if (response.status === 200) {
-          console.log(response.data, '@@');
           setFestivalList(response.data);
         }
       } catch (error) {
@@ -74,6 +99,10 @@ const HomeMain = ({navigation}) => {
     getFestivalInfo();
   }, []);
 
+  const driveRegionLists = driveRegionList
+    .filter(region => region.tagName === activeButton) // 선택된 카테고리에 해당하는 항목만 필터링
+    .flatMap(region => region.courses); // 각 region의 courses 배열을 플랫맵으로 합치기
+
   const handleDriveCourse = id => {
     navigation.navigate('DriveDetail', {id: id});
   };
@@ -84,11 +113,7 @@ const HomeMain = ({navigation}) => {
 
   if (driveCourseList.length === 0) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
-    return (
-      <View>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
+    return <RenderingPage />;
   }
 
   return (
@@ -117,19 +142,18 @@ const HomeMain = ({navigation}) => {
           </Text>
         </Pressable>
         <DriveCourseCuration
-          activeButton={activeButton}
-          handleButtonPress={handleButtonPress}
           handleDriveCourse={handleDriveCourse}
           driveCourseLists={driveCourseList}
         />
-        <View
-          style={{
-            width: width,
-            height: 10,
-            backgroundColor: '#F6F6F7',
-            marginTop: 16,
-          }}
+        <GrayLine />
+        <DriveRegionCuraiton
+          activeButton={activeButton}
+          category={category}
+          handleButtonPress={handleButtonPress}
+          handleDriveCourse={handleDriveCourse}
+          driveRegionLists={driveRegionLists}
         />
+        <GrayLine />
         <Magazine />
         <GrayLine />
         <View
@@ -138,7 +162,7 @@ const HomeMain = ({navigation}) => {
             alignItems: 'center',
             gap: 4,
             paddingLeft: 16,
-            paddingTop: 16,
+            paddingTop: 24,
           }}>
           <Sparkler />
           <Text style={[textStyles.H2, {color: colors.Gray10}]}>

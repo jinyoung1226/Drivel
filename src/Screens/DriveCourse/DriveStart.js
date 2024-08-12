@@ -3,15 +3,12 @@ import {WebView} from 'react-native-webview';
 import {
   View,
   Text,
-  Image,
-  Alert,
   TouchableOpacity,
-  Pressable,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
-import {authApi} from '../../api/api';
 import BackIcon from '../../assets/icons/BackIcon';
 import GrayLine from '../../components/GrayLine';
 import CustomButton from '../../components/CustomButton';
@@ -19,12 +16,34 @@ import {fetchRoute} from '../../utils/fetchRoute';
 import {useSelector} from 'react-redux';
 import {FlatList} from 'react-native-gesture-handler';
 import DriveStartRestaurantCuration from './DriveStartRestaurantCuration';
+import {DragSortableView} from 'react-native-drag-sort';
+import Drag from '../../assets/icons/Drag';
+
+const {width} = Dimensions.get('window');
 
 const DriveStart = ({route, navigation}) => {
   const driveCourseInfo = route.params.courseInfo;
   const placeInfo = driveCourseInfo.places;
   const [visibleItems, setVisibleItems] = useState(3);
   const nickname = useSelector(state => state.auth.nickname);
+  const [checkInfo, setCheckInfo] = useState([]);
+  console.log(checkInfo, ' sdaadds');
+  const [data, setData] = useState(null);
+
+  // initCheckInfo 초기화 (기본 경유지 추가)
+  const initCheckInfo = {
+    type: '기본경유지',
+    waypoints: [],
+  };
+
+  for (let i = 0; i < driveCourseInfo.waypoints.length; i++) {
+    const {name, latitude, longitude} = driveCourseInfo.waypoints[i];
+    initCheckInfo.waypoints.push({id: i, name, latitude, longitude});
+  }
+
+  useEffect(() => {
+    setCheckInfo([initCheckInfo]);
+  }, [driveCourseInfo]);
 
   const [htmlContent, setHtmlContent] = useState('');
 
@@ -62,6 +81,45 @@ const DriveStart = ({route, navigation}) => {
     setVisibleItems(prev => prev + 3);
   };
 
+  const renderItem = item => {
+    const waypointNames = item.waypoints.map(wp => wp.name).join('-');
+
+    return (
+      <View
+        style={{
+          height: 'auto',
+          width: width - 32,
+          backgroundColor: colors.Gray02,
+          borderRadius: 8,
+          borderColor: colors.Gray03,
+          borderWidth: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: 16,
+        }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 8,
+            flex: 1,
+          }}>
+          {item.type === '기본경유지' && <Text>📌</Text>}
+          <Text
+            style={[
+              textStyles.B3,
+              {color: colors.Gray10, flexWrap: 'wrap', flex: 1},
+            ]}>
+            {waypointNames}
+          </Text>
+        </View>
+        {item.type !== '기본경유지' && <Drag />}
+      </View>
+    );
+  };
+
+  // const driveStartPress = () => {};
+
   return (
     <View style={{flex: 1, backgroundColor: colors.BG}}>
       <ScrollView>
@@ -87,6 +145,16 @@ const DriveStart = ({route, navigation}) => {
               * 상위 5개 경유지만 네비게이션으로 연결됩니다
             </Text>
           </View>
+          <View style={{height: 24}} />
+          <DragSortableView
+            dataSource={checkInfo}
+            childrenHeight={60}
+            childrenWidth={width - 32}
+            renderItem={renderItem}
+            onDataChange={newData => {
+              setCheckInfo(newData);
+            }}
+          />
         </View>
         <GrayLine />
         <View style={{paddingHorizontal: 16, marginTop: 24}}>
@@ -98,7 +166,10 @@ const DriveStart = ({route, navigation}) => {
             <FlatList
               data={placeInfo.slice(0, visibleItems)}
               renderItem={({item}) => (
-                <DriveStartRestaurantCuration item={item} />
+                <DriveStartRestaurantCuration
+                  item={item}
+                  setCheckInfo={setCheckInfo}
+                />
               )}
               scrollEnabled={false}
             />
@@ -124,8 +195,23 @@ const DriveStart = ({route, navigation}) => {
             )}
           </View>
         </View>
-        <GrayLine />
       </ScrollView>
+      <View
+        style={{
+          position: 'fixed',
+          flexDirection: 'row',
+          padding: 16,
+          elevation: 10,
+          backgroundColor: colors.BG,
+          shadowColor: '#000',
+          shadowOffset: {width: 0, height: 2},
+          shadowOpacity: 0.1,
+          shadowRadius: 5,
+        }}>
+        <View style={{flex: 1}}>
+          <CustomButton title={'드라이브 시작'} />
+        </View>
+      </View>
     </View>
   );
 };

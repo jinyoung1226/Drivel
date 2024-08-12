@@ -9,7 +9,7 @@ import {
   FlatList,
 } from 'react-native';
 import {useSelector} from 'react-redux';
-import Pin from '../../assets/icons/PinIcon.svg';
+import Candy from '../../assets/icons/Candy.svg';
 import CurationButton from './CurationButton';
 import CurationList from './CurationList';
 import {textStyles} from '../../styles/textStyles';
@@ -23,21 +23,24 @@ const DriveCourseCuration = ({
 }) => {
   const nickname = useSelector(state => state.auth.nickname);
   return (
-    <View style={{height: 330, marginTop: 32}}>
+    <View
+      style={{
+        flex: 1,
+        paddingTop: 32,
+      }}>
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           gap: 4,
-          marginBottom: 16,
-          marginLeft: 16,
+          paddingLeft: 16,
         }}>
-        <Pin />
+        <Candy />
         <Text style={[textStyles.H2, {color: colors.Gray10}]}>
           {nickname}님의 취향을 담았어요
         </Text>
       </View>
-      <View style={{flex: 1, marginTop: 16}}>
+      <View style={{flex: 1, paddingTop: 16}}>
         <View style={{flexDirection: 'row'}}>
           <FlatList
             data={driveCourseLists}

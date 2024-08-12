@@ -11,7 +11,7 @@ const GrayLine = () => {
         width: width,
         height: 10,
         backgroundColor: '#F6F6F7',
-        marginTop: 32,
+        marginTop: 24,
       }}></View>
   );
 };
