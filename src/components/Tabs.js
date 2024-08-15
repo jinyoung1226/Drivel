@@ -14,40 +14,10 @@ import colors from '../styles/colors';
 const windowWidth = Dimensions.get('window').width;
 
 const Tabs = ({tabName, style, activeTab, setActiveTab}) => {
-  // const [activeTab, setActiveTab] = React.useState(0);
-  const animatedValue = useRef(new Animated.Value(0)).current;
-  const scrollViewRef = useRef();
-  const isAnimating = useRef(false);
 
-  useEffect(() => {
-    if (!isAnimating.current) {
-      Animated.timing(animatedValue, {
-        toValue: (activeTab * (windowWidth - 32)) / tabName.length,
-        duration: 250,
-        useNativeDriver: true,
-      }).start(() => {
-        isAnimating.current = false;
-      });
-    }
-  }, [activeTab]);
-
-  const handleScroll = event => {
-    const offsetX = event.nativeEvent.contentOffset.x;
-    const newIndex = Math.round(offsetX / windowWidth);
-    setActiveTab(newIndex);
-
-    animatedValue.setValue(
-      ((offsetX / windowWidth) * windowWidth) / tabName.length,
-    );
-  };
 
   const handlePress = index => {
-    isAnimating.current = true;
-    // scrollViewRef.current.scrollTo({x: index * windowWidth, animated: true});
-    setTimeout(() => {
       setActiveTab(index);
-      isAnimating.current = false;
-    }, 250);
   };
 
   return (
@@ -66,6 +36,7 @@ const Tabs = ({tabName, style, activeTab, setActiveTab}) => {
           flexDirection: 'row',
           borderBottomWidth: 1,
           borderBottomColor: colors.Gray02,
+          width: windowWidth,
           // elevation: 2,
         }}>
         {tabName.map((item, index) => (

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {textStyles} from '../styles/textStyles';
 import colors from '../styles/colors';
-const CustomButton = ({title, onPress, disabled}) => {
+const CustomButton = ({title, onPress, disabled, style, textStyle}) => {
   return (
     <Pressable
       style={({pressed}) => [
@@ -22,7 +22,7 @@ const CustomButton = ({title, onPress, disabled}) => {
           justifyContent: 'center',
           alignItems: 'center',
           borderRadius: 10,
-        },
+        }, style
       ]}
       disabled={disabled}
       onPress={onPress}>
@@ -31,6 +31,7 @@ const CustomButton = ({title, onPress, disabled}) => {
           style={[
             textStyles.H4,
             {color: disabled ? colors.Gray07 : colors.Light_Blue},
+            textStyle
           ]}>
           {title}
         </Text>

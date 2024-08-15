@@ -18,19 +18,44 @@ import {authApi} from '../../api/api';
 import CustomButton from '../../components/CustomButton';
 import {getMyMeetList} from '../../features/meet/meetActions';
 import RenderingPage from '../../components/RenderingPage';
+import MeetApplyPreview from './MeetApplyPreview';
+import isThisWeek from '../../utils/isThisWeek';
+import MeetUpcomingList from './MeetUpcomingList';
+import { ScrollView } from 'react-native-gesture-handler';
 const MeetMy = ({goMeetDetail}) => {
+
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [data, setData] = useState(null);
+  const [meetApplyList, setMeetApplyList] = useState(null);
   const [showMore, setShowMore] = useState(false);
+  const nickname = useSelector(state => state.auth.nickname);
   const {meetListRecommended, inititalPage, myMeetList} = useSelector(
     state => state.meet,
   );
 
+
+
+  const getMeetingApplyList = async() => {
+    try {
+      const response = await authApi.get(`/meeting/requests`);
+      if (response.status === 200) {
+        console.log(response.data, '@@@');
+        setMeetApplyList(response.data)
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.status);
+      } else {
+        console.log('서버 접속 오류');
+      }
+    }
+  }
+  
   useEffect(() => {
     dispatch(getMeetListRecommended({page: inititalPage, size: 3}));
     dispatch(getMyMeetList());
-    // console.log(meetListRecommended);
+    getMeetingApplyList();
   }, []);
 
   useEffect(() => {
@@ -43,38 +68,6 @@ const MeetMy = ({goMeetDetail}) => {
     setIsRefreshing(true);
     dispatch(getMeetListRecommended({page: inititalPage, size: 3}));
     setIsRefreshing(false);
-  };
-  // const getUpcomingMeet = async() => {
-  //   try {
-  //     const response = await authApi.get(`meeting/upcoming`);
-  //     if (response.status === 200) {
-  //       console.log(response.data, '@@@');
-  //       setMyMeetList(response.data);
-  //       setData(response.data.filter(meeting => isThisWeek(meeting.meetingDate)))
-  //     }
-  //   } catch (error) {
-  //     if (error.response) {
-  //       console.log(error.response.status);
-  //     } else {
-  //       console.log('서버 접속 오류');
-  //     }
-  //   }
-  // };
-
-  useEffect(() => {}, []);
-
-  const nickname = useSelector(state => state.auth.nickname);
-
-  const today = new Date();
-
-  const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
-  const endOfWeek = new Date(
-    today.setDate(today.getDate() - today.getDay() + 6),
-  );
-
-  const isThisWeek = date => {
-    const d = new Date(date);
-    return d >= startOfWeek && d <= endOfWeek;
   };
 
   const formatDate = dateString => {
@@ -110,7 +103,7 @@ const MeetMy = ({goMeetDetail}) => {
     setShowMore(!showMore);
   };
 
-  if (!meetListRecommended || !myMeetList) {
+  if (!meetListRecommended || !meetApplyList || !myMeetList) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
     return (
       <RenderingPage/>
@@ -126,7 +119,6 @@ const MeetMy = ({goMeetDetail}) => {
         data={meetListRecommended}
         ListHeaderComponent={
           <View style={{backgroundColor: colors.BG}}>
-            <View style={{height: 16}} />
             <View
               style={{
                 flexDirection: 'row',
@@ -156,99 +148,11 @@ const MeetMy = ({goMeetDetail}) => {
               />
             </View>
             <View style={{height: 24}} />
-            {myMeetList.length > 0 ? (
-              <View
-                style={{
-                  padding: 16,
-                  marginHorizontal: 16,
-                  elevation: 10,
-                  backgroundColor: '#FFF',
-                  borderWidth: 1,
-                  borderColor: colors.Gray01,
-                  borderRadius: 10,
-                }}>
-                <FlatList
-                  data={data}
-                  renderItem={renderMeetingItem}
-                  keyExtractor={item => item.meetingId}
-                  ItemSeparatorComponent={() => (
-                    <View
-                      style={{
-                        height: 1,
-                        backgroundColor: colors.Gray02,
-                        marginVertical: 8,
-                      }}
-                    />
-                  )}
-                  ListFooterComponent={
-                    showMore ? (
-                      <TouchableOpacity
-                        style={{
-                          marginTop: 24,
-                          paddingVertical: 4,
-                          justifyContent: 'center',
-                          flexDirection: 'row',
-                        }}
-                        onPress={handleShowMore}>
-                        <Text style={[textStyles.B3, {color: '#B0B0B0'}]}>
-                          {'접기'}
-                        </Text>
-                        <View style={{width: 8}} />
-                        <Text
-                          style={[
-                            textStyles.B2,
-                            {
-                              fontFamily: 'SUIT-Bold',
-                              color: '#C4C4C4',
-                              transform: [{rotate: '-90deg'}],
-                            },
-                          ]}>
-                          {'>'}
-                        </Text>
-                      </TouchableOpacity>
-                    ) : (
-                      <TouchableOpacity
-                        style={{
-                          marginTop: 24,
-                          paddingVertical: 4,
-                          justifyContent: 'center',
-                          flexDirection: 'row',
-                        }}
-                        onPress={handleShowMore}>
-                        <Text style={[textStyles.B3, {color: '#B0B0B0'}]}>
-                          {myMeetList.filter(meeting =>
-                            isThisWeek(meeting.meetingDate),
-                          ).length == 0
-                            ? '이번주 외 모임보기'
-                            : '더보기'}
-                        </Text>
-                        <View style={{width: 8}} />
-                        <Text
-                          style={[
-                            textStyles.B2,
-                            {
-                              fontFamily: 'SUIT-Bold',
-                              color: '#C4C4C4',
-                              transform: [{rotate: '90deg'}],
-                            },
-                          ]}>
-                          {'>'}
-                        </Text>
-                      </TouchableOpacity>
-                    )
-                  }
-                />
-              </View>
-            ) : (
-              <View style={{paddingHorizontal: 16}}>
-                <CustomButton
-                  title={'나한테 딱 맞는 모임 구경하러 가기'}
-                  onPress={() => {
-                    dispatch(setTab(1));
-                  }}
-                />
-              </View>
-            )}
+            <MeetUpcomingList data={data} myMeetList={myMeetList} handleShowMore={handleShowMore}/>
+            <View style={{height: 24}} />
+            <View style={{height: 10, backgroundColor: colors.Gray02}} />
+            <View style={{height: 24}} />
+            <MeetApplyPreview applyList={meetApplyList} />
             <View style={{height: 24}} />
             <View style={{height: 10, backgroundColor: colors.Gray02}} />
             <View style={{height: 24}} />
@@ -268,7 +172,7 @@ const MeetMy = ({goMeetDetail}) => {
                 }}>
                 <Text
                   style={[
-                    textStyles.B2,
+                    textStyles.B3,
                     {fontFamily: 'SUIT-Bold', color: colors.Gray04},
                   ]}>
                   {'더보기  >'}

@@ -12,7 +12,9 @@ let meetingSubscription = null;
 export const connectWebSocket = createAsyncThunk(
   'websocket/connect',
   async (_, thunkAPI) => {
+    const userId = thunkAPI.getState().auth.userId;
     const accessToken = await AsyncStorage.getItem('accessToken');
+     
     if (accessToken) {
       try {
         const client = (token) => new StompJs.Client({
@@ -42,8 +44,8 @@ export const connectWebSocket = createAsyncThunk(
         webSocketClient = client(accessToken);
         webSocketClient.onConnect = () => {
           thunkAPI.dispatch(websocketConnected());
-          subscription = webSocketClient.subscribe('/sub/alert/eeee', (message) => {
-            thunkAPI.dispatch(websocketMessageReceived(message));
+          subscription = webSocketClient.subscribe(`/sub/alert/${userId}`, (message) => {
+            websocketMessageReceived(message);
           });
         };
 
@@ -62,7 +64,7 @@ export const connectWebSocket = createAsyncThunk(
 
 export const subscribeToChannel = createAsyncThunk(
   'websocket/subscribe',
-  async ({ channel, callback }, thunkAPI) => {
+  async ( channel, callback , thunkAPI) => {
     if (webSocketClient && webSocketClient.connected) {
       try {
         console.log('구독 성공');
@@ -83,17 +85,40 @@ export const unsubscribeToChannel = createAsyncThunk(
       try {
         meetingSubscription.unsubscribe();
         console.log('구독 해제 성공');
+        meetingSubscription = null;
       } catch (error) {
         console.error('구독 해제 실패', error);
       }
     } else {
-      console.error('구독 중인 채널이 없습니다.');
+      console.log('구독 중인 채널이 없습니다.');
+    }
+  }
+);
+
+export const publish = createAsyncThunk(
+  'websocket/publish',
+  async (destination, header, senderId, message ) => {
+    if (webSocketClient) {
+      try {
+        webSocketClient.publish({
+          destination: destination,
+          Headers: header,
+          body: JSON.stringify({
+            message: message,
+            senderId : senderId,
+          }),
+        });
+      } catch (error) {
+        console.error('메시지 전송 실패', error);
+      }
+    } else {
+      console.error("WebSocket is not connected.");
     }
   }
 );
 
 // 웹소켓 메시지 수신 액션
-export const websocketMessageReceived = createAction('websocket/messageReceived');
+export const websocketMessageReceived = createAction('websocket/messageReceived')
 
 // 웹소켓 연결 종료 비동기 액션
 export const disconnectWebSocket = createAsyncThunk(

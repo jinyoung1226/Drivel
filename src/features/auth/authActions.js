@@ -15,6 +15,7 @@ export const checkAuth = createAsyncThunk(
         if (response.status == 200) {
           console.log(response.data, '/token/signIn');
           const nickname = response.data.nickname;
+          const userId = response.data.id;
           if (response.data.onboarded == true) {
             return {
               isAuthenticated: true,
@@ -22,6 +23,7 @@ export const checkAuth = createAsyncThunk(
               nickname: nickname,
               onboarded: true,
               isLoading: false,
+              userId: userId,
             };
           }
           if (response.data.onboarded == false) {
@@ -31,6 +33,7 @@ export const checkAuth = createAsyncThunk(
               nickname: nickname,
               onboarded: false,
               isLoading: false,
+              userId: userId,
             };
           }
         }
@@ -74,6 +77,7 @@ export const login = createAsyncThunk(
         const accessToken = response.data.accessToken;
         const refreshToken = response.data.refreshToken;
         const nickname = response.data.nickname;
+        const userId = response.data.id;
         console.log(response.data, 'login');
         await AsyncStorage.setItem('accessToken', accessToken); 
         await EncryptedStorage.setItem('refreshToken', refreshToken);
@@ -84,6 +88,7 @@ export const login = createAsyncThunk(
             nickname: nickname,
             onboarded: true,
             isLoading: false,
+            userId: userId,
           };
         }
         if (response.data.onboarded == false) {
@@ -93,6 +98,7 @@ export const login = createAsyncThunk(
             nickname: nickname,
             onboarded: false,
             isLoading: false,
+            userId: userId,
           };
         }
       }
@@ -124,7 +130,12 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
       console.log(response.status);
       await AsyncStorage.removeItem('accessToken');
       await EncryptedStorage.removeItem('refreshToken');
-      return {isAuthenticated: false, accessToken: null, isLoading: false};
+      return {
+        isAuthenticated: false, 
+        accessToken: null, 
+        isLoading: false,
+        userId: null,
+      };
     }
   } catch (error) {
     console.log(error.response.status);
@@ -135,6 +146,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
         isAuthenticated: false,
         accessToken: null,
         isLoading: false,
+        userId: null,
       });
     } else {
       await AsyncStorage.removeItem('accessToken');
@@ -144,6 +156,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
         isAuthenticated: false,
         accessToken: null,
         isLoading: false,
+        userId: null,
       });
     }
   }
@@ -158,9 +171,10 @@ export const kakaoLogin = createAsyncThunk(
         const accessToken = response.data.accessToken;
         const refreshToken = response.data.refreshToken;
         const nickname = response.data.nickname;
+        const userId = response.data.id;
         await AsyncStorage.setItem('accessToken', accessToken); //AsyncStorage에 저장하는 이유는 애플리케이션이 재시작될 때도 accessToken을 유지하기 위함. 자동로그인되야하니..
         await EncryptedStorage.setItem('refreshToken', refreshToken);
-        console.log('로그인성공');
+        console.log(response.data, '카카오 로그인성공');
         if (response.data.onboarded == true) {
           return {
             isAuthenticated: true,
@@ -168,6 +182,7 @@ export const kakaoLogin = createAsyncThunk(
             nickname: nickname,
             onboarded: true,
             isLoading: false,
+            userId: userId,
           };
         }
         if (response.data.onboarded == false) {
@@ -177,6 +192,7 @@ export const kakaoLogin = createAsyncThunk(
             nickname: nickname,
             onboarded: false,
             isLoading: false,
+            userId: userId,
           };
         }
       }

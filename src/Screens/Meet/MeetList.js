@@ -9,9 +9,11 @@ const MeetList = ({
   onRefresh,
   onEndReached,
   ListFooterComponent,
+  scrollEnabled = true,
 }) => {
   return (
     <FlatList
+      scrollEnabled={scrollEnabled}
       ListFooterComponent={ListFooterComponent}
       ListHeaderComponent={ListHeaderComponent}
       data={data}

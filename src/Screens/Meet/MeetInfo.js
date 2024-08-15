@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Text, Image, Dimensions} from 'react-native';
+import {View, Text, Image, Dimensions, TouchableOpacity, Pressable} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import CarIcon from '../../assets/icons/CarIcon.svg';
@@ -7,12 +7,18 @@ import PersonIcon from '../../assets/icons/PersonIcon.svg';
 import PinIcon from '../../assets/icons/PinIcon.svg';
 import {ScrollView} from 'react-native-gesture-handler';
 import GrayLine from '../../components/GrayLine';
+import { useNavigation } from '@react-navigation/native';
 const MeetInfo = ({item}) => {
   const width = Dimensions.get('window').width;
-
+  const navigation = useNavigation();
+  
   const renderMemberInfo = (imagePath, nickname, description, index) => {
     return (
-      <View key={index} style={{flexDirection: 'row'}}>
+      <TouchableOpacity 
+        key={index} 
+        style={{flexDirection: 'row'}}
+        onPress={() => {navigation.navigate('OtherProfile')}}
+        disabled={!(item.meetingInfo.status == "JOINED")}>
         <View
           style={{
             width: 50,
@@ -36,7 +42,7 @@ const MeetInfo = ({item}) => {
           </Text>
         </View>
         <View style={{width: 16}} />
-      </View>
+      </TouchableOpacity>
     );
   };
   return (

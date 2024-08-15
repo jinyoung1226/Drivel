@@ -21,9 +21,16 @@ import formatDate from '../../utils/formatDate';
 import MeetCourseInfo from './MeetCourseInfo';
 import Tabs from '../../components/Tabs';
 import MeetChatBoard from './MeetChatBoard';
-import { useDispatch } from 'react-redux';
-import { subscribeToChannel, unsubscribeToChannel } from '../../features/websocket/websocketActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { subscribeToChannel, unsubscribeToChannel, publish } from '../../features/websocket/websocketActions';
+import CustomInput from '../../components/CustomInput';
+import RenderingPage from '../../components/RenderingPage';
+import KebabMenuIcon from '../../assets/icons/KebabMenuIcon';
+import MenuModal from '../../components/MenuModal';
+import BlockModal from '../../components/BlockModal';
+import RenderingHandIcon from '../../assets/icons/RenderingHand';
 const MeetDetail = ({route, navigation}) => {
+  const [message, setMessage] = useState('');
   const [activeTab, setActiveTab] = useState(0);
   const [courseInfo, setCourseInfo] = useState(null);
   const [meetingInfo, setMeetingInfo] = useState(null);
@@ -32,6 +39,11 @@ const MeetDetail = ({route, navigation}) => {
   const [iconColor, setIconColor] = useState(colors.white);
   const scrollViewRef = useRef(null); // ScrollView 참조
   const [scrollOffset, setScrollOffset] = useState(0);
+  const [menuModalVisible, setMenuModalVisible] = useState(false);
+  const [blockModalVisible, setBlockModalVisible] = useState(false);
+  const [targetId, setTargetId] = useState('');
+  const [participateStatus, setParticipateStatus] = useState('NONE');
+  const { userId } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   const meetingId = route.params.meetingId;
@@ -61,8 +73,16 @@ const MeetDetail = ({route, navigation}) => {
     try {
       const response = await authApi.get(`meeting/${meetingId}`);
       if (response.status == 200) {
-        // console.log(response.data.meetingInfo.participantsInfo.membersInfo, 'meeting', '@@@@');
+        console.log(response.data, 'meeting', '@@@@');
         setMeetingInfo(response.data);
+        setParticipateStatus(response.data.meetingInfo.status);
+        if(response.data.meetingInfo.status == "JOINED") {
+          dispatch(subscribeToChannel(`/meeting/${meetingId}`, (message) => {
+            console.log(message, '@@@@@');
+            const newMessage = JSON.parse(message.body);
+            console.log(newMessage);
+          }));
+        }
       }
     } catch (error) {
       if (error.response) {
@@ -76,10 +96,10 @@ const MeetDetail = ({route, navigation}) => {
   useEffect(() => {
     getDriveCourseInfo();
     getMeetingInfo();
-    dispatch(subscribeToChannel({channel: `/meeting/${meetingId}`}));
     return () => {
       dispatch(unsubscribeToChannel());
     };
+    
   }, []);
   
   participateMeeting = async () => {
@@ -88,6 +108,7 @@ const MeetDetail = ({route, navigation}) => {
       if (response.status == 200) {
         console.log(response.data, 'participate')
         Alert.alert(response.data.message);
+        setParticipateStatus("WAITING");
       }
     } catch (error) {
       if (error.response) {
@@ -130,6 +151,14 @@ const MeetDetail = ({route, navigation}) => {
           <BackIcon color={iconColor} />
         </TouchableOpacity>
       ),
+      headerRight: () => (
+        <TouchableOpacity 
+          style={{padding:16}}
+          onPress={() => {setMenuModalVisible(!menuModalVisible); setTargetId(meetingInfo.meetingInfo.masterInfo.id)}}
+        >
+          <KebabMenuIcon color={iconColor} />
+        </TouchableOpacity>
+      ),
       headerBackground: () => (
         <Animated.View
           style={{
@@ -148,7 +177,7 @@ const MeetDetail = ({route, navigation}) => {
         />
       ),
     });
-  }, [navigation, scrollY, iconColor]);
+  }, [navigation, iconColor, meetingInfo, scrollY]);
 
   useEffect(() => {
     const backAction = () => {
@@ -180,13 +209,35 @@ const MeetDetail = ({route, navigation}) => {
     }
   };
 
+  if (meetingInfo === null) {
+    return (
+      <RenderingPage/>
+    )
+  }
+
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>
+      <BlockModal 
+        modalVisible={blockModalVisible} 
+        setModalVisible={setBlockModalVisible} 
+        targetId={targetId}
+        setTargetId={setTargetId}
+      />
+      <MenuModal 
+        modalVisible={menuModalVisible} 
+        setModalVisible={setMenuModalVisible} 
+        blockModalVisible={blockModalVisible} 
+        setBlockModalVisible={setBlockModalVisible} 
+        targetId={targetId}
+        masterId={meetingInfo.meetingInfo.masterInfo.id}
+        stauts={participateStatus}
+      />
       <Tabs
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         tabName={tabName}
         style={{
+          position: 'absolute',
           top: 56,
           zIndex: 1,
           display: displayTabs ? 'flex' : 'none',
@@ -224,7 +275,7 @@ const MeetDetail = ({route, navigation}) => {
             </LinearGradient>
           </ImageBackground>
         )}
-        {meetingInfo !== null && courseInfo !== null && displayTabs == false ? (
+        {displayTabs == false ? (
           <Tabs
             tabName={tabName}
             activeTab={activeTab}
@@ -237,23 +288,56 @@ const MeetDetail = ({route, navigation}) => {
           <View>
             {activeTab === 0 && <MeetInfo item={meetingInfo} />}
             {activeTab === 1 && <MeetCourseInfo item={courseInfo} />}
-            {activeTab === 2 && <MeetChatBoard/>}
+            {activeTab === 2 && (participateStatus == "JOINED" ? (
+              <MeetChatBoard/>
+              ) : (
+              <View style={{alignItems:'center'}}>
+                <View style={{height: 40}}/>
+                <RenderingHandIcon/>
+                <View style={{height: 16}}/>
+                <Text style={[textStyles.H4, {color: colors.Gray10, textAlign:'center', lineHeight: 24}]}>{'모임 게시판은 모임 참여 후에\n사용할 수 있어요\n지금 모임에 참여해보세요!'}</Text>
+              </View>))}
           </View>
         )}
       </KeyboardAwareScrollView>
-      <View
-        style={{
-          padding: 16,
-          elevation: 10,
-          backgroundColor: colors.BG,
-        }}>
-        <CustomButton
-          title={'참여하기'}
-          onPress={() => {
-            participateMeeting();
-          }}
-        />
-      </View>
+      {participateStatus == "JOINED" ? (
+        <>
+          {activeTab === 2 && (
+          <View
+            style={{
+              padding: 16,
+              elevation: 10,
+              backgroundColor: colors.BG,
+            }}
+          >
+            <CustomInput 
+              placeholder={"메시지를 입력해주세요"}
+              containerStyle={{backgroundColor: colors.Gray01, height:50}}
+              value={message}
+              onChangeText={setMessage}
+              showButton={true}
+              onButtonPress={() => {dispatch(publish(`/meeting/${meetingId}`, "application/json", userId, message+"\u0000")); setMessage('')}}
+              buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray06}]}>등록</Text>}  
+            />
+          </View>)
+          }
+        </>
+      ) : (
+        <View
+          style={{
+            padding: 16,
+            elevation: 10,
+            backgroundColor: colors.BG,
+          }}>
+          <CustomButton
+            title={participateStatus == 'WAITING' ? '신청 취소' : '참여하기'}
+
+            onPress={() => {
+              participateMeeting();
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 };

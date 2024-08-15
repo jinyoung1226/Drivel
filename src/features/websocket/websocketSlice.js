@@ -25,9 +25,9 @@ const websocketSlice = createSlice({
       .addCase(websocketDisconnected, (state) => {
         state.isConnected = false;
       })
-      .addCase(websocketMessageReceived, (state, action) => {
-        state.messages.push(action.payload);
-      })
+      // .addCase(websocketMessageReceived, (state, action) => {
+      //   state.messages.push(action.payload);
+      // })
       .addCase(connectWebSocket.fulfilled, (state) => {
         state.isConnected = true;
       })
