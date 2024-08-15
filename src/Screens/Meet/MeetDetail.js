@@ -77,11 +77,11 @@ const MeetDetail = ({route, navigation}) => {
         setMeetingInfo(response.data);
         setParticipateStatus(response.data.meetingInfo.status);
         if(response.data.meetingInfo.status == "JOINED") {
-          dispatch(subscribeToChannel(`/meeting/${meetingId}`, (message) => {
+          dispatch(subscribeToChannel({channel : `/meeting/${meetingId}`, callback : (message) => {
             console.log(message, '@@@@@');
             const newMessage = JSON.parse(message.body);
             console.log(newMessage);
-          }));
+          }}));
         }
       }
     } catch (error) {
@@ -209,6 +209,16 @@ const MeetDetail = ({route, navigation}) => {
     }
   };
 
+  const sendMessage = () => {
+    dispatch(publish({
+      destination: `/pub/meeting/${meetingId}`,
+      header: "application/json",
+      senderId: userId,
+      message: message
+    }));
+    setMessage('');
+  }
+
   if (meetingInfo === null) {
     return (
       <RenderingPage/>
@@ -316,7 +326,7 @@ const MeetDetail = ({route, navigation}) => {
               value={message}
               onChangeText={setMessage}
               showButton={true}
-              onButtonPress={() => {dispatch(publish(`/meeting/${meetingId}`, "application/json", userId, message+"\u0000")); setMessage('')}}
+              onButtonPress={() => sendMessage()}
               buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray06}]}>등록</Text>}  
             />
           </View>)

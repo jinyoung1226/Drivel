@@ -64,7 +64,7 @@ export const connectWebSocket = createAsyncThunk(
 
 export const subscribeToChannel = createAsyncThunk(
   'websocket/subscribe',
-  async ( channel, callback , thunkAPI) => {
+  async ({channel, callback} , thunkAPI) => {
     if (webSocketClient && webSocketClient.connected) {
       try {
         console.log('구독 성공');
@@ -97,9 +97,10 @@ export const unsubscribeToChannel = createAsyncThunk(
 
 export const publish = createAsyncThunk(
   'websocket/publish',
-  async (destination, header, senderId, message ) => {
+  async ({destination, header, senderId, message}) => {
     if (webSocketClient) {
       try {
+        console.log(destination, header, senderId, message, '메시지 전송');
         webSocketClient.publish({
           destination: destination,
           Headers: header,
