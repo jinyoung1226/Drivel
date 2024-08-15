@@ -8,6 +8,8 @@ import {
   BackHandler,
   Dimensions,
   Animated,
+  InputAccessoryView,
+  Platform,
 } from 'react-native';
 import BackIcon from '../../assets/icons/BackIcon';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -77,7 +79,7 @@ const MeetDetail = ({route, navigation}) => {
         setMeetingInfo(response.data);
         setParticipateStatus(response.data.meetingInfo.status);
         if(response.data.meetingInfo.status == "JOINED") {
-          dispatch(subscribeToChannel({channel : `/meeting/${meetingId}`, callback : (message) => {
+          dispatch(subscribeToChannel({channel : `/sub/meeting/${meetingId}`, callback : (message) => {
             console.log(message, '@@@@@');
             const newMessage = JSON.parse(message.body);
             console.log(newMessage);
@@ -256,7 +258,10 @@ const MeetDetail = ({route, navigation}) => {
       <KeyboardAwareScrollView
         ref={scrollViewRef} // ScrollView 참조 연결
         onScroll={handleScroll}
-        scrollEventThrottle={16}>
+        scrollEventThrottle={16}
+        keyboardDismissMode="interactive"
+        automaticallyAdjustKeyboardInsets={true}
+        contentInsetAdjustmentBehavior='never'>
         {courseInfo !== null && meetingInfo !== null && (
           <ImageBackground
             style={{width: width, aspectRatio: 1}}
@@ -310,44 +315,89 @@ const MeetDetail = ({route, navigation}) => {
           </View>
         )}
       </KeyboardAwareScrollView>
-      {participateStatus == "JOINED" ? (
-        <>
-          {activeTab === 2 && (
-          <View
-            style={{
-              padding: 16,
-              elevation: 10,
-              backgroundColor: colors.BG,
-            }}
-          >
-            <CustomInput 
-              placeholder={"메시지를 입력해주세요"}
-              containerStyle={{backgroundColor: colors.Gray01, height:50}}
-              value={message}
-              onChangeText={setMessage}
-              showButton={true}
-              onButtonPress={() => sendMessage()}
-              buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray06}]}>등록</Text>}  
-            />
-          </View>)
-          }
-        </>
-      ) : (
-        <View
-          style={{
-            padding: 16,
-            elevation: 10,
-            backgroundColor: colors.BG,
-          }}>
-          <CustomButton
-            title={participateStatus == 'WAITING' ? '신청 취소' : '참여하기'}
+      {Platform.OS == 'ios' ? 
+        (<InputAccessoryView backgroundColor={colors.BG}>
+          {participateStatus == "JOINED" ? (
+            <>
+              {activeTab === 2 && (
+              <View
+                style={{
+                  padding: 16,
+                  elevation: 10,
+                  backgroundColor: colors.BG,
+                }}
+              >
+                <CustomInput 
+                  placeholder={"메시지를 입력해주세요"}
+                  containerStyle={{backgroundColor: colors.Gray01, height:50}}
+                  value={message}
+                  onChangeText={setMessage}
+                  showButton={true}
+                  onButtonPress={() => sendMessage()}
+                  buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray06}]}>등록</Text>}  
+                />
+              </View>)
+              }
+            </>
+          ) : (
+            <View
+              style={{
+                padding: 16,
+                elevation: 10,
+                backgroundColor: colors.BG,
+              }}>
+              <CustomButton
+                title={participateStatus == 'WAITING' ? '신청 취소' : '참여하기'}
 
-            onPress={() => {
-              participateMeeting();
-            }}
-          />
-        </View>
-      )}
+                onPress={() => {
+                  participateMeeting();
+                }}
+              />
+            </View>
+          )}
+        </InputAccessoryView>
+        ) : (
+          <>
+          {participateStatus == "JOINED" ? (
+            <>
+              {activeTab === 2 && (
+              <View
+                style={{
+                  padding: 16,
+                  elevation: 10,
+                  backgroundColor: colors.BG,
+                }}
+              >
+                <CustomInput 
+                  placeholder={"메시지를 입력해주세요"}
+                  containerStyle={{backgroundColor: colors.Gray01, height:50}}
+                  value={message}
+                  onChangeText={setMessage}
+                  showButton={true}
+                  onButtonPress={() => sendMessage()}
+                  buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray06}]}>등록</Text>}  
+                />
+              </View>)
+              }
+            </>
+          ) : (
+            <View
+              style={{
+                padding: 16,
+                elevation: 10,
+                backgroundColor: colors.BG,
+              }}>
+              <CustomButton
+                title={participateStatus == 'WAITING' ? '신청 취소' : '참여하기'}
+
+                onPress={() => {
+                  participateMeeting();
+                }}
+              />
+            </View>
+          )}
+          </>
+        )}
     </View>
   );
 };
