@@ -8,7 +8,7 @@ import SmallSearchIcon from '../../assets/icons/SmallSearchIcon';
 import {api} from '../../api/api';
 import {useEffect, useState} from 'react';
 import koFilter from '../../utils/koFilter';
-import CustomInput from '../../components/CustomInput';
+import DriveSearchCustomInput from './DriveSearchCustomInput';
 import SearchIcon from '../../assets/icons/SearchIcon.svg';
 import XIcon from '../../assets/icons/XIcon.svg';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -65,7 +65,7 @@ const DriveSearch = ({navigation}) => {
           <BackIcon color={colors.Gray10} />
         </TouchableOpacity>
         <View style={{flex: 1, marginLeft: 8}}>
-          <CustomInput
+          <DriveSearchCustomInput
             showButton={true}
             isButtonText={false}
             buttonIcon={
