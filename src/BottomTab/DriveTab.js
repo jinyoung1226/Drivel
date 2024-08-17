@@ -10,6 +10,7 @@ import {useDispatch} from 'react-redux';
 import {showTabBar, hideTabBar} from '../features/tabBar/tabBarSlice';
 import RestaurantInfo from '../Screens/DriveCourse/RestaurantInfo';
 import DriveStart from '../Screens/DriveCourse/DriveStart';
+import DriveSearch from '../Screens/DriveCourse/DriveSearch';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,11 @@ const DriveTab = ({route}) => {
       <Stack.Screen
         name="DriveMain"
         component={DriveMain}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="DriveSearch"
+        component={DriveSearch}
         options={{headerShown: false}}
       />
       <Stack.Screen name="DriveFilter" component={DriveFilter} />

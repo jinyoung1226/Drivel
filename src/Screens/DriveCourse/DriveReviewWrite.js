@@ -47,7 +47,7 @@ const DriveReviewWrite = ({item}) => {
         console.log(response);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error:ㄴㄴㅁㅇㅁㄴ', error);
       console.log(error.response.data.message);
     }
   };
