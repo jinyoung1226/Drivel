@@ -1,16 +1,58 @@
 import React, {useEffect, useLayoutEffect} from "react";
-import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
+import { View, Text, TouchableOpacity, ImageBackground, Alert } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { textStyles } from "../../styles/textStyles";
 import colors from "../../styles/colors";
 import BackIcon from "../../assets/icons/BackIcon";
 import { ScrollView } from "react-native-gesture-handler";
+import { authApi } from "../../api/api";
+import {getMeetListRecommended, getMeetingApplyList, getMeetList} from '../../features/meet/meetActions';
+import refreshMeetList from "../../utils/refreshMeetList";
+const MeetApplyDetail = ({navigation}) => {
+  const dispatch = useDispatch();
+  
+  const {
+    inititalPage,
+    sort,
+    filterDriveTheme,
+    filterDriveWith,
+    filterDriveStyle,
+    filterGender,
+    filterAge,
+    filterCarModel,
+    filterCarCareer,
+    meetApplyList
+  } = useSelector(state => state.meet);
 
-const MeetApplyDetail = ({navigation, route}) => {
 
-  const applyList = route.params.applyList;
-  console.log(applyList);
+  useEffect(() => {
+    return () => {
+      refreshMeetList(dispatch);
+    }
+  }, [])
 
-  // const acceptUser = 
+
+  const acceptUser = async(id, accepted) => {
+    try {
+      const response = await authApi.post('/meeting/join/accept',
+        {id, accepted}
+      )
+      if (response.status === 200) {
+        if (accepted) {
+          Alert.alert('수락되었습니다.');
+        } else {
+          Alert.alert('거절되었습니다.');
+        }
+        dispatch(getMeetingApplyList());
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data);
+      } else {
+        console.log(error);
+      }
+    }
+  }
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '모임 신청목록',
@@ -31,7 +73,7 @@ const MeetApplyDetail = ({navigation, route}) => {
   return (
     <View style={{backgroundColor: colors.BG, flex:1}}>
       <ScrollView>
-        {applyList.map((item, index) => (
+        {meetApplyList.map((item, index) => (
           <View
           key={index}
           style={{
@@ -137,7 +179,9 @@ const MeetApplyDetail = ({navigation, route}) => {
                     paddingVertical: 8,
                     paddingHorizontal: 16,
                     borderRadius: 100,
-                  }}>
+                  }}
+                  onPress={() => acceptUser(item.requestId, true)}
+                  >
                     <Text style={[textStyles.B4, {color: colors.Blue}]}>수락</Text>
                   </TouchableOpacity>
                   <View style={{width: 8}} />
@@ -147,7 +191,9 @@ const MeetApplyDetail = ({navigation, route}) => {
                     paddingVertical: 8,
                     paddingHorizontal: 16,
                     borderRadius: 100,
-                  }}>
+                  }}
+                  onPress={() => acceptUser(item.requestId, false)}
+                  >
                     <Text style={[textStyles.B4, {color: colors.Gray10}]}>거절</Text>
                   </TouchableOpacity>
                 </View>

@@ -11,11 +11,12 @@ import { textStyles } from '../styles/textStyles';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
-const MenuModal = ({setModalVisible, modalVisible, blockModalVisible, setBlockModalVisible, targetId, masterId, status}) => {
+const MenuModal = ({setModalVisible, modalVisible, blockModalVisible, setBlockModalVisible, leaveModalVisible, setLeaveModalVisible, targetId, masterId, status}) => {
   
   const navigation = useNavigation();
 
   const userId = useSelector(state => state.auth.userId);
+  
   // console.log('ReportBlockMenuModal', userId);
   return (
     <Modal 
@@ -57,7 +58,7 @@ const MenuModal = ({setModalVisible, modalVisible, blockModalVisible, setBlockMo
                   {status == "JOINED" &&
                     <Pressable
                       style={({pressed}) => [{padding:16, backgroundColor: pressed ? colors.Gray02 : colors.white}]}
-                      onPress={()=> {setBlockModalVisible(!blockModalVisible); setModalVisible(!modalVisible);}}  
+                      onPress={()=> {setLeaveModalVisible(!leaveModalVisible); setModalVisible(!modalVisible);}}  
                     >
                       <Text style={[textStyles.H4, {color:colors.red, alignSelf:'center'}]}>모임 나가기</Text>
                     </Pressable>

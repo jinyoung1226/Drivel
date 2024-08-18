@@ -5,6 +5,7 @@ import {
   getMeetListRecommended,
   getMeetListMore,
   getMyMeetList,
+  getMeetingApplyList,
   setFilterAge,
   setFilterCarCareer,
   setFilterCarModel,
@@ -17,6 +18,7 @@ import {
 const initialState = {
   meetList: null,
   meetListRecommended: null,
+  meetApplyList: null,
   isLoading: false,
   currentTab: 0,
   totalMeeting: null,
@@ -84,6 +86,16 @@ const meetSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(getMyMeetList.rejected, state => {
+      state.isLoading = false;
+    });
+    builder.addCase(getMeetingApplyList.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(getMeetingApplyList.fulfilled, (state, action) => {
+      state.meetApplyList = action.payload.meetApplyList;
+      state.isLoading = false;
+    });
+    builder.addCase(getMeetingApplyList.rejected, state => {
       state.isLoading = false;
     });
     builder.addCase(setTab, (state, action) => {

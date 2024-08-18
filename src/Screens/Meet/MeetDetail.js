@@ -31,6 +31,7 @@ import KebabMenuIcon from '../../assets/icons/KebabMenuIcon';
 import MenuModal from '../../components/MenuModal';
 import BlockModal from '../../components/BlockModal';
 import RenderingHandIcon from '../../assets/icons/RenderingHand';
+import LeaveModal from '../../components/LeaveModal';
 const MeetDetail = ({route, navigation}) => {
   const [message, setMessage] = useState('');
   const [activeTab, setActiveTab] = useState(0);
@@ -43,6 +44,7 @@ const MeetDetail = ({route, navigation}) => {
   const [scrollOffset, setScrollOffset] = useState(0);
   const [menuModalVisible, setMenuModalVisible] = useState(false);
   const [blockModalVisible, setBlockModalVisible] = useState(false);
+  const [leaveModalVisible, setLeaveModalVisible] = useState(false);
   const [targetId, setTargetId] = useState('');
   const [participateStatus, setParticipateStatus] = useState('NONE');
   const { userId } = useSelector(state => state.auth);
@@ -235,14 +237,21 @@ const MeetDetail = ({route, navigation}) => {
         targetId={targetId}
         setTargetId={setTargetId}
       />
+      <LeaveModal
+        modalVisible={leaveModalVisible}
+        setModalVisible={setLeaveModalVisible}
+        meetingId={meetingId}
+      />
       <MenuModal 
         modalVisible={menuModalVisible} 
         setModalVisible={setMenuModalVisible} 
         blockModalVisible={blockModalVisible} 
         setBlockModalVisible={setBlockModalVisible} 
+        leaveModalVisible={leaveModalVisible}
+        setLeaveModalVisible={setLeaveModalVisible}
         targetId={targetId}
         masterId={meetingInfo.meetingInfo.masterInfo.id}
-        stauts={participateStatus}
+        status={participateStatus}
       />
       <Tabs
         activeTab={activeTab}

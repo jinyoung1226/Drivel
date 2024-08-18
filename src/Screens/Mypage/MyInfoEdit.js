@@ -190,7 +190,12 @@ const MyInfoEdit = ({navigation, route}) => {
           <View style={{height:32}}/>
           <Text style={[textStyles.H5, {color:colors.Gray10}]}>한줄 소개</Text>
           <View style={{height:16}}/>
-          <CustomInput value={intro} onChangeText={setIntro} placeholder={'최대 30자까지 입력 가능합니다'} maxLength={30} multiline={true}/>
+          <CustomInput 
+            value={intro} 
+            onChangeText={setIntro} 
+            placeholder={'최대 30자까지 입력 가능합니다'} 
+            maxLength={30} 
+            multiline={true}/>
         </View>
       }
       {page == '운전 정보 설정' &&

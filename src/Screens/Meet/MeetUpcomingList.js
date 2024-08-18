@@ -8,10 +8,10 @@ import CustomButton from '../../components/CustomButton';
 import isThisWeek from '../../utils/isThisWeek';
 import { useNavigation } from '@react-navigation/native';
 
-const MeetUpcomingList = ({data, myMeetList, handleShowMore}) => {
+const MeetUpcomingList = ({data, myMeetList, handleShowMore, showMore, setShowMore}) => {
   const navigation = useNavigation();
   // const [data, setData] = useState(null);
-  const [showMore, setShowMore] = useState(false);
+  // const [showMore, setShowMore] = useState(false);
   // const {myMeetList} = useSelector(state => state.meet);
 
   // useEffect(() => {

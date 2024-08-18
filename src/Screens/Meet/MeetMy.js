@@ -2,60 +2,35 @@ import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  Button,
-  StyleSheet,
-  FlatList,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import MeetList from './MeetList';
-import {setTab} from '../../features/meet/meetActions';
-import {getMeetListRecommended} from '../../features/meet/meetActions';
+import {getMeetListRecommended, getMyMeetList, getMeetingApplyList, setTab} from '../../features/meet/meetActions';
 import {authApi} from '../../api/api';
-import CustomButton from '../../components/CustomButton';
-import {getMyMeetList} from '../../features/meet/meetActions';
 import RenderingPage from '../../components/RenderingPage';
 import MeetApplyPreview from './MeetApplyPreview';
 import isThisWeek from '../../utils/isThisWeek';
 import MeetUpcomingList from './MeetUpcomingList';
-import { ScrollView } from 'react-native-gesture-handler';
+
 const MeetMy = ({goMeetDetail}) => {
 
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [data, setData] = useState(null);
-  const [meetApplyList, setMeetApplyList] = useState(null);
   const [showMore, setShowMore] = useState(false);
   const nickname = useSelector(state => state.auth.nickname);
-  const {meetListRecommended, inititalPage, myMeetList} = useSelector(
+  const {meetListRecommended, inititalPage, myMeetList, meetApplyList} = useSelector(
     state => state.meet,
   );
-
-
-
-  const getMeetingApplyList = async() => {
-    try {
-      const response = await authApi.get(`/meeting/requests`);
-      if (response.status === 200) {
-        console.log(response.data, '@@@');
-        setMeetApplyList(response.data)
-      }
-    } catch (error) {
-      if (error.response) {
-        console.log(error.response.status);
-      } else {
-        console.log('서버 접속 오류');
-      }
-    }
-  }
   
   useEffect(() => {
     dispatch(getMeetListRecommended({page: inititalPage, size: 3}));
     dispatch(getMyMeetList());
-    getMeetingApplyList();
+    dispatch(getMeetingApplyList());
+
   }, []);
 
   useEffect(() => {
@@ -76,23 +51,6 @@ const MeetMy = ({goMeetDetail}) => {
     const day = date.getDate().toString().padStart(2, '0'); // 두 자리로 맞춤
     return `${month}월 ${day}일`;
   };
-
-  const renderMeetingItem = ({item}) => (
-    <TouchableOpacity
-      style={{flexDirection: 'row', alignItems: 'center'}}
-      onPress={() => goMeetDetail(item)}>
-      <Text style={[textStyles.B3, {color: '#B0B0B0', height: 17}]}>
-        {formatDate(item.meetingDate)}
-      </Text>
-      <View style={{width: 32}} />
-      <Text style={[textStyles.B2, {color: colors.Blue}]}>{item.title}</Text>
-      <View style={{flex: 1}} />
-      <Text
-        style={[textStyles.B2, {fontFamily: 'SUIT-Bold', color: '#C4C4C4'}]}>
-        {'>'}
-      </Text>
-    </TouchableOpacity>
-  );
 
   const handleShowMore = () => {
     if (!showMore) {
@@ -148,13 +106,18 @@ const MeetMy = ({goMeetDetail}) => {
               />
             </View>
             <View style={{height: 24}} />
-            <MeetUpcomingList data={data} myMeetList={myMeetList} handleShowMore={handleShowMore}/>
+            <MeetUpcomingList data={data} myMeetList={myMeetList} handleShowMore={handleShowMore} showMore={showMore} setShowMore={setShowMore}/>
             <View style={{height: 24}} />
             <View style={{height: 10, backgroundColor: colors.Gray02}} />
-            <View style={{height: 24}} />
-            <MeetApplyPreview applyList={meetApplyList} />
-            <View style={{height: 24}} />
-            <View style={{height: 10, backgroundColor: colors.Gray02}} />
+            {meetApplyList.length == 0 ? 
+            null 
+            :
+            <View>
+              <View style={{height: 24}} />
+              <MeetApplyPreview applyList={meetApplyList} />
+              <View style={{height: 24}} />
+              <View style={{height: 10, backgroundColor: colors.Gray02}} />  
+            </View>}
             <View style={{height: 24}} />
             <View
               style={{

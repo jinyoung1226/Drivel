@@ -33,19 +33,6 @@ export const getMeetList = createAsyncThunk(
           togetherId,
         },
       });
-      // console.log(
-      //   page,
-      //   size,
-      //   orderBy,
-      //   age,
-      //   genderId,
-      //   carModel,
-      //   carCareer,
-      //   styleId,
-      //   themeId,
-      //   togetherId,
-      //   '필터들',
-      // );
       if (response.status == 200) {
         // console.log(response.data.number, '현재페이지');
         const meetList = response.data.content;
@@ -60,11 +47,13 @@ export const getMeetList = createAsyncThunk(
           currentPage: currentPage,
         };
       } else {
+        console.log('미팅리스트 불러오기 에러');
         return thunkAPI.rejectWithValue({
           error: `Unexpected response status: ${response.status}`,
         });
       }
     } catch (error) {
+      console.log('미팅리스트 불러오기 에러');
       console.log(error);
     }
   },
@@ -111,10 +100,12 @@ export const getMeetListMore = createAsyncThunk(
         return {meetList, isLastPage, currentPage};
       } else {
         return thunkAPI.rejectWithValue({
+
           error: `Unexpected response status: ${response.status}`,
         });
       }
     } catch (error) {
+      console.log('미팅리스트more 불러오기 에러');
       console.log(error);
       return thunkAPI.rejectWithValue({error: error.message});
     }
@@ -138,6 +129,7 @@ export const getMeetListRecommended = createAsyncThunk(
         });
       }
     } catch (error) {
+      console.log('추천미팅리스트 불러오기 에러');
       console.log(error);
     }
   },
@@ -149,14 +141,38 @@ export const getMyMeetList = createAsyncThunk(
     try {
       const response = await authApi.get(`meeting/upcoming`);
       if (response.status === 200) {
-        // console.log(response.data, '@@@');
+        console.log(response.data, '@@@');
         const myMeetList = response.data;
         return {myMeetList: myMeetList};
       }
     } catch (error) {
       if (error.response) {
+        console.log('내 미팅리스트 불러오기 에러');
         console.log(error.response.status);
       } else {
+        console.log('내 미팅리스트 불러오기 에러');
+        console.log('서버 접속 오류');
+      }
+    }
+  },
+);
+
+export const getMeetingApplyList = createAsyncThunk(
+  'meet/getMeetingApplyList',
+  async (_, thunkAPI) => {
+    try {
+      const response = await authApi.get(`/meeting/join`);
+      if (response.status === 200) {
+        console.log(response.data, '@@@');
+        const meetApplyList = response.data;
+        return {meetApplyList: meetApplyList};
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log('미팅 신청 리스트 불러오기 에러');
+        console.log(error.response.status);
+      } else {
+        console.log('미팅 신청 리스트 불러오기 에러');
         console.log('서버 접속 오류');
       }
     }

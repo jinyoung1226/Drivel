@@ -16,7 +16,7 @@ const MeetInfo = ({item}) => {
     return (
       <TouchableOpacity 
         key={index} 
-        style={{flexDirection: 'row'}}
+        style={{flexDirection: 'row', marginBottom: 16}}
         onPress={() => {navigation.navigate('OtherProfile')}}
         disabled={!(item.meetingInfo.status == "JOINED")}>
         <View
