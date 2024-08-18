@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Heart from '../../assets/icons/HeartIcon.svg';
 import {toggleLike} from '../../features/like/likeActions';
 
-const CurationList = ({item, handleDriveCourse}) => {
+const RegionCurationList = ({item, handleDriveCourse}) => {
   const likedItems = useSelector(state => state.like.likedItems);
   const liked = likedItems[item.id] || false;
   const dispatch = useDispatch();
@@ -32,13 +32,11 @@ const CurationList = ({item, handleDriveCourse}) => {
           color: '#ffffff',
           bottom: 25,
           left: 17,
-          width: 200,
-        }}
-        numberOfLines={2}>
+        }}>
         {item.title}
       </Text>
     </Pressable>
   );
 };
 
-export default CurationList;
+export default RegionCurationList;

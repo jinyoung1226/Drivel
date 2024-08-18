@@ -9,7 +9,6 @@ import RenderingPage from '../../components/RenderingPage';
 
 const DriveCourseListItem = ({item}) => {
   const navigation = useNavigation();
-  // const [courseInfo, setCourseInfo] = useState(null);
 
   const handleDriveDetail = id => {
     navigation.navigate('DriveDetail', {id: id});
@@ -34,7 +33,6 @@ const DriveCourseListItem = ({item}) => {
         shadowOpacity: 0.1,
         shadowRadius: 3,
         elevation: 3,
-        
       }}>
       <View style={{flex: 1}}>
         <Text style={[textStyles.H5, {color: colors.Gray10}]}>
@@ -44,16 +42,14 @@ const DriveCourseListItem = ({item}) => {
           강원도 · 30km
         </Text>
         <View style={{height: 8}} />
-        <Text
-          style={[textStyles.B4, {color: colors.Gray04}]}
-        >
+        <Text style={[textStyles.B4, {color: colors.Gray04}]}>
           자연 · 경치... 매핑써서 하면 될듯
-        </Text> 
+        </Text>
       </View>
-      <View style={{width:16}}/>
+      <View style={{width: 16}} />
       <View
         style={{width: 84, height: 115, borderRadius: 10, overflow: 'hidden'}}>
-        <Image source={{uri: item.imagePath}} style={{flex:1}} />
+        <Image source={{uri: item.imagePath}} style={{flex: 1}} />
       </View>
       <View
         style={{
