@@ -16,7 +16,7 @@ const DriveCourseList = ({
       ListHeaderComponent={ListHeaderComponent}
       data={data}
       renderItem={({item}) => <DriveCourseListItem item={item} />}
-      keyExtractor={item => item.id} // 인덱스를 함께 사용하여 고유 키 생성
+      keyExtractor={item => item.id}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }

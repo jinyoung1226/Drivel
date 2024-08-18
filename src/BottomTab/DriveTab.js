@@ -5,26 +5,24 @@ import {createStackNavigator} from '@react-navigation/stack';
 import DriveMain from '../Screens/DriveCourse/DriveMain';
 import DriveDetail from '../Screens/DriveCourse/DriveDetail';
 import DriveFilter from '../Screens/DriveCourse/DriveFilter';
-import Share from '../assets/icons/ShareIcon.svg';
-import BackIcon from '../assets/icons/BackIcon.svg';
-import colors from '../styles/colors';
 import FestivalInfo from '../components/FestivalInfo';
-import { useDispatch } from 'react-redux';
-import { showTabBar, hideTabBar } from '../features/tabBar/tabBarSlice';
+import {useDispatch} from 'react-redux';
+import {showTabBar, hideTabBar} from '../features/tabBar/tabBarSlice';
 import RestaurantInfo from '../Screens/DriveCourse/RestaurantInfo';
+import DriveStart from '../Screens/DriveCourse/DriveStart';
+import DriveSearch from '../Screens/DriveCourse/DriveSearch';
 
 const Stack = createStackNavigator();
 
 const DriveTab = ({route}) => {
-  
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
     if (routeName === 'DriveMain' || routeName === undefined) {
-      dispatch(showTabBar())
+      dispatch(showTabBar());
     } else {
-      dispatch(hideTabBar())
+      dispatch(hideTabBar());
     }
   }, [route]);
   return (
@@ -34,10 +32,16 @@ const DriveTab = ({route}) => {
         component={DriveMain}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="DriveSearch"
+        component={DriveSearch}
+        options={{headerShown: false}}
+      />
       <Stack.Screen name="DriveFilter" component={DriveFilter} />
       <Stack.Screen name="DriveDetail" component={DriveDetail} />
       <Stack.Screen name="FestivalInfo" component={FestivalInfo} />
       <Stack.Screen name="RestaurantInfo" component={RestaurantInfo} />
+      <Stack.Screen name="DriveStart" component={DriveStart} />
     </Stack.Navigator>
   );
 };

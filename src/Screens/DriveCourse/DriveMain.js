@@ -1,19 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  TextInput,
-  FlatList,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity} from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import SmallSearchIcon from '../../assets/icons/SmallSearchIcon.svg';
 import PlusIcon from '../../assets/icons/PlusIcon.svg';
 import FilterIcon from '../../assets/icons/FilterIcon.svg';
-import {authApi} from '../../api/api';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getDriveList,
@@ -25,7 +16,7 @@ import {
   driveTheme,
   driveWith,
 } from '../../assets/onboardingData/onBoardingData';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const DriveMain = ({navigation}) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -108,6 +99,10 @@ const DriveMain = ({navigation}) => {
     return 0;
   });
 
+  const goDriveSearch = () => {
+    navigation.navigate('DriveSearch');
+  };
+
   const renderCategory = ({item}) => {
     const isActive = item.value !== '';
 
@@ -154,24 +149,25 @@ const DriveMain = ({navigation}) => {
           alignItems: 'center',
           justifyContent: 'space-between',
           backgroundColor: colors.Gray02,
-          height: 47,
+          height: 41,
           borderRadius: 21,
-          margin: 16, // 검색바와 필터 탭 사이의 간격을 16으로 설정
+          margin: 16,
           paddingHorizontal: 16,
-        }}>
+        }}
+        onPress={goDriveSearch}>
         <Text style={[textStyles.B3, {color: colors.Gray06}]}>
           원하는 드라이브코스를 검색해보세요
         </Text>
-        <SmallSearchIcon/>
+        <SmallSearchIcon />
       </TouchableOpacity>
-      <View 
-        style={{flexDirection: 'row',
+      <View
+        style={{
+          flexDirection: 'row',
           paddingRight: 16,
           paddingBottom: 8,
           borderBottomWidth: 1,
           borderBottomColor: colors.Gray02,
-        }}
-      >
+        }}>
         <FlatList
           data={sortedCategory}
           renderItem={renderCategory}

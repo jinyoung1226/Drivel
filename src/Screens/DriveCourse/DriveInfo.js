@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import GrayLine from '../../components/GrayLine';
 import {WebView} from 'react-native-webview';
-import {View, Text, Dimensions, FlatList} from 'react-native';
+import {View, Text, FlatList} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import {fetchRoute} from '../../utils/fetchRoute';
-import CustomChip from '../../components/CustomChip';
 import DriveRestaurantCuration from './DriveRestaurantCuration';
 
 const DriveInfo = ({item, driveId}) => {

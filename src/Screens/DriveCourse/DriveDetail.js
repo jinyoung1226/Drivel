@@ -5,7 +5,6 @@ import {
   Image,
   Dimensions,
   Alert,
-  ActivityIndicator,
   TouchableOpacity,
   Pressable,
 } from 'react-native';
@@ -44,6 +43,10 @@ const DriveDetail = ({route, navigation}) => {
 
   const handleLikePress = () => {
     dispatch(toggleLike(driveId));
+  };
+
+  const goDriveStart = () => {
+    navigation.navigate('DriveStart', {courseInfo: courseInfo});
   };
 
   useLayoutEffect(() => {
@@ -111,8 +114,7 @@ const DriveDetail = ({route, navigation}) => {
       <KeyboardAwareScrollView
         ref={scrollViewRef}
         onScroll={handleScroll}
-        stickyHeaderIndices={[3]}
-      >
+        stickyHeaderIndices={[3]}>
         <Image
           src={courseInfo.courseInfo.imagePath}
           style={{width: width, aspectRatio: 1.8}}
@@ -158,16 +160,16 @@ const DriveDetail = ({route, navigation}) => {
           shadowColor: '#000',
           shadowOffset: {width: 0, height: 2},
           shadowOpacity: 0.1,
-          shadowRadius: 5
+          shadowRadius: 5,
         }}>
-        <View style={{justifyContent:'center'}}>
+        <View style={{justifyContent: 'center'}}>
           <Pressable onPress={handleLikePress}>
             <BorderBlueHeart fill={liked ? '#5168F6' : 'rgba(0, 0, 0, 0)'} />
           </Pressable>
         </View>
         <View style={{width: 16}} />
-        <View style={{flex:1}}>
-          <CustomButton  title={'드라이브 시작하기'} onPress={() => {}} />
+        <View style={{flex: 1}}>
+          <CustomButton title={'드라이브 시작하기'} onPress={goDriveStart} />
         </View>
       </View>
     </View>
