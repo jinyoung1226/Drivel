@@ -8,7 +8,9 @@ const ChipContainer = ({
   selectedItem,
   onSelectedHandler,
   containerStyle,
-  maxSelection = 8
+  maxSelection = 11,
+  chipStyle,
+  textStyle,
 }) => {
   const onPressHandler = (isActive, item) => {
     if (type === 'single') {
@@ -43,7 +45,7 @@ const ChipContainer = ({
   };
 
   return (
-    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+    <View style={[{flexDirection: 'row', flexWrap: 'wrap'}, containerStyle]}>
       {data.map(item => {
         const isActive = Array.isArray(selectedItem)
           ? selectedItem.includes(item.id)
@@ -54,6 +56,8 @@ const ChipContainer = ({
             item={item.displayName}
             isActive={isActive}
             onPressHandler={() => onPressHandler(isActive, item.id)}
+            chipStyle={chipStyle}
+            textStyle={textStyle}
           />
         );
       })}

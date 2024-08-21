@@ -47,6 +47,7 @@ const CustomInput = ({
         keyboardType={keyboardType}
         inputMode={inputMode}
         multiline={multiline}
+        autoCapitalize={'none'}
       />
       {showTimer && (
         <Text

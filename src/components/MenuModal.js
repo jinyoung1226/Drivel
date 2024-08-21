@@ -4,14 +4,25 @@ import {
   Text,
   TouchableOpacity,
   Modal,
-  Pressable
+  Pressable,
+  Alert
 } from 'react-native';
 import colors from '../styles/colors';
 import { textStyles } from '../styles/textStyles';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import { authApi } from '../api/api';
 
-const MenuModal = ({setModalVisible, modalVisible, blockModalVisible, setBlockModalVisible, leaveModalVisible, setLeaveModalVisible, targetId, masterId, status}) => {
+const MenuModal = ({
+  setModalVisible, 
+  modalVisible, 
+  confirmModalVisible, 
+  setConfirmModalVisible,
+  setType,
+  setTargetId,
+  masterId, 
+  status
+}) => {
   
   const navigation = useNavigation();
 
@@ -36,7 +47,7 @@ const MenuModal = ({setModalVisible, modalVisible, blockModalVisible, setBlockMo
                 <View style={{ borderRadius:10, overflow:'hidden'}}>
                   <Pressable
                     style={({pressed}) => [{padding:16, backgroundColor: pressed ? colors.Gray02 : colors.white}]}
-                    onPress={()=> {navigation.navigate("ReportPage", {targetId: targetId}); setModalVisible(!modalVisible);}}  
+                    onPress={()=> {setType('delete'); setConfirmModalVisible(!confirmModalVisible); setModalVisible(!modalVisible);}}  
                   >
                     <Text style={[textStyles.H4, {color:colors.red, alignSelf:'center'}]}>모임 삭제하기</Text>
                   </Pressable>
@@ -45,20 +56,20 @@ const MenuModal = ({setModalVisible, modalVisible, blockModalVisible, setBlockMo
                 <View style={{ borderRadius:10, overflow:'hidden'}}>
                   <Pressable
                     style={({pressed}) => [{padding:16, backgroundColor: pressed ? colors.Gray02 : colors.white}]}
-                    onPress={()=> {navigation.navigate("ReportPage", {targetId: targetId}); setModalVisible(!modalVisible);}}  
+                    onPress={()=> {navigation.navigate("ReportPage", {targetId: masterId}); setModalVisible(!modalVisible);}}  
                   >
                     <Text style={[textStyles.H4, {color:colors.red, alignSelf:'center'}]}>신고하기</Text>
                   </Pressable>
                   <Pressable
                     style={({pressed}) => [{padding:16, backgroundColor: pressed ? colors.Gray02 : colors.white}]}
-                    onPress={()=> {setBlockModalVisible(!blockModalVisible); setModalVisible(!modalVisible);}}  
+                    onPress={()=> {setType('meetBlock'); setTargetId(masterId); setConfirmModalVisible(!confirmModalVisible); setModalVisible(!modalVisible);}}  
                   >
                     <Text style={[textStyles.H4, {color:colors.red, alignSelf:'center'}]}>차단하기</Text>
                   </Pressable>
                   {status == "JOINED" &&
                     <Pressable
                       style={({pressed}) => [{padding:16, backgroundColor: pressed ? colors.Gray02 : colors.white}]}
-                      onPress={()=> {setLeaveModalVisible(!leaveModalVisible); setModalVisible(!modalVisible);}}  
+                      onPress={()=> {setType('leave'); setTargetId(masterId); setConfirmModalVisible(!confirmModalVisible); setModalVisible(!modalVisible);}}  
                     >
                       <Text style={[textStyles.H4, {color:colors.red, alignSelf:'center'}]}>모임 나가기</Text>
                     </Pressable>

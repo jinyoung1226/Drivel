@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useLayoutEffect} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../styles/colors';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -14,9 +14,15 @@ import { textStyles } from '../../styles/textStyles';
 import BackIcon from '../../assets/icons/BackIcon';
 import KebabMenuIcon from '../../assets/icons/KebabMenuIcon';
 import MenuModal from '../../components/MenuModal';
-const OtherProfile = ({navigation}) => {
+import ConfirmModal from '../../components/ConfirmModal';
+const OtherProfile = ({navigation, route}) => {
+  const memberId =  route.params.memberId;
   const [modalVisible, setModalVisible] = useState(false);
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+  const [type, setType] = useState('');
+  const [targetId, setTargetId] = useState('');
   const myProfileInfo = useSelector(state => state.profile.myProfileInfo);
+  const { userId } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
@@ -34,6 +40,7 @@ const OtherProfile = ({navigation}) => {
         </TouchableOpacity>
       ),
       headerRight: () => (
+        userId !== memberId && 
         <TouchableOpacity 
           style={{padding:16}}
           onPress={() => {setModalVisible(!modalVisible)}}
@@ -56,7 +63,23 @@ const OtherProfile = ({navigation}) => {
   
   return (
     <ScrollView style={{backgroundColor: colors.BG}}>
-      <MenuModal setModalVisible={setModalVisible} modalVisible={modalVisible}/>
+      <Text style={{color:'#000'}}>{memberId}</Text>
+      <ConfirmModal
+        modalVisible={confirmModalVisible}
+        setModalVisible={setConfirmModalVisible}
+        type={'userBlock'}
+        targetId={memberId}
+      />
+      <MenuModal 
+        setModalVisible={setModalVisible} 
+        modalVisible={modalVisible} 
+        confirmModalVisible={confirmModalVisible}
+        setConfirmModalVisible={setConfirmModalVisible}
+        setType={setType}
+        setTargetId={setTargetId}
+        masterId={memberId}
+        status
+      />
       <View style={{height: 32}} />
       <OtherInfo myProfileInfo={myProfileInfo}/>
       <View style={{height: 24}} />

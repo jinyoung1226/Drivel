@@ -29,9 +29,9 @@ import CustomInput from '../../components/CustomInput';
 import RenderingPage from '../../components/RenderingPage';
 import KebabMenuIcon from '../../assets/icons/KebabMenuIcon';
 import MenuModal from '../../components/MenuModal';
-import BlockModal from '../../components/BlockModal';
 import RenderingHandIcon from '../../assets/icons/RenderingHand';
-import LeaveModal from '../../components/LeaveModal';
+import ConfirmModal from '../../components/ConfirmModal';
+import Check from '../../assets/icons/Check';
 const MeetDetail = ({route, navigation}) => {
   const [message, setMessage] = useState('');
   const [activeTab, setActiveTab] = useState(0);
@@ -43,10 +43,12 @@ const MeetDetail = ({route, navigation}) => {
   const scrollViewRef = useRef(null); // ScrollView 참조
   const [scrollOffset, setScrollOffset] = useState(0);
   const [menuModalVisible, setMenuModalVisible] = useState(false);
-  const [blockModalVisible, setBlockModalVisible] = useState(false);
-  const [leaveModalVisible, setLeaveModalVisible] = useState(false);
-  const [targetId, setTargetId] = useState('');
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+  const [type, setType] = useState('');
   const [participateStatus, setParticipateStatus] = useState('NONE');
+  const [notice, setNotice] = useState(null);
+  const [isNotice, setIsNotice] = useState(false);
+  const [targetId, setTargetId] = useState(null);
   const { userId } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
@@ -125,6 +127,25 @@ const MeetDetail = ({route, navigation}) => {
     }
   };
 
+  cancelParticipateMeeting = async () => {
+    try {
+      const response = await authApi.delete(`/meeting/join/${meetingId}`);
+      if (response.status == 200) {
+        console.log(response.data, 'cancel participate')
+        Alert.alert(response.data.message);
+        setParticipateStatus("NONE");
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response);
+        console.log(error.response.status);
+        console.log(error.response.data.message);
+      } else {
+        console.log('서버 접속 오류');
+      }
+    }
+  };
+
   useEffect(() => {
     if (scrollViewRef.current && scrollOffset > width - 56) {
       // 원하는 위치로 스크롤
@@ -158,7 +179,7 @@ const MeetDetail = ({route, navigation}) => {
       headerRight: () => (
         <TouchableOpacity 
           style={{padding:16}}
-          onPress={() => {setMenuModalVisible(!menuModalVisible); setTargetId(meetingInfo.meetingInfo.masterInfo.id)}}
+          onPress={() => {setMenuModalVisible(!menuModalVisible);}}
         >
           <KebabMenuIcon color={iconColor} />
         </TouchableOpacity>
@@ -213,13 +234,51 @@ const MeetDetail = ({route, navigation}) => {
     }
   };
 
-  const sendMessage = () => {
-    dispatch(publish({
-      destination: `/pub/meeting/${meetingId}`,
-      header: "application/json",
-      senderId: userId,
-      message: message
-    }));
+  const getMeetNotice = async() => {
+    try {
+      const response = await authApi.get(`/meeting/${meetingId}/notice`);
+      if(response.status == 200) {
+        console.log(response.data, '@@@@');
+        setNotice(response.data);
+        
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data);
+      } else {
+        console.log("서버 접속 오류");
+      }
+    }
+  }
+
+  const sendMessage = async() => {
+    if (isNotice) {
+      try {
+        const response = await authApi.post(`/meeting/notice`, {
+          meetingId: meetingId,
+          content: message,
+        });
+        if (response.status == 200) {
+          Alert.alert(response.data.message);
+          setIsNotice(false);
+          getMeetNotice();
+        }
+      } catch (error) {
+        if (error.response) {
+          console.log(error.response.data);
+        } else {
+          console.log('서버 접속 오류');
+        }
+      }
+    }
+    if (!isNotice) {
+      dispatch(publish({
+        destination: `/pub/meeting/${meetingId}`,
+        header: "application/json",
+        senderId: userId,
+        message: message
+      }));
+    }
     setMessage('');
   }
 
@@ -231,26 +290,25 @@ const MeetDetail = ({route, navigation}) => {
 
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>
-      <BlockModal 
-        modalVisible={blockModalVisible} 
-        setModalVisible={setBlockModalVisible} 
+      <ConfirmModal
+        modalVisible={confirmModalVisible}
+        setModalVisible={setConfirmModalVisible}
         targetId={targetId}
-        setTargetId={setTargetId}
-      />
-      <LeaveModal
-        modalVisible={leaveModalVisible}
-        setModalVisible={setLeaveModalVisible}
         meetingId={meetingId}
+        notcieId={notice ? notice.id : null}
+        type={type}
+        setNotice={setNotice}
+        status={participateStatus}
       />
       <MenuModal 
         modalVisible={menuModalVisible} 
         setModalVisible={setMenuModalVisible} 
-        blockModalVisible={blockModalVisible} 
-        setBlockModalVisible={setBlockModalVisible} 
-        leaveModalVisible={leaveModalVisible}
-        setLeaveModalVisible={setLeaveModalVisible}
-        targetId={targetId}
+        confirmModalVisible={confirmModalVisible}
+        setConfirmModalVisible={setConfirmModalVisible}
+        setType={setType}
+        setTargetId={setTargetId}
         masterId={meetingInfo.meetingInfo.masterInfo.id}
+        meetingId={meetingId}
         status={participateStatus}
       />
       <Tabs
@@ -313,7 +371,14 @@ const MeetDetail = ({route, navigation}) => {
             {activeTab === 0 && <MeetInfo item={meetingInfo} />}
             {activeTab === 1 && <MeetCourseInfo item={courseInfo} />}
             {activeTab === 2 && (participateStatus == "JOINED" ? (
-              <MeetChatBoard/>
+              <MeetChatBoard 
+                notice={notice} 
+                getMeetNotice={getMeetNotice}  
+                confirmModalVisible={confirmModalVisible} 
+                setConfirmModalVisible={setConfirmModalVisible}
+                setType={setType}
+                setTargetId={setTargetId}
+              />
               ) : (
               <View style={{alignItems:'center'}}>
                 <View style={{height: 40}}/>
@@ -336,6 +401,29 @@ const MeetDetail = ({route, navigation}) => {
                   backgroundColor: colors.BG,
                 }}
               >
+                <TouchableOpacity
+                  style={{flexDirection: 'row', alignItems: 'center'}}
+                  onPress={() => {setIsNotice(!isNotice)}}>
+                  <View
+                    style={{
+                      width: 20,
+                      height: 20,
+                      borderRadius: 10,
+                      borderColor: isNotice ? colors.Blue : colors.Gray04,
+                      borderWidth: 1,
+                      backgroundColor: isNotice ? colors.Blue : null,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {isNotice && <Check color={colors.white} />}
+                  </View>
+                  <View style={{width: 8}} />
+                  <Text style={[textStyles.B4, {color: colors.Gray10}]}>
+                    공지
+                  </Text>
+                </TouchableOpacity>
+                <View style={{height: 8}}/>
                 <CustomInput 
                   placeholder={"메시지를 입력해주세요"}
                   containerStyle={{backgroundColor: colors.Gray01, height:50}}
@@ -377,6 +465,29 @@ const MeetDetail = ({route, navigation}) => {
                   backgroundColor: colors.BG,
                 }}
               >
+                <TouchableOpacity
+                  style={{flexDirection: 'row', alignItems: 'center',}}
+                  onPress={() => {setIsNotice(!isNotice)}}>
+                  <View
+                    style={{
+                      width: 20,
+                      height: 20,
+                      borderRadius: 10,
+                      borderColor: isNotice ? colors.Blue : colors.Gray04,
+                      borderWidth: 1,
+                      backgroundColor: isNotice ? colors.Blue : null,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    {isNotice && <Check color={colors.white} />}
+                  </View>
+                  <View style={{width: 8}} />
+                  <Text style={[textStyles.B4, {color: colors.Gray10}]}>
+                    공지
+                  </Text>
+                </TouchableOpacity>
+                <View style={{height: 8}}/>
                 <CustomInput 
                   placeholder={"메시지를 입력해주세요"}
                   containerStyle={{backgroundColor: colors.Gray01, height:50}}
@@ -399,8 +510,8 @@ const MeetDetail = ({route, navigation}) => {
               <CustomButton
                 title={participateStatus == 'WAITING' ? '신청 취소' : '참여하기'}
 
-                onPress={() => {
-                  participateMeeting();
+                onPress={() => {participateStatus == 'WAITING' ? 
+                  cancelParticipateMeeting() : participateMeeting()
                 }}
               />
             </View>

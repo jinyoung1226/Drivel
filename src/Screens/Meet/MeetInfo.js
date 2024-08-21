@@ -12,12 +12,11 @@ const MeetInfo = ({item}) => {
   const width = Dimensions.get('window').width;
   const navigation = useNavigation();
   
-  const renderMemberInfo = (imagePath, nickname, description, index) => {
+  const renderMemberInfo = (imagePath, nickname, description, memberId) => {
     return (
       <TouchableOpacity 
-        key={index} 
         style={{flexDirection: 'row', marginBottom: 16}}
-        onPress={() => {navigation.navigate('OtherProfile')}}
+        onPress={() => {navigation.navigate('OtherProfile', {memberId: memberId})}}
         disabled={!(item.meetingInfo.status == "JOINED")}>
         <View
           style={{
@@ -111,9 +110,10 @@ const MeetInfo = ({item}) => {
         <Text style={[textStyles.H4, {color: colors.Gray10}]}>모임장</Text>
         <View style={{height: 16}} />
         {renderMemberInfo(
-          item.meetingInfo.masterInfo.imagePath,
-          item.meetingInfo.masterInfo.nickname,
-          item.meetingInfo.masterInfo.description,
+          imagePath = item.meetingInfo.masterInfo.imagePath,
+          nickname =  item.meetingInfo.masterInfo.nickname,
+          description =  item.meetingInfo.masterInfo.description,
+          memberId =  item.meetingInfo.masterInfo.id,
         )}
       </View>
       <GrayLine />
@@ -130,12 +130,14 @@ const MeetInfo = ({item}) => {
         </Text>
         <View style={{height: 16}} />
         {item.meetingInfo.participantsInfo.membersInfo.map((member, index) =>
-          renderMemberInfo(
-            member.imagePath,
-            member.nickname,
-            member.description,
-            index,
-          ),
+          <View key={index}>
+            {renderMemberInfo(
+              member.imagePath,
+              member.nickname,
+              member.description,
+              member.memberId,
+            )}
+          </View>
         )}
       </View>
     </View>

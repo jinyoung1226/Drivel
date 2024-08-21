@@ -29,6 +29,7 @@ const MeetUpcomingList = ({data, myMeetList, handleShowMore, showMore, setShowMo
   //   setShowMore(!showMore);
   // };
 
+  const dispatch = useDispatch();
   const formatDate = dateString => {
     const date = new Date(dateString);
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 두 자리로 맞춤

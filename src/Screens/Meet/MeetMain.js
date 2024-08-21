@@ -21,32 +21,34 @@ const MeetMain = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor: colors.BG, flex: 1}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingTop: 16,
-          paddingRight: 16,
-        }}>
-        <MeetMainTopTab
-          menus={['내 모임', '둘러보기']}
-          onSelectHandler={index => {
-            dispatch(setTab(index));
-          }}
-          selectedIndex={currentTab}
-        />
-        <View style={{flex: 1}} />
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('MeetCreate');
+    <SafeAreaView style={{backgroundColor: colors.BG, flex:1}}>
+      <View style={{borderBottomWidth:1, borderBottomColor:colors.Gray02}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingTop: 16,
+            paddingRight: 16,
           }}>
-          <CreateIcon />
-        </TouchableOpacity>
+          <MeetMainTopTab
+            menus={['내 모임', '둘러보기']}
+            onSelectHandler={index => {
+              dispatch(setTab(index));
+            }}
+            selectedIndex={currentTab}
+          />
+          <View style={{flex: 1}} />
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('MeetCreate');
+            }}>
+            <CreateIcon />
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={{flex: 1}}>
+      <View style={{flex:1}}>
         <View style={{display: currentTab === 0 ? 'flex' : 'none', flex: 1}}>
-          <MeetMy goMeetDetail={goMeetDetail} />
+          <MeetMy/>
         </View>
         <View style={{display: currentTab === 1 ? 'flex' : 'none', flex: 1}}>
           <MeetBrowse/>

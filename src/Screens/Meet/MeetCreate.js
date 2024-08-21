@@ -10,8 +10,7 @@ import {
   ScrollView,
   Pressable,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import BackIcon from '../../assets/icons/BackIcon.svg';
+import BackIcon from '../../assets/icons/BackIcon';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -19,8 +18,7 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SearchIcon from '../../assets/icons/SearchIcon.svg';
-import XIcon from '../../assets/icons/XIcon.svg';
-import StarIcon from '../../assets/icons/StarIcon.svg';
+import XIcon from '../../assets/icons/XIcon';
 import ChipContainer from '../../components/ChipContainer';
 import DatePickerModal from '../../components/DatePickerModal';
 import {useDispatch} from 'react-redux';
@@ -36,6 +34,7 @@ import formatDate from '../../utils/formatDate';
 import koFilter from '../../utils/koFilter';
 import {api} from '../../api/api';
 import {carModelData} from '../../assets/driveCourseData/carModelData';
+import Check from '../../assets/icons/Check';
 const MeetCreate = ({navigation}) => {
   const dispatch = useDispatch();
   const [step, setStep] = useState(1);
@@ -235,7 +234,7 @@ const MeetCreate = ({navigation}) => {
             <View style={{height: 16}} />
             <Text style={[textStyles.B4, {color: colors.Gray05}]}>
               * 커뮤니티 이용 규칙에 벗어나는 모임은 사전 고지 없이 삭제될 수
-              있으며,{'\n'}서비스 이용이 일정 기간 제한될 수 있어요.
+              있으며, 서비스 이용이 일정 기간 제한될 수 있어요.
             </Text>
             <View style={{height: 40}} />
             <Text style={[textStyles.H4, {color: colors.Gray10}]}>모임명</Text>
@@ -361,7 +360,7 @@ const MeetCreate = ({navigation}) => {
             <View style={{height: 16}} />
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
-                style={{flexDirection: 'row', alignItems: 'center'}}
+                style={{flexDirection: 'row', alignItems: 'center', padding:4}}
                 onPress={() => setGender(2)}>
                 <View
                   style={{
@@ -371,16 +370,20 @@ const MeetCreate = ({navigation}) => {
                     borderColor: gender == 2 ? colors.Blue : colors.Gray04,
                     borderWidth: 1,
                     backgroundColor: gender == 2 ? colors.Blue : null,
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
-                />
-                <View style={{width: 8}} />
+                >
+                  {gender == 2 && <Check />}
+                </View>
+                <View style={{width: 4}} />
                 <Text style={[textStyles.B4, {color: colors.Gray10}]}>
                   여자
                 </Text>
               </TouchableOpacity>
               <View style={{width: 16}} />
               <TouchableOpacity
-                style={{flexDirection: 'row', alignItems: 'center'}}
+                style={{flexDirection: 'row', alignItems: 'center', padding:4}}
                 onPress={() => setGender(1)}>
                 <View
                   style={{
@@ -390,16 +393,20 @@ const MeetCreate = ({navigation}) => {
                     borderColor: gender == 1 ? colors.Blue : colors.Gray04,
                     borderWidth: 1,
                     backgroundColor: gender == 1 ? colors.Blue : null,
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
-                />
-                <View style={{width: 8}} />
+                >
+                  {gender == 1 && <Check />}
+                </View>
+                <View style={{width: 4}} />
                 <Text style={[textStyles.B4, {color: colors.Gray10}]}>
                   남자
                 </Text>
               </TouchableOpacity>
               <View style={{width: 16}} />
               <TouchableOpacity
-                style={{flexDirection: 'row', alignItems: 'center'}}
+                style={{flexDirection: 'row', alignItems: 'center', padding:4}}
                 onPress={() => setGender(0)}>
                 <View
                   style={{
@@ -409,8 +416,12 @@ const MeetCreate = ({navigation}) => {
                     borderColor: gender == 0 ? colors.Blue : colors.Gray04,
                     borderWidth: 1,
                     backgroundColor: gender == 0 ? colors.Blue : null,
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
-                />
+                >
+                  {gender == 0 && <Check />}
+                </View>
                 <View style={{width: 8}} />
                 <Text style={[textStyles.B4, {color: colors.Gray10}]}>
                   제한 없음

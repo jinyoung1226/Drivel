@@ -3,14 +3,15 @@ import {Pressable, Text} from 'react-native';
 import colors from '../styles/colors';
 import {textStyles} from '../styles/textStyles';
 
-const CustomChip = ({item, onPressHandler, isActive = false}) => {
+const CustomChip = ({item, onPressHandler, isActive = false, textStyle, chipStyle}) => {
   return (
     <Pressable
       onPress={onPressHandler}
-      style={{
+      style={[
+        {
         alignSelf: 'flex-start',
-        height: 35,
         paddingHorizontal: 16,
+        paddingVertical: 8,
         borderWidth: 1,
         borderRadius: 24,
         justifyContent: 'center',
@@ -18,11 +19,14 @@ const CustomChip = ({item, onPressHandler, isActive = false}) => {
         backgroundColor: isActive ? colors.Blue : null,
         marginRight: 8,
         marginBottom: 8,
-      }}>
+      },
+      chipStyle]}
+    >
       <Text
         style={[
           textStyles.B4,
-          {height: 15, color: isActive ? colors.Light_Blue : colors.Gray10},
+          {color: isActive ? colors.Light_Blue : colors.Gray10},
+          textStyle,
         ]}>
         {item}
       </Text>

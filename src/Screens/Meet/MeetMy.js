@@ -15,7 +15,7 @@ import MeetApplyPreview from './MeetApplyPreview';
 import isThisWeek from '../../utils/isThisWeek';
 import MeetUpcomingList from './MeetUpcomingList';
 
-const MeetMy = ({goMeetDetail}) => {
+const MeetMy = () => {
 
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -42,14 +42,9 @@ const MeetMy = ({goMeetDetail}) => {
   const onRefresh = () => {
     setIsRefreshing(true);
     dispatch(getMeetListRecommended({page: inititalPage, size: 3}));
+    dispatch(getMyMeetList());
+    dispatch(getMeetingApplyList());
     setIsRefreshing(false);
-  };
-
-  const formatDate = dateString => {
-    const date = new Date(dateString);
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 두 자리로 맞춤
-    const day = date.getDate().toString().padStart(2, '0'); // 두 자리로 맞춤
-    return `${month}월 ${day}일`;
   };
 
   const handleShowMore = () => {
@@ -73,10 +68,10 @@ const MeetMy = ({goMeetDetail}) => {
       <MeetList
         onRefresh={onRefresh}
         refreshing={isRefreshing}
-        goMeetDetail={goMeetDetail}
         data={meetListRecommended}
         ListHeaderComponent={
           <View style={{backgroundColor: colors.BG}}>
+            <View style={{height: 24}} />
             <View
               style={{
                 flexDirection: 'row',
