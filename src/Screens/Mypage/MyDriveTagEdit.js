@@ -13,6 +13,7 @@ import CustomButton from "../../components/CustomButton";
 import { authApi } from "../../api/api";
 import { useDispatch } from "react-redux";
 import { getMyProfileInfo } from "../../features/profile/profileActions";
+import { ScrollView } from "react-native-gesture-handler";
 const MyDriveTagEdit = ({navigation, route}) => {
   const item = route.params.item;
   const [selectedDriveStyle, setSelectedDriveStyle] = useState([]);
@@ -67,50 +68,54 @@ const MyDriveTagEdit = ({navigation, route}) => {
 
     
   return (
-    <View style={{backgroundColor:colors.BG, flex:1, padding:16}}>
-      <Text style={[textStyles.H5, {color:colors.Gray10}]}>드라이브 풍경</Text>
-      <View style={{height:8}}/>
-      <Text style={[textStyles.M14, {color: colors.Gray06}]}>
-        최소 2개 선택 가능해요
-      </Text>
-      <View style={{height:16}}/>
-      <ChipContainer
-        containerStyle={{flexDirection: 'row'}}
-        type={'multi'}
-        data={driveTheme}
-        selectedItem={selectedDriveTheme}
-        onSelectedHandler={items => setSelectedDriveTheme(items)}
-      />
-      <View style={{height:32}}/>
-      <Text style={[textStyles.H5, {color:colors.Gray10}]}>드라이브 스타일</Text>
-      <View style={{height:8}}/>
-      <Text style={[textStyles.M14, {color: colors.Gray06}]}>
-        최소 2개 선택 가능해요
-      </Text>
-      <View style={{height:16}}/>
-      <ChipContainer
-        containerStyle={{flexDirection: 'row'}}
-        type={'multi'}
-        data={driveStyle}
-        selectedItem={selectedDriveStyle}
-        onSelectedHandler={items => setSelectedDriveStyle(items)}
-      />
-      <View style={{height:32}}/>
-      <Text style={[textStyles.H5, {color:colors.Gray10}]}>드라이브 스타일</Text>
-      <View style={{height:8}}/>
-      <Text style={[textStyles.M14, {color: colors.Gray06}]}>
-        최소 2개 선택 가능해요
-      </Text>
-      <View style={{height:16}}/>
-      <ChipContainer
-        containerStyle={{flexDirection: 'row'}}
-        type={'multi'}
-        data={driveWith}
-        selectedItem={selectedDriveTogether}
-        onSelectedHandler={items => setSelectedDriveTogether(items)}
-      />
-      <View style={{flex:1}}/>
-      <CustomButton title={'완료하기'} onPress={()=>{MyDriveTagUpdate()}}/>
+    <View style={{backgroundColor:colors.BG, flex:1}}>
+      <ScrollView style={{padding:16}}>
+        <Text style={[textStyles.H5, {color:colors.Gray10}]}>드라이브 풍경</Text>
+        <View style={{height:8}}/>
+        <Text style={[textStyles.M14, {color: colors.Gray06}]}>
+          최소 2개 선택 가능해요
+        </Text>
+        <View style={{height:16}}/>
+        <ChipContainer
+          containerStyle={{flexDirection: 'row'}}
+          type={'multi'}
+          data={driveTheme}
+          selectedItem={selectedDriveTheme}
+          onSelectedHandler={items => setSelectedDriveTheme(items)}
+        />
+        <View style={{height:32}}/>
+        <Text style={[textStyles.H5, {color:colors.Gray10}]}>드라이브 스타일</Text>
+        <View style={{height:8}}/>
+        <Text style={[textStyles.M14, {color: colors.Gray06}]}>
+          최소 2개 선택 가능해요
+        </Text>
+        <View style={{height:16}}/>
+        <ChipContainer
+          containerStyle={{flexDirection: 'row'}}
+          type={'multi'}
+          data={driveStyle}
+          selectedItem={selectedDriveStyle}
+          onSelectedHandler={items => setSelectedDriveStyle(items)}
+        />
+        <View style={{height:32}}/>
+        <Text style={[textStyles.H5, {color:colors.Gray10}]}>드라이브 스타일</Text>
+        <View style={{height:8}}/>
+        <Text style={[textStyles.M14, {color: colors.Gray06}]}>
+          최소 2개 선택 가능해요
+        </Text>
+        <View style={{height:16}}/>
+        <ChipContainer
+          containerStyle={{flexDirection: 'row'}}
+          type={'multi'}
+          data={driveWith}
+          selectedItem={selectedDriveTogether}
+          onSelectedHandler={items => setSelectedDriveTogether(items)}
+        />
+        <View style={{height:48}}/>
+      </ScrollView>
+      <View style={{padding:16, backgroundColor:colors.BG, elevation:10}}>
+        <CustomButton title={'완료하기'} onPress={()=>{MyDriveTagUpdate()}}/>
+      </View>
     </View>
   )
   }

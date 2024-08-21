@@ -17,10 +17,13 @@ import CustomButton from '../../components/CustomButton';
 import KakaoIcon from '../../assets/icons/KakaoIcon.svg';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import colors from '../../styles/colors';
+import PolicyModal from '../../components/PolicyModal';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [registerType, setRegisterType] = useState('');
   const dispatch = useDispatch();
   const error = useSelector(state => state.auth.error); //selector를 통해 authSlice에서 error상태를 가져옴
 
@@ -29,6 +32,7 @@ const LoginScreen = ({navigation}) => {
   };
   return (
     <SafeAreaView style={styles.container}>
+      <PolicyModal modalVisible={modalVisible} setModalVisible={setModalVisible} registerType={registerType}/>
       <KeyboardAwareScrollView>
         <View style={{padding: 16}}>
           <View style={{height: 64}} />
@@ -75,7 +79,7 @@ const LoginScreen = ({navigation}) => {
               borderRadius: 6.7,
               padding: 15,
             }}
-            onPress={() => navigation.navigate('KakaoLogin')}>
+            onPress={() =>{ setModalVisible(!modalVisible); setRegisterType('kakao')}}>
             <View style={{flex: 1}} />
             <KakaoIcon width={20} height={20} />
             <View style={{width: 6.6}} />
@@ -90,7 +94,7 @@ const LoginScreen = ({navigation}) => {
               아직 회원이 아니신가요?
             </Text>
             <View style={{width: 8}} />
-            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+            <TouchableOpacity onPress={() =>{setModalVisible(!modalVisible); setRegisterType('email');}}>
               <Text
                 style={[
                   textStyles.H5,

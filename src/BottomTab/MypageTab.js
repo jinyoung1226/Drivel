@@ -12,6 +12,7 @@ import MyInfoEdit from '../Screens/Mypage/MyInfoEdit';
 import RequiredInfo from '../Screens/Mypage/RequiredInfo';
 import Setting from '../Screens/Mypage/Setting';
 import MeetDetail from '../Screens/Meet/MeetDetail';
+import Help from '../Screens/Mypage/Help';
 import {textStyles} from '../styles/textStyles';
 import colors from '../styles/colors';
 import GearIcon from '../assets/icons/GearIcon';
@@ -65,6 +66,7 @@ const MypageTab = ({route, navigation}) => {
       <Stack.Screen name="RequiredInfo" component={RequiredInfo} />
       <Stack.Screen name="Setting" component={Setting} />
       <Stack.Screen name="MeetDetail" component={MeetDetail} />
+      <Stack.Screen name="Help" component={Help} />
     </Stack.Navigator>
   );
 };
