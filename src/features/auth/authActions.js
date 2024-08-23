@@ -132,6 +132,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
       console.log(response.status);
       await AsyncStorage.removeItem('accessToken');
       await EncryptedStorage.removeItem('refreshToken');
+      await AsyncStorage.removeItem('fcmToken');
       return {
         isAuthenticated: false, 
         accessToken: null, 
