@@ -4,6 +4,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import * as StompJs from '@stomp/stompjs';
 import config from '../../config/config';
 import { refreshApi } from '../../api/api';
+import { getMeetingApplyList } from '../meet/meetActions';
 
 let webSocketClient = null;
 let subscription = null;
@@ -22,7 +23,7 @@ export const connectWebSocket = createAsyncThunk(
           forceBinaryWSFrames: true,
           appendMissingNULLonIncoming: true,
           connectHeaders: { accessToken: token },
-          reconnectDelay: 0,
+          reconnectDelay: 1000,
           debug: function (str) {
             console.log(str, '웹소켓 연결 로그');
           },
@@ -45,7 +46,12 @@ export const connectWebSocket = createAsyncThunk(
         webSocketClient.onConnect = () => {
           thunkAPI.dispatch(websocketConnected());
           subscription = webSocketClient.subscribe(`/sub/alert/${userId}`, (message) => {
-            websocketMessageReceived(message);
+            // websocketMessageReceived(message);
+            const newMessage = JSON.parse(message.body);
+            if (newMessage.category === 'JOIN') {
+              thunkAPI.dispatch(getMeetingApplyList());
+            }
+            console.log(newMessage);
           });
         };
 

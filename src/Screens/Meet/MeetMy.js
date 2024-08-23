@@ -90,15 +90,6 @@ const MeetMy = () => {
                 있어요
               </Text>
               <View style={{flex: 1}} />
-              <View
-                style={{
-                  width: 85,
-                  height: 85,
-                  backgroundColor: colors.Gray04,
-                  borderRadius: 100,
-                  marginHorizontal: 20,
-                }}
-              />
             </View>
             <View style={{height: 24}} />
             <MeetUpcomingList data={data} myMeetList={myMeetList} handleShowMore={handleShowMore} showMore={showMore} setShowMore={setShowMore}/>

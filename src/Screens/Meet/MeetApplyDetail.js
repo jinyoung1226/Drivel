@@ -6,21 +6,12 @@ import colors from "../../styles/colors";
 import BackIcon from "../../assets/icons/BackIcon";
 import { ScrollView } from "react-native-gesture-handler";
 import { authApi } from "../../api/api";
-import {getMeetListRecommended, getMeetingApplyList, getMeetList} from '../../features/meet/meetActions';
+import {getMeetingApplyList} from '../../features/meet/meetActions';
 import refreshMeetList from "../../utils/refreshMeetList";
 const MeetApplyDetail = ({navigation}) => {
   const dispatch = useDispatch();
   
   const {
-    inititalPage,
-    sort,
-    filterDriveTheme,
-    filterDriveWith,
-    filterDriveStyle,
-    filterGender,
-    filterAge,
-    filterCarModel,
-    filterCarCareer,
     meetApplyList
   } = useSelector(state => state.meet);
 
@@ -47,7 +38,8 @@ const MeetApplyDetail = ({navigation}) => {
       }
     } catch (error) {
       if (error.response) {
-        console.log(error.response.data);
+        Alert.alert(error.response.data.message);
+        dispatch(getMeetingApplyList());
       } else {
         console.log(error);
       }
