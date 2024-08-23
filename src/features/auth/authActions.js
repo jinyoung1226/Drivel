@@ -9,6 +9,7 @@ export const checkAuth = createAsyncThunk(
   'auth/checkAuth',
   async (_, thunkAPI) => {
     const accessToken = await AsyncStorage.getItem('accessToken');
+    
     if (accessToken) {
       try {
         const response = await authApi.post('/token/signIn');
@@ -65,12 +66,13 @@ export const checkAuth = createAsyncThunk(
 export const login = createAsyncThunk(
   'auth/login',
   async ({email, password}, thunkAPI) => {
+    const fcmToken = await AsyncStorage.getItem('fcmToken');
     try {
       // const fcmToken = await AsyncStorage.getItem('fcmToken');
       const response = await api.post('/auth/signIn', {
         email,
         password,
-        fcmToken: 'aaa',
+        fcmToken: fcmToken,
       }); //fcm토큰 발행하는거 만들고 불러와야함.
       console.log(response.status);
       if (response.status == 200) {

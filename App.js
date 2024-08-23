@@ -6,6 +6,7 @@ import RootNavigator from './src/Nav/RootNavigator';
 import messaging from '@react-native-firebase/messaging';
 import { Alert } from 'react-native';
 import { Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as encoding from 'text-encoding';
 
 
@@ -14,6 +15,7 @@ const App = () => {
   const getFcmToken = async () => {
     try {
       const fcmToken = await messaging().getToken();
+      await AsyncStorage.setItem('fcmToken', fcmToken);
       console.log(fcmToken, 'fcmToken');
     } catch (error) {
       console.error('Failed to get FCM token:', error);
