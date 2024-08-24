@@ -106,13 +106,13 @@ const PolicyModal = ({
 
 
   const onPressHandler = () => {
+    closeModal();
     if(registerType === 'email') {
-      navigation.navigate('Register')
+      navigation.navigate('Register');
     }  
     if(registerType === 'kakao') {
       navigation.navigate('KakaoLogin');
     }
-    setModalVisible(!modalVisible);
   }
 
   const PolicyListItem = ({title, onPress, link, agreeItem}) => {

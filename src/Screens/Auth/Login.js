@@ -8,6 +8,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {login} from '../../features/auth/authActions';
 import {textStyles} from '../../styles/textStyles';
@@ -30,6 +31,18 @@ const LoginScreen = ({navigation}) => {
   const handleLogin = () => {
     dispatch(login({email, password}));
   };
+
+  const handleKakaoLogin = async() => {
+    const isKakaoRegitered = await AsyncStorage.getItem('isKakaoRegitered');
+    if (isKakaoRegitered === 'true') {
+      navigation.navigate('KakaoLogin');
+    }
+    if (!isKakaoRegitered) {
+      setModalVisible(!modalVisible); 
+      setRegisterType('kakao')
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <PolicyModal modalVisible={modalVisible} setModalVisible={setModalVisible} registerType={registerType}/>
@@ -69,7 +82,7 @@ const LoginScreen = ({navigation}) => {
             </Text>
           </TouchableOpacity>
           <View style={{height: 16}} />
-          <CustomButton title="로그인" onPress={handleLogin} />
+          <CustomButton title="로그인" onPress={() => handleLogin()} />
           <View style={{height: 32}} />
           <TouchableOpacity
             style={{
@@ -79,7 +92,7 @@ const LoginScreen = ({navigation}) => {
               borderRadius: 6.7,
               padding: 15,
             }}
-            onPress={() =>{ setModalVisible(!modalVisible); setRegisterType('kakao')}}>
+            onPress={() => handleKakaoLogin()}>
             <View style={{flex: 1}} />
             <KakaoIcon width={20} height={20} />
             <View style={{width: 6.6}} />

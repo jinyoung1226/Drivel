@@ -66,15 +66,15 @@ export const checkAuth = createAsyncThunk(
 export const login = createAsyncThunk(
   'auth/login',
   async ({email, password}, thunkAPI) => {
-    const fcmToken = await AsyncStorage.getItem('fcmToken');
     try {
-      // const fcmToken = await AsyncStorage.getItem('fcmToken');
+      const fcmToken = await AsyncStorage.getItem('fcmToken');
       const response = await api.post('/auth/signIn', {
         email,
         password,
         fcmToken: fcmToken,
       }); //fcm토큰 발행하는거 만들고 불러와야함.
       console.log(response.status);
+      console.log(fcmToken, 'fcm')
       if (response.status == 200) {
         const accessToken = response.data.accessToken;
         const refreshToken = response.data.refreshToken;
@@ -175,6 +175,7 @@ export const kakaoLogin = createAsyncThunk(
         const refreshToken = response.data.refreshToken;
         const nickname = response.data.nickname;
         const userId = response.data.id;
+        await AsyncStorage.setItem('isKakaoRegitered', 'true');
         await AsyncStorage.setItem('accessToken', accessToken); //AsyncStorage에 저장하는 이유는 애플리케이션이 재시작될 때도 accessToken을 유지하기 위함. 자동로그인되야하니..
         await EncryptedStorage.setItem('refreshToken', refreshToken);
         console.log(response.data, '카카오 로그인성공');

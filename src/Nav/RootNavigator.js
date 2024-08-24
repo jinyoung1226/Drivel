@@ -6,7 +6,7 @@ import AuthNavigator from './AuthNavigator';
 import MainNavigator from './MainNavigator';
 import SplashScreen from '../SplashScreen';
 import OnboardingPage from './OnboardNavigator';
-import {connectWebSocket, disconnectWebSocket, subscribeToChannel} from '../features/websocket/websocketActions'; // 웹소켓 액션 가져오기
+import {connectWebSocket, disconnectWebSocket} from '../features/websocket/websocketActions'; // 웹소켓 액션 가져오기
 
 const RootNavigator = () => {
   const {isAuthenticated, onboarded, isLoading} = useSelector(
