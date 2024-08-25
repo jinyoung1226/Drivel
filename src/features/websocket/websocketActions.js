@@ -55,8 +55,10 @@ export const connectWebSocket = createAsyncThunk(
             }
             if (newMessage.category === 'ACCEPTED') {
               Alert.alert("모임에 " + newMessage.content);
-              thunkAPI.dispatch(getMeetingApplyList());
               refreshMeetList(thunkAPI.dispatch);
+            }
+            if (newMessage.category === 'REJECTED') {
+              Alert.alert("모임 " + newMessage.content);
             }
             console.log(newMessage);
           });
