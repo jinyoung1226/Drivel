@@ -8,7 +8,7 @@ import { Alert } from 'react-native';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as encoding from 'text-encoding';
-
+import BootSplash from "react-native-bootsplash";
 
 const App = () => {
 
@@ -49,9 +49,14 @@ const App = () => {
   };
 
   useEffect(() => {
-    resisterForPushNotificationsAsync();
-    getFcmToken();
-    unsubscribe
+    const init = async () => {
+      resisterForPushNotificationsAsync();
+      getFcmToken();
+    }
+    init().finally(async () => {
+      await BootSplash.hide({ fade: true });
+      console.log("BootSplash has been hidden successfully");
+    });
     return unsubscribe;
   }, []);
 

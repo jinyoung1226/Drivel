@@ -6,8 +6,11 @@ import colors from './styles/colors';
 const SplashScreen = () => {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.BG}}>
+      <View style={{flex: 1}}/>
       <MainLogo />
-      <MainText />
+      <View style={{flex:1}}>
+        <MainText />
+      </View>
     </View>
   );
 };
