@@ -10,24 +10,6 @@ import { useNavigation } from '@react-navigation/native';
 
 const MeetUpcomingList = ({data, myMeetList, handleShowMore, showMore, setShowMore}) => {
   const navigation = useNavigation();
-  // const [data, setData] = useState(null);
-  // const [showMore, setShowMore] = useState(false);
-  // const {myMeetList} = useSelector(state => state.meet);
-
-  // useEffect(() => {
-  //   if (myMeetList) {
-  //     setData(myMeetList.filter(meeting => isThisWeek(meeting.meetingDate)));
-  //   }
-  // }, [myMeetList]);
-
-  // const handleShowMore = () => {
-  //   if (!showMore) {
-  //     setData(myMeetList);
-  //   } else {
-  //     setData(myMeetList.filter(meeting => isThisWeek(meeting.meetingDate)));
-  //   }
-  //   setShowMore(!showMore);
-  // };
 
   const dispatch = useDispatch();
   const formatDate = dateString => {
@@ -48,14 +30,20 @@ const MeetUpcomingList = ({data, myMeetList, handleShowMore, showMore, setShowMo
   
   const renderMeetingItem = ({item}) => (
     <TouchableOpacity
-      style={{flexDirection: 'row', alignItems: 'center'}}
+      style={{flexDirection: 'row', alignItems: 'center', flex:1}}
       onPress={() => goMeetDetail(item)}>
-      <Text style={[textStyles.B3, {color: '#B0B0B0', height: 17}]}>
+      <Text style={[textStyles.B3, {color: '#B0B0B0'}]}>
         {formatDate(item.meetingDate)}
       </Text>
       <View style={{width: 32}} />
-      <Text style={[textStyles.B2, {color: colors.Blue}]}>{item.title}</Text>
-      <View style={{flex: 1}} />
+      <View style={{flex: 1}} >
+        <Text 
+          style={[textStyles.B2, {color: colors.Blue}]}
+          numberOfLines={1}
+        >
+          {item.title}
+        </Text>
+      </View>
       <Text
         style={[textStyles.B2, {fontFamily: 'SUIT-Bold', color: '#C4C4C4'}]}>
         {'>'}

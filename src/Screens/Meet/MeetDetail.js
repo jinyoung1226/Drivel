@@ -32,6 +32,9 @@ import MenuModal from '../../components/MenuModal';
 import RenderingHandIcon from '../../assets/icons/RenderingHand';
 import ConfirmModal from '../../components/ConfirmModal';
 import Check from '../../assets/icons/Check';
+import { getMeetMessageList, setMeetMessageList } from '../../features/meet/meetActions';
+import NoticeItem from './NoticeItem';
+import { interpolate } from 'react-native-reanimated';
 const MeetDetail = ({route, navigation}) => {
   const [message, setMessage] = useState('');
   const [activeTab, setActiveTab] = useState(0);
@@ -48,14 +51,17 @@ const MeetDetail = ({route, navigation}) => {
   const [participateStatus, setParticipateStatus] = useState('NONE');
   const [notice, setNotice] = useState(null);
   const [isNotice, setIsNotice] = useState(false);
+  const [displayNotice, setDisplayNotice] = useState(false);
   const [targetId, setTargetId] = useState(null);
+  const [lastMessageId, setLastMessageId] = useState(-1);
   const { userId } = useSelector(state => state.auth);
+  const transparent = useRef(false);
   const dispatch = useDispatch();
 
   const meetingId = route.params.meetingId;
   const courseId = route.params.courseId;
   const meetingTitle = route.params.meetingTitle;
-
+  const meetMessageList = useSelector(state => state.meet.meetMessageList);
   const width = Dimensions.get('window').width;
   const tabName = ['모임 정보', '코스 정보', '게시판'];
   
@@ -87,7 +93,10 @@ const MeetDetail = ({route, navigation}) => {
             console.log(message, '@@@@@');
             const newMessage = JSON.parse(message.body);
             console.log(newMessage);
+            // dispatch(setMeetMessageList((prevMessages) => [newMessage, ...prevMessages])); // 새로운 메시지를 맨 위에 추가
           }}));
+          getMeetNotice();
+          dispatch(getMeetMessageList({meetingId: meetingId, messageId: lastMessageId}));
         }
       }
     } catch (error) {
@@ -99,11 +108,29 @@ const MeetDetail = ({route, navigation}) => {
     }
   };
 
+  const getMeetNotice = async() => {
+    try {
+      const response = await authApi.get(`/meeting/${meetingId}/notice`);
+      if(response.status == 200) {
+        console.log(response.data, '@@@@');
+        setNotice(response.data);
+        
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data);
+      } else {
+        console.log("서버 접속 오류");
+      }
+    }
+  }
+
   useEffect(() => {
     getDriveCourseInfo();
     getMeetingInfo();
     return () => {
       dispatch(unsubscribeToChannel());
+      dispatch(setMeetMessageList([]));
     };
     
   }, []);
@@ -155,16 +182,11 @@ const MeetDetail = ({route, navigation}) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTransparent: true,
       title: meetingTitle,
       headerTitleStyle: [
         textStyles.H3,
         {
-          color: scrollY.interpolate({
-            inputRange: [0, width/3],
-            outputRange: ['rgba(0,0,0,0)', 'rgba(0,0,0,1)'],
-            extrapolate: 'clamp',
-          }),
+          color: colors.Gray10
         },
       ],
       headerLeft: () => (
@@ -173,7 +195,7 @@ const MeetDetail = ({route, navigation}) => {
             navigation.goBack();
           }}
           style={{padding: 16}}>
-          <BackIcon color={iconColor} />
+          <BackIcon color={colors.Gray10} />
         </TouchableOpacity>
       ),
       headerRight: () => (
@@ -181,18 +203,14 @@ const MeetDetail = ({route, navigation}) => {
           style={{padding:16}}
           onPress={() => {setMenuModalVisible(!menuModalVisible);}}
         >
-          <KebabMenuIcon color={iconColor} />
+          <KebabMenuIcon color={colors.Gray10} />
         </TouchableOpacity>
       ),
       headerBackground: () => (
         <Animated.View
           style={{
             flex: 1,
-            backgroundColor: scrollY.interpolate({
-              inputRange: [0, width/3],
-              outputRange: ['rgba(0,0,0,0)', 'rgba(255,255,255,1)'],
-              extrapolate: 'clamp',
-            }),
+            backgroundColor: colors.BG,
             elevation: scrollY.interpolate({
               inputRange: [0, width/3],
               outputRange: [0, 3],
@@ -202,7 +220,7 @@ const MeetDetail = ({route, navigation}) => {
         />
       ),
     });
-  }, [navigation, iconColor, meetingInfo, scrollY]);
+  }, [navigation, iconColor, meetingInfo, scrollY, transparent]);
 
   useEffect(() => {
     const backAction = () => {
@@ -222,10 +240,14 @@ const MeetDetail = ({route, navigation}) => {
     Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
       useNativeDriver: false,
     })(event);
-    if (offsetY > width - 56) {
+    if (offsetY > width - 112) {
       setDisplayTabs(true);
-    } else if (offsetY <= width - 56) {
+      setDisplayNotice(true);
+      transparent.current = true;
+    } else if (offsetY <= width - 112) {
       setDisplayTabs(false);
+      setDisplayNotice(false);
+      transparent.current = false;
     }
     if (offsetY > 5) {
       setIconColor(colors.Gray10);
@@ -233,23 +255,6 @@ const MeetDetail = ({route, navigation}) => {
       setIconColor(colors.white);
     }
   };
-
-  const getMeetNotice = async() => {
-    try {
-      const response = await authApi.get(`/meeting/${meetingId}/notice`);
-      if(response.status == 200) {
-        console.log(response.data, '@@@@');
-        setNotice(response.data);
-        
-      }
-    } catch (error) {
-      if (error.response) {
-        console.log(error.response.data);
-      } else {
-        console.log("서버 접속 오류");
-      }
-    }
-  }
 
   const sendMessage = async() => {
     if (isNotice) {
@@ -311,30 +316,21 @@ const MeetDetail = ({route, navigation}) => {
         meetingId={meetingId}
         status={participateStatus}
       />
-      <Tabs
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        tabName={tabName}
-        style={{
-          position: 'absolute',
-          top: 56,
-          zIndex: 1,
-          display: displayTabs ? 'flex' : 'none',
-        }}
-      />
       <KeyboardAwareScrollView
         ref={scrollViewRef} // ScrollView 참조 연결
         onScroll={handleScroll}
         scrollEventThrottle={16}
         keyboardDismissMode="interactive"
         automaticallyAdjustKeyboardInsets={true}
-        contentInsetAdjustmentBehavior='never'>
+        contentInsetAdjustmentBehavior='never'
+        stickyHeaderIndices={[1]}
+      >
         {courseInfo !== null && meetingInfo !== null && (
           <ImageBackground
-            style={{width: width, aspectRatio: 1}}
+            style={{width: width, height: width}}
             src={courseInfo.courseInfo.imagePath}>
             <LinearGradient
-              style={{width: '100%', aspectRatio: 1}}
+              style={{flex: 1}}
               colors={[
                 'rgba(0, 0, 0, 0.2)',
                 'rgba(0, 0, 0, 0.5)',
@@ -357,23 +353,20 @@ const MeetDetail = ({route, navigation}) => {
             </LinearGradient>
           </ImageBackground>
         )}
-        {displayTabs == false ? (
+        <View>
           <Tabs
             tabName={tabName}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
           />
-        ) : (
-          <View style={{height: 52}} />
-        )}
+        </View>
         {meetingInfo !== null && courseInfo !== null && (
           <View>
             {activeTab === 0 && <MeetInfo item={meetingInfo} />}
             {activeTab === 1 && <MeetCourseInfo item={courseInfo} />}
             {activeTab === 2 && (participateStatus == "JOINED" ? (
               <MeetChatBoard 
-                notice={notice} 
-                getMeetNotice={getMeetNotice}  
+                notice={notice}  
                 confirmModalVisible={confirmModalVisible} 
                 setConfirmModalVisible={setConfirmModalVisible}
                 setType={setType}
@@ -399,6 +392,7 @@ const MeetDetail = ({route, navigation}) => {
                   padding: 16,
                   elevation: 10,
                   backgroundColor: colors.BG,
+                  paddingTop:8
                 }}
               >
                 <TouchableOpacity
@@ -463,6 +457,7 @@ const MeetDetail = ({route, navigation}) => {
                   padding: 16,
                   elevation: 10,
                   backgroundColor: colors.BG,
+                  paddingTop:8
                 }}
               >
                 <TouchableOpacity

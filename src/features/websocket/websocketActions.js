@@ -5,6 +5,8 @@ import * as StompJs from '@stomp/stompjs';
 import config from '../../config/config';
 import { refreshApi } from '../../api/api';
 import { getMeetingApplyList } from '../meet/meetActions';
+import refreshMeetList from '../../utils/refreshMeetList';
+import { Alert } from 'react-native';
 
 let webSocketClient = null;
 let subscription = null;
@@ -50,6 +52,11 @@ export const connectWebSocket = createAsyncThunk(
             const newMessage = JSON.parse(message.body);
             if (newMessage.category === 'JOIN') {
               thunkAPI.dispatch(getMeetingApplyList());
+            }
+            if (newMessage.category === 'ACCEPTED') {
+              Alert.alert("모임에 " + newMessage.content);
+              thunkAPI.dispatch(getMeetingApplyList());
+              refreshMeetList(thunkAPI.dispatch);
             }
             console.log(newMessage);
           });

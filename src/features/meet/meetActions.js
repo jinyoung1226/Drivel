@@ -179,6 +179,28 @@ export const getMeetingApplyList = createAsyncThunk(
   },
 );
 
+export const getMeetMessageList = createAsyncThunk(
+  'meet/getMeetMessageList',
+  async ({meetingId, messageId}, thunkAPI) => {
+    try {
+      const response = await authApi.get(`/meeting/${meetingId}/board/${messageId}`);
+      if (response.status === 200) {
+        console.log(response.data, '@@@');
+        const meetMessageList = response.data;
+        return {meetMessageList: meetMessageList};
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log('미팅 메시지 리스트 불러오기 에러');
+        console.log(error.response.status);
+      } else {
+        console.log('미팅 메시지 리스트 불러오기 에러');
+        console.log('서버 접속 오류');
+      }
+    }
+  },
+);
+
 export const setTab = createAction('meet/setTab');
 
 export const setFilterGender = createAction('meet/filterGender');
@@ -196,3 +218,5 @@ export const setFilterDriveTheme = createAction('meet/filterDriveTheme');
 export const setFilterDriveWith = createAction('meet/filterDriveWith');
 
 export const setSort = createAction('meet/setSort');
+
+export const setMeetMessageList = createAction('meet/setMeetMessageList');

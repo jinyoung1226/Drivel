@@ -1,15 +1,17 @@
 import React, {useState} from "react";
 
-import { View, Text, TouchableOpacity, StyleSheet, Pressable } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Pressable, Image } from "react-native";
 import { textStyles } from "../../styles/textStyles";
 import colors from "../../styles/colors";
 import CustomInput from "../../components/CustomInput";
 import KebabMenuIcon from "../../assets/icons/KebabMenuIcon";
 import { useNavigation } from "@react-navigation/native";
+import formatChatTimestamp from "../../utils/formatChatTimeStamp";
 
 const MeetChatMessage = ({item, selectedChatItem, setSelectedChatItem, userId, setType, setTargetId, setConfirmModalVisible, confirmModalVisible}) => {
   const isVisible = selectedChatItem === item.id;
   const navigation = useNavigation();
+  
   return (
     <View style={{ padding:16, borderRadius:14, backgroundColor:colors.Gray01, marginVertical:8, marginHorizontal:16}}>
       {isVisible && item.id == selectedChatItem &&
@@ -38,12 +40,14 @@ const MeetChatMessage = ({item, selectedChatItem, setSelectedChatItem, userId, s
         </View>
       }
       <View style={{flexDirection:'row'}}>
-        <View style={{width:44, height:44, borderRadius:22, backgroundColor:colors.Gray06}}/>
+        <View style={{width:44, height:44, borderRadius:22, backgroundColor:colors.Gray06, overflow: 'hidden'}}>
+          <Image src={item.imagePath} style={{flex:1}}/>
+        </View>
         <View style={{width:8}}/>
         <View style={{flex:1}}>
-          <Text style={[textStyles.H5, {color:colors.Blue}]}>{item.nickname}</Text>
+          <Text style={[textStyles.H5, {color:colors.Blue}]}>{item.senderNickname}</Text>
           <View style={{height:4}}/>
-          <Text style={[textStyles.B4, {color:colors.Gray06}]}>{item.sendAt}</Text>
+          <Text style={[textStyles.B4, {color:colors.Gray06}]}>{formatChatTimestamp(item.sendAt)}</Text>
         </View>
         <View>
           <TouchableOpacity 

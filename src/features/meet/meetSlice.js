@@ -13,6 +13,8 @@ import {
   setFilterDriveTheme,
   setFilterDriveWith,
   setFilterGender,
+  getMeetMessageList,
+  setMeetMessageList,
 } from './meetActions';
 
 const initialState = {
@@ -34,6 +36,7 @@ const initialState = {
   filterAge: '',
   filterCarModel: '',
   filterCarCareer: '',
+  meetMessageList: [],
 };
 const meetSlice = createSlice({
   name: 'meet',
@@ -98,6 +101,17 @@ const meetSlice = createSlice({
     builder.addCase(getMeetingApplyList.rejected, state => {
       state.isLoading = false;
     });
+    builder.addCase(getMeetMessageList.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(getMeetMessageList.fulfilled, (state, action) => {
+      state.meetMessageList = action.payload.meetMessageList;
+      state.isLoading = false;
+    });
+    builder.addCase(getMeetMessageList.rejected, state => {
+      state.isLoading = false;
+    });
+
     builder.addCase(setTab, (state, action) => {
       state.currentTab = action.payload;
     });
@@ -121,6 +135,9 @@ const meetSlice = createSlice({
     });
     builder.addCase(setFilterGender, (state, action) => {
       state.filterGender = action.payload;
+    });
+    builder.addCase(setMeetMessageList, (state, action) => {
+      state.meetMessageList = action.payload;
     });
   },
 });
