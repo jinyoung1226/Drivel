@@ -10,6 +10,7 @@ import {
   Animated,
   InputAccessoryView,
   Platform,
+  ActivityIndicator
 } from 'react-native';
 import BackIcon from '../../assets/icons/BackIcon';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -32,11 +33,13 @@ import MenuModal from '../../components/MenuModal';
 import RenderingHandIcon from '../../assets/icons/RenderingHand';
 import ConfirmModal from '../../components/ConfirmModal';
 import Check from '../../assets/icons/Check';
-import { getMeetMessageList, setMeetMessageList } from '../../features/meet/meetActions';
-import NoticeItem from './NoticeItem';
-import { interpolate } from 'react-native-reanimated';
+import { getMeetMessageList, setMeetMessageList, getMeetMessageListMore, setMeetMessageListNull } from '../../features/meet/meetActions';
+import eventEmitter from '../../utils/eventEmitter';  
+
 const MeetDetail = ({route, navigation}) => {
+
   const [message, setMessage] = useState('');
+  const [isMessageSending, setIsMessageSending] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [courseInfo, setCourseInfo] = useState(null);
   const [meetingInfo, setMeetingInfo] = useState(null);
@@ -52,8 +55,8 @@ const MeetDetail = ({route, navigation}) => {
   const [notice, setNotice] = useState(null);
   const [isNotice, setIsNotice] = useState(false);
   const [displayNotice, setDisplayNotice] = useState(false);
+  const scrollHeight = useRef(0);
   const [targetId, setTargetId] = useState(null);
-  const [lastMessageId, setLastMessageId] = useState(-1);
   const { userId } = useSelector(state => state.auth);
   const transparent = useRef(false);
   const dispatch = useDispatch();
@@ -61,10 +64,14 @@ const MeetDetail = ({route, navigation}) => {
   const meetingId = route.params.meetingId;
   const courseId = route.params.courseId;
   const meetingTitle = route.params.meetingTitle;
-  const meetMessageList = useSelector(state => state.meet.meetMessageList);
+  const {meetMessageList, lastMessageId, isLastMessage, isLoading} = useSelector(state => state.meet); 
+  const {isConnected} = useSelector(state => state.websocket);
   const width = Dimensions.get('window').width;
   const tabName = ['모임 정보', '코스 정보', '게시판'];
   
+  useEffect(() => {
+  console.log(scrollHeight.current);
+  }, []);
   const getDriveCourseInfo = async () => {
     try {
       const response = await authApi.get(`course/${courseId}`);
@@ -96,7 +103,7 @@ const MeetDetail = ({route, navigation}) => {
             dispatch(setMeetMessageList(newMessage)); // 새로운 메시지를 맨 위에 추가
           }}));
           getMeetNotice();
-          dispatch(getMeetMessageList({meetingId: meetingId, messageId: lastMessageId}));
+          dispatch(getMeetMessageList({meetingId: meetingId, messageId: -1}));
         }
       }
     } catch (error) {
@@ -125,15 +132,41 @@ const MeetDetail = ({route, navigation}) => {
     }
   }
 
+  const reSubscribe = () => {
+    if (participateStatus == "JOINED") {
+      dispatch(subscribeToChannel({channel : `/sub/meeting/${meetingId}`, callback : (message) => {
+        const newMessage = JSON.parse(message.body);
+        console.log(newMessage);
+        dispatch(setMeetMessageList(newMessage)); // 새로운 메시지를 맨 위에 추가
+      }}));
+      getMeetNotice();
+      dispatch(getMeetMessageList({meetingId: meetingId, messageId: -1}));
+    }
+  };
+
   useEffect(() => {
+    eventEmitter.on('websocketConnected', reSubscribe);
     getDriveCourseInfo();
     getMeetingInfo();
     return () => {
       dispatch(unsubscribeToChannel());
-      dispatch(setMeetMessageList([]));
+      dispatch(setMeetMessageListNull());
+      eventEmitter.removeListener('websocketConnected', reSubscribe);
     };
-    
   }, []);
+
+  // useEffect(() => {
+  //   if (participateStatus == "JOINED" && isConnected) {
+  //     dispatch(subscribeToChannel({channel : `/sub/meeting/${meetingId}`, callback : (message) => {
+  //       console.log(message, '@@@@@');
+  //       const newMessage = JSON.parse(message.body);
+  //       console.log(newMessage);
+  //       dispatch(setMeetMessageList(newMessage)); // 새로운 메시지를 맨 위에 추가
+  //     }}));
+  //     getMeetNotice();
+  //     dispatch(getMeetMessageList({meetingId: meetingId, messageId: -1}));
+  //   }
+  // }, [isConnected]); 
   
   participateMeeting = async () => {
     try {
@@ -254,9 +287,15 @@ const MeetDetail = ({route, navigation}) => {
     } else if (offsetY <= 5) {
       setIconColor(colors.white);
     }
+    if (offsetY > scrollHeight.current * 0.5) {
+      if (!isLastMessage && activeTab === 2 && participateStatus == "JOINED" && !isLoading) {
+        dispatch(getMeetMessageListMore({meetingId: meetingId, messageId: lastMessageId}));
+      }
+    }
   };
 
   const sendMessage = async() => {
+    setIsMessageSending(true);
     if (isNotice) {
       try {
         const response = await authApi.post(`/meeting/notice`, {
@@ -267,7 +306,7 @@ const MeetDetail = ({route, navigation}) => {
           Alert.alert(response.data.message);
           setIsNotice(false);
           getMeetNotice();
-          scrollViewRef.current.scrollToPosition(0, width, true)
+          setTimeout(() => scrollViewRef.current.scrollToPosition(0, width+40, true), 100);
         }
       } catch (error) {
         if (error.response) {
@@ -284,9 +323,10 @@ const MeetDetail = ({route, navigation}) => {
         senderId: userId,
         message: message
       }));
-      scrollViewRef.current.scrollToPosition(0, width, true)
+      setTimeout(() => scrollViewRef.current.scrollToPosition(0, width+40, true), 100);
     }
     setMessage('');
+    setIsMessageSending(false);
   }
 
   if (meetingInfo === null) {
@@ -294,6 +334,7 @@ const MeetDetail = ({route, navigation}) => {
       <RenderingPage/>
     )
   }
+
 
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>
@@ -319,6 +360,9 @@ const MeetDetail = ({route, navigation}) => {
         status={participateStatus}
       />
       <KeyboardAwareScrollView
+        onContentSizeChange={(contentWidth, contentHeight) => {
+          scrollHeight.current = contentHeight;
+        }}
         ref={scrollViewRef} // ScrollView 참조 연결
         onScroll={handleScroll}
         scrollEventThrottle={16}
@@ -384,6 +428,7 @@ const MeetDetail = ({route, navigation}) => {
           </View>
         )}
       </KeyboardAwareScrollView>
+      
       {Platform.OS == 'ios' ? 
         (<InputAccessoryView backgroundColor={colors.BG}>
           {participateStatus == "JOINED" ? (
@@ -421,16 +466,17 @@ const MeetDetail = ({route, navigation}) => {
                 </TouchableOpacity>
                 <View style={{height: 8}}/>
                 <CustomInput 
-                  onfocus={() => scrollViewRef.current.scrollToPosition(0, width, true)}
+                  onfocus={() => setTimeout(() => scrollViewRef.current.scrollToPosition(0, width, true), 300)}
                   placeholder={"메시지를 입력해주세요"}
                   containerStyle={{backgroundColor: colors.Gray01}}
                   value={message}
                   onChangeText={setMessage}
                   showButton={true}
                   onButtonPress={() => sendMessage()}
-                  buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray06}]}>등록</Text>}
+                  buttonIcon={<Text style={[textStyles.B3, {color: (isMessageSending || message.length == 0) ? colors.Gray06 : colors.Blue}]}>등록</Text>}
                   multiline={true}
-                  onSubmitEditing={() => sendMessage()}  
+                  onSubmitEditing={() => sendMessage()}
+                  buttonDisabled={message.length == 0 || isMessageSending}  
                 />
               </View>)
               }
@@ -489,16 +535,17 @@ const MeetDetail = ({route, navigation}) => {
                 </TouchableOpacity>
                 <View style={{height: 8}}/>
                 <CustomInput 
-                  onfocus={() => scrollViewRef.current.scrollToPosition(0, width, true)}
+                  onfocus={() => setTimeout(() => scrollViewRef.current.scrollToPosition(0, width, true), 300)}
                   placeholder={"메시지를 입력해주세요"}
                   containerStyle={{backgroundColor: colors.Gray01}}
                   value={message}
                   onChangeText={setMessage}
                   showButton={true}
                   onButtonPress={() => sendMessage()}
-                  buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray06}]}>등록</Text>}
+                  buttonIcon={<Text style={[textStyles.B3, {color: (isMessageSending || message.length == 0) ? colors.Gray06 : colors.Blue}]}>등록</Text>}
                   multiline={true}
-                  onSubmitEditing={() => sendMessage()}  
+                  onSubmitEditing={() => sendMessage()}
+                  buttonDisabled={message.length == 0 || isMessageSending} 
                 />
               </View>)
               }

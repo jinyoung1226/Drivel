@@ -14,7 +14,10 @@ import {
   setFilterDriveWith,
   setFilterGender,
   getMeetMessageList,
+  getMeetMessageListMore,
   setMeetMessageList,
+  setLastMessageId,
+  setMeetMessageListNull,
 } from './meetActions';
 
 const initialState = {
@@ -37,6 +40,8 @@ const initialState = {
   filterCarModel: '',
   filterCarCareer: '',
   meetMessageList: [],
+  lastMessageId: -1,
+  isLastMessage: false,
 };
 const meetSlice = createSlice({
   name: 'meet',
@@ -106,9 +111,23 @@ const meetSlice = createSlice({
     });
     builder.addCase(getMeetMessageList.fulfilled, (state, action) => {
       state.meetMessageList = action.payload.meetMessageList;
+      state.lastMessageId = action.payload.lastMessageId;
+      state.isLastMessage = action.payload.isLastMessage;
       state.isLoading = false;
     });
     builder.addCase(getMeetMessageList.rejected, state => {
+      state.isLoading = false;
+    });
+    builder.addCase(getMeetMessageListMore.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(getMeetMessageListMore.fulfilled, (state, action) => {
+      state.meetMessageList = [...state.meetMessageList, ...action.payload.meetMessageList];
+      state.lastMessageId = action.payload.lastMessageId;
+      state.isLastMessage = action.payload.isLastMessage;
+      state.isLoading = false;
+    });
+    builder.addCase(getMeetMessageListMore.rejected, state => {
       state.isLoading = false;
     });
 
@@ -138,6 +157,12 @@ const meetSlice = createSlice({
     });
     builder.addCase(setMeetMessageList, (state, action) => {
       state.meetMessageList = [action.payload, ...state.meetMessageList]; 
+    });
+    builder.addCase(setLastMessageId, (state, action) => {
+      state.lastMessageId = action.payload;
+    });
+    builder.addCase(setMeetMessageListNull, state => {
+      state.meetMessageList = [];
     });
   },
 });

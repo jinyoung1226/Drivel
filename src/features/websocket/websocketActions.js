@@ -7,6 +7,7 @@ import { refreshApi } from '../../api/api';
 import { getMeetingApplyList } from '../meet/meetActions';
 import refreshMeetList from '../../utils/refreshMeetList';
 import { Alert } from 'react-native';
+import eventEmitter from '../../utils/eventEmitter';  
 
 let webSocketClient = null;
 let subscription = null;
@@ -46,6 +47,8 @@ export const connectWebSocket = createAsyncThunk(
 
         webSocketClient = client(accessToken);
         webSocketClient.onConnect = () => {
+          eventEmitter.emit('websocketConnected','reconnected');
+          console.log('웹소켓 재연결 되나?');
           thunkAPI.dispatch(websocketConnected());
           subscription = webSocketClient.subscribe(`/sub/alert/${userId}`, (message) => {
             // websocketMessageReceived(message);
