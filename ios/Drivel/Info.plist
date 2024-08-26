@@ -7,7 +7,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Drivel</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-  	<string>이 앱은 사진 라이브러리에 접근하여 사용자 프로필 사진을 저장하기 위해 필요합니다.</string>
+	<string>이 앱은 사진 라이브러리에 접근하여 사용자 프로필 사진을 저장하기 위해 필요합니다.</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -68,7 +68,7 @@
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>BootSplash</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>arm64</string>

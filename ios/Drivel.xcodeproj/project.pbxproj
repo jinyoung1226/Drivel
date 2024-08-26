@@ -36,6 +36,8 @@
 		DA35AC4332E54DAABC1086B5 /* Pretendard-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4C0DDA5AC4B47F889B14079 /* Pretendard-Thin.ttf */; };
 		DE79E115828B4B018526596B /* SUIT-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A81995169F04BC3806CD99E /* SUIT-Regular.ttf */; };
 		E7807CE9B0304E9A917F3EA5 /* SUIT-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1F5464E0C494FE09C975CAD /* SUIT-Medium.ttf */; };
+		E7258EF522554027A9C0D8BA /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC6987C1883B452D9FF55B24 /* BootSplash.storyboard */; };
+		743D02201AC44A6391C22051 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E436908702E54DDB81A8F737 /* Colors.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +92,8 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAFD27E4CCE54A16A288BB43 /* SUIT-Heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Heavy.ttf"; path = "../src/assets/fonts/SUIT-Heavy.ttf"; sourceTree = "<group>"; };
 		FE6789BFF1A1D17944CE4CEC /* Pods-Drivel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drivel.debug.xcconfig"; path = "Target Support Files/Pods-Drivel/Pods-Drivel.debug.xcconfig"; sourceTree = "<group>"; };
+		EC6987C1883B452D9FF55B24 /* BootSplash.storyboard */ = {isa = PBXFileReference; name = "BootSplash.storyboard"; path = "Drivel/BootSplash.storyboard"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E436908702E54DDB81A8F737 /* Colors.xcassets */ = {isa = PBXFileReference; name = "Colors.xcassets"; path = "Drivel/Colors.xcassets"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = folder.assetcatalog; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +146,8 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				1154D70EE75655AAB9E29300 /* PrivacyInfo.xcprivacy */,
+				EC6987C1883B452D9FF55B24 /* BootSplash.storyboard */,
+				E436908702E54DDB81A8F737 /* Colors.xcassets */,
 			);
 			name = Drivel;
 			sourceTree = "<group>";
@@ -344,6 +350,8 @@
 				852174CD85BD4318822FCE47 /* Pretendard-Regular.ttf in Resources */,
 				7957CD47AC5F4DF18E831852 /* Pretendard-SemiBold.ttf in Resources */,
 				DA35AC4332E54DAABC1086B5 /* Pretendard-Thin.ttf in Resources */,
+				E7258EF522554027A9C0D8BA /* BootSplash.storyboard in Resources */,
+				743D02201AC44A6391C22051 /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
