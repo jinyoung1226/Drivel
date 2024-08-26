@@ -3,7 +3,6 @@ import {View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../styles/colors';
 import {ScrollView} from 'react-native-gesture-handler';
-import RenderingPage from '../../components/RenderingPage';
 import { getMyProfileInfo } from '../../features/profile/profileActions';
 import MyInfo from './MyInfo';
 import ProfileImageModal from './ProfileImageModal';
@@ -16,18 +15,17 @@ import MyMeet from './MyMeet';
 const MyPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const myProfileInfo = useSelector(state => state.profile.myProfileInfo);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getMyProfileInfo());
   }, []);
-
-  if (myProfileInfo === null) {
-    return (
-      <RenderingPage/>
-    )
-  }
   
+  if (!myProfileInfo) {
+    return <View style={{flex: 1, backgroundColor: colors.BG}} />;
+  }
+
   return (
     <ScrollView style={{backgroundColor: colors.BG}}>
       <ProfileImageModal setModalVisible={setModalVisible} modalVisible={modalVisible}/>
