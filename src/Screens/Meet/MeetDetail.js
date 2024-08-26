@@ -93,7 +93,7 @@ const MeetDetail = ({route, navigation}) => {
             console.log(message, '@@@@@');
             const newMessage = JSON.parse(message.body);
             console.log(newMessage);
-            // dispatch(setMeetMessageList((prevMessages) => [newMessage, ...prevMessages])); // 새로운 메시지를 맨 위에 추가
+            dispatch(setMeetMessageList(newMessage)); // 새로운 메시지를 맨 위에 추가
           }}));
           getMeetNotice();
           dispatch(getMeetMessageList({meetingId: meetingId, messageId: lastMessageId}));
@@ -174,9 +174,9 @@ const MeetDetail = ({route, navigation}) => {
   };
 
   useEffect(() => {
-    if (scrollViewRef.current && scrollOffset > width - 56) {
+    if (scrollViewRef.current && scrollOffset > width) {
       // 원하는 위치로 스크롤
-      scrollViewRef.current.scrollToPosition(0, width - 56, true);
+      scrollViewRef.current.scrollToPosition(0, width, true);
     }
   }, [activeTab]); // activeTab 변경 시 스크롤
 
@@ -267,6 +267,7 @@ const MeetDetail = ({route, navigation}) => {
           Alert.alert(response.data.message);
           setIsNotice(false);
           getMeetNotice();
+          scrollViewRef.current.scrollToPosition(0, width, true)
         }
       } catch (error) {
         if (error.response) {
@@ -283,6 +284,7 @@ const MeetDetail = ({route, navigation}) => {
         senderId: userId,
         message: message
       }));
+      scrollViewRef.current.scrollToPosition(0, width, true)
     }
     setMessage('');
   }
@@ -419,13 +421,16 @@ const MeetDetail = ({route, navigation}) => {
                 </TouchableOpacity>
                 <View style={{height: 8}}/>
                 <CustomInput 
+                  onfocus={() => scrollViewRef.current.scrollToPosition(0, width, true)}
                   placeholder={"메시지를 입력해주세요"}
-                  containerStyle={{backgroundColor: colors.Gray01, height:50}}
+                  containerStyle={{backgroundColor: colors.Gray01}}
                   value={message}
                   onChangeText={setMessage}
                   showButton={true}
                   onButtonPress={() => sendMessage()}
-                  buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray06}]}>등록</Text>}  
+                  buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray06}]}>등록</Text>}
+                  multiline={true}
+                  onSubmitEditing={() => sendMessage()}  
                 />
               </View>)
               }
@@ -484,13 +489,16 @@ const MeetDetail = ({route, navigation}) => {
                 </TouchableOpacity>
                 <View style={{height: 8}}/>
                 <CustomInput 
+                  onfocus={() => scrollViewRef.current.scrollToPosition(0, width, true)}
                   placeholder={"메시지를 입력해주세요"}
-                  containerStyle={{backgroundColor: colors.Gray01, height:50}}
+                  containerStyle={{backgroundColor: colors.Gray01}}
                   value={message}
                   onChangeText={setMessage}
                   showButton={true}
                   onButtonPress={() => sendMessage()}
-                  buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray06}]}>등록</Text>}  
+                  buttonIcon={<Text style={[textStyles.B3, {color: colors.Gray06}]}>등록</Text>}
+                  multiline={true}
+                  onSubmitEditing={() => sendMessage()}  
                 />
               </View>)
               }

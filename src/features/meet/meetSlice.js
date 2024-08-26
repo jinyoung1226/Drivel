@@ -137,7 +137,7 @@ const meetSlice = createSlice({
       state.filterGender = action.payload;
     });
     builder.addCase(setMeetMessageList, (state, action) => {
-      state.meetMessageList = action.payload;
+      state.meetMessageList = [action.payload, ...state.meetMessageList]; 
     });
   },
 });

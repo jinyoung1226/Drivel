@@ -27,6 +27,8 @@ const CustomInput = ({
   inputMode,
   containerStyle,
   multiline,
+  returnKeyType,
+  onfocus,
 }) => {
   return (
     <View
@@ -36,6 +38,7 @@ const CustomInput = ({
         {borderColor: isValid === false ? colors.red : colors.Gray03},
       ]}>
       <TextInput
+        onFocus={onfocus}
         style={[styles.input, textStyles.H5, {color: editable ?  colors.Gray10 : colors.Gray06}]}
         value={value}
         onChangeText={onChangeText}
@@ -48,6 +51,7 @@ const CustomInput = ({
         inputMode={inputMode}
         multiline={multiline}
         autoCapitalize={'none'}
+        returnKeyType={returnKeyType}
       />
       {showTimer && (
         <Text
@@ -74,7 +78,6 @@ const CustomInput = ({
 
 const styles = StyleSheet.create({
   inputContainer: {
-    height: 47,
     flexDirection: 'row',
     justifyContent: 'center',
     borderWidth: 1,
@@ -84,8 +87,8 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    height: 47,
     color: colors.Gray10,
+    paddingVertical: 10
   },
   buttonText: {
     fontSize: 14,
