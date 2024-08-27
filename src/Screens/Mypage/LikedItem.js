@@ -38,11 +38,15 @@ const LikedItem = ({item}) => {
         <LinearGradient
           style={{flex: 1, padding: 16}}
           colors={['rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.7)']}>
+          <View style={{flexDirection:'row'}}>
+          <View style={{flex: 1}} />
           <Pressable
             onPress={handleLikePress}
-            style={{position: 'absolute', right: 16, top: 16}}>
+            style={{}}>
             <Heart fill={liked ? '#5168F6' : 'rgba(0, 0, 0, 0)'} />
           </Pressable>
+          </View>
+          
           <View style={{flex: 1}} />
           <Text style={[textStyles.H5, {color: colors.Gray02}]}>
             {item.title}
