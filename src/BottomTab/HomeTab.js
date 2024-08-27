@@ -10,6 +10,8 @@ import {useDispatch} from 'react-redux';
 import {showTabBar, hideTabBar} from '../features/tabBar/tabBarSlice';
 import DriveStart from '../Screens/DriveCourse/DriveStart';
 import RestaurantInfo from '../Screens/DriveCourse/RestaurantInfo';
+import ReportPage from '../Screens/Common/ReportPage';
+import MagazineInfo from '../Screens/Home/MagazineInfo';
 
 const Stack = createStackNavigator();
 
@@ -46,8 +48,8 @@ const HomeTab = ({route}) => {
               <Text
                 style={{
                   color: '#ffffff',
-                  fontSize: 22,
-                  fontFamily: 'YdestreetB',
+                  fontSize: 25,
+                  fontFamily: 'KNU TRUTH',
                 }}>
                 Drivel
               </Text>
@@ -72,7 +74,9 @@ const HomeTab = ({route}) => {
         }}
       />
       <Stack.Screen name="DriveDetail" component={DriveDetail} />
-      <Stack.Screen name="FestivalInfo" component={FestivalInfo} />
+      <Stack.Screen name="ReportPage" component={ReportPage} />
+      <Stack.Screen name="FestivalInfo"  component={FestivalInfo} />
+      <Stack.Screen name="MagazineInfo" component={MagazineInfo} />
       <Stack.Screen name="RestaurantInfo" component={RestaurantInfo} />
       <Stack.Screen name="DriveStart" component={DriveStart} />
     </Stack.Navigator>

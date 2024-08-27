@@ -6,7 +6,7 @@ import {textStyles} from '../../styles/textStyles';
 import DriveReviewWrite from './DriveReviewWrite';
 import DriveBlog from './DriveBlog';
 
-const DriveReview = ({item}) => {
+const DriveReview = ({item, updateCourseInfo, userId}) => {
   const tabName = ['방문자', '블로그'];
   const [activeTab, setActiveTab] = useState(0);
 
@@ -53,7 +53,11 @@ const DriveReview = ({item}) => {
         ))}
       </View>
       {activeTab === 0 ? (
-        <DriveReviewWrite item={item} />
+        <DriveReviewWrite
+          item={item}
+          updateCourseInfo={updateCourseInfo}
+          userId={userId}
+        />
       ) : (
         <DriveBlog item={item} />
       )}

@@ -9,7 +9,7 @@ import {
   FlatList,
 } from 'react-native';
 import DriveCourseCuration from './DriveCourseCuration';
-import Magazine from './Magazine';
+import MagazineCuration from './MagazineCuration';
 import {authApi} from '../../api/api';
 import GrayLine from '../../components/GrayLine';
 import {Alert} from 'react-native';
@@ -19,6 +19,8 @@ import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import RenderingPage from '../../components/RenderingPage';
 import DriveRegionCuraiton from './DriveRegionCuraiton';
+import MiniBus from '../../assets/icons/MinibusIcon.svg';
+import { magazineData } from '../../assets/magazineData/magazineData'; 
 
 const {width} = Dimensions.get('window');
 
@@ -28,6 +30,7 @@ const HomeMain = ({navigation}) => {
   const [festivalList, setFestivalList] = useState([]);
   const [category, setCategory] = useState([]);
   const [activeButton, setActiveButton] = useState('');
+
 
   useEffect(() => {
     const getDriveCurationInfo = async () => {
@@ -83,7 +86,6 @@ const HomeMain = ({navigation}) => {
       try {
         const response = await authApi.get('festival');
         if (response.status === 200) {
-          // console.log(response.data, '@@');
           setFestivalList(response.data);
         }
       } catch (error) {
@@ -155,7 +157,29 @@ const HomeMain = ({navigation}) => {
           driveRegionLists={driveRegionLists}
         />
         <GrayLine />
-        <Magazine />
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 4,
+            paddingLeft: 16,
+            paddingTop: 24,
+          }}>
+          <MiniBus />
+          <Text style={[textStyles.H2, {color: colors.Gray10}]}>
+            이런 여행코스가 인기에요!
+          </Text>
+        </View>
+        <View style={{flex: 1, marginTop: 16}}>
+          <FlatList
+            data={magazineData}
+            renderItem={({item}) => <MagazineCuration item={item} />}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            ItemSeparatorComponent={() => <View style={{width: 16}} />}
+            ListHeaderComponent={<View style={{width: 16}} />}
+          />
+        </View>
         <GrayLine />
         <View
           style={{
