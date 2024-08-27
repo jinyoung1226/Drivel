@@ -40,7 +40,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SUIT-Bold.ttf</string>
@@ -62,6 +62,7 @@
 		<string>Pretendard-Regular.ttf</string>
 		<string>Pretendard-SemiBold.ttf</string>
 		<string>Pretendard-Thin.ttf</string>
+		<string>KNU TRUTH.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

@@ -27,7 +27,7 @@ const DriveStart = ({route, navigation}) => {
   const [visibleItems, setVisibleItems] = useState(3);
   const nickname = useSelector(state => state.auth.nickname);
   const [checkInfo, setCheckInfo] = useState([]);
-  console.log(checkInfo, ' sdaadds');
+  console.log(checkInfo[0], ' sdaadds');
   const [data, setData] = useState(null);
 
   // initCheckInfo 초기화 (기본 경유지 추가)
@@ -118,7 +118,7 @@ const DriveStart = ({route, navigation}) => {
     );
   };
 
-  // const driveStartPress = () => {};
+  const driveStartPress = () => {};
 
   return (
     <View style={{flex: 1, backgroundColor: colors.BG}}>
@@ -209,7 +209,7 @@ const DriveStart = ({route, navigation}) => {
           shadowRadius: 5,
         }}>
         <View style={{flex: 1}}>
-          <CustomButton title={'드라이브 시작'} />
+          <CustomButton title={'드라이브 시작'} onPress={driveStartPress} />
         </View>
       </View>
     </View>

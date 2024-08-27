@@ -11,6 +11,7 @@ import {showTabBar, hideTabBar} from '../features/tabBar/tabBarSlice';
 import RestaurantInfo from '../Screens/DriveCourse/RestaurantInfo';
 import DriveStart from '../Screens/DriveCourse/DriveStart';
 import DriveSearch from '../Screens/DriveCourse/DriveSearch';
+import ReportPage from '../Screens/Common/ReportPage';
 
 const Stack = createStackNavigator();
 
@@ -39,6 +40,8 @@ const DriveTab = ({route}) => {
       />
       <Stack.Screen name="DriveFilter" component={DriveFilter} />
       <Stack.Screen name="DriveDetail" component={DriveDetail} />
+      <Stack.Screen name="ReportPage" component={ReportPage} />
+
       <Stack.Screen name="FestivalInfo" component={FestivalInfo} />
       <Stack.Screen name="RestaurantInfo" component={RestaurantInfo} />
       <Stack.Screen name="DriveStart" component={DriveStart} />

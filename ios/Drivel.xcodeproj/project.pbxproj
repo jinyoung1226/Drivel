@@ -36,6 +36,7 @@
 		DA35AC4332E54DAABC1086B5 /* Pretendard-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4C0DDA5AC4B47F889B14079 /* Pretendard-Thin.ttf */; };
 		DE79E115828B4B018526596B /* SUIT-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A81995169F04BC3806CD99E /* SUIT-Regular.ttf */; };
 		E7807CE9B0304E9A917F3EA5 /* SUIT-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1F5464E0C494FE09C975CAD /* SUIT-Medium.ttf */; };
+		048B97EEE5024B96900E0B82 /* KNU TRUTH.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2F0A29B5216445F9D4B04BF /* KNU TRUTH.ttf */; };
 		E7258EF522554027A9C0D8BA /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC6987C1883B452D9FF55B24 /* BootSplash.storyboard */; };
 		743D02201AC44A6391C22051 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E436908702E54DDB81A8F737 /* Colors.xcassets */; };
 /* End PBXBuildFile section */
@@ -94,6 +95,7 @@
 		FE6789BFF1A1D17944CE4CEC /* Pods-Drivel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drivel.debug.xcconfig"; path = "Target Support Files/Pods-Drivel/Pods-Drivel.debug.xcconfig"; sourceTree = "<group>"; };
 		EC6987C1883B452D9FF55B24 /* BootSplash.storyboard */ = {isa = PBXFileReference; name = "BootSplash.storyboard"; path = "Drivel/BootSplash.storyboard"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		E436908702E54DDB81A8F737 /* Colors.xcassets */ = {isa = PBXFileReference; name = "Colors.xcassets"; path = "Drivel/Colors.xcassets"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = folder.assetcatalog; explicitFileType = undefined; includeInIndex = 0; };
+		A2F0A29B5216445F9D4B04BF /* KNU TRUTH.ttf */ = {isa = PBXFileReference; name = "KNU TRUTH.ttf"; path = "../src/assets/fonts/KNU TRUTH.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +186,7 @@
 				8D42088ACA7241CE98DFE742 /* Pretendard-Regular.ttf */,
 				BFEC731D6E354D43B1F9FB7A /* Pretendard-SemiBold.ttf */,
 				E4C0DDA5AC4B47F889B14079 /* Pretendard-Thin.ttf */,
+				A2F0A29B5216445F9D4B04BF /* KNU TRUTH.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				DA35AC4332E54DAABC1086B5 /* Pretendard-Thin.ttf in Resources */,
 				E7258EF522554027A9C0D8BA /* BootSplash.storyboard in Resources */,
 				743D02201AC44A6391C22051 /* Colors.xcassets in Resources */,
+				048B97EEE5024B96900E0B82 /* KNU TRUTH.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

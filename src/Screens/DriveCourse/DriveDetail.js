@@ -38,6 +38,7 @@ const DriveDetail = ({route, navigation}) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const likedItems = useSelector(state => state.like.likedItems);
+  const userId = useSelector(state => state.auth.userId);
   const liked = likedItems[driveId] || false;
   const dispatch = useDispatch();
 
@@ -69,6 +70,18 @@ const DriveDetail = ({route, navigation}) => {
   useEffect(() => {
     setHeightUntilGrayLine(imageHeight + titleHeight);
   }, [imageHeight, titleHeight]);
+
+  const updateCourseInfo = async () => {
+    try {
+      const response = await authApi.get(`course/${driveId}`);
+      if (response.status === 200) {
+        setCourseInfo(response.data);
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@")
+      }
+    } catch (error) {
+      console.error('Error fetching updated course info:', error);
+    }
+  };
 
   useEffect(() => {
     const getDriveInfo = async () => {
@@ -144,7 +157,13 @@ const DriveDetail = ({route, navigation}) => {
             {activeTab === 0 && (
               <DriveInfo item={courseInfo} driveId={driveId} />
             )}
-            {activeTab === 1 && <DriveReview item={courseInfo} />}
+            {activeTab === 1 && (
+              <DriveReview
+                item={courseInfo}
+                updateCourseInfo={updateCourseInfo}
+                userId={userId}
+              />
+            )}
             <View style={{display: activeTab === 2 ? 'flex' : 'none'}}>
               <DriveTourSpot item={courseInfo} />
             </View>

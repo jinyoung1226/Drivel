@@ -77,6 +77,7 @@ const RestaurantReviewTab = ({placeInfo}) => {
             renderItem={({item}) => <RestaurantBlogList item={item} />}
             keyExtractor={item => item.id} // keyExtractor 추가
             showsHorizontalScrollIndicator={false}
+            scrollEnabled={false}
           />
         ) : (
           <Text>Loading...</Text>
