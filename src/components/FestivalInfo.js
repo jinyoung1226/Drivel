@@ -1,5 +1,5 @@
 import React, {useLayoutEffect, useState, useEffect} from 'react';
-import {Text, Image, View, TouchableOpacity, Dimensions} from 'react-native';
+import {Text, Image, View, TouchableOpacity, Dimensions, ImageBackground} from 'react-native';
 import {textStyles} from '../styles/textStyles';
 import colors from '../styles/colors';
 import BackIcon from '../assets/icons/BackIcon.svg';
@@ -105,10 +105,22 @@ const FestivalInfo = ({route}) => {
         </View>
       </View>
       <View style={{height: 24}} />
+      {festivalInfo.imagePath == "" || festivalInfo.imagePath == null ?
+      <ImageBackground
+        source={require('../assets/image/MainLogo.png')}
+        style={{flex: 1, resizeMode: 'contain', alignItems: 'center'}}
+      >
+        <View style={{flex: 1}} />
+        <Text style={[textStyles.B3, {color: colors.Gray10}]}>
+          페스티벌 관련 이미지가 존재하지 않습니다.
+        </Text>
+        <View style={{height:32}} />
+      </ImageBackground>
+      :
       <Image
         src={festivalInfo.imagePath}
-        style={{flex: 1, borderRadius: 0, resizeMode: 'contain'}}
-      />
+        style={{flex: 1, resizeMode: 'contain'}}
+      />}
     </View>
   );
 };

@@ -20,7 +20,7 @@ import colors from '../../styles/colors';
 import RenderingPage from '../../components/RenderingPage';
 import DriveRegionCuraiton from './DriveRegionCuraiton';
 import MiniBus from '../../assets/icons/MinibusIcon.svg';
-import { magazineData } from '../../assets/magazineData/magazineData'; 
+import { magazineCover } from '../../assets/magazineData/magazineData'; 
 
 const {width} = Dimensions.get('window');
 
@@ -86,6 +86,7 @@ const HomeMain = ({navigation}) => {
       try {
         const response = await authApi.get('festival');
         if (response.status === 200) {
+          console.log(response.data, 'festival');
           setFestivalList(response.data);
         }
       } catch (error) {
@@ -105,10 +106,6 @@ const HomeMain = ({navigation}) => {
   const driveRegionLists = driveRegionList
     .filter(region => region.tagName === activeButton) // 선택된 카테고리에 해당하는 항목만 필터링
     .flatMap(region => region.courses); // 각 region의 courses 배열을 플랫맵으로 합치기
-
-  const handleDriveCourse = id => {
-    navigation.navigate('DriveDetail', {id: id});
-  };
 
   const handleButtonPress = button => {
     setActiveButton(button);
@@ -144,17 +141,13 @@ const HomeMain = ({navigation}) => {
             숨겨진 제주도 맛집이 {'\n'}어딘지 궁금하다면?
           </Text>
         </Pressable>
-        <DriveCourseCuration
-          handleDriveCourse={handleDriveCourse}
-          driveCourseLists={driveCourseList}
-        />
+        <DriveCourseCuration data={driveCourseList}/>
         <GrayLine />
         <DriveRegionCuraiton
           activeButton={activeButton}
           category={category}
           handleButtonPress={handleButtonPress}
-          handleDriveCourse={handleDriveCourse}
-          driveRegionLists={driveRegionLists}
+          data={driveRegionLists}
         />
         <GrayLine />
         <View
@@ -172,7 +165,7 @@ const HomeMain = ({navigation}) => {
         </View>
         <View style={{flex: 1, marginTop: 16}}>
           <FlatList
-            data={magazineData}
+            data={magazineCover}
             renderItem={({item}) => <MagazineCuration item={item} />}
             horizontal
             showsHorizontalScrollIndicator={false}

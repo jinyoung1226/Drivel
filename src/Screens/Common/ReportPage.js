@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useLayoutEffect, useRef} from 'react';
-import {View, TouchableOpacity, Text, TextInput, BackHandler} from 'react-native';
+import {View, TouchableOpacity, Text, TextInput, BackHandler,Alert} from 'react-native';
 import colors from '../../styles/colors';
-import {ScrollView} from 'react-native-gesture-handler';
 import { textStyles } from '../../styles/textStyles';
 import BackIcon from '../../assets/icons/BackIcon';
 import CustomChip from '../../components/CustomChip';
@@ -17,47 +16,47 @@ const ReportPage = ({navigation, route}) => {
   const targetId = route.params.targetId;
   const reportReason = [
     {
-    id: 1,
+    id: '욕설, 비방, 혐오표현을 사용해요',
     displayName: '욕설, 비방, 혐오표현을 사용해요',
     }, 
     {
-    id: 2,
+    id: '자살, 협박 등 폭력적인 행동을 해요',
     displayName: '자살, 협박 등 폭력적인 행동을 해요',
     }, 
     {
-    id: 3,
+    id: '부적절한 목적의 대화를 시도해요',
     displayName: '부적절한 목적의 대화를 시도해요',
     }, 
     {
-    id: 4,
+    id: '성적 수치심을 유발하는 발언을 해요',
     displayName: '성적 수치심을 유발하는 발언을 해요',
     },
     {
-    id: 5,
+    id: '사전 동의 없이 홍보 또는 광고를 해요',
     displayName: '사전 동의 없이 홍보 또는 광고를 해요',
     },
     {
-    id: 6,
+    id: '영리 목적의 글을 게시해요',
     displayName: '영리 목적의 글을 게시해요',
     },
     {
-    id: 7,
+    id: '명예 훼손 및 차별적 발언을 해요',
     displayName: '명예 훼손 및 차별적 발언을 해요',
     },
     {
-    id: 8,
+    id: '저작권 도용 의심(사진 등)이 들어요',
     displayName: '저작권 도용 의심(사진 등)이 들어요',
     },
     {
-    id: 9,
+    id: '허위사실을 유포해요',
     displayName: '허위사실을 유포해요',
     },
     {
-    id: 10,
+    id: '마약, 불법 주류 소비 등의 불법행위가 의심돼요',
     displayName: '마약, 불법 주류 소비 등의 불법행위가 의심돼요',
     },
     {
-    id: 11,
+    id: '정치, 종교 등 본래 목적과 벗어나는 발언을 해요',
     displayName: '정치, 종교 등 본래 목적과 벗어나는 발언을 해요',
     },
   ]
@@ -126,10 +125,11 @@ const ReportPage = ({navigation, route}) => {
   };
 
   const report = async() => {
+    console.log(selectedReportReason);
     try {
       const response = await authApi.post('/report/member', {
         targetId: targetId,
-        descriptions: selectedReportReason,
+        descriptions: selectedReportReason
       });
       if (response.status === 200) {
         Alert.alert(response.data.message);
@@ -139,7 +139,7 @@ const ReportPage = ({navigation, route}) => {
       if (error.response) {
         console.log(error.response.data);
       } else {
-        console.log('서버 접속 오류');
+        console.log(error);
       }
     }
   }
@@ -188,7 +188,7 @@ const ReportPage = ({navigation, route}) => {
         </View>
       </KeyboardAwareScrollView>
       <View style={{padding: 16, backgroundColor:colors.BG, elevation:10}}>
-        <CustomButton title={'신고하기'} onPress={()=>{report()}} disabled={selectedReportReason.length == 0}/>
+        <CustomButton title={'신고하기'} onPress={()=>report()} disabled={selectedReportReason.length == 0}/>
       </View>
     </View>
   );
