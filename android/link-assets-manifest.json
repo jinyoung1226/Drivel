@@ -2,6 +2,10 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "src/assets/fonts/KNU TRUTH.ttf",
+      "sha1": "3f154f661bed2551b85ca01e9ece27ccc2938e7c"
+    },
+    {
       "path": "src/assets/fonts/Pretendard-Black.ttf",
       "sha1": "efdd3af40aad863d177cecb58698dee4d96e5dd2"
     },

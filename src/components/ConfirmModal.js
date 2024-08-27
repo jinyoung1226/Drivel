@@ -22,7 +22,9 @@ const ConfirmModal = ({
   meetingId,
   notcieId,
   setNotice,
-  status
+  status, 
+  updateReviewInfo,
+  updateCourseInfo,
 }) => {
   
   const navigation = useNavigation();
@@ -36,8 +38,6 @@ const ConfirmModal = ({
     try {
       const response = await authApi.post('/block/member', {targetMemberId: targetId});
       if(response.status == 200) {
-        //차단 성공 로직
-        //토스트 모달 띄우기
         refreshMeetList(dispatch);
         modalClose();
         Alert.alert('차단되었습니다.');
@@ -71,8 +71,6 @@ const ConfirmModal = ({
     try {
       const response = await authApi.delete(`/meeting/${meetingId}`);
       if(response.status == 200) {
-        //나가기 성공 로직
-        //토스트 모달 띄우기
         refreshMeetList(dispatch);
         Alert.alert(response.data.message);
         navigation.navigate('MeetMain');
@@ -91,8 +89,6 @@ const ConfirmModal = ({
     try {
       const response = await authApi.delete(`/meeting/leave/${meetingId}`);
       if(response.status == 200) {
-        //나가기 성공 로직
-        //토스트 모달 띄우기
         refreshMeetList(dispatch);
         Alert.alert(response.data.message);
         navigation.navigate('MeetMain');
@@ -111,8 +107,6 @@ const ConfirmModal = ({
     try {
       const response = await authApi.delete(`/meeting/notice/${notcieId}`);
       if(response.status == 200) {
-        //나가기 성공 로직
-        //토스트 모달 띄우기
         setNotice(null);
         Alert.alert(response.data.message);
         modalClose();
@@ -130,9 +124,6 @@ const ConfirmModal = ({
     try {
       const response = await authApi.post('/block/member', {targetMemberId: targetId});
       if(response.status == 200) {
-        //차단 성공 로직
-        //토스트 모달 띄우기
-        //챗리스트 리프레쉬
         modalClose();
         Alert.alert('차단되었습니다.');
       }
@@ -145,6 +136,40 @@ const ConfirmModal = ({
     }
   }
 
+  const reviewDelete = async() => {
+    try {
+      const response = await authApi.delete(`review/${targetId}`);
+      if(response.status == 200) {
+        console.log('Review deleted successfully');
+        await updateReviewInfo();
+        await updateCourseInfo();
+        modalClose();  
+      }
+    } catch(error) {
+      if (error.response) {
+        console.log(error.response.data);
+      } else {
+        console.log("서버 접속 오류");
+      }
+    }
+  }
+
+  const reviewBlockUser = async() => {
+    try {
+      const response = await authApi.post('/block/member', {targetMemberId: targetId});
+      if(response.status == 200) {
+        await updateReviewInfo();
+        Alert.alert('차단되었습니다.');
+        modalClose();
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data);
+      } else {
+        console.log("서버 접속 오류");
+      }
+    }
+  }
 
   return (
     <Modal 
@@ -168,6 +193,8 @@ const ConfirmModal = ({
                   type == 'leave' ? '모임 나가기':
                   type == 'notice' ? '공지를 삭제하시겠어요?' :
                   type == 'chatDelete' ? '채팅을 삭제하시겠어요?' :
+                  type == 'reviewDelete' ? '게시글을 삭제하시겠습니까?' :
+                  type == 'userReviewBlock' ? '해당 리뷰를 차단하시겠어요?' :
                   type == 'userBlock' && '차단하기'
                 }
               </Text>
@@ -179,6 +206,8 @@ const ConfirmModal = ({
                   type == 'leave' ? '모임에서 나가시겠어요?' :
                   type == 'notice' ? '삭제 시 복구할 수 없어요' :
                   type == 'chatDelete' ? '삭제 시 복구할 수 없어요' :
+                  type == 'reviewDelete' ? '삭제 시 복구할 수 없어요' :
+                  type == 'userReviewBlock' ? '차단 시 더 이상 이 리뷰를 확인할 수 없어요' :
                   type == 'userBlock' && '작성자의 모든 게시물이 노출되지 않아요.\n정말로 차단하시겠어요?'
                 }
               </Text>
@@ -198,6 +227,8 @@ const ConfirmModal = ({
                       type == 'leave' ? '나가기':
                       type == 'notice' ? '삭제' :
                       type == 'chatDelete' ? '삭제' :
+                      type == 'reviewDelete' ? '확인' :
+                      type == 'userReviewBlock' ? '차단' :
                       type == 'userBlock' && '차단' 
                     } 
                     onPress={()=>{
@@ -211,7 +242,11 @@ const ConfirmModal = ({
                         deleteNotice();
                       } else if(type == 'chatDelete') {
                         //deleteChat();
-                      } else if(type == 'userBlock') {
+                      } else if(type == 'reviewDelete') {
+                        reviewDelete();
+                      }else if(type == 'userReviewBlock') {
+                        reviewBlockUser();
+                      }else if(type == 'userBlock') {
                         //blockUser();
                       }
                     }} 

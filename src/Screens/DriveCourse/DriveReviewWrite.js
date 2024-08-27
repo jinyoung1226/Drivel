@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import GrayLine from '../../components/GrayLine';
 import {View, Text, Pressable, TextInput, Image} from 'react-native';
 import colors from '../../styles/colors';
@@ -10,46 +10,98 @@ import Camera from '../../assets/icons/Camera.svg';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ReviewPhotoXButton from '../../assets/icons/ReviewPhotoXButton.svg';
 import {formDataApi} from '../../api/api';
+import {authApi} from '../../api/api';
+import DriveReviewList from './DriveReviewList';
+import {max} from 'moment';
 
 const MAX_REVIEW_LENGTH = 200; // 리뷰 최대 글자 수
 
-const DriveReviewWrite = ({item}) => {
+const DriveReviewWrite = ({item, updateCourseInfo, userId}) => {
   const [rating, setRating] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
   const [photoLimitMessage, setPhotoLimitMessage] = useState('');
   const [reviewText, setReviewText] = useState('');
   const [visibleWriteReview, setVisibleWriteReview] = useState(false);
   const [photo, setPhoto] = useState([]);
+  const [reviewList, setReviewList] = useState([]);
 
-  const uploadReview = async item => {
+  const updateReviewInfo = async () => {
+    try {
+      const response = await authApi.get(
+        `course/${item.courseInfo.id}/reviews`,
+        {
+          params: {
+            page: 0, // 첫 번째 페이지
+            size: max, // 불러올 리뷰 개수
+          },
+        },
+      );
+      if (response.status === 200) {
+        setReviewList(response.data);
+        setRating(0);
+        setReviewText('');
+        setPhoto([]);
+      }
+    } catch (error) {
+      console.error('Error fetching updated review info:', error);
+    }
+  };
+
+  const getReview = async () => {
+    try {
+      const response = await authApi.get(
+        `course/${item.courseInfo.id}/reviews`,
+        {
+          params: {
+            page: 0, // 첫 번째 페이지
+            size: max, // 불러올 리뷰 개수
+          },
+        },
+      );
+      if (response.status === 200) {
+        console.log(response.data, 'ㄴㅇㄴㅇ');
+        setReviewList(response.data);
+        setRating(0);
+        setReviewText('');
+        setPhoto([]);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(() => {
+    getReview();
+  }, []);
+
+  const uploadReview = async () => {
     const formData = new FormData();
 
-    const reviewData = {
-      courseId: item.id,
-      rating: rating,
-      comment: reviewText,
-    };
-
-    const review = JSON.stringify(reviewData);
-    formData.append('review', review);
-    console.log(formData);
+    formData.append('comment', reviewText);
+    formData.append('courseId', item.courseInfo.id);
+    formData.append('rating', rating);
 
     if (photo.length > 0) {
-      Array.from(photo).forEach(photo => {
-        formData.append('images', photo);
-      });
+      for (const image of photo) {
+        const response = await fetch(image.uri);
+        const blob = await response.blob();
+        formData.append('images', blob, image.fileName);
+      }
     }
 
     try {
       const response = await formDataApi.post('/review/add', formData);
-
       if (response.status === 200) {
-        console.log(response);
+        // 리뷰 업로드 후 courseInfo 업데이트
+        updateCourseInfo();
+        getReview(); // 리뷰 목록 갱신
       }
     } catch (error) {
-      console.error('Error:ㄴㄴㅁㅇㅁㄴ', error);
+      console.error('Error:', error);
       console.log(error.response.data.message);
     }
+
+    handleReviewPress(); // 리뷰 작성 창 닫기
   };
 
   const handleReviewPress = () => {
@@ -270,6 +322,10 @@ const DriveReviewWrite = ({item}) => {
           </View>
         </>
       ) : null}
+      <View style={{height: 16}} />
+      <View style={{flex: 1, paddingHorizontal: 16}}>
+        <DriveReviewList data={reviewList} userId={userId} updateReviewInfo={updateReviewInfo} updateCourseInfo={updateCourseInfo} />
+      </View>
     </>
   );
 };
