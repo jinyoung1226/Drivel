@@ -4,14 +4,13 @@ import {useSelector} from 'react-redux';
 import CurationButton from './CurationButton';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
-import RegionCurationList from './RegionCurationList';
+import CurationListItem from './CurationListItem';
 
 const DriveRegionCuraiton = ({
   activeButton,
   category,
   handleButtonPress,
-  handleDriveCourse,
-  driveRegionLists,
+  data
 }) => {
   const nickname = useSelector(state => state.auth.nickname);
   return (
@@ -57,12 +56,9 @@ const DriveRegionCuraiton = ({
       <View style={{flex: 1, paddingTop: 16}}>
         <View style={{flexDirection: 'row'}}>
           <FlatList
-            data={driveRegionLists}
+            data={data}
             renderItem={({item}) => (
-              <RegionCurationList
-                item={item}
-                handleDriveCourse={handleDriveCourse}
-              />
+              <CurationListItem item={item}/>
             )}
             horizontal
             showsHorizontalScrollIndicator={false}

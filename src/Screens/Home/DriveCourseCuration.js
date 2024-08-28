@@ -11,16 +11,11 @@ import {
 import {useSelector} from 'react-redux';
 import Candy from '../../assets/icons/Candy.svg';
 import CurationButton from './CurationButton';
-import CurationList from './CurationList';
+import CurationListItem from './CurationListItem';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 
-const DriveCourseCuration = ({
-  activeButton,
-  handleButtonPress,
-  handleDriveCourse,
-  driveCourseLists,
-}) => {
+const DriveCourseCuration = ({data}) => {
   const nickname = useSelector(state => state.auth.nickname);
   return (
     <View
@@ -43,9 +38,9 @@ const DriveCourseCuration = ({
       <View style={{flex: 1, paddingTop: 16}}>
         <View style={{flexDirection: 'row'}}>
           <FlatList
-            data={driveCourseLists}
+            data={data}
             renderItem={({item}) => (
-              <CurationList item={item} handleDriveCourse={handleDriveCourse} />
+              <CurationListItem item={item}/>
             )}
             horizontal
             showsHorizontalScrollIndicator={false}
