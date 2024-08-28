@@ -7,6 +7,7 @@ import {
   Dimensions,
   Text,
   FlatList,
+  ImageBackground,
 } from 'react-native';
 import DriveCourseCuration from './DriveCourseCuration';
 import MagazineCuration from './MagazineCuration';
@@ -21,6 +22,9 @@ import RenderingPage from '../../components/RenderingPage';
 import DriveRegionCuraiton from './DriveRegionCuraiton';
 import MiniBus from '../../assets/icons/MinibusIcon.svg';
 import { magazineCover } from '../../assets/magazineData/magazineData'; 
+import { magazineBanner } from '../../assets/magazineData/magazineData'; 
+import LinearGradient from 'react-native-linear-gradient';
+
 
 const {width} = Dimensions.get('window');
 
@@ -30,6 +34,16 @@ const HomeMain = ({navigation}) => {
   const [festivalList, setFestivalList] = useState([]);
   const [category, setCategory] = useState([]);
   const [activeButton, setActiveButton] = useState('');
+  const [randomBannerId, setRandomBannerId] = useState(null);
+
+  const generateRandomNumber = () => {
+    return Math.floor(Math.random() * 4);
+  }
+
+  useEffect(() => {
+    let randomNumber = generateRandomNumber(); 
+    setRandomBannerId(randomNumber);
+  })
 
 
   useEffect(() => {
@@ -116,30 +130,37 @@ const HomeMain = ({navigation}) => {
     return <RenderingPage />;
   }
 
+  const handleMagazineInfo = id => {
+    navigation.navigate('MagazineInfo', { id: id + 1 });
+  };
+
   return (
     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
       <ScrollView>
-        <Pressable style={{flex: 1}}>
-          <Image
-            source={require('../../assets/image/homeTopImg.jpg')}
-            style={{
-              width: width,
-              height: 516,
-              resizeMode: 'cover',
-              borderBottomRightRadius: 40,
-            }}
-          />
-          <Text
-            style={{
-              position: 'absolute',
-              fontFamily: 'SUIT-Bold',
-              fontSize: 24,
-              color: '#ffffff',
-              bottom: 37,
-              left: 24,
-            }}>
-            숨겨진 제주도 맛집이 {'\n'}어딘지 궁금하다면?
+        <Pressable style={{flex: 1}} onPress={() => handleMagazineInfo(randomBannerId)}>
+        <View style={{ 
+      flex: 1, 
+      height: 516, 
+      borderBottomRightRadius: 40,
+      overflow: 'hidden', 
+    }}>
+      <ImageBackground
+        source={{ uri: magazineBanner[randomBannerId].imagePath }}
+        style={{ flex: 1 }}
+        imageStyle={{ borderBottomRightRadius: 40 }} 
+      >
+        <LinearGradient 
+          style={{ flex: 1, paddingVertical: 31, paddingLeft: 24 }} 
+          colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.4)']}
+        >
+          <View style={{ flex: 1 }} />
+          <Text style={[textStyles.H1, { color: colors.white }]}>
+            {magazineBanner[randomBannerId].title}
           </Text>
+        </LinearGradient>
+      </ImageBackground>
+    </View>
+
         </Pressable>
         <DriveCourseCuration data={driveCourseList}/>
         <GrayLine />

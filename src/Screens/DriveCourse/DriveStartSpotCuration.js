@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Pressable, Animated, Text, Image} from 'react-native';
+import {View, Pressable, Animated, Text, Image, ImageBackground} from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import CheckBox from '../../assets/icons/CheckBox';
@@ -7,9 +7,8 @@ import EmptyBox from '../../assets/icons/EmptyBox';
 import Check from '../../assets/icons/Check';
 import {authApi} from '../../api/api';
 
-const DriveStartRestaurantCuration = ({item, setCheckInfo}) => {
+const DriveStartSpotCuration = ({item, setCheckInfo}) => {
   const [isChecked, setChecked] = useState(false);
-  const [placeInfo, setPlaceInfo] = useState(null);
   const scaleValue = useRef(new Animated.Value(1)).current;
   const placeId = item.id;
 
@@ -28,9 +27,9 @@ const DriveStartRestaurantCuration = ({item, setCheckInfo}) => {
             waypoints: [
               {
                 id: placeId,
-                name: placeInfo.name,
-                latitude: placeInfo.latitude,
-                longitude: placeInfo.longitude,
+                name: item.title,
+                // latitude: placeInfo.latitude,
+                // longitude: placeInfo.longitude,
               },
             ],
           };
@@ -66,29 +65,7 @@ const DriveStartRestaurantCuration = ({item, setCheckInfo}) => {
       return newChecked;
     });
   };
-  useEffect(() => {
-    const getPlaceInfo = async () => {
-      try {
-        const response = await authApi.get(`place/${placeId}`);
-        if (response.status === 200) {
-          setPlaceInfo(response.data);
-        }
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status === 400) {
-            Alert.alert('코스를 불러올 수 없습니다.');
-          }
-        } else {
-          Alert.alert('서버와의 통신 실패');
-        }
-      }
-    };
-    getPlaceInfo();
-  }, [placeId]);
 
-  if (!placeInfo) {
-    return null;
-  }
 
   return (
     <View
@@ -115,10 +92,7 @@ const DriveStartRestaurantCuration = ({item, setCheckInfo}) => {
       <View style={{flexDirection: 'column', marginLeft: 16}}>
         <View style={{flexDirection: 'row', gap: 8, alignItems: 'center'}}>
           <Text style={[textStyles.H5, {color: colors.Gray10}]}>
-            {placeInfo.name}
-          </Text>
-          <Text style={[textStyles.B4, {color: colors.Gray04}]}>
-            {placeInfo.category}
+            {item.title}
           </Text>
         </View>
         <View style={{height: 8}} />
@@ -132,22 +106,19 @@ const DriveStartRestaurantCuration = ({item, setCheckInfo}) => {
           {Number(item.distanceFromLastWaypoint.toFixed(1))}km
         </Text>
         <View style={{height: 8}} />
-        <Text style={[textStyles.B4, {color: colors.Gray06}]}>
-          {placeInfo.phoneNumber}
-        </Text>
       </View>
       <View style={{flex: 1}} />
-      {placeInfo.imagePath === null ? (
+      {item.imagePath === null ? (
         <ImageBackground
         source={require('../../assets/image/MainLogo.png')}
         style={{width: 60, height: 65.19, borderRadius: 5.77}}
       />
       ) : (<Image
-        source={{uri: placeInfo.imagePath}}
+        source={{uri: item.imagePath}}
         style={{width: 60, height: 65.19, borderRadius: 5.77}}
       />)}
     </View>
   );
 };
 
-export default DriveStartRestaurantCuration;
+export default DriveStartSpotCuration;

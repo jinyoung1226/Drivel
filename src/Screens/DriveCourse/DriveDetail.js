@@ -193,7 +193,7 @@ const DriveDetail = ({route, navigation}) => {
         </View>
         <View style={{width: 16}} />
         <View style={{flex: 1}}>
-          <CustomButton title={'드라이브 시작하기'} onPress={goDriveStart} />
+          <CustomButton title={'드라이브 시작하기'} onPress={goDriveStart}  />
         </View>
       </View>
     </View>
