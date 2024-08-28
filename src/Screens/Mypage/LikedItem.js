@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -11,19 +11,28 @@ import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import LinearGradient from 'react-native-linear-gradient';
 import {useSelector, useDispatch} from 'react-redux';
-import {toggleLike} from '../../features/like/likeActions';
+import {setLiked, setLikedItem, toggleLike} from '../../features/like/likeActions';
 import Heart from '../../assets/icons/HeartIcon.svg';
 import { useNavigation } from '@react-navigation/native';
 
 const LikedItem = ({item}) => {
+  const {likedItem} = useSelector(state => state.like);
+  const [liked, setLiked] = useState(item.liked);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [liked, setLiked] = useState(item.liked);
+
+  useEffect(() => {
+    const isLiked = likedItem.includes(item.id);
+    setLiked(isLiked);
+  }, [likedItem]);
+
   const handleLikePress = () => {
-    setLiked(!liked);
+    dispatch(setLikedItem(item.id));
     dispatch(toggleLike(item.id));
   };
+
   const width = Dimensions.get('window').width;
+
   return (
     <TouchableOpacity
       style={{
@@ -33,20 +42,18 @@ const LikedItem = ({item}) => {
         aspectRatio: 1,
         overflow: 'hidden',
       }}
-      onPress={() => navigation.navigate('DriveDetail', {id: item.id})}>
+      onPress={() => navigation.navigate('DriveDetail', {id: item.id, liked:liked})}>
       <ImageBackground src={item.imagePath} style={{flex: 1}}>
         <LinearGradient
           style={{flex: 1, padding: 16}}
           colors={['rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.7)']}>
           <View style={{flexDirection:'row'}}>
-          <View style={{flex: 1}} />
-          <Pressable
-            onPress={handleLikePress}
-            style={{}}>
-            <Heart fill={liked ? '#5168F6' : 'rgba(0, 0, 0, 0)'} />
-          </Pressable>
+            <View style={{flex: 1}} />
+            <Pressable
+              onPress={handleLikePress}>
+              <Heart fill={liked ? '#5168F6' : 'rgba(0, 0, 0, 0)'} />
+            </Pressable>
           </View>
-          
           <View style={{flex: 1}} />
           <Text style={[textStyles.H5, {color: colors.Gray02}]}>
             {item.title}

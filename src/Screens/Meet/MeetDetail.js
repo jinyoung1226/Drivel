@@ -206,12 +206,9 @@ const MeetDetail = ({route, navigation}) => {
     }
   };
 
-  useEffect(() => {
-    if (scrollViewRef.current && scrollOffset > width) {
-      // 원하는 위치로 스크롤
-      scrollViewRef.current.scrollToPosition(0, width, true);
-    }
-  }, [activeTab]); // activeTab 변경 시 스크롤
+  const scrollToTab = () => {
+    scrollViewRef.current.scrollToPosition(0, width, true);
+};
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -404,6 +401,7 @@ const MeetDetail = ({route, navigation}) => {
             tabName={tabName}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
+            scrollToTab={scrollToTab}
           />
         </View>
         {meetingInfo !== null && courseInfo !== null && (

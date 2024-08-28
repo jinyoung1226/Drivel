@@ -20,29 +20,34 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Tabs from '../../components/Tabs';
 import RenderingPage from '../../components/RenderingPage';
 import BorderBlueHeart from '../../assets/icons/BorderBlueHeart.svg';
-import {toggleLike} from '../../features/like/likeActions';
+import {setLikedItem, toggleLike} from '../../features/like/likeActions';
 import {useSelector, useDispatch} from 'react-redux';
 import CustomButton from '../../components/CustomButton';
+import { setBlogReviewList } from '../../features/drive/driveActions';
 
 const {width} = Dimensions.get('window');
 
 const DriveDetail = ({route, navigation}) => {
   const driveId = route.params.id;
+  const [liked, setLiked] = useState(route.params.liked);
   const [courseInfo, setCourseInfo] = useState(null);
-  const [heightUntilGrayLine, setHeightUntilGrayLine] = useState(0);
-  const [imageHeight, setImageHeight] = useState(0);
-  const [titleHeight, setTitleHeight] = useState(0);
   const scrollViewRef = useRef(null);
   const [scrollOffset, setScrollOffset] = useState(0);
   const tabName = ['상세정보', '리뷰', '관광정보'];
   const [activeTab, setActiveTab] = useState(0);
-
-  const likedItems = useSelector(state => state.like.likedItems);
   const userId = useSelector(state => state.auth.userId);
-  const liked = likedItems[driveId] || false;
+  const {likedItem} = useSelector(state => state.like);
   const dispatch = useDispatch();
 
+  const [contentHeight, setContentHeight] = useState(0);
+
+  useEffect(() => {
+    const isLiked = likedItem.includes(driveId);
+    setLiked(isLiked);
+  }, [likedItem]);
+
   const handleLikePress = () => {
+    dispatch(setLikedItem(driveId));
     dispatch(toggleLike(driveId));
   };
 
@@ -67,9 +72,6 @@ const DriveDetail = ({route, navigation}) => {
     });
   }, [navigation]);
 
-  useEffect(() => {
-    setHeightUntilGrayLine(imageHeight + titleHeight);
-  }, [imageHeight, titleHeight]);
 
   const updateCourseInfo = async () => {
     try {
@@ -89,7 +91,7 @@ const DriveDetail = ({route, navigation}) => {
         const response = await authApi.get(`course/${driveId}`);
         if (response.status === 200) {
           setCourseInfo(response.data);
-          console.log(response.data, '@@@@');
+          // console.log(response.data, '@@@@');
         }
       } catch (error) {
         if (error.response) {
@@ -103,18 +105,20 @@ const DriveDetail = ({route, navigation}) => {
       }
     };
     getDriveInfo();
-  }, [driveId]);
-
-  useEffect(() => {
-    if (scrollViewRef.current && scrollOffset > heightUntilGrayLine + 60) {
-      // 원하는 위치로 스크롤
-      scrollViewRef.current.scrollToPosition(0, heightUntilGrayLine + 60, true);
+    return () => {
+      dispatch(setBlogReviewList(null));
     }
-  }, [activeTab]); // activeTab 변경 시 스크롤
+  }, []);
 
-  const handleScroll = event => {
-    const offsetY = event.nativeEvent.contentOffset.y;
-    setScrollOffset(offsetY);
+
+  const handleLayout = (event) => {
+    const { height } = event.nativeEvent.layout;
+    setContentHeight(height);
+    console.log("Content height:", height);
+  };
+
+  const scrollToTab = () => {
+      scrollViewRef.current.scrollToPosition(0, contentHeight, true);
   };
 
   if (!courseInfo) {
@@ -126,30 +130,30 @@ const DriveDetail = ({route, navigation}) => {
     <View style={{flex: 1, backgroundColor: colors.BG}}>
       <KeyboardAwareScrollView
         ref={scrollViewRef}
-        onScroll={handleScroll}
-        stickyHeaderIndices={[3]}>
-        <Image
-          src={courseInfo.courseInfo.imagePath}
-          style={{width: width, aspectRatio: 1.8}}
-          onLayout={event => setImageHeight(event.nativeEvent.layout.height)}
-        />
-        <View
-          style={{paddingHorizontal: 16, marginTop: 16}}
-          onLayout={event => setTitleHeight(event.nativeEvent.layout.height)}>
-          <Text style={[textStyles.H1, {color: colors.Gray10}]}>
-            {courseInfo.courseInfo.title}
-          </Text>
-          <View style={{height: 8}} />
-          <Text style={[textStyles.M14, {color: colors.Gray07}]}>
-            {courseInfo.courseInfo.description}
-          </Text>
+        stickyHeaderIndices={[1]}>
+        <View onLayout={handleLayout}>
+          <Image
+            src={courseInfo.courseInfo.imagePath}
+            style={{width: width, aspectRatio: 1.8}}
+          />
+          <View
+            style={{paddingHorizontal: 16, marginTop: 16}}>
+            <Text style={[textStyles.H1, {color: colors.Gray10}]}>
+              {courseInfo.courseInfo.title}
+            </Text>
+            <View style={{height: 8}} />
+            <Text style={[textStyles.M14, {color: colors.Gray07}]}>
+              {courseInfo.courseInfo.description}
+            </Text>
+          </View>
+          <GrayLine />
         </View>
-        <GrayLine />
         {courseInfo !== null && (
           <Tabs
             tabName={tabName}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
+            scrollToTab={scrollToTab}
           />
         )}
         {courseInfo !== null && (
@@ -162,6 +166,7 @@ const DriveDetail = ({route, navigation}) => {
                 item={courseInfo}
                 updateCourseInfo={updateCourseInfo}
                 userId={userId}
+                scrollToTab={scrollToTab}
               />
             )}
             <View style={{display: activeTab === 2 ? 'flex' : 'none'}}>

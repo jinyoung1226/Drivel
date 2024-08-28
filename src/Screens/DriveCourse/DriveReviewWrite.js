@@ -16,7 +16,7 @@ import {max} from 'moment';
 
 const MAX_REVIEW_LENGTH = 200; // 리뷰 최대 글자 수
 
-const DriveReviewWrite = ({item, updateCourseInfo, userId}) => {
+const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
   const [rating, setRating] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
   const [photoLimitMessage, setPhotoLimitMessage] = useState('');
@@ -47,32 +47,32 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId}) => {
     }
   };
 
-  const getReview = async () => {
-    try {
-      const response = await authApi.get(
-        `course/${item.courseInfo.id}/reviews`,
-        {
-          params: {
-            page: 0, // 첫 번째 페이지
-            size: max, // 불러올 리뷰 개수
-          },
-        },
-      );
-      if (response.status === 200) {
-        console.log(response.data, 'ㄴㅇㄴㅇ');
-        setReviewList(response.data);
-        setRating(0);
-        setReviewText('');
-        setPhoto([]);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+  // const getReview = async () => {
+  //   try {
+  //     const response = await authApi.get(
+  //       `course/${item.courseInfo.id}/reviews`,
+  //       {
+  //         params: {
+  //           page: 0, // 첫 번째 페이지
+  //           size: max, // 불러올 리뷰 개수
+  //         },
+  //       },
+  //     );
+  //     if (response.status === 200) {
+  //       console.log(response.data, 'ㄴㅇㄴㅇ');
+  //       setReviewList(response.data);
+  //       setRating(0);
+  //       setReviewText('');
+  //       setPhoto([]);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // };
 
-  useEffect(() => {
-    getReview();
-  }, []);
+  // useEffect(() => {
+  //   getReview();
+  // }, []);
 
   const uploadReview = async () => {
     const formData = new FormData();
@@ -94,7 +94,7 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId}) => {
       if (response.status === 200) {
         // 리뷰 업로드 후 courseInfo 업데이트
         updateCourseInfo();
-        getReview(); // 리뷰 목록 갱신
+        // getReview(); // 리뷰 목록 갱신
       }
     } catch (error) {
       console.error('Error:', error);
@@ -106,6 +106,9 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId}) => {
 
   const handleReviewPress = () => {
     setVisibleWriteReview(!visibleWriteReview);
+    if (!visibleWriteReview && scrollToTab) {
+      scrollToTab();
+    }
   };
 
   const handleTextChange = text => {
@@ -151,20 +154,6 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId}) => {
     }
   };
 
-  const calculateHeight = () => {
-    if (photo.length > 0 && errorMessage && photoLimitMessage) {
-      return 261.62;
-    } else if (photo.length > 0 && errorMessage) {
-      return 241.62;
-    } else if (photo.length > 0) {
-      return 211.62;
-    } else if (errorMessage) {
-      return 211.62;
-    } else {
-      return 181.62;
-    }
-  };
-
   const photoDelete = index => {
     setPhoto(prevPhotos => {
       const updatedPhotos = [...prevPhotos];
@@ -206,15 +195,12 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId}) => {
         <>
           <View
             style={{
-              flex: 1,
               backgroundColor: colors.Gray01,
               borderRadius: 14,
               marginHorizontal: 16,
               marginTop: 16,
               padding: 16,
-              height: calculateHeight(),
-              justifyContent: 'top',
-              alignItems: 'center',
+
             }}>
             <View
               style={{
@@ -229,22 +215,19 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId}) => {
             </View>
             <View
               style={{
-                flex: 1,
-                height: photo.length > 0 ? 136 : 86,
-                width: '100%',
-                padding: 16,
+                paddingHorizontal: 16,
+                paddingVertical:8,
                 backgroundColor: colors.white,
                 marginTop: 16,
                 borderRadius: 10,
               }}>
               <TextInput
-                style={{flex: 1, textAlignVertical: 'top'}}
+                style={{color: colors.Gray10, flex:1, textAlignVertical: 'top'}}
                 placeholder="댓글을 남겨주세요"
-                maxLength={MAX_REVIEW_LENGTH + 1}
+                placeholderTextColor={colors.Gray04}
                 onChangeText={text => handleTextChange(text)}
                 value={reviewText}
-                multiline
-                numberOfLines={4}
+                multiline={true}
               />
               <View style={{height: 16}} />
               <View
@@ -324,7 +307,7 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId}) => {
       ) : null}
       <View style={{height: 16}} />
       <View style={{flex: 1, paddingHorizontal: 16}}>
-        <DriveReviewList data={reviewList} userId={userId} updateReviewInfo={updateReviewInfo} updateCourseInfo={updateCourseInfo} />
+        <DriveReviewList data={item.reviews} userId={userId} updateReviewInfo={updateReviewInfo} updateCourseInfo={updateCourseInfo} />
       </View>
     </>
   );

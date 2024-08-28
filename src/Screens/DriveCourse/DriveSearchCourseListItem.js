@@ -5,7 +5,7 @@ import {textStyles} from '../../styles/textStyles';
 import {useNavigation} from '@react-navigation/native';
 import StarIcon from '../../assets/icons/StarIcon.svg';
 
-const DriveSearchCourseListItem = ({item, onPress, disabled}) => {
+const DriveSearchCourseListItem = ({item, disabled}) => {
   const navigation = useNavigation();
   const [isPressed, setIsPressed] = useState(false);
 
@@ -14,7 +14,6 @@ const DriveSearchCourseListItem = ({item, onPress, disabled}) => {
   };
 
   const handlePress = () => {
-    if (onPress) onPress();
     handleDriveDetail(item.id);
   };
 

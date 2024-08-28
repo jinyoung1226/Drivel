@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Platform} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeTab from '../BottomTab/HomeTab';
@@ -10,24 +10,37 @@ import MeetIcon from '../assets/tabBarIcon/MeetIcon.svg';
 import DriveCourseIcon from '../assets/tabBarIcon/DriveCourseIcon.svg';
 import MypageIcon from '../assets/tabBarIcon/MypageIcon.svg';
 import CustomTabBar from '../components/CustomTabBar';
+import { useDispatch } from 'react-redux';
+import { authApi } from '../api/api';
+import { setLikedItem } from '../features/like/likeActions';
 
 const Tab = createBottomTabNavigator();
 
 const MainNavigator = () => {
 
+  const dispatch = useDispatch();
+
+  const getLikedDriveCourse = async () => {
+    try {
+      const response = await authApi.get('course/liked');
+      if (response.status == 200) {
+        console.log(response.data, 'liked');
+        dispatch(setLikedItem(response.data.courses.map(course => course.id)))
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.status);
+      } else {
+        console.log(error);
+      }
+    }
+  };
+  useEffect(() => {
+    getLikedDriveCourse();
+  }, []);
+
   return (
     <Tab.Navigator
-      // screenOptions={({route}) => ({
-      //   tabBarItemStyle: {},
-      //   tabBarLabelStyle: {
-      //     height: Platform.OS === 'ios' ? 37 : 25,
-      //     fontSize: 12,
-      //     fontFamily: 'SUIT-SemiBold',
-      //   },
-      //   tabBarStyle: {height: Platform.OS === 'ios' ? 93 : 70},
-      //   tabBarActiveTintColor: '#5168F6',
-      //   tabBarInactiveTintColor: '#ACACAD',
-      // })}
       tabBar={(props) => <CustomTabBar {...props} />}
       >
       <Tab.Screen

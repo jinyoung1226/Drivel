@@ -1,25 +1,31 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, Image, Pressable, ImageBackground, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import Heart from '../../assets/icons/HeartIcon.svg';
-import {toggleLike} from '../../features/like/likeActions';
+import {setLikedItem, toggleLike} from '../../features/like/likeActions';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import { useNavigation } from '@react-navigation/native';
 
 const CurationListItem = ({item}) => {
+  const {likedItem} = useSelector(state => state.like);
   const [liked, setLiked] = useState(item.liked);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const isLiked = likedItem.includes(item.id);
+    setLiked(isLiked);
+  }, [likedItem]);
+
   const handleLikePress = () => {
-    setLiked(!liked);
+    dispatch(setLikedItem(item.id));
     dispatch(toggleLike(item.id));
   };
 
   return (
-    <Pressable onPress={() => navigation.navigate('DriveDetail', {id: item.id, liked:liked, setLiked: setLiked })} style={{width:227, height:243, borderRadius:10, overflow:'hidden'}}>
+    <Pressable onPress={() => navigation.navigate('DriveDetail', { id: item.id, liked:liked })} style={{width:227, height:243, borderRadius:10, overflow:'hidden'}}>
       <ImageBackground src={item.imagePath} style={{flex: 1}}>
         <LinearGradient
           style={{flex: 1, padding: 16}}

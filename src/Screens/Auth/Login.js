@@ -26,7 +26,7 @@ const LoginScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [registerType, setRegisterType] = useState('');
   const dispatch = useDispatch();
-  const error = useSelector(state => state.auth.error); //selector를 통해 authSlice에서 error상태를 가져옴
+  const { isLoading } = useSelector(state => state.auth); //selector를 통해 authSlice에서 error상태를 가져옴
 
   const handleLogin = () => {
     dispatch(login({email, password}));
@@ -82,7 +82,7 @@ const LoginScreen = ({navigation}) => {
             </Text>
           </TouchableOpacity>
           <View style={{height: 16}} />
-          <CustomButton title="로그인" onPress={() => handleLogin()} />
+          <CustomButton title="로그인" onPress={() => handleLogin()} disabled={isLoading}/>
           <View style={{height: 32}} />
           <TouchableOpacity
             style={{

@@ -1,4 +1,4 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk, createAction} from '@reduxjs/toolkit';
 import {authApi} from '../../api/api';
 
 export const toggleLike = createAsyncThunk(
@@ -6,9 +6,21 @@ export const toggleLike = createAsyncThunk(
   async (courseId, thunkAPI) => {
     try {
       const response = await authApi.put(`course/like/${courseId}`);
-      return courseId; // 성공 시 courseId 반환
+      if (response.status == 200) {
+        console.log(response.status);
+        return courseId;
+      }
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      if (error.response) {
+        console.log('좋아요 토글 에러');
+        console.log(error.response.status);
+      } else {
+        console.log(error);
+      }
     }
   },
 );
+
+export const setLiked = createAction('like/setLiked');
+
+export const setLikedItem = createAction('like/setLikedItem');

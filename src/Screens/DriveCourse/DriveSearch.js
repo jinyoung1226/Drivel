@@ -13,14 +13,12 @@ import SearchIcon from '../../assets/icons/SearchIcon.svg';
 import XIcon from '../../assets/icons/XIcon.svg';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DriveSearchCourseListItem from './DriveSearchCourseListItem';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const DriveSearch = ({navigation}) => {
   const [courses, setCourses] = useState([]);
   const [driveCourse, setDriveCourse] = useState('');
   const [filteredData, setFilteredData] = useState([]);
-  const [courseId, setCourseId] = useState('');
-  const [selctedDriveCourse, setSelectedDriveCourse] = useState('');
-  console.log(selctedDriveCourse);
 
   const getDriveCourseList = async () => {
     try {
@@ -44,27 +42,20 @@ const DriveSearch = ({navigation}) => {
     setFilteredData(koFilter(courses, e));
   };
 
-  const selectDriveCourse = item => {
-    setCourseId(item.id);
-    setDriveCourse(item.title);
-    setSelectedDriveCourse(item);
-    setFilteredData([]);
-  };
-
   return (
-    <View style={{flex: 1, backgroundColor: colors.BG}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          paddingHorizontal: 16,
-          paddingTop: 32,
+          padding: 16,
           backgroundColor: colors.BG,
         }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <BackIcon color={colors.Gray10} />
         </TouchableOpacity>
-        <View style={{flex: 1, marginLeft: 8}}>
+        <View style={{width:8}}/>
+        <View style={{flex: 1}}>
           <DriveSearchCustomInput
             showButton={true}
             isButtonText={false}
@@ -72,12 +63,11 @@ const DriveSearch = ({navigation}) => {
               driveCourse.length > 0 ? (
                 <XIcon />
               ) : (
-                <SearchIcon color={colors.Gray04} />
+                <SmallSearchIcon color={colors.Gray04} />
               )
             }
             onButtonPress={() => {
               setDriveCourse('');
-              setCourseId('');
             }}
             placeholder="원하는 드라이브코스를 검색해주세요"
             value={driveCourse}
@@ -89,29 +79,24 @@ const DriveSearch = ({navigation}) => {
       <View
         style={{
           flex: 1,
-          paddingTop: 16,
         }}>
         <KeyboardAwareScrollView>
           {filteredData.length !== 0 &&
             driveCourse.length !== 0 &&
             filteredData.map(item => (
-              <>
-                <DriveSearchCourseListItem
-                  key={item.id}
-                  item={item}
-                  onPress={() => selectDriveCourse(item)}
-                />
+              <View key={item.id}>
+                <DriveSearchCourseListItem item={item}/>
                 <View
                   style={{
                     borderBottomWidth: 2,
                     borderBottomColor: colors.Gray02,
                   }}
                 />
-              </>
+              </View>
             ))}
         </KeyboardAwareScrollView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -7,6 +7,7 @@ import {
   Dimensions,
   ScrollView,
   Animated,
+  ActivityIndicator,
 } from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
@@ -19,6 +20,7 @@ const {width} = Dimensions.get('window');
 
 const ImageComponent = ({imageUri}) => {
   const [imageSize, setImageSize] = useState({width: 0, height: 0});
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     // 원본 이미지의 크기 가져오기
@@ -38,13 +40,19 @@ const ImageComponent = ({imageUri}) => {
 
   return (
     <View>
-      {imageSize.width > 0 && imageSize.height > 0 ? (
+      {imageSize.width > 0 && imageSize.height > 0 || !loading ? (
         <Image
           style={{width: width, height: imageHeight}}
           source={{uri: imageUri}}
           resizeMode="contain"
+          onLoad={() => setLoading(false)}
+          onError={() => setLoading(false)}
         />
-      ) : null}
+      ) : (
+      <View style={{justifyContent: 'center'}}>
+        <ActivityIndicator size="large" color={colors.Gray07} />
+      </View>
+    )}
     </View>
   );
 };

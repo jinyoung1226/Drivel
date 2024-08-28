@@ -44,12 +44,12 @@ const DriveSearchCustomInput = ({
             height: 41,
             color: colors.Gray10,
           },
-          textStyles.H5,
+          textStyles.B3,
         ]}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor={colors.Gray04}
+        placeholderTextColor={colors.Gray06}
         editable={editable}
         secureTextEntry={secureTextEntry}
         maxLength={maxLength}

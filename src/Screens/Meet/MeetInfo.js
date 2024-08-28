@@ -146,13 +146,13 @@ const MeetInfo = ({item}) => {
             <View style={{height:10}}/>
             <View style={{flex:1}}/>
             <View style={{flexDirection:'row', justifyContent:'space-around', paddingHorizontal:16}}>
-              {topCarCareers.map((key, index) => {
-                const isMax = item.meetingInfo.summary.carCareer[key] === maxCarCareer;
+              {topCarCareers.map((keyword, index) => {
+                const isMax = item.meetingInfo.summary.carCareer[keyword] === maxCarCareer;
                 return (
-                  <View style={{alignItems:'center', alignSelf:'flex-end'}}>
-                    <View style={{width:13, height:(item.meetingInfo.summary.carCareer[key]/totalParticipants)*60, backgroundColor: isMax ? colors.Blue : colors.Gray03, borderTopLeftRadius:20, borderTopRightRadius:20}}/>
+                  <View key={index} style={{alignItems:'center', alignSelf:'flex-end'}}>
+                    <View style={{width:13, height:(item.meetingInfo.summary.carCareer[keyword]/totalParticipants)*60, backgroundColor: isMax ? colors.Blue : colors.Gray03, borderTopLeftRadius:20, borderTopRightRadius:20}}/>
                     <Text style={[textStyles.B5, {color:isMax ? colors.Blue : colors.Gray06}]}>
-                      {key}년
+                      {keyword}년
                     </Text>
                   </View>
                 )
@@ -171,19 +171,19 @@ const MeetInfo = ({item}) => {
             <View style={{height:10}}/>
             <View style={{flex:1}}/>
             <View style={{flexDirection:'row', justifyContent:'space-around', paddingHorizontal:16}}>
-              {topCarModels.map((key, index) => {
-                const isMax = item.meetingInfo.summary.carModel[key] === maxCarModel;
+              {topCarModels.map((keyword, index) => {
+                const isMax = item.meetingInfo.summary.carModel[keyword] === maxCarModel;
                 return (
-                  <View style={{alignItems:'center', alignSelf:'flex-end', marginHorizontal:4}}>
+                  <View key={index} style={{alignItems:'center', alignSelf:'flex-end', marginHorizontal:4}}>
                     <View>
-                    <View style={{width:13, height:(item.meetingInfo.summary.carModel[key]/totalParticipants)*60, backgroundColor: isMax ? colors.Blue : colors.Gray03, borderTopLeftRadius:20, borderTopRightRadius:20}}/>
+                    <View style={{width:13, height:(item.meetingInfo.summary.carModel[keyword]/totalParticipants)*60, backgroundColor: isMax ? colors.Blue : colors.Gray03, borderTopLeftRadius:20, borderTopRightRadius:20}}/>
                     
                     </View>
                     <View style={{width:2}}/>
                     <Text
                       numberOfLines={1}
                       style={[textStyles.B5, {color:isMax ? colors.Blue : colors.Gray06, textAlign:'center'}]}>
-                      {key}
+                      {keyword}
                     </Text>
                   </View>
                 )
@@ -201,13 +201,13 @@ const MeetInfo = ({item}) => {
             <View style={{height:10}}/>
             <View style={{flex:1}}/>
             <View style={{flexDirection:'row', justifyContent:'space-around', paddingHorizontal:16}}>
-              {topAgeGroups.map((key, index) => {
-                const isMax = item.meetingInfo.summary.ageGroup[key] === maxAgeGroup;
+              {topAgeGroups.map((keyword, index) => {
+                const isMax = item.meetingInfo.summary.ageGroup[keyword] === maxAgeGroup;
                 return (
-                  <View style={{width:36, alignItems:'center', alignSelf:'flex-end'}}>
-                    <View style={{width:13, height:(item.meetingInfo.summary.ageGroup[key]/totalParticipants)*60, backgroundColor: isMax ? colors.Blue : colors.Gray03, borderTopLeftRadius:20, borderTopRightRadius:20}}/>
+                  <View key={index} style={{width:36, alignItems:'center', alignSelf:'flex-end'}}>
+                    <View style={{width:13, height:(item.meetingInfo.summary.ageGroup[keyword]/totalParticipants)*60, backgroundColor: isMax ? colors.Blue : colors.Gray03, borderTopLeftRadius:20, borderTopRightRadius:20}}/>
                     <Text style={[textStyles.B5, {color:isMax ? colors.Blue : colors.Gray06}]}>
-                      {key}
+                      {keyword}
                     </Text>
                   </View>
                 )
@@ -222,15 +222,15 @@ const MeetInfo = ({item}) => {
             <View style={{height:10}}/>
             <View style={{flex:1}}/>
             <View style={{flexDirection:'row', justifyContent:'space-around', paddingHorizontal:16}}>
-              {topGenders.map((key, index) => {
-                const isMax = item.meetingInfo.summary.gender[key] === maxGender;
+              {topGenders.map((keyword, index) => {
+                const isMax = item.meetingInfo.summary.gender[keyword] === maxGender;
                 return (
-                  <View style={{width:36, alignItems:'center', alignSelf:'flex-end'}}>
-                    <View style={{width:13, height:(item.meetingInfo.summary.gender[key]/totalParticipants)*60, backgroundColor: isMax ? colors.Blue : colors.Gray03, borderTopLeftRadius:20, borderTopRightRadius:20}}/>
+                  <View key={index} style={{width:36, alignItems:'center', alignSelf:'flex-end'}}>
+                    <View style={{width:13, height:(item.meetingInfo.summary.gender[keyword]/totalParticipants)*60, backgroundColor: isMax ? colors.Blue : colors.Gray03, borderTopLeftRadius:20, borderTopRightRadius:20}}/>
                     <View style={{width:2}}/>
                     <View>
                       <Text style={[textStyles.B5, {color:isMax ? colors.Blue : colors.Gray06}]}>
-                        {key}
+                        {keyword}
                       </Text>
                     </View>
                   </View>
