@@ -6,12 +6,13 @@ import {textStyles} from '../../styles/textStyles';
 import DriveReviewWrite from './DriveReviewWrite';
 import DriveBlog from './DriveBlog';
 
-const DriveReview = ({item, updateCourseInfo, userId}) => {
+const DriveReview = ({item, updateCourseInfo, userId, scrollToTab}) => {
   const tabName = ['방문자', '블로그'];
   const [activeTab, setActiveTab] = useState(0);
 
   const handlePress = index => {
     setActiveTab(index);
+    scrollToTab();
   };
 
   return (
@@ -25,9 +26,11 @@ const DriveReview = ({item, updateCourseInfo, userId}) => {
           gap: 8,
         }}>
         {tabName.map((item, index) => (
-          <Pressable onPress={() => handlePress(index)}>
+          <Pressable
+            key={index}
+            onPress={() => handlePress(index)}
+          >
             <View
-              key={index}
               style={{
                 borderRadius: 100,
                 width: 64,
@@ -57,9 +60,10 @@ const DriveReview = ({item, updateCourseInfo, userId}) => {
           item={item}
           updateCourseInfo={updateCourseInfo}
           userId={userId}
+          scrollToTab={scrollToTab}
         />
       ) : (
-        <DriveBlog item={item} />
+        <DriveBlog item={item}/>
       )}
     </View>
   );

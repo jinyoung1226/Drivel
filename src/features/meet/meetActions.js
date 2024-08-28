@@ -185,11 +185,15 @@ export const getMeetMessageList = createAsyncThunk(
     try {
       const response = await authApi.get(`/meeting/${meetingId}/board/${messageId}`);
       if (response.status === 200) {
-        // console.log(response.data, '@@@');
+        console.log(response.data, '@@@');
         const meetMessageList = response.data;
-        const lastMessageId = response.data[response.data.length - 1].id;
-
-        return {meetMessageList: meetMessageList, lastMessageId: lastMessageId, isLastMessage: response.data.length < 50};
+        const isLastMessage = response.data.length < 50;
+        if (response.data.length === 0) {
+          return {meetMessageList: meetMessageList, lastMessageId: null, isLastMessage: true};
+        } else {
+          const lastMessageId = response.data[response.data.length - 1].id;
+          return {meetMessageList: meetMessageList, lastMessageId: lastMessageId, isLastMessage: isLastMessage};
+        }
       }
     } catch (error) {
       if (error.response) {
@@ -197,7 +201,7 @@ export const getMeetMessageList = createAsyncThunk(
         console.log(error.response.status);
       } else {
         console.log('미팅 메시지 리스트 불러오기 에러');
-        console.log('서버 접속 오류');
+        console.log(error);
       }
     }
   },

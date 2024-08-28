@@ -8,13 +8,12 @@ import Tabs from '../../components/Tabs';
 import {authApi} from '../../api/api';
 import LikedList from './LikedList';
 import BackIcon from '../../assets/icons/BackIcon';
+import { setLiked, setLikedItem } from '../../features/like/likeActions';
 const MyScrap = ({navigation}) => {
-  const [activeTab, setActiveTab] = useState(0);
-  const [likedDriveCourse, setLikedDriveCourse] = useState([]);
-  const nickname = useSelector(state => state.auth.nickname);
+;
   const dispatch = useDispatch();
-  const tabName = ['드라이브 코스', '관광명소'];
-
+  const {likedItem} = useSelector(state => state.like);
+  const [likedCourse, setLikedCourse] = useState([]);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '내 스크랩',
@@ -31,39 +30,35 @@ const MyScrap = ({navigation}) => {
       ),
     });
   }, [navigation]);
-
+  
   const getLikedDriveCourse = async () => {
     try {
       const response = await authApi.get('course/liked');
       if (response.status == 200) {
         console.log(response.data, 'liked');
-        setLikedDriveCourse(response.data.courses);
+        setLikedCourse(response.data.courses);
+        dispatch(setLikedItem(response.data.courses.map(course => course.id)))
       }
     } catch (error) {
       if (error.response) {
         console.log(error.response.status);
       } else {
-        console.log('서버 접속 오류');
+        console.log(error);
       }
     }
   };
   useEffect(() => {
     getLikedDriveCourse();
   }, []);
-  
+
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>
-      {/* <Tabs
-        tabName={tabName}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-      /> */}
       <View style={{flexDirection: 'row', alignItems: 'center', padding: 16}}>
         <Text style={[textStyles.B2, {color: colors.Gray10}]}>
-          총 {likedDriveCourse.length}개
+          총 {likedCourse.length}개
         </Text>
       </View>
-      <LikedList data={likedDriveCourse}/>
+      <LikedList data={likedCourse}/>
     </View>
   );
 };

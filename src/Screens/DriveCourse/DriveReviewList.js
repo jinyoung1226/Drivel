@@ -6,7 +6,7 @@ const DriveReviewList = ({data, userId, updateReviewInfo, updateCourseInfo}) => 
   const [selectedReview, setSelectedReview] = useState(null);
   return (
     <FlatList
-      data={data.content}
+      data={data}
       renderItem={({item}) => (
         <DriveReviewListItem
           item={item}

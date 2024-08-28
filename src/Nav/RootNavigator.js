@@ -9,7 +9,7 @@ import OnboardingPage from './OnboardNavigator';
 import {connectWebSocket, disconnectWebSocket} from '../features/websocket/websocketActions'; // 웹소켓 액션 가져오기
 
 const RootNavigator = () => {
-  const {isAuthenticated, onboarded, isLoading} = useSelector(
+  const {isAuthenticated, onboarded, isLoading, isAutoLoginLoading} = useSelector(
     state => state.auth,
   );
   const {isConnected} = useSelector(state => state.websocket);
@@ -33,7 +33,7 @@ const RootNavigator = () => {
     };
   }, [dispatch, isAuthenticated]);
 
-  if (isLoading) {
+  if (isAutoLoginLoading) {
     return <SplashScreen />;
   }
 
