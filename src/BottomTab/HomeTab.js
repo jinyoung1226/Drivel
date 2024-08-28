@@ -59,7 +59,6 @@ const HomeTab = ({route}) => {
                   gap: 16,
                   paddingVertical: 6.72,
                 }}>
-                <Alarm />
               </View>
             </View>
           ),
