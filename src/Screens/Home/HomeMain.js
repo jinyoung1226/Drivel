@@ -41,6 +41,7 @@ const HomeMain = ({navigation}) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title:'Drivel',
+      headerTitleAlign:'left',
       headerTitleStyle: [{color: '#ffffff', fontSize: 24, fontFamily: 'KNU TRUTH',}],
       headerTransparent: true,
       headerBackground: () => (
