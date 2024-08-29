@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
   View,
   ScrollView,
@@ -24,6 +24,7 @@ import MiniBus from '../../assets/icons/MinibusIcon.svg';
 import { magazineCover } from '../../assets/magazineData/magazineData'; 
 import { magazineBanner } from '../../assets/magazineData/magazineData'; 
 import LinearGradient from 'react-native-linear-gradient';
+import SplashScreen from '../../SplashScreen';
 
 
 const {width} = Dimensions.get('window');
@@ -35,16 +36,24 @@ const HomeMain = ({navigation}) => {
   const [category, setCategory] = useState([]);
   const [activeButton, setActiveButton] = useState('');
   const [randomBannerId, setRandomBannerId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const generateRandomNumber = () => {
-    return Math.floor(Math.random() * 4);
-  }
-
-  useEffect(() => {
-    let randomNumber = generateRandomNumber(); 
-    setRandomBannerId(randomNumber);
-  })
-
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title:'Drivel',
+      headerTitleStyle: [{color: '#ffffff', fontSize: 24, fontFamily: 'KNU TRUTH',}],
+      headerTransparent: true,
+      headerBackground: () => (
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+          }}
+        />
+      ),
+    });
+    setRandomBannerId(Math.floor(Math.random() * 4));
+  }, [navigation]);
 
   useEffect(() => {
     const getDriveCurationInfo = async () => {
@@ -125,9 +134,9 @@ const HomeMain = ({navigation}) => {
     setActiveButton(button);
   };
 
-  if (driveCourseList.length === 0) {
+  if (driveCourseList.length === 0 && isLoading) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
-    return <RenderingPage />;
+    return <SplashScreen />;
   }
 
   const handleMagazineInfo = id => {
@@ -138,29 +147,28 @@ const HomeMain = ({navigation}) => {
     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
       <ScrollView>
         <Pressable style={{flex: 1}} onPress={() => handleMagazineInfo(randomBannerId)}>
-        <View style={{ 
-      flex: 1, 
-      height: 516, 
-      borderBottomRightRadius: 40,
-      overflow: 'hidden', 
-    }}>
-      <ImageBackground
-        source={{ uri: magazineBanner[randomBannerId].imagePath }}
-        style={{ flex: 1 }}
-        imageStyle={{ borderBottomRightRadius: 40 }} 
-      >
-        <LinearGradient 
-          style={{ flex: 1, paddingVertical: 31, paddingLeft: 24 }} 
-          colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.4)']}
-        >
-          <View style={{ flex: 1 }} />
-          <Text style={[textStyles.H1, { color: colors.white }]}>
-            {magazineBanner[randomBannerId].title}
-          </Text>
-        </LinearGradient>
-      </ImageBackground>
-    </View>
-
+          <View style={{ 
+            flex: 1, 
+            height: 516, 
+            borderBottomRightRadius: 40,
+            overflow: 'hidden'}}>
+            <ImageBackground
+              source={{ uri: magazineBanner[randomBannerId].imagePath }}
+              style={{ flex: 1 }}
+              imageStyle={{ borderBottomRightRadius: 40 }}
+              onLoad={() => setIsLoading(false)} 
+            >
+              <LinearGradient 
+                style={{ flex: 1, paddingVertical: 31, paddingLeft: 24 }} 
+                colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.4)']}
+              >
+                <View style={{ flex: 1 }} />
+                <Text style={[textStyles.H1, { color: colors.white }]}>
+                  {magazineBanner[randomBannerId].title}
+                </Text>
+              </LinearGradient>
+            </ImageBackground>
+          </View>
         </Pressable>
         <DriveCourseCuration data={driveCourseList}/>
         <GrayLine />

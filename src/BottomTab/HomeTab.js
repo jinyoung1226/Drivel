@@ -32,45 +32,6 @@ const HomeTab = ({route}) => {
       <Stack.Screen
         name="Home"
         component={HomeMain}
-        options={{
-          headerTransparent: true,
-          headerStyle: {
-            backgroundColor: 'rgba(0, 0, 0, 0.1)',
-          },
-          headerTitle: () => (
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                width: '100%',
-              }}>
-              <Text
-                style={{
-                  color: '#ffffff',
-                  fontSize: 25,
-                  fontFamily: 'KNU TRUTH',
-                }}>
-                Drivel
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  gap: 16,
-                  paddingVertical: 6.72,
-                }}>
-              </View>
-            </View>
-          ),
-          headerBackground: () => (
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: 'rgba(0, 0, 0, 0.2)',
-              }}
-            />
-          ),
-        }}
       />
       <Stack.Screen name="DriveDetail" component={DriveDetail} />
       <Stack.Screen name="ReportPage" component={ReportPage} />

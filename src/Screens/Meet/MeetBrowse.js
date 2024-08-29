@@ -184,7 +184,7 @@ const MeetBrowse = () => {
           {totalMeeting}개 모임
         </Text>
         <View style={{flex: 1}} />
-        <Text style={[textStyles.B4, {color: colors.Gray10}]}>인기순</Text>
+        {/* <Text style={[textStyles.B4, {color: colors.Gray10}]}>인기순</Text> */}
       </View>
       <View
         style={{

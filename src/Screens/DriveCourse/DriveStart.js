@@ -30,10 +30,8 @@ const DriveStart = ({route, navigation}) => {
   const [spotVisibleItems, setSpotVisibleItems] = useState(3);
   const nickname = useSelector(state => state.auth.nickname);
   const [checkInfo, setCheckInfo] = useState([]);
-  console.log(checkInfo, ' sdaadds');
-
-  const [data, setData] = useState(null);
-
+  const [scrollEnabled, setScrollEnabled] = useState(true); // 스크롤 가능 여부 상태
+  
   // initCheckInfo 초기화 (기본 경유지 추가)
   const initCheckInfo = {
     type: '기본경유지',
@@ -130,7 +128,7 @@ const DriveStart = ({route, navigation}) => {
 
   return (
     <View style={{flex: 1, backgroundColor: colors.BG}}>
-      <ScrollView>
+      <ScrollView scrollEnabled={scrollEnabled}>
         <View style={{height: 150, width: '100%'}}>
           <WebView
             originWhitelist={['*']}
@@ -162,6 +160,8 @@ const DriveStart = ({route, navigation}) => {
             onDataChange={newData => {
               setCheckInfo(newData);
             }}
+            onDragStart={() => setScrollEnabled(false)} // 드래그 시작 시 스크롤 비활성화
+            onDragEnd={() => setScrollEnabled(true)}
           />
         </View>
         <View style={{paddingHorizontal: 16, marginTop: 24}}>

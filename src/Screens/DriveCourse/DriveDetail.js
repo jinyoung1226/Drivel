@@ -95,9 +95,8 @@ const DriveDetail = ({route, navigation}) => {
         }
       } catch (error) {
         if (error.response) {
-          if (error.response.status === 400) {
+          console.log(error.response);
             Alert.alert('코스를 불러올 수 없습니다.');
-          }
         } else {
           console.log(error);
           Alert.alert('서버와의 통신 실패');

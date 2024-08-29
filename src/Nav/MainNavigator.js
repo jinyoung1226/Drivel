@@ -29,7 +29,8 @@ const MainNavigator = () => {
       }
     } catch (error) {
       if (error.response) {
-        console.log(error.response.status);
+        console.log(error.response.status, '좋아요한 드라이브코스 불러오기 실패');
+        
       } else {
         console.log(error);
       }

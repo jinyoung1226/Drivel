@@ -8,11 +8,10 @@ import Tabs from '../../components/Tabs';
 import {authApi} from '../../api/api';
 import LikedList from './LikedList';
 import BackIcon from '../../assets/icons/BackIcon';
-import { setLiked, setLikedItem } from '../../features/like/likeActions';
+import { setLikedItem } from '../../features/like/likeActions';
 const MyScrap = ({navigation}) => {
-;
+  
   const dispatch = useDispatch();
-  const {likedItem} = useSelector(state => state.like);
   const [likedCourse, setLikedCourse] = useState([]);
   useLayoutEffect(() => {
     navigation.setOptions({
