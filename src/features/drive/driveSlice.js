@@ -27,16 +27,16 @@ const driveSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(getDriveList.pending, state => {
-      state.isLoading = true;
+      // state.isLoading = true;
     });
     builder.addCase(getDriveList.fulfilled, (state, action) => {
       state.driveList = action.payload.driveList;
       state.isLastPage = action.payload.isLastPage;
       state.currentPage = action.payload.currentPage;
-      state.isLoading = false;
+      // state.isLoading = false;
     });
     builder.addCase(getDriveList.rejected, (state, action) => {
-      state.isLoading = false;
+      // state.isLoading = false;
     });
     builder.addCase(getDriveListMore.pending, state => {
       state.isLoading = true;

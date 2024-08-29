@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import SmallSearchIcon from '../../assets/icons/SmallSearchIcon.svg';
@@ -29,6 +29,7 @@ const DriveMain = ({navigation}) => {
     filterDriveWith,
     filterDriveTheme,
     filterDriveStyle,
+    isLoading,
   } = useSelector(state => state.drive);
 
   const goFilter = () => {
@@ -45,7 +46,7 @@ const DriveMain = ({navigation}) => {
         styleId: filterDriveStyle == '' ? null : filterDriveStyle,
       }),
     );
-  }, [dispatch]);
+  }, []);
 
   const onRefresh = () => {
     setIsRefreshing(true);
@@ -194,14 +195,21 @@ const DriveMain = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={{flex: 1}}>
+
+        {driveList != null &&
         <DriveCourseList
           ListHeaderComponent={<View style={{height: 8}} />}
           data={driveList}
           refreshing={isRefreshing}
           onRefresh={onRefresh}
           onEndReached={onEndReached}
-        />
+        />}
       </View>
+      {isLoading && 
+      <View style={{position:'absolute', bottom: 24, alignSelf:'center', alignItems:'center', justifyContent:'center', elevation:5}}>
+        <View style={{position:'absolute', width:32, height:32, backgroundColor:colors.Gray10, opacity:0.7, borderRadius:20}}/>
+        <ActivityIndicator size={'small'} style={{position:'absolute' }} color={colors.BG}/>
+      </View>}
     </SafeAreaView>
   );
 };

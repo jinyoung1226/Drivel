@@ -21,7 +21,7 @@ const DriveCourseList = ({
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
       onEndReached={onEndReached}
-      onEndReachedThreshold={0.5}
+      onEndReachedThreshold={0.7}
     />
   );
 };
