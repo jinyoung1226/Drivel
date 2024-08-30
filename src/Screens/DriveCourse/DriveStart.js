@@ -19,6 +19,7 @@ import DriveStartRestaurantCuration from './DriveStartRestaurantCuration';
 import DriveStartSpotCuration from './DriveStartSpotCuration';
 import {DragSortableView} from 'react-native-drag-sort';
 import Drag from '../../assets/icons/Drag';
+import { navigateTo } from '@react-native-kakao/navi';
 
 const {width} = Dimensions.get('window');
 
@@ -124,7 +125,29 @@ const DriveStart = ({route, navigation}) => {
     );
   };
 
-  const driveStartPress = () => {};
+  const driveStartPress = () => {
+    const destination = {
+      name: "카카오판교오피스",
+      x: 127.1086228,  // 수정된 경도 (예: 실제 값)
+      y: 37.4020568    // 수정된 위도 (예: 실제 값)
+    };
+
+    navigateTo({
+      destination: destination,
+      openWebInstallUrlIfNaviAppNotAvailable: true
+    }).then(success => {
+      if (success) {
+        console.log("Kakao Navi has been successfully launched.");
+      } else {
+        console.log("Failed to launch Kakao Navi.");
+      }
+    }).catch(error => {
+      console.log(error)
+    })
+  };
+
+  
+
 
   return (
     <View style={{flex: 1, backgroundColor: colors.BG}}>
@@ -261,5 +284,6 @@ const DriveStart = ({route, navigation}) => {
     </View>
   );
 };
+
 
 export default DriveStart;
