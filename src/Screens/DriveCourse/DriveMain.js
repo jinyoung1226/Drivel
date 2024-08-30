@@ -49,16 +49,16 @@ const DriveMain = ({navigation}) => {
   }, []);
 
   const onRefresh = () => {
-    setIsRefreshing(true);
-    dispatch(
-      getDriveList({
-        page: initialPage,
-        size: 10,
-        themeId: filterDriveTheme == '' ? null : filterDriveTheme,
-        togetherId: filterDriveWith == '' ? null : filterDriveWith,
-        styleId: filterDriveStyle == '' ? null : filterDriveStyle,
-      }),
-    ).finally(() => setIsRefreshing(false));
+      setIsRefreshing(true);
+      dispatch(
+        getDriveList({
+          page: initialPage,
+          size: 10,
+          themeId: filterDriveTheme == '' ? null : filterDriveTheme,
+          togetherId: filterDriveWith == '' ? null : filterDriveWith,
+          styleId: filterDriveStyle == '' ? null : filterDriveStyle,
+        }),
+      ).finally(() => setIsRefreshing(false));
   };
 
   const onEndReached = () => {
@@ -196,14 +196,35 @@ const DriveMain = ({navigation}) => {
       </View>
       <View style={{flex: 1}}>
 
-        {driveList != null &&
+        {driveList != null && !isRefreshing ?
         <DriveCourseList
           ListHeaderComponent={<View style={{height: 8}} />}
           data={driveList}
           refreshing={isRefreshing}
           onRefresh={onRefresh}
           onEndReached={onEndReached}
-        />}
+        />
+        :
+        <View style={{padding:16}}>
+        {[1,2,3,4].map((item, index) => (
+          <View key={index} style={{padding:16, backgroundColor:colors.Gray02, borderRadius:10, marginBottom:16}}>
+            <View style={{flexDirection:'row'}}>
+              <View style={{flex:1}}>
+                <View style={{height:17, width: 120, backgroundColor:colors.Gray04, borderRadius:5}}/>
+                <View style={{height:8}}/>
+                <View style={{height:14, width: 80, backgroundColor:colors.Gray04, borderRadius:5}}/>
+                <View style={{height:8}}/>
+                <View style={{height:50, backgroundColor:colors.Gray04, borderRadius:5}}/>
+                <View style={{height:8}}/>
+                <View style={{height:14, width: 60, backgroundColor:colors.Gray04, borderRadius:5}}/>
+              </View>
+              <View style={{width:16}}/>
+              <View style={{height:115, width: 84, backgroundColor:colors.Gray04, borderRadius:10}}/>
+            </View>
+          </View>
+        ))}
+        </View>
+        }
       </View>
       {isLoading && 
       <View style={{position:'absolute', bottom: 24, alignSelf:'center', alignItems:'center', justifyContent:'center', elevation:5}}>

@@ -12,6 +12,7 @@ const DriveCourseList = ({
 }) => {
   return (
     <FlatList
+      disableVirtualization={false}
       ListFooterComponent={<View style={{height: 8}} />}
       ListHeaderComponent={ListHeaderComponent}
       data={data}

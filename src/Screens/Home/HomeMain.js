@@ -135,7 +135,7 @@ const HomeMain = ({navigation}) => {
     setActiveButton(button);
   };
 
-  if (driveCourseList.length === 0 && isLoading) {
+  if (driveCourseList.length === 0) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
     return <SplashScreen />;
   }
@@ -147,7 +147,15 @@ const HomeMain = ({navigation}) => {
   return (
     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
       <ScrollView>
-        <Pressable style={{flex: 1}} onPress={() => handleMagazineInfo(randomBannerId)}>
+        {isLoading && 
+          <View style={{flex: 1, height: 516, backgroundColor: colors.Gray01, paddingLeft:24, paddingVertical:31}}>
+            <View style={{flex:1}}/>
+            <View style={{height: 28, width: '45%', backgroundColor:colors.Gray03, borderRadius:10}}/>
+            <View style={{height:10}}/>
+            <View style={{height: 28, width: '65%', backgroundColor:colors.Gray03, borderRadius:10}}/>
+          </View>
+        }
+        <Pressable style={{display: isLoading ? 'none' : 'flex'}} onPress={() => handleMagazineInfo(randomBannerId)}>
           <View style={{ 
             flex: 1, 
             height: 516, 
@@ -157,7 +165,7 @@ const HomeMain = ({navigation}) => {
               source={{ uri: magazineBanner[randomBannerId].imagePath }}
               style={{ flex: 1 }}
               imageStyle={{ borderBottomRightRadius: 40 }}
-              onLoad={() => setIsLoading(false)} 
+              onLoadEnd={() => setIsLoading(false)} 
             >
               <LinearGradient 
                 style={{ flex: 1, paddingVertical: 31, paddingLeft: 24 }} 
