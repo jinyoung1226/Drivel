@@ -40,7 +40,7 @@ const FestivalCuration = ({ item }) => {
     <Pressable onPress={() => handleFestivalInfo(item.id)}>
       {item.imagePath == "" || item.imagePath == null ? 
         <ImageBackground
-        source={require('../assets/image/MainLogo.png')}style={{ width: 182, height: 252, borderRadius: 10, overflow: 'hidden' }}>
+        source={require('../assets/image/MainLogo.png')} style={{ width: 182, height: 252, borderRadius: 10, overflow: 'hidden' }}>
           <LinearGradient
             style={{ flex: 1, padding: 12 }}
             colors={[

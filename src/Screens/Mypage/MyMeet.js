@@ -26,7 +26,7 @@ const MyMeetHistory = () => {
         <View style={{width:8}}/>
         <ToggleSwitch onPress={() => console.log('asdasd')}/>
       </View>
-      <Tabs tabName={['만든 모임', '참여한 모임']} activeTab={activeTab} setActiveTab={setActiveTab}/>
+      <Tabs tabName={['만든 모임', '참여한 모임']} activeTab={activeTab} setActiveTab={setActiveTab} scrollToTab={() => {}}/>
       <View style={{height:24}}/>
 
       {activeTab == 0 && <MyMeetList data={data}/>}

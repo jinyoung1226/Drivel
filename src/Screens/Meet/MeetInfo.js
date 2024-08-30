@@ -46,14 +46,12 @@ const MeetInfo = ({item}) => {
           <Image style={{flex: 1}} src={imagePath} />
         </View>
         <View style={{width: 24}} />
-        <View>
+      <View style={{justifyContent:'center'}}>
           <Text style={[textStyles.H5, {color: colors.Gray10}]}>
             {nickname}
           </Text>
           <View style={{height: 4}} />
-          <Text
-            style={[textStyles.B4, {color: colors.Gray06, width: width - 122}]}
-            numberOfLines={2}>
+          <Text style={[textStyles.B4, {color: colors.Gray06}]}>
             {description}
           </Text>
         </View>

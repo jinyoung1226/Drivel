@@ -97,6 +97,34 @@ export const getBlogReview = createAsyncThunk(
   } 
 );
 
+export const getCafeBlogReview = createAsyncThunk(
+  'drive/getCafeBlogReview',
+  async (title, thunkAPI) => {
+    try {
+      const response = await axios.get(
+        'https://openapi.naver.com/v1/search/blog.json',
+        {
+          params: {query: title},
+          headers: {
+            'X-Naver-Client-Id': config.NAVERBLOG_ID_KEY,
+            'X-Naver-Client-Secret': config.NAVERBLOG_SECRET_KEY,
+          },
+        },
+      );
+      if (response.status == 200) {
+        const cafeBlogReviewList = response.data.items.map((item, index) => ({
+          ...item,
+          id: index,
+        }));
+        console.log(cafeBlogReviewList);
+        return cafeBlogReviewList;
+      }
+    } catch (error) {
+      console.error('Error fetching blog data:', error);
+    }
+  } 
+);
+
 export const setFilterDriveStyle = createAction('drive/filterDriveStyle');
 
 export const setFilterDriveTheme = createAction('drive/filterDriveTheme');
@@ -104,3 +132,5 @@ export const setFilterDriveTheme = createAction('drive/filterDriveTheme');
 export const setFilterDriveWith = createAction('drive/filterDriveWith');
 
 export const setBlogReviewList = createAction('drive/setBlogReviewList');
+
+export const setCafeBlogReviewList = createAction('drive/setCafeBlogReviewList');

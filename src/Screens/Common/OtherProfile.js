@@ -15,10 +15,12 @@ import BackIcon from '../../assets/icons/BackIcon';
 import KebabMenuIcon from '../../assets/icons/KebabMenuIcon';
 import MenuModal from '../../components/MenuModal';
 import ConfirmModal from '../../components/ConfirmModal';
+import { authApi } from '../../api/api';
 const OtherProfile = ({navigation, route}) => {
   const memberId =  route.params.memberId;
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+  const [profileInfo, setProfileInfo] = useState(null);
   const [type, setType] = useState('');
   const [targetId, setTargetId] = useState('');
   const myProfileInfo = useSelector(state => state.profile.myProfileInfo);
@@ -52,10 +54,24 @@ const OtherProfile = ({navigation, route}) => {
   }, [navigation]);
 
   useEffect(() => {
-    dispatch(getMyProfileInfo());
+    const getProfileInfo = async () => {
+      try {
+        const response = await authApi.get(`profile/${memberId}`);
+        if (response.status === 200) {
+          setProfileInfo(response.data);
+        }
+      } catch (error) {
+        if (error.response) {
+          console.log(error.response.status);
+        } else {
+          console.log(error);
+        }
+      }
+    }
+    getProfileInfo();
   }, []);
 
-  if (myProfileInfo === null) {
+  if (profileInfo === null) {
     return (
       <RenderingPage/>
     )
@@ -81,9 +97,9 @@ const OtherProfile = ({navigation, route}) => {
         status
       />
       <View style={{height: 32}} />
-      <OtherInfo myProfileInfo={myProfileInfo}/>
+      <OtherInfo myProfileInfo={profileInfo}/>
       <View style={{height: 24}} />
-      <OtherDriveTag myProfileInfo={myProfileInfo}/>
+      <OtherDriveTag myProfileInfo={profileInfo}/>
       <View style={{height: 24}} />
       <UserMannerScoreBar />
       <GrayLine/>

@@ -124,6 +124,7 @@ const ConfirmModal = ({
     try {
       const response = await authApi.post('/block/member', {targetMemberId: targetId});
       if(response.status == 200) {
+        refreshMeetList(dispatch);
         modalClose();
         Alert.alert('차단되었습니다.');
       }
@@ -247,7 +248,7 @@ const ConfirmModal = ({
                       }else if(type == 'userReviewBlock') {
                         reviewBlockUser();
                       }else if(type == 'userBlock') {
-                        //blockUser();
+                        blockUser();
                       }
                     }} 
                   />

@@ -6,7 +6,9 @@ import {
   setFilterDriveTheme,
   setFilterDriveWith,
   getBlogReview,
-  setBlogReviewList
+  setBlogReviewList,
+  getCafeBlogReview,
+  setCafeBlogReviewList,
 } from './driveActions';
 
 const initialState = {
@@ -19,6 +21,7 @@ const initialState = {
   isLastPage: false,
   currentPage: null,
   blogReviewList: null,
+  cafeBlogReviewList: null,
 };
 
 const driveSlice = createSlice({
@@ -69,7 +72,19 @@ const driveSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(setBlogReviewList, (state, action) => {
-      state.blogReviewList = action.payload
+      state.blogReviewList = action.payload;
+    });
+    builder.addCase(getCafeBlogReview.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(getCafeBlogReview.fulfilled, (state, action) => {
+      state.cafeBlogReviewList = action.payload;
+    });
+    builder.addCase(getCafeBlogReview.rejected, state => {
+      state.isLoading = false;
+    });
+    builder.addCase(setCafeBlogReviewList, (state, action) => {
+      state.cafeBlogReviewList = action.payload;
     });
   },
 });

@@ -170,7 +170,7 @@ const DriveTourSpot = ({item}) => {
             }}>
             <Sparkler />
             <Text style={[textStyles.H4, {color: colors.Gray10}]}>
-              이 지역의 행사가 궁금하다면?
+              이 지역 근교의 행사가 궁금하다면?
             </Text>
           </View>
           <View style={{flex: 1, marginTop: 16}}>

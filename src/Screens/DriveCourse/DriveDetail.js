@@ -19,7 +19,7 @@ import DriveTourSpot from './DriveTourSpot';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Tabs from '../../components/Tabs';
 import RenderingPage from '../../components/RenderingPage';
-import BorderBlueHeart from '../../assets/icons/BorderBlueHeart.svg';
+import HeartIcon from '../../assets/icons/HeartIcon.svg';
 import {setLikedItem, toggleLike} from '../../features/like/likeActions';
 import {useSelector, useDispatch} from 'react-redux';
 import CustomButton from '../../components/CustomButton';
@@ -41,13 +41,14 @@ const DriveDetail = ({route, navigation}) => {
 
   const [contentHeight, setContentHeight] = useState(0);
 
-  useEffect(() => {
-    const isLiked = likedItem.includes(driveId);
-    setLiked(isLiked);
-  }, [likedItem]);
+  // useEffect(() => {
+  //   const isLiked = likedItem.includes(driveId);
+  //   setLiked(isLiked);
+  // }, [likedItem]);
 
   const handleLikePress = () => {
-    dispatch(setLikedItem(driveId));
+    // dispatch(setLikedItem(driveId));
+    setLiked(!liked);
     dispatch(toggleLike(driveId));
   };
 
@@ -187,7 +188,7 @@ const DriveDetail = ({route, navigation}) => {
         }}>
         <View style={{justifyContent: 'center'}}>
           <Pressable onPress={handleLikePress}>
-            <BorderBlueHeart fill={liked ? '#5168F6' : 'rgba(0, 0, 0, 0)'} />
+            <HeartIcon fill={liked ? colors.red : 'rgba(0, 0, 0, 0)'} color={liked ? colors.red : colors.Blue} width={30} height={30}  />
           </Pressable>
         </View>
         <View style={{width: 16}} />

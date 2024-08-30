@@ -223,7 +223,7 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
               }}>
               <TextInput
                 style={{color: colors.Gray10, flex:1, textAlignVertical: 'top'}}
-                placeholder="댓글을 남겨주세요"
+                placeholder="리뷰를 남겨주세요"
                 placeholderTextColor={colors.Gray04}
                 onChangeText={text => handleTextChange(text)}
                 value={reviewText}

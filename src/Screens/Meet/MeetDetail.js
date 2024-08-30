@@ -33,7 +33,7 @@ import MenuModal from '../../components/MenuModal';
 import RenderingHandIcon from '../../assets/icons/RenderingHand';
 import ConfirmModal from '../../components/ConfirmModal';
 import Check from '../../assets/icons/Check';
-import { getMeetMessageList, setMeetMessageList, getMeetMessageListMore, setMeetMessageListNull } from '../../features/meet/meetActions';
+import { getMeetMessageList, setMeetMessageList, getMeetMessageListMore, setMeetMessageListNull, setParticipateStatus } from '../../features/meet/meetActions';
 import eventEmitter from '../../utils/eventEmitter';  
 
 const MeetDetail = ({route, navigation}) => {
@@ -51,21 +51,21 @@ const MeetDetail = ({route, navigation}) => {
   const [menuModalVisible, setMenuModalVisible] = useState(false);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [type, setType] = useState('');
-  const [participateStatus, setParticipateStatus] = useState('NONE');
+  // const [participateStatus, setParticipateStatus] = useState('NONE');
   const [notice, setNotice] = useState(null);
   const [isNotice, setIsNotice] = useState(false);
   const [displayNotice, setDisplayNotice] = useState(false);
   const scrollHeight = useRef(0);
   const [targetId, setTargetId] = useState(null);
   const { userId } = useSelector(state => state.auth);
+  const { participateStatus } = useSelector(state => state.meet);
   const transparent = useRef(false);
   const dispatch = useDispatch();
 
   const meetingId = route.params.meetingId;
   const courseId = route.params.courseId;
   const meetingTitle = route.params.meetingTitle;
-  const {meetMessageList, lastMessageId, isLastMessage, isLoading} = useSelector(state => state.meet); 
-  const {isConnected} = useSelector(state => state.websocket);
+  const {meetMessageList, lastMessageId, isLastMessage, isLoading,} = useSelector(state => state.meet); 
   const width = Dimensions.get('window').width;
   const tabName = ['모임 정보', '코스 정보', '게시판'];
   
@@ -90,11 +90,12 @@ const MeetDetail = ({route, navigation}) => {
 
   const getMeetingInfo = async () => {
     try {
+      console.log('meetingId', meetingId);
       const response = await authApi.get(`meeting/${meetingId}`);
       if (response.status == 200) {
         console.log(response.data, 'meeting', '@@@@');
         setMeetingInfo(response.data);
-        setParticipateStatus(response.data.meetingInfo.status);
+        dispatch(setParticipateStatus(response.data.meetingInfo.status));
         if(response.data.meetingInfo.status == "JOINED") {
           dispatch(subscribeToChannel({channel : `/sub/meeting/${meetingId}`, callback : (message) => {
             console.log(message, '@@@@@');
@@ -174,7 +175,7 @@ const MeetDetail = ({route, navigation}) => {
       if (response.status == 200) {
         console.log(response.data, 'participate')
         Alert.alert(response.data.message);
-        setParticipateStatus("WAITING");
+        dispatch(setParticipateStatus("WAITING"));
       }
     } catch (error) {
       if (error.response) {
@@ -193,7 +194,7 @@ const MeetDetail = ({route, navigation}) => {
       if (response.status == 200) {
         console.log(response.data, 'cancel participate')
         Alert.alert(response.data.message);
-        setParticipateStatus("NONE");
+        dispatch(setParticipateStatus("NONE"));
       }
     } catch (error) {
       if (error.response) {
@@ -440,6 +441,7 @@ const MeetDetail = ({route, navigation}) => {
                   paddingTop:8
                 }}
               >
+                {userId == meetingInfo.meetingInfo.masterInfo.id &&
                 <TouchableOpacity
                   style={{flexDirection: 'row', alignItems: 'center'}}
                   onPress={() => {setIsNotice(!isNotice)}}>
@@ -461,7 +463,7 @@ const MeetDetail = ({route, navigation}) => {
                   <Text style={[textStyles.B4, {color: colors.Gray10}]}>
                     공지
                   </Text>
-                </TouchableOpacity>
+                </TouchableOpacity>}
                 <View style={{height: 8}}/>
                 <CustomInput 
                   onfocus={() => setTimeout(() => scrollViewRef.current.scrollToPosition(0, width, true), 300)}
@@ -509,6 +511,7 @@ const MeetDetail = ({route, navigation}) => {
                   paddingTop:8
                 }}
               >
+                {userId == meetingInfo.meetingInfo.masterInfo.id &&
                 <TouchableOpacity
                   style={{flexDirection: 'row', alignItems: 'center',}}
                   onPress={() => {setIsNotice(!isNotice)}}>
@@ -530,7 +533,7 @@ const MeetDetail = ({route, navigation}) => {
                   <Text style={[textStyles.B4, {color: colors.Gray10}]}>
                     공지
                   </Text>
-                </TouchableOpacity>
+                </TouchableOpacity>}
                 <View style={{height: 8}}/>
                 <CustomInput 
                   onfocus={() => setTimeout(() => scrollViewRef.current.scrollToPosition(0, width, true), 300)}

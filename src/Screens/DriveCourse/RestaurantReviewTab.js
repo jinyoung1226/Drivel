@@ -5,82 +5,60 @@ import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import RestaurantBlogList from './RestaurantBlogList';
 import config from '../../config/config';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCafeBlogReview } from '../../features/drive/driveActions';
 
 const RestaurantReviewTab = ({placeInfo}) => {
-  const [blogData, setBlogData] = useState(null);
-
+  const dispatch = useDispatch();
+  const {cafeBlogReviewList} = useSelector(state => state.drive);
   useEffect(() => {
-    const getBlog = async () => {
-      try {
-        const response = await axios.get(
-          'https://openapi.naver.com/v1/search/blog.json',
-          {
-            params: {query: placeInfo.name},
-            headers: {
-              'X-Naver-Client-Id': config.NAVERBLOG_ID_KEY,
-              'X-Naver-Client-Secret': config.NAVERBLOG_SECRET_KEY,
-            },
-          },
-        );
-        const newData = response.data.items.map((item, index) => ({
-          ...item,
-          id: index.toString(), // 키로 사용하기 위해 문자열로 변환
-        }));
-        setBlogData(newData);
-      } catch (error) {
-        console.error('Error fetching blog data:', error);
-      }
-    };
-    getBlog();
-  }, [placeInfo.name]);
+    if (cafeBlogReviewList == null) {
+      dispatch(getCafeBlogReview(placeInfo.name))
+    }
+  }, []);
 
   return (
     <View style={{flex: 1}}>
-      <View
-        style={{
-          height: 30,
-          paddingLeft: 16,
-          marginTop: 24,
-          flexDirection: 'row',
-          gap: 8,
-        }}>
-        <View
-          style={{
-            borderRadius: 100,
-            width: 64,
-            height: 30,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderColor: colors.Gray03,
-            backgroundColor: colors.Blue,
-          }}>
-          <Text
-            style={[
-              textStyles.B4,
-              {
-                color: colors.White_Blue,
-              },
-            ]}>
-            블로그
-          </Text>
-        </View>
-      </View>
       <View
         style={{
           flex: 1,
           padding: 16,
           marginTop: 8,
         }}>
-        {blogData ? (
+        {cafeBlogReviewList ? (
           <FlatList
-            data={blogData}
+            data={cafeBlogReviewList}
             renderItem={({item}) => <RestaurantBlogList item={item} />}
             keyExtractor={item => item.id} // keyExtractor 추가
             showsHorizontalScrollIndicator={false}
             scrollEnabled={false}
           />
         ) : (
-          <Text>Loading...</Text>
+        <View>
+        {[1,2,3,4,5].map((item, index) => (
+          <View 
+            key={index}
+            style={{
+            padding: 16,
+            borderRadius: 14,
+            backgroundColor: colors.Gray02,
+            height: 123,
+            justifyContent: 'space-between',
+            marginBottom: 16,
+          }}>
+            <View style={{flexDirection:'row'}}>
+              <View style={{height:20, backgroundColor:colors.Gray04, borderRadius:5, flex:3}}/>
+              <View style={{flex:1}}/>
+            </View>
+            <View style={{height:30, backgroundColor:colors.Gray04, borderRadius:5}}/>
+            <View style={{flexDirection:'row'}}>
+              <View style={{height:10, backgroundColor:colors.Gray04, borderRadius:5, flex:3}}/>
+              <View style={{flex:2}}/>
+              <View style={{height:10, backgroundColor:colors.Gray04, borderRadius:5, flex:1}}/>
+            </View>
+          </View>
+        ))}
+        </View>
         )}
       </View>
     </View>

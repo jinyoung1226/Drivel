@@ -18,6 +18,8 @@ import {
   setMeetMessageList,
   setLastMessageId,
   setMeetMessageListNull,
+  setParticipateStatus,
+  
 } from './meetActions';
 
 const initialState = {
@@ -42,6 +44,7 @@ const initialState = {
   meetMessageList: [],
   lastMessageId: -1,
   isLastMessage: false,
+  participateStatus: 'NONE',
 };
 const meetSlice = createSlice({
   name: 'meet',
@@ -163,6 +166,9 @@ const meetSlice = createSlice({
     });
     builder.addCase(setMeetMessageListNull, state => {
       state.meetMessageList = [];
+    });
+    builder.addCase(setParticipateStatus, (state, action) => {
+      state.participateStatus = action.payload;
     });
   },
 });

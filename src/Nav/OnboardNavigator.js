@@ -118,6 +118,7 @@ const OnboardingPage = ({navigation}) => {
             data={regions}
             selectedItem={selectedRegion}
             onSelectedHandler={items => setSelectedRegion(items)}
+            maxSelection={3}
           />
         </View>
       ) : step === 2 ? (
@@ -127,7 +128,7 @@ const OnboardingPage = ({navigation}) => {
           </Text>
           <View style={{height: 16}} />
           <Text style={[textStyles.M14, {color: colors.Gray06}]}>
-            최대 3개 선택 가능해요
+            자유롭게 선택해주세요
           </Text>
           <View style={{height: 40}} />
           <ChipContainer
@@ -145,7 +146,7 @@ const OnboardingPage = ({navigation}) => {
           </Text>
           <View style={{height: 16}} />
           <Text style={[textStyles.M14, {color: colors.Gray06}]}>
-            최대 3개 선택 가능해요
+            자유롭게 선택해주세요
           </Text>
           <View style={{height: 40}} />
           <ChipContainer
@@ -163,7 +164,7 @@ const OnboardingPage = ({navigation}) => {
           </Text>
           <View style={{height: 16}} />
           <Text style={[textStyles.M14, {color: colors.Gray06}]}>
-            최대 3개 선택 가능해요
+            자유롭게 선택해주세요
           </Text>
           <View style={{height: 40}} />
           <ChipContainer

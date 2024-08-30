@@ -25,22 +25,22 @@ export const magazineBanner = [
   {
     id: 1,
     title: "가을의 낭만을 만끽할\n아름다운 드라이브 코스",
-    imagePath:'https://github.com/hwansoo17/Magazine_Image/blob/main/Banner/bannerImage%20(3).jpg?raw=true',
+    imagePath:'https://github.com/hwansoo17/Magazine_Image/blob/main/banner/banner%20(1).png?raw=true',
   },
   {
     id: 2,
     title: "국내 와인딩\n드라이브 코스 추천",
-    imagePath:'https://github.com/hwansoo17/Magazine_Image/blob/main/Banner/bannerImage%20(4).jpg?raw=true',
+    imagePath:'https://github.com/hwansoo17/Magazine_Image/blob/main/banner/banner%20(2).png?raw=true',
   },
   {
     id: 3,
     title: "올 가을 나주에서 즐기는\n드라이브와 2024 나주문화유산야행",
-    imagePath:'https://github.com/hwansoo17/Magazine_Image/blob/main/Banner/bannerImage%20(2).jpg?raw=true',
+    imagePath:'https://github.com/hwansoo17/Magazine_Image/blob/main/banner/banner%20(4).png?raw=true',
   },
   {
     id: 4,
     title: "보기만 해도 시원해지는\n경북 해안 드라이브",
-    imagePath:'https://github.com/hwansoo17/Magazine_Image/blob/main/Banner/bannerImage%20(1).jpg?raw=true',
+    imagePath:'https://github.com/hwansoo17/Magazine_Image/blob/main/banner/banner%20(3).png?raw=true',
   },
 ];
 

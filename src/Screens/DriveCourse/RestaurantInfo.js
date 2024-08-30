@@ -20,6 +20,8 @@ import DriveReview from './DriveReview';
 import GrayLine from '../../components/GrayLine';
 import RestaurantReviewTab from './RestaurantReviewTab';
 import RenderingPage from '../../components/RenderingPage';
+import { setCafeBlogReviewList } from '../../features/drive/driveActions';
+import { useDispatch } from 'react-redux';
 
 const {width} = Dimensions.get('window');
 
@@ -33,9 +35,11 @@ const RestaurantInfo = ({route}) => {
   const [titleHeight, setTitleHeight] = useState(0);
   const scrollViewRef = useRef(null);
   const [scrollOffset, setScrollOffset] = useState(0);
-  const tabName = ['상세정보', '리뷰'];
+  const tabName = ['상세정보', '블로그 리뷰'];
   const [activeTab, setActiveTab] = useState(0);
   const [restaurant, setRestaurant] = useState([]);
+  const [contentHeight, setContentHeight] = useState(0);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getPlaceInfo = async () => {
@@ -57,7 +61,10 @@ const RestaurantInfo = ({route}) => {
       }
     };
     getPlaceInfo();
-  }, [placeId]);
+    return () => {
+      dispatch(setCafeBlogReviewList(null));
+    }
+  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -76,17 +83,15 @@ const RestaurantInfo = ({route}) => {
     });
   }, [navigation]);
 
-  useEffect(() => {
-    if (scrollViewRef.current && scrollOffset > heightUntilGrayLine + 60) {
-      // 원하는 위치로 스크롤
-      scrollViewRef.current.scrollToPosition(0, heightUntilGrayLine + 60, true);
-    }
-  }, [activeTab]); // activeTab 변경 시 스크롤
+  const handleLayout = (event) => {
+    const { height } = event.nativeEvent.layout;
+    setContentHeight(height);
+    console.log("Content height:", height);
+  };  
 
-  const handleScroll = event => {
-    const offsetY = event.nativeEvent.contentOffset.y;
-    setScrollOffset(offsetY);
-  };
+  const scrollToTab = () => {
+    scrollViewRef.current.scrollToPosition(0, contentHeight, true);
+  };  
 
   if (!placeInfo) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
@@ -97,31 +102,32 @@ const RestaurantInfo = ({route}) => {
     <View style={{flex: 1, backgroundColor: colors.BG}}>
       <KeyboardAwareScrollView
         ref={scrollViewRef}
-        onScroll={handleScroll}
         stickyHeaderIndices={[3]}
         contentContainerStyle={{paddingBottom: 120}}>
-        <Image
-          src={placeInfo.imagePath}
-          style={{width: width, aspectRatio: 1.8}}
-          onLayout={event => setImageHeight(event.nativeEvent.layout.height)}
-        />
-        <View
-          style={{paddingHorizontal: 16, marginTop: 16}}
-          onLayout={event => setTitleHeight(event.nativeEvent.layout.height)}>
-          <Text style={[textStyles.H1, {color: colors.Gray10}]}>
-            {placeInfo.name}
-          </Text>
-          <View style={{height: 8}} />
-          <Text style={[textStyles.M14, {color: colors.Gray07}]}>
-            {placeInfo.category}
-          </Text>
+        <View onLayout={handleLayout}>
+          <Image
+            src={placeInfo.imagePath}
+            style={{width: width, aspectRatio: 1.8}}
+          />
+          <View
+            style={{paddingHorizontal: 16, marginTop: 16}}
+          >
+            <Text style={[textStyles.H1, {color: colors.Gray10}]}>
+              {placeInfo.name}
+            </Text>
+            <View style={{height: 8}} />
+            <Text style={[textStyles.M14, {color: colors.Gray07}]}>
+              {placeInfo.category}
+            </Text>
+          </View>
+          <GrayLine />
         </View>
-        <GrayLine />
         {placeInfo !== null && (
           <Tabs
             tabName={tabName}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
+            scrollToTab={scrollToTab}
           />
         )}
         {placeInfo !== null && (

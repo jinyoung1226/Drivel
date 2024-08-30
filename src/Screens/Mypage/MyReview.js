@@ -38,7 +38,7 @@ const MyReview = ({navigation}) => {
   }
 
  return (
-  <View style={{backgroundColor:colors.BG}}>
+  <View style={{backgroundColor:colors.BG, flex:1}}>
     <ReiviewList ListHeaderComponent={<View style={{height:16}}/>} data={myReviews} goDriveDetail={goDriveDetail} />
   </View>
  )

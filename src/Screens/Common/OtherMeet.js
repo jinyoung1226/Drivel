@@ -22,7 +22,7 @@ const OtherMeet = () => {
         <Text style={[textStyles.H3, {color:colors.Gray10}]}>모임 히스토리</Text>
         <View style={{flex:1}}/>
       </View>
-      <Tabs tabName={['만든 모임', '참여한 모임']} activeTab={activeTab} setActiveTab={setActiveTab}/>
+      <Tabs tabName={['만든 모임', '참여한 모임']} activeTab={activeTab} setActiveTab={setActiveTab} scrollToTab={() => {}}/>
       <View style={{height:24}}/>
 
       {activeTab == 0 && <MyMeetList data={data}/>}

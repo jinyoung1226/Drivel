@@ -2,12 +2,8 @@ import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
   View,
   ScrollView,
-  Pressable,
-  Image,
-  Dimensions,
   Text,
   FlatList,
-  ImageBackground,
 } from 'react-native';
 import DriveCourseCuration from './DriveCourseCuration';
 import MagazineCuration from './MagazineCuration';
@@ -18,16 +14,10 @@ import FestivalCuration from '../../components/FestivalCuration';
 import Sparkler from '../../assets/icons/Sparkler.svg';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
-import RenderingPage from '../../components/RenderingPage';
 import DriveRegionCuraiton from './DriveRegionCuraiton';
 import MiniBus from '../../assets/icons/MinibusIcon.svg';
 import { magazineCover } from '../../assets/magazineData/magazineData'; 
-import { magazineBanner } from '../../assets/magazineData/magazineData'; 
-import LinearGradient from 'react-native-linear-gradient';
-import SplashScreen from '../../SplashScreen';
-
-
-const {width} = Dimensions.get('window');
+import HomeBanner from './HomeBanner';
 
 const HomeMain = ({navigation}) => {
   const [driveCourseList, setDriveCourseList] = useState([]);
@@ -35,8 +25,6 @@ const HomeMain = ({navigation}) => {
   const [festivalList, setFestivalList] = useState([]);
   const [category, setCategory] = useState([]);
   const [activeButton, setActiveButton] = useState('');
-  const [randomBannerId, setRandomBannerId] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -53,7 +41,6 @@ const HomeMain = ({navigation}) => {
         />
       ),
     });
-    setRandomBannerId(Math.floor(Math.random() * 4));
   }, [navigation]);
 
   useEffect(() => {
@@ -135,50 +122,11 @@ const HomeMain = ({navigation}) => {
     setActiveButton(button);
   };
 
-  if (driveCourseList.length === 0) {
-    // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
-    return <SplashScreen />;
-  }
-
-  const handleMagazineInfo = id => {
-    navigation.navigate('MagazineInfo', { id: id + 1 });
-  };
 
   return (
     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
       <ScrollView>
-        {isLoading && 
-          <View style={{flex: 1, height: 516, backgroundColor: colors.Gray01, paddingLeft:24, paddingVertical:31}}>
-            <View style={{flex:1}}/>
-            <View style={{height: 28, width: '45%', backgroundColor:colors.Gray03, borderRadius:10}}/>
-            <View style={{height:10}}/>
-            <View style={{height: 28, width: '65%', backgroundColor:colors.Gray03, borderRadius:10}}/>
-          </View>
-        }
-        <Pressable style={{display: isLoading ? 'none' : 'flex'}} onPress={() => handleMagazineInfo(randomBannerId)}>
-          <View style={{ 
-            flex: 1, 
-            height: 516, 
-            borderBottomRightRadius: 40,
-            overflow: 'hidden'}}>
-            <ImageBackground
-              source={{ uri: magazineBanner[randomBannerId].imagePath }}
-              style={{ flex: 1 }}
-              imageStyle={{ borderBottomRightRadius: 40 }}
-              onLoadEnd={() => setIsLoading(false)} 
-            >
-              <LinearGradient 
-                style={{ flex: 1, paddingVertical: 31, paddingLeft: 24 }} 
-                colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.4)']}
-              >
-                <View style={{ flex: 1 }} />
-                <Text style={[textStyles.H1, { color: colors.white }]}>
-                  {magazineBanner[randomBannerId].title}
-                </Text>
-              </LinearGradient>
-            </ImageBackground>
-          </View>
-        </Pressable>
+        <HomeBanner/>
         <DriveCourseCuration data={driveCourseList}/>
         <GrayLine />
         <DriveRegionCuraiton
@@ -222,7 +170,7 @@ const HomeMain = ({navigation}) => {
           }}>
           <Sparkler />
           <Text style={[textStyles.H2, {color: colors.Gray10}]}>
-            이 지역의 행사가 궁금하다면?
+          지금 가장 핫한 행사가 궁금하다면?
           </Text>
         </View>
         <View style={{flex: 1, marginTop: 16}}>

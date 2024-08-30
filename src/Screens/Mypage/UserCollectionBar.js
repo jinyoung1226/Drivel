@@ -40,7 +40,7 @@ const UserCollectionBar = () => {
           내 리뷰
         </Text>
       </TouchableOpacity>
-      <View style={{width: 1, height: 39, backgroundColor: colors.Gray02}} />
+      {/* <View style={{width: 1, height: 39, backgroundColor: colors.Gray02}} />
       <TouchableOpacity
         style={{flex: 1, alignItems: 'center', paddingVertical: 16}}>
         <DriveHistoryIcon />
@@ -48,7 +48,7 @@ const UserCollectionBar = () => {
         <Text style={[textStyles.B3, {color: colors.Gray10}]}>
           드라이브 기록
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }

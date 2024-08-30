@@ -4,7 +4,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import * as StompJs from '@stomp/stompjs';
 import config from '../../config/config';
 import { refreshApi } from '../../api/api';
-import { getMeetingApplyList } from '../meet/meetActions';
+import { getMeetingApplyList, setParticipateStatus } from '../meet/meetActions';
 import refreshMeetList from '../../utils/refreshMeetList';
 import { Alert } from 'react-native';
 import eventEmitter from '../../utils/eventEmitter';  
@@ -59,6 +59,7 @@ export const connectWebSocket = createAsyncThunk(
             if (newMessage.category === 'ACCEPTED') {
               Alert.alert("모임에 " + newMessage.content);
               refreshMeetList(thunkAPI.dispatch);
+              thunkAPI.dispatch(setParticipateStatus("JOINED"));
             }
             if (newMessage.category === 'REJECTED') {
               Alert.alert("모임 " + newMessage.content);

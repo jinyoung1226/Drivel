@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useLayoutEffect} from 'react';
+import React, {useEffect, useState, useLayoutEffect, useCallback} from 'react';
 import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {logout} from '../../features/auth/authActions';
@@ -9,6 +9,7 @@ import {authApi} from '../../api/api';
 import LikedList from './LikedList';
 import BackIcon from '../../assets/icons/BackIcon';
 import { setLikedItem } from '../../features/like/likeActions';
+import { useFocusEffect } from '@react-navigation/native';
 const MyScrap = ({navigation}) => {
   
   const dispatch = useDispatch();
@@ -30,13 +31,13 @@ const MyScrap = ({navigation}) => {
     });
   }, [navigation]);
   
+
   const getLikedDriveCourse = async () => {
     try {
       const response = await authApi.get('course/liked');
       if (response.status == 200) {
         console.log(response.data, 'liked');
         setLikedCourse(response.data.courses);
-        dispatch(setLikedItem(response.data.courses.map(course => course.id)))
       }
     } catch (error) {
       if (error.response) {
@@ -46,9 +47,15 @@ const MyScrap = ({navigation}) => {
       }
     }
   };
-  useEffect(() => {
-    getLikedDriveCourse();
-  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getLikedDriveCourse();
+    }, [])
+  );
+  // useEffect(() => {
+  //   getLikedDriveCourse();
+  // }, []);
 
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>

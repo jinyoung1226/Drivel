@@ -255,3 +255,5 @@ export const setMeetMessageList = createAction('meet/setMeetMessageList');
 export const setMeetMessageListNull = createAction('meet/setMeetMessageListNull');
 
 export const setLastMessageId = createAction('meet/setLastMessageId');
+
+export const setParticipateStatus = createAction('meet/setParticipateStatus');

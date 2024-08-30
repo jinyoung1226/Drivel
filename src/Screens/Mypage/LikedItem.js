@@ -11,23 +11,18 @@ import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import LinearGradient from 'react-native-linear-gradient';
 import {useSelector, useDispatch} from 'react-redux';
-import {setLiked, setLikedItem, toggleLike} from '../../features/like/likeActions';
-import Heart from '../../assets/icons/HeartIcon.svg';
+import {setLikedItem, toggleLike} from '../../features/like/likeActions';
+import HeartIcon from '../../assets/icons/HeartIcon.svg';
 import { useNavigation } from '@react-navigation/native';
 
 const LikedItem = ({item}) => {
-  const {likedItem} = useSelector(state => state.like);
   const [liked, setLiked] = useState(item.liked);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const isLiked = likedItem.includes(item.id);
-    setLiked(isLiked);
-  }, [likedItem]);
 
   const handleLikePress = () => {
-    dispatch(setLikedItem(item.id));
+    setLiked(!liked);
     dispatch(toggleLike(item.id));
   };
 
@@ -49,9 +44,10 @@ const LikedItem = ({item}) => {
           colors={['rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.7)']}>
           <View style={{flexDirection:'row'}}>
             <View style={{flex: 1}} />
-            <Pressable
+            <Pressable 
+              style={{padding: 8, marginRight: -8, marginTop: -8}}
               onPress={handleLikePress}>
-              <Heart fill={liked ? '#5168F6' : 'rgba(0, 0, 0, 0)'} />
+                <HeartIcon fill={liked ? colors.red : 'none'} color={liked ? colors.red : colors.white}/>
             </Pressable>
           </View>
           <View style={{flex: 1}} />
