@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, FlatList, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity, ActivityIndicator, Platform} from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import SmallSearchIcon from '../../assets/icons/SmallSearchIcon.svg';
@@ -144,6 +144,7 @@ const DriveMain = ({navigation}) => {
 
   return (
     <View style={{flex: 1, backgroundColor: colors.BG}}>
+      {Platform.OS === 'ios' && <View style={{height: 44}} />}
       <TouchableOpacity
         style={{
           flexDirection: 'row',
