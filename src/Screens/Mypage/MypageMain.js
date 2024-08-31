@@ -15,12 +15,6 @@ import MyMeet from './MyMeet';
 const MyPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const myProfileInfo = useSelector(state => state.profile.myProfileInfo);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getMyProfileInfo());
-  }, []);
   
   if (!myProfileInfo) {
     return <View style={{flex: 1, backgroundColor: colors.BG}} />;
@@ -38,7 +32,7 @@ const MyPage = () => {
       <View style={{height: 24}} />
       <UserMannerScoreBar />
       <GrayLine/>
-      <MyMeet/>
+      <MyMeet locked={myProfileInfo.locked}/>
     </ScrollView>
   );
 };

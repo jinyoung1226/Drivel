@@ -13,31 +13,17 @@ import CustomTabBar from '../components/CustomTabBar';
 import { useDispatch } from 'react-redux';
 import { authApi } from '../api/api';
 import { setLikedItem } from '../features/like/likeActions';
+import { getMyProfileInfo } from '../features/profile/profileActions';
 
 const Tab = createBottomTabNavigator();
 
 const MainNavigator = () => {
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // const getLikedDriveCourse = async () => {
-  //   try {
-  //     const response = await authApi.get('course/liked');
-  //     if (response.status == 200) {
-  //       dispatch(setLikedItem(response.data.courses.map(course => course.id)))
-  //     }
-  //   } catch (error) {
-  //     if (error.response) {
-  //       console.log(error.response.status, '좋아요한 드라이브코스 불러오기 실패');
-        
-  //     } else {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
-  // useEffect(() => {
-  //   getLikedDriveCourse();
-  // }, []);
+  useEffect(() => {
+    dispatch(getMyProfileInfo());
+  }, []);
 
   return (
     <Tab.Navigator initialRouteName='HomeTab'

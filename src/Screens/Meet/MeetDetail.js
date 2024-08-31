@@ -10,7 +10,8 @@ import {
   Animated,
   InputAccessoryView,
   Platform,
-  ActivityIndicator
+  ActivityIndicator,
+  Modal
 } from 'react-native';
 import BackIcon from '../../assets/icons/BackIcon';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -35,6 +36,7 @@ import ConfirmModal from '../../components/ConfirmModal';
 import Check from '../../assets/icons/Check';
 import { getMeetMessageList, setMeetMessageList, getMeetMessageListMore, setMeetMessageListNull, setParticipateStatus } from '../../features/meet/meetActions';
 import eventEmitter from '../../utils/eventEmitter';  
+import CheckProfileModal from '../../components/CheckProfileModal';
 
 const MeetDetail = ({route, navigation}) => {
 
@@ -50,6 +52,7 @@ const MeetDetail = ({route, navigation}) => {
   const [scrollOffset, setScrollOffset] = useState(0);
   const [menuModalVisible, setMenuModalVisible] = useState(false);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+  const [checkProfileModalVisible, setCheckProfileModalVisible] = useState(false);
   const [type, setType] = useState('');
   // const [participateStatus, setParticipateStatus] = useState('NONE');
   const [notice, setNotice] = useState(null);
@@ -179,9 +182,10 @@ const MeetDetail = ({route, navigation}) => {
       }
     } catch (error) {
       if (error.response) {
-        console.log(error.response);
-        console.log(error.response.status);
-        console.log(error.response.data.message);
+        if (error.response.status == 400) {
+          console.log(error.response.status ,error.response.data);
+          setCheckProfileModalVisible(!checkProfileModalVisible);
+        }
       } else {
         console.log('서버 접속 오류');
       }
@@ -336,6 +340,10 @@ const MeetDetail = ({route, navigation}) => {
 
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>
+      <CheckProfileModal
+        modalVisible={checkProfileModalVisible}
+        setModalVisible={setCheckProfileModalVisible}
+      />
       <ConfirmModal
         modalVisible={confirmModalVisible}
         setModalVisible={setConfirmModalVisible}

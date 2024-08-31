@@ -19,7 +19,7 @@ const MyInfo = ({myProfileInfo, setModalVisible, modalVisible}) => {
       navigation.navigate('RequiredInfo');
     }
     if (myProfileInfo.gender !== null) {
-      navigation.navigate('MyInfoDetail', {item: myProfileInfo});
+      navigation.navigate('MyInfoDetail', {originPage: 'MyPageMain'});
     }
   };
 

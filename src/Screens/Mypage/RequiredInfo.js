@@ -50,11 +50,12 @@ const RequiredInfo = ({navigation}) => {
         if (response.status == 200) {
           console.log(response.data)
           dispatch(getMyProfileInfo());
-          navigation.navigate('MyInfoDetail');
+          navigation.navigate('MyInfoDetail', {originPage: 'RequiredInfo'});
         }
       } catch (error) {
         if (error.response) {
           console.log(error.response.status);
+          console.log(error.response.data);
         } else {
           console.log('서버 접속 오류');
         }
@@ -139,11 +140,15 @@ const RequiredInfo = ({navigation}) => {
         </View>
       </KeyboardAwareScrollView>
       {Platform.OS == 'ios' ? 
-        (<InputAccessoryView backgroundColor={colors.BG}>
-          <CustomButton title={'완료하기'} disabled={gender == null || !isValidBirth(birth)} onPress={() => {setRequiredInfo()}}/>
+        (<InputAccessoryView>
+          <View style={{backgroundColor:colors.BG, padding:16}}>
+            <CustomButton title={'완료하기'} disabled={gender == null || !isValidBirth(birth)} onPress={() => {setRequiredInfo()}}/>
+          </View>
         </InputAccessoryView>
         ) : (
-          <CustomButton title={'완료하기'} disabled={gender == null || !isValidBirth(birth)} onPress={() => {setRequiredInfo()}}/>
+          <View style={{backgroundColor:colors.BG, padding:16}}>
+            <CustomButton title={'완료하기'} disabled={gender == null || !isValidBirth(birth)} onPress={() => {setRequiredInfo()}}/>
+          </View>
         )
       }
     </View>

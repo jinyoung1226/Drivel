@@ -8,10 +8,9 @@ import MeetDetail from '../Screens/Meet/MeetDetail';
 import MeetApplyDetail from '../Screens/Meet/MeetApplyDetail';
 import OtherProfile from '../Screens/Common/OtherProfile';
 import ReportPage from '../Screens/Common/ReportPage';
-import {TouchableOpacity, View} from 'react-native';
-import EyeIcon from '../assets/icons/EyeIcon.svg';
-import colors from '../styles/colors';
-import {textStyles} from '../styles/textStyles';
+import RequiredInfo from '../Screens/Mypage/RequiredInfo';
+import MyInfoDetail from '../Screens/Mypage/MyInfoDetail';
+import MyInfoEdit from '../Screens/Mypage/MyInfoEdit';
 import { useDispatch } from 'react-redux';
 import { showTabBar, hideTabBar } from '../features/tabBar/tabBarSlice';
 
@@ -43,6 +42,9 @@ const MeetTab = ({route}) => {
       <Stack.Screen name="MeetApplyDetail" component={MeetApplyDetail} />
       <Stack.Screen name="OtherProfile" component={OtherProfile} />
       <Stack.Screen name="ReportPage" component={ReportPage} />
+      <Stack.Screen name="RequiredInfo" component={RequiredInfo} />
+      <Stack.Screen name="MyInfoDetail" component={MyInfoDetail} />
+      <Stack.Screen name="MyInfoEdit" component={MyInfoEdit} />
     </Stack.Navigator>
   );
 };

@@ -1,13 +1,15 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {Text, View, TouchableOpacity, Linking} from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Pressable, ScrollView } from 'react-native-gesture-handler';
 import BackIcon from '../../assets/icons/BackIcon';
 import {useDispatch} from 'react-redux';
 import {logout} from '../../features/auth/authActions';
 import GrayLine from '../../components/GrayLine';
 import { useNavigation } from '@react-navigation/native';
+import { authApi } from '../../api/api';
+import WithdrawalModal from '../../components/WithdrawalModal';
 
 
 const useInfo = [
@@ -22,11 +24,6 @@ const policy = [
   {title:'커뮤니티 이용규칙', link: 'https://peppered-game-6ea.notion.site/132198f8638c4588ae9a6954dfc86133'} 
 ]
 
-
-const Setting = () => {
-
-const navigation = useNavigation();
-
 const SetTitle = ({title}) => {
   return (
     <Text style={[textStyles.H5, {color:colors.Gray06, paddingHorizontal:24, paddingVertical:16}]}>
@@ -36,18 +33,17 @@ const SetTitle = ({title}) => {
 }
 const SettingListItem = ({title, onPress}) => {
   return (
-    <TouchableOpacity 
+    <Pressable 
       onPress={onPress}
-      style={{height:51, justifyContent:'center', paddingHorizontal:24}}>
+      style={({pressed}) => [{height:51, justifyContent:'center', paddingHorizontal:24, backgroundColor: pressed ? colors.Gray02 : null}]}>
       <Text style={[textStyles.B2, {color:colors.Gray10}]}>{title}</Text>
-    </TouchableOpacity>
+    </Pressable>
   ) 
 }
-  
-  const dispatch = useDispatch();
-  const handleLogout = () => {
-    dispatch(logout());
-  };
+
+const Setting = () => {
+const [modalVisible, setModalVisible] = useState(false);
+const navigation = useNavigation();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -64,12 +60,23 @@ const SettingListItem = ({title, onPress}) => {
         </TouchableOpacity>
       ),
     });
-  }, [navigation]);
+  }, [navigation]); 
+  
+  
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
+
+
+    
+  
   return(
     
       <View style={{backgroundColor:colors.BG, flex:1}}>
         <ScrollView>
+          <WithdrawalModal modalVisible={modalVisible} setModalVisible={setModalVisible}/>
           <SetTitle title="이용 안내"/>
           {useInfo.map((item, index) => (
             <SettingListItem title={item.title} key={index} onPress={() => navigation.navigate(item.pageName)}/>
@@ -81,7 +88,8 @@ const SettingListItem = ({title, onPress}) => {
           ))}
           <GrayLine/>
           <SetTitle title="계정"/>
-          <SettingListItem title="로그아웃" onPress={handleLogout}/>
+          <SettingListItem title="로그아웃" onPress={() => handleLogout()}/>
+          <SettingListItem title="회원 탈퇴" onPress={() =>setModalVisible(!modalVisible)}/>
         </ScrollView>
       </View>
   )

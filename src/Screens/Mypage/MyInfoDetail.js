@@ -32,8 +32,8 @@ const DetailInfo = ({title, info}) => {
   )
 }
 
-const MyInfoDetail = ({navigation}) => {
-
+const MyInfoDetail = ({navigation, route}) => {
+  const originPage = route.params.originPage;
   const item = useSelector(state => state.profile.myProfileInfo);
   
   useLayoutEffect(() => {
@@ -44,7 +44,16 @@ const MyInfoDetail = ({navigation}) => {
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Mypage');
+            if (originPage === 'MyPageMain') {
+              navigation.goBack();
+            }
+            if (originPage === 'RequiredInfo') {
+              navigation.goBack();
+              navigation.goBack();
+            }
+            if (originPage === 'MeetDetail') {
+              navigation.goBack();
+            }
           }}
           style={{padding: 16}}>
           <BackIcon color={colors.Gray10} />
@@ -55,7 +64,16 @@ const MyInfoDetail = ({navigation}) => {
 
   useEffect(() => {
     const backAction = () => {
-      navigation.navigate('Mypage');
+      if (originPage === 'MyPageMain') {
+        navigation.goBack();
+      }
+      if (originPage === 'RequiredInfo') {
+        navigation.goBack();
+        navigation.goBack();
+      }
+      if (originPage === 'MeetDetail') {
+        navigation.goBack();
+      }
       return true;
     };
     const backHandler = BackHandler.addEventListener(
@@ -69,6 +87,7 @@ const MyInfoDetail = ({navigation}) => {
     
       <View style={{padding:16, backgroundColor:colors.BG, flex:1}}>
         <ScrollView>
+          <Text style={[textStyles.H1, {color:colors.Gray10}]}>{originPage}</Text>
           <Text style={[textStyles.B4, {color:colors.Blue}]}>* 모임 생성/가입을 원하시는 경우, 하단의 정보를 모두 입력하셔야 합니다</Text>
           <View style={{height:24}}/>
           <InfoEditButton title={'기본 정보'} onPress={()=>{navigation.navigate('MyInfoEdit', {page: '기본 정보 설정'})}}/>
