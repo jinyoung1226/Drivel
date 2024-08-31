@@ -1,5 +1,5 @@
 import React, {useEffect, useLayoutEffect, useState} from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity, Pressable, Alert } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, Pressable, Alert, Platform } from "react-native";
 import BackIcon from "../../assets/icons/BackIcon";
 import { textStyles } from "../../styles/textStyles";
 import colors from "../../styles/colors";

@@ -1,6 +1,6 @@
 import React, {useState, useLayoutEffect} from "react";
 
-import { View, Text, TouchableOpacity, StyleSheet, Pressable, KeyboardAvoidingView } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Pressable, KeyboardAvoidingView, Platform } from "react-native";
 import { textStyles } from "../../styles/textStyles";
 import colors from "../../styles/colors";
 import CustomInput from "../../components/CustomInput";
