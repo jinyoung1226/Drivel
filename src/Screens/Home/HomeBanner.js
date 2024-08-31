@@ -1,4 +1,4 @@
-import React, {useState} from "react"; 
+import React, {useEffect, useState} from "react"; 
 import { View, Text, ImageBackground, Pressable, Dimensions } from "react-native";
 import { textStyles } from "../../styles/textStyles";
 import colors from "../../styles/colors";
@@ -11,21 +11,23 @@ const {width} = Dimensions.get('window');
 const HomeBanner = () => {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
-  const randomBannerId = Math.floor(Math.random() * 4);
+  const [randomBannerId, setRandomBannerId] = useState(null);
+  useEffect(() => {
+    setRandomBannerId(Math.floor(Math.random() * 4));
+  }, []);
+
   const handleMagazineInfo = (id) => {
     navigation.navigate("MagazineInfo", { id: id + 1 });
   };
 
-
-  
   return (
     <View>
       {isLoading && 
-        <View style={{width:width, height: width*1.3, backgroundColor: colors.Gray01, paddingLeft:24, paddingVertical:31}}>
+        <View style={{width:width, height: width*1.3, backgroundColor: colors.Gray05, paddingLeft:24, paddingVertical:31}}>
           <View style={{flex:1}}/>
-          <View style={{height: 28, width: '45%', backgroundColor:colors.Gray03, borderRadius:10}}/>
+          <View style={{height: 28, width: '50%', backgroundColor:colors.white, borderRadius:10}}/>
           <View style={{height:10}}/>
-          <View style={{height: 28, width: '65%', backgroundColor:colors.Gray03, borderRadius:10}}/>
+          <View style={{height: 28, width: '70%', backgroundColor:colors.white, borderRadius:10}}/>
         </View>
       }
       <Pressable style={{display: isLoading ? 'none' : 'flex'}} onPress={() => handleMagazineInfo(randomBannerId)}>
@@ -33,11 +35,12 @@ const HomeBanner = () => {
           width:width, height: width*1.3, 
           borderBottomRightRadius: 40,
           overflow: 'hidden'}}>
+          {randomBannerId !== null &&
           <ImageBackground
             source={{ uri: magazineBanner[randomBannerId].imagePath }}
             style={{ flex: 1 }}
             imageStyle={{ borderBottomRightRadius: 40 }}
-            onLoadEnd={() => setIsLoading(false)} 
+            onLoad={() => setIsLoading(false)} 
           >
             <LinearGradient 
               style={{ flex: 1, paddingVertical: 31, paddingLeft: 24 }} 
@@ -48,7 +51,7 @@ const HomeBanner = () => {
                 {magazineBanner[randomBannerId].title}
               </Text>
             </LinearGradient>
-          </ImageBackground>
+          </ImageBackground>}
         </View>
       </Pressable>
     </View>
