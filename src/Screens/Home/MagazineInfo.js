@@ -8,6 +8,7 @@ import {
   ScrollView,
   Animated,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
@@ -116,6 +117,7 @@ const MagazineInfo = ({route}) => {
       onScroll={handleScroll}
       scrollEventThrottle={16}
       >
+        {Platform.OS === 'ios' && <View style={{height: 44}} />}
         <View style={{paddingHorizontal: 16}}>
           <View style={{height: 60}} />
           <Text style={[textStyles.H1, {color: colors.Gray10}]}>

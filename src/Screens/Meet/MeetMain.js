@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, Platform} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MeetMainTopTab from './MeetMainTopTab';
 import CreateIcon from '../../assets/icons/CreateIcon.svg';
@@ -22,6 +22,7 @@ const MeetMain = ({navigation}) => {
 
   return (
     <View style={{backgroundColor: colors.BG, flex:1}}>
+      {Platform.OS === 'ios' && <View style={{height: 44}} />}
       <View style={{borderBottomWidth:1, borderBottomColor:colors.Gray02}}>
         <View
           style={{
