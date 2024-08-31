@@ -103,7 +103,8 @@ const RestaurantInfo = ({route}) => {
       <KeyboardAwareScrollView
         ref={scrollViewRef}
         stickyHeaderIndices={[3]}
-        contentContainerStyle={{paddingBottom: 120}}>
+        scrollIndicatorInsets={{right: 0.1}}
+        >
         <View onLayout={handleLayout}>
           <Image
             src={placeInfo.imagePath}
