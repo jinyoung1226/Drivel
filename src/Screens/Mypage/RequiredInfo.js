@@ -137,7 +137,7 @@ const RequiredInfo = ({navigation}) => {
         </View>
         <View style={{height: 16}} />
         <View style={{padding:16, backgroundColor:colors.BG}}>
-          <CustomButton title={'완료하기'} onPress={()=>{handlePressButton()}}/>
+          <CustomButton title={'완료하기'} disabled={gender == null || !isValidBirth(birth)} onPress={() => {setRequiredInfo()}}/>
         </View>
       </KeyboardAwareScrollView>
     </View>

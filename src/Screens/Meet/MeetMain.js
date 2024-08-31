@@ -21,7 +21,7 @@ const MeetMain = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor: colors.BG, flex:1}}>
+    <View style={{backgroundColor: colors.BG, flex:1}}>
       <View style={{borderBottomWidth:1, borderBottomColor:colors.Gray02}}>
         <View
           style={{
@@ -54,7 +54,7 @@ const MeetMain = ({navigation}) => {
           <MeetBrowse/>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

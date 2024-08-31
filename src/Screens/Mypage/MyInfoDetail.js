@@ -87,7 +87,6 @@ const MyInfoDetail = ({navigation, route}) => {
     
       <View style={{padding:16, backgroundColor:colors.BG, flex:1}}>
         <ScrollView>
-          <Text style={[textStyles.H1, {color:colors.Gray10}]}>{originPage}</Text>
           <Text style={[textStyles.B4, {color:colors.Blue}]}>* 모임 생성/가입을 원하시는 경우, 하단의 정보를 모두 입력하셔야 합니다</Text>
           <View style={{height:24}}/>
           <InfoEditButton title={'기본 정보'} onPress={()=>{navigation.navigate('MyInfoEdit', {page: '기본 정보 설정'})}}/>

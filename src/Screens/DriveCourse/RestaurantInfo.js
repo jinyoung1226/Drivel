@@ -102,7 +102,7 @@ const RestaurantInfo = ({route}) => {
     <View style={{flex: 1, backgroundColor: colors.BG}}>
       <KeyboardAwareScrollView
         ref={scrollViewRef}
-        stickyHeaderIndices={[3]}
+        stickyHeaderIndices={[1]}
         scrollIndicatorInsets={{right: 0.1}}
         >
         <View onLayout={handleLayout}>

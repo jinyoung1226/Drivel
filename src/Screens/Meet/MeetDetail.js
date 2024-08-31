@@ -46,10 +46,7 @@ const MeetDetail = ({route, navigation}) => {
   const [courseInfo, setCourseInfo] = useState(null);
   const [meetingInfo, setMeetingInfo] = useState(null);
   const scrollY = useRef(new Animated.Value(0)).current;
-  const [displayTabs, setDisplayTabs] = useState(false);
-  const [iconColor, setIconColor] = useState(colors.white);
   const scrollViewRef = useRef(null); // ScrollView 참조
-  const [scrollOffset, setScrollOffset] = useState(0);
   const [menuModalVisible, setMenuModalVisible] = useState(false);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [checkProfileModalVisible, setCheckProfileModalVisible] = useState(false);
@@ -57,7 +54,6 @@ const MeetDetail = ({route, navigation}) => {
   // const [participateStatus, setParticipateStatus] = useState('NONE');
   const [notice, setNotice] = useState(null);
   const [isNotice, setIsNotice] = useState(false);
-  const [displayNotice, setDisplayNotice] = useState(false);
   const scrollHeight = useRef(0);
   const [targetId, setTargetId] = useState(null);
   const { userId } = useSelector(state => state.auth);
@@ -69,7 +65,7 @@ const MeetDetail = ({route, navigation}) => {
   const courseId = route.params.courseId;
   const meetingTitle = route.params.meetingTitle;
   const {meetMessageList, lastMessageId, isLastMessage, isLoading,} = useSelector(state => state.meet); 
-  const width = Dimensions.get('window').width;
+  const {width, height} = Dimensions.get('window')
   const tabName = ['모임 정보', '코스 정보', '게시판'];
   
   useEffect(() => {
@@ -241,21 +237,8 @@ const MeetDetail = ({route, navigation}) => {
           <KebabMenuIcon color={colors.Gray10} />
         </TouchableOpacity>
       ),
-      headerBackground: () => (
-        <Animated.View
-          style={{
-            flex: 1,
-            backgroundColor: colors.BG,
-            elevation: scrollY.interpolate({
-              inputRange: [0, width/3],
-              outputRange: [0, 3],
-              extrapolate: 'clamp',
-            }),
-          }}
-        />
-      ),
     });
-  }, [navigation, iconColor, meetingInfo, scrollY, transparent]);
+  }, [navigation]);
 
   useEffect(() => {
     const backAction = () => {
@@ -271,24 +254,9 @@ const MeetDetail = ({route, navigation}) => {
 
   const handleScroll = event => {
     const offsetY = event.nativeEvent.contentOffset.y;
-    setScrollOffset(offsetY);
     Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
       useNativeDriver: false,
     })(event);
-    if (offsetY > width - 112) {
-      setDisplayTabs(true);
-      setDisplayNotice(true);
-      transparent.current = true;
-    } else if (offsetY <= width - 112) {
-      setDisplayTabs(false);
-      setDisplayNotice(false);
-      transparent.current = false;
-    }
-    if (offsetY > 5) {
-      setIconColor(colors.Gray10);
-    } else if (offsetY <= 5) {
-      setIconColor(colors.white);
-    }
     if (offsetY > scrollHeight.current * 0.5) {
       if (!isLastMessage && activeTab === 2 && participateStatus == "JOINED" && !isLoading) {
         dispatch(getMeetMessageListMore({meetingId: meetingId, messageId: lastMessageId}));
@@ -426,11 +394,12 @@ const MeetDetail = ({route, navigation}) => {
                 setTargetId={setTargetId}
               />
               ) : (
-              <View style={{alignItems:'center'}}>
-                <View style={{height: 40}}/>
+              <View style={{alignItems:'center', height:height-100}}>
+                <View style={{flex:1}}/>
                 <RenderingHandIcon/>
                 <View style={{height: 16}}/>
                 <Text style={[textStyles.H4, {color: colors.Gray10, textAlign:'center', lineHeight: 24}]}>{'모임 게시판은 모임 참여 후에\n사용할 수 있어요\n지금 모임에 참여해보세요!'}</Text>
+                <View style={{flex:1}}/>
               </View>))}
           </View>
         )}
@@ -565,7 +534,8 @@ const MeetDetail = ({route, navigation}) => {
                 padding: 16,
                 elevation: 10,
                 backgroundColor: colors.BG,
-              }}>
+              }}
+              >
               <CustomButton
                 title={participateStatus == 'WAITING' ? '신청 취소' : '참여하기'}
 

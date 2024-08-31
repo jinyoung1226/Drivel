@@ -143,7 +143,7 @@ const DriveMain = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
+    <View style={{flex: 1, backgroundColor: colors.BG}}>
       <TouchableOpacity
         style={{
           flexDirection: 'row',
@@ -231,7 +231,7 @@ const DriveMain = ({navigation}) => {
         <View style={{position:'absolute', width:32, height:32, backgroundColor:colors.Gray10, opacity:0.7, borderRadius:20}}/>
         <ActivityIndicator size={'small'} style={{position:'absolute' }} color={colors.BG}/>
       </View>}
-    </SafeAreaView>
+    </View>
   );
 };
 
