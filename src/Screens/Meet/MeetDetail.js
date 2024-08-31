@@ -58,14 +58,16 @@ const MeetDetail = ({route, navigation}) => {
   const [targetId, setTargetId] = useState(null);
   const { userId } = useSelector(state => state.auth);
   const { participateStatus } = useSelector(state => state.meet);
-  const transparent = useRef(false);
   const dispatch = useDispatch();
 
   const meetingId = route.params.meetingId;
   const courseId = route.params.courseId;
   const meetingTitle = route.params.meetingTitle;
   const {meetMessageList, lastMessageId, isLastMessage, isLoading,} = useSelector(state => state.meet); 
-  const {width, height} = Dimensions.get('window')
+  const {width} = Dimensions.get('window')
+  const [buttonHeight, setButtonHeight] = useState(null);
+  const [containerHeight, setContainerHeight] = useState(null);
+  const [tabHeight, setTabHeight] = useState(null);
   const tabName = ['모임 정보', '코스 정보', '게시판'];
   
   useEffect(() => {
@@ -299,6 +301,12 @@ const MeetDetail = ({route, navigation}) => {
     setIsMessageSending(false);
   }
 
+  const handleLayout = (event, setHeight) => {
+    const { height } = event.nativeEvent.layout;
+    setHeight(height);
+    console.log("Content height:", height);
+  };
+
   if (meetingInfo === null) {
     return (
       <RenderingPage/>
@@ -307,7 +315,7 @@ const MeetDetail = ({route, navigation}) => {
 
 
   return (
-    <View style={{backgroundColor: colors.BG, flex: 1}}>
+    <View style={{backgroundColor: colors.BG, flex: 1}} onLayout={(e) => handleLayout(e, setContainerHeight)}>
       <CheckProfileModal
         modalVisible={checkProfileModalVisible}
         setModalVisible={setCheckProfileModalVisible}
@@ -373,7 +381,7 @@ const MeetDetail = ({route, navigation}) => {
             </LinearGradient>
           </ImageBackground>
         )}
-        <View>
+        <View onLayout={(e) => handleLayout(e, setTabHeight)}>
           <Tabs
             tabName={tabName}
             activeTab={activeTab}
@@ -392,9 +400,10 @@ const MeetDetail = ({route, navigation}) => {
                 setConfirmModalVisible={setConfirmModalVisible}
                 setType={setType}
                 setTargetId={setTargetId}
+                minHeight={containerHeight-buttonHeight-tabHeight}
               />
               ) : (
-              <View style={{alignItems:'center', height:height-100}}>
+              <View style={{alignItems:'center', height:containerHeight-buttonHeight-tabHeight}}>
                 <View style={{flex:1}}/>
                 <RenderingHandIcon/>
                 <View style={{height: 16}}/>
@@ -404,7 +413,7 @@ const MeetDetail = ({route, navigation}) => {
           </View>
         )}
       </KeyboardAwareScrollView>
-      
+      <View onLayout={(e) => handleLayout(e, setButtonHeight)}>
       {Platform.OS == 'ios' ? 
         (<InputAccessoryView backgroundColor={colors.BG}>
           {participateStatus == "JOINED" ? (
@@ -547,6 +556,7 @@ const MeetDetail = ({route, navigation}) => {
           )}
           </>
         )}
+        </View>
     </View>
   );
 };

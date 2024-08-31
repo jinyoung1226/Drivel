@@ -5,7 +5,7 @@ import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import {fetchReataurantRoute} from '../../utils/fetchRoute';
 
-const RestaurantInfoTab = ({item}) => {
+const RestaurantInfoTab = ({item, minHeight}) => {
   const [htmlContent, setHtmlContent] = useState('');
   const center = {
     lat: item.latitude,
@@ -17,7 +17,7 @@ const RestaurantInfoTab = ({item}) => {
   }, []);
 
   return (
-    <View>
+    <View style={{minHeight:minHeight}}>
       <View
         style={{
           marginTop: 24,

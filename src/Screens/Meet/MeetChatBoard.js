@@ -18,6 +18,7 @@ const MeetChatBoard = ({
   setConfirmModalVisible, 
   setType, 
   setTargetId,
+  minHeight,
 }) => {
 
   const {userId} = useSelector(state => state.auth);
@@ -25,7 +26,7 @@ const MeetChatBoard = ({
   const [selectedChatItem, setSelectedChatItem] = useState(null);
 
   return (
-    <View>
+    <View style={{minHeight:minHeight}}>
       <View style={{height:8}}/>
       <Text style={[textStyles.B4, {color: colors.Gray04, marginHorizontal:24}]}>* 커뮤니티 이용 규칙에 벗어나는 게시글은 사전 고지 없이 삭제될 수 있으며, 서비스 이용이 일정 기간 제한될 수 있어요.</Text>
       <View style={{height:8}}/>

@@ -30,15 +30,12 @@ const RestaurantInfo = ({route}) => {
   const placeId = route.params.restaurantId;
 
   const [placeInfo, setPlaceInfo] = useState(null);
-  const [heightUntilGrayLine, setHeightUntilGrayLine] = useState(0);
-  const [imageHeight, setImageHeight] = useState(0);
-  const [titleHeight, setTitleHeight] = useState(0);
   const scrollViewRef = useRef(null);
-  const [scrollOffset, setScrollOffset] = useState(0);
   const tabName = ['상세정보', '블로그 리뷰'];
   const [activeTab, setActiveTab] = useState(0);
-  const [restaurant, setRestaurant] = useState([]);
-  const [contentHeight, setContentHeight] = useState(0);
+  const [containerHeight, setContainerHeight] = useState(null);
+  const [contentHeight, setContentHeight] = useState(null);
+  const [tabHeight, setTabHeight] = useState(null);  
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -83,11 +80,11 @@ const RestaurantInfo = ({route}) => {
     });
   }, [navigation]);
 
-  const handleLayout = (event) => {
+  const handleLayout = (event, setHeight) => {
     const { height } = event.nativeEvent.layout;
-    setContentHeight(height);
+    setHeight(height);
     console.log("Content height:", height);
-  };  
+  };
 
   const scrollToTab = () => {
     scrollViewRef.current.scrollToPosition(0, contentHeight, true);
@@ -99,13 +96,16 @@ const RestaurantInfo = ({route}) => {
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: colors.BG}}>
+    <View 
+      style={{flex: 1, backgroundColor: colors.BG}}
+      onLayout={(e) => handleLayout(e, setContainerHeight)}
+    >
       <KeyboardAwareScrollView
         ref={scrollViewRef}
         stickyHeaderIndices={[1]}
         scrollIndicatorInsets={{right: 0.1}}
         >
-        <View onLayout={handleLayout}>
+        <View onLayout={(e) => handleLayout(e, setContentHeight)}>
           <Image
             src={placeInfo.imagePath}
             style={{width: width, aspectRatio: 1.8}}
@@ -123,6 +123,7 @@ const RestaurantInfo = ({route}) => {
           </View>
           <GrayLine />
         </View>
+        <View onLayout={(e) => handleLayout(e, setTabHeight)}>
         {placeInfo !== null && (
           <Tabs
             tabName={tabName}
@@ -131,9 +132,10 @@ const RestaurantInfo = ({route}) => {
             scrollToTab={scrollToTab}
           />
         )}
+        </View>
         {placeInfo !== null && (
           <View>
-            {activeTab === 0 && <RestaurantInfoTab item={placeInfo} />}
+            {activeTab === 0 && <RestaurantInfoTab item={placeInfo} minHeight={containerHeight-tabHeight}/>}
             {activeTab === 1 && <RestaurantReviewTab placeInfo={placeInfo} />}
           </View>
         )}

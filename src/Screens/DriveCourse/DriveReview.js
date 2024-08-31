@@ -6,7 +6,7 @@ import {textStyles} from '../../styles/textStyles';
 import DriveReviewWrite from './DriveReviewWrite';
 import DriveBlog from './DriveBlog';
 
-const DriveReview = ({item, updateCourseInfo, userId, scrollToTab}) => {
+const DriveReview = ({item, updateCourseInfo, userId, scrollToTab, minHeight}) => {
   const tabName = ['방문자', '블로그'];
   const [activeTab, setActiveTab] = useState(0);
 
@@ -16,7 +16,7 @@ const DriveReview = ({item, updateCourseInfo, userId, scrollToTab}) => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{minHeight:minHeight}}>
       <View
         style={{
           height: 30,

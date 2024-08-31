@@ -39,7 +39,10 @@ const DriveDetail = ({route, navigation}) => {
   const {likedItem} = useSelector(state => state.like);
   const dispatch = useDispatch();
 
-  const [contentHeight, setContentHeight] = useState(0);
+  const [contentHeight, setContentHeight] = useState(null);
+  const [buttonHeight, setButtonHeight] = useState(null);
+  const [containerHeight, setContainerHeight] = useState(null);
+  const [tabHeight, setTabHeight] = useState(null);
 
   // useEffect(() => {
   //   const isLiked = likedItem.includes(driveId);
@@ -111,9 +114,9 @@ const DriveDetail = ({route, navigation}) => {
   }, []);
 
 
-  const handleLayout = (event) => {
+  const handleLayout = (event, setHeight) => {
     const { height } = event.nativeEvent.layout;
-    setContentHeight(height);
+    setHeight(height);
     console.log("Content height:", height);
   };
 
@@ -127,11 +130,14 @@ const DriveDetail = ({route, navigation}) => {
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: colors.BG}}>
+    <View 
+      style={{flex: 1, backgroundColor: colors.BG}}
+      onLayout={(e) => handleLayout(e, setContainerHeight)}  
+    >
       <KeyboardAwareScrollView
         ref={scrollViewRef}
         stickyHeaderIndices={[1]}>
-        <View onLayout={handleLayout}>
+        <View onLayout={(e) => handleLayout(e, setContentHeight)}>
           <Image
             src={courseInfo.courseInfo.imagePath}
             style={{width: width, aspectRatio: 1.8}}
@@ -148,18 +154,20 @@ const DriveDetail = ({route, navigation}) => {
           </View>
           <GrayLine />
         </View>
-        {courseInfo !== null && (
-          <Tabs
-            tabName={tabName}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            scrollToTab={scrollToTab}
-          />
-        )}
+        <View onLayout={(e) => handleLayout(e, setTabHeight)}>
+          {courseInfo !== null && (
+            <Tabs
+              tabName={tabName}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              scrollToTab={scrollToTab}
+            />
+          )}
+        </View>
         {courseInfo !== null && (
           <View>
             {activeTab === 0 && (
-              <DriveInfo item={courseInfo} driveId={driveId} />
+              <DriveInfo item={courseInfo} driveId={driveId} minHeight={containerHeight-tabHeight-buttonHeight}/>
             )}
             {activeTab === 1 && (
               <DriveReview
@@ -167,10 +175,11 @@ const DriveDetail = ({route, navigation}) => {
                 updateCourseInfo={updateCourseInfo}
                 userId={userId}
                 scrollToTab={scrollToTab}
+                minHeight={containerHeight-tabHeight-buttonHeight}
               />
             )}
             <View style={{display: activeTab === 2 ? 'flex' : 'none'}}>
-              <DriveTourSpot item={courseInfo} />
+              <DriveTourSpot item={courseInfo} minHeight={containerHeight-tabHeight-buttonHeight}/>
             </View>
           </View>
         )}
@@ -185,7 +194,9 @@ const DriveDetail = ({route, navigation}) => {
           shadowOffset: {width: 0, height: 2},
           shadowOpacity: 0.1,
           shadowRadius: 5,
-        }}>
+        }}
+        onLayout={(e) => handleLayout(e, setButtonHeight)}
+      >
         <View style={{justifyContent: 'center'}}>
           <Pressable onPress={handleLikePress}>
             <HeartIcon fill={liked ? colors.red : 'rgba(0, 0, 0, 0)'} color={liked ? colors.red : colors.Blue} width={30} height={30}  />

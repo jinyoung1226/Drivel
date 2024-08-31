@@ -7,7 +7,7 @@ import {textStyles} from '../../styles/textStyles';
 import {fetchRoute} from '../../utils/fetchRoute';
 import DriveRestaurantCuration from './DriveRestaurantCuration';
 
-const DriveInfo = ({item, driveId}) => {
+const DriveInfo = ({item, driveId, minHeight}) => {
   const [htmlContent, setHtmlContent] = useState('');
   const center = {
     lat: item.waypoints[0].latitude,
@@ -20,7 +20,7 @@ const DriveInfo = ({item, driveId}) => {
   }, []);
 
   return (
-    <View>
+    <View style={{minHeight:minHeight}}>
       <View
         style={{
           marginTop: 24,
