@@ -159,9 +159,9 @@ const MyInfoEdit = ({navigation, route}) => {
   return (
     <View style={{backgroundColor:colors.BG, flex:1}}>
     <KeyboardAwareScrollView
-      keyboardDismissMode="interactive"
-      automaticallyAdjustKeyboardInsets={true}
-      contentInsetAdjustmentBehavior='never'>
+        keyboardDismissMode="interactive"
+        automaticallyAdjustKeyboardInsets={true}
+        contentInsetAdjustmentBehavior='never'>
       <View style={{padding:16}}>
         {page == '기본 정보 설정' &&
           <View>
@@ -299,18 +299,11 @@ const MyInfoEdit = ({navigation, route}) => {
           />
         </View>}
       </View>
+      <View style={{height:16}}/>
+      <View style={{padding:16, backgroundColor:colors.BG}}>
+        <CustomButton title={'완료하기'} onPress={()=>{handlePressButton()}}/>
+      </View>
     </KeyboardAwareScrollView>
-    {Platform.OS == 'ios' ? 
-      (<InputAccessoryView>
-        <View style={{padding:16, backgroundColor:colors.BG}}>
-          <CustomButton title={'완료하기'} onPress={()=>{handlePressButton()}}/>
-        </View>
-      </InputAccessoryView>
-      ) : (
-       <View style={{padding:16, backgroundColor:colors.BG}}>
-          <CustomButton title={'완료하기'} onPress={()=>{handlePressButton()}}/>
-        </View>
-      )}
     </View>
   )
 }

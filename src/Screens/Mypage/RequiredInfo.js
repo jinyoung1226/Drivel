@@ -64,10 +64,7 @@ const RequiredInfo = ({navigation}) => {
 
       return (
     <View style={{flex:1, backgroundColor: colors.BG}}>
-      <KeyboardAwareScrollView
-        keyboardDismissMode="interactive"
-        automaticallyAdjustKeyboardInsets={true}
-        contentInsetAdjustmentBehavior='never'>
+      <KeyboardAwareScrollView>
         <View style={{padding:16}}>
           <Text style={[textStyles.H1, {color: colors.Gray10}]}>
             {"본격적인 정보 설정 전,\n기본 정보를 입력해주세요"}
@@ -138,19 +135,11 @@ const RequiredInfo = ({navigation}) => {
             isValid={birth.length == 0 || isValidBirth(birth)}
           />
         </View>
+        <View style={{height: 16}} />
+        <View style={{padding:16, backgroundColor:colors.BG}}>
+          <CustomButton title={'완료하기'} onPress={()=>{handlePressButton()}}/>
+        </View>
       </KeyboardAwareScrollView>
-      {Platform.OS == 'ios' ? 
-        (<InputAccessoryView>
-          <View style={{backgroundColor:colors.BG, padding:16}}>
-            <CustomButton title={'완료하기'} disabled={gender == null || !isValidBirth(birth)} onPress={() => {setRequiredInfo()}}/>
-          </View>
-        </InputAccessoryView>
-        ) : (
-          <View style={{backgroundColor:colors.BG, padding:16}}>
-            <CustomButton title={'완료하기'} disabled={gender == null || !isValidBirth(birth)} onPress={() => {setRequiredInfo()}}/>
-          </View>
-        )
-      }
     </View>
   );
 
