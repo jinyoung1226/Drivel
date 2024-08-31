@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, Image, ImageBackground} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import Star from '../../assets/icons/Star.svg';
@@ -24,7 +24,6 @@ const DriveCourseListItem = ({item}) => {
         backgroundColor: colors.BG,
         marginHorizontal: 16,
         marginVertical: 8,
-        height: 147,
         borderWidth: 1,
         borderColor: colors.Gray01,
         padding: 16,
@@ -42,32 +41,49 @@ const DriveCourseListItem = ({item}) => {
           강원도 · 30km
         </Text>
         <View style={{height: 8}} />
-        <Text style={[textStyles.B4, {color: colors.Gray04}]}>
-          자연 · 경치... 매핑써서 하면 될듯
-        </Text>
+        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+        {item.tags.slice(0, 5).map((tag, index) => (
+          <View key={index} style={{flexDirection:'row', margin:2}}>
+            <View style={{backgroundColor:colors.Gray02, padding:2, borderRadius:4, paddingRight:4}}>
+              <Text style={[textStyles.B4, {color: colors.Gray04}]}>
+                {tag}
+              </Text>
+            </View>
+            {item.tags.slice(0, 5).length -1 !== index ?
+            <View style={{padding:2}}>
+              <Text style={[textStyles.B4, {color: colors.Gray04}]}>
+                {"  · "}
+              </Text>
+            </View>
+            :
+            item.tags.length > 5 &&
+            <View style={{padding:2}}>
+              <Text style={[textStyles.B4, {color: colors.Gray04}]}>
+                {" ... "}
+              </Text>
+            </View>
+            }
+          </View>
+        ))}
+        </View>
+        <View style={{height: 8}} />
+        <View style={{flex:1}} />
+        <View style={{flexDirection: 'row'}}>
+          <Star />
+          <Text style={[textStyles.B4, {color: colors.Gray07}]}>
+            {item.averageRating}
+          </Text>
+          <Text style={[textStyles.B4, {color: colors.Gray07}]}>
+            ({item.reviewCount})
+          </Text>
+        </View>
       </View>
-      <View style={{width: 16}} />
+      <View style={{width: 8}} />
       <View
-        style={{width: 84, height: 115, borderRadius: 10, overflow: 'hidden'}}>
-        <Image source={{uri: item.imagePath}} style={{flex: 1}} />
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          marginTop: 8,
-          gap: 2,
-          alignItems: 'center',
-          position: 'absolute',
-          left: 16,
-          bottom: 16,
-        }}>
-        <Star />
-        <Text style={[textStyles.B4, {color: colors.Gray07}]}>
-          {item.averageRating}
-        </Text>
-        <Text style={[textStyles.B4, {color: colors.Gray07}]}>
-          ({item.reviewCount})
-        </Text>
+        style={{width: 90, minHeight: 120, borderRadius: 10, overflow: 'hidden'}}>
+        <ImageBackground src={item.imagePath} style={{flex: 1}}>
+          <View style={{backgroundColor: 'rgba(0,0,0,0.1)', flex: 1}} />
+        </ImageBackground>  
       </View>
     </TouchableOpacity>
   );
