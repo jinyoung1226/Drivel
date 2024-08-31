@@ -75,26 +75,25 @@ const MeetApplyPreview = ({applyList}) => {
             </View>
             <View style={{width: 16}} />
             <View style={{flex:1}}>
-              <View style={{flex: 1}}>
-                <Text style={[textStyles.B3, {color: colors.Gray10}]}>
-                  {item.meetingTitle}
+              <Text style={[textStyles.B3, {color: colors.Gray10}]}>
+                {item.meetingTitle}
+              </Text>
+              <View style={{flexDirection:'row'}}>
+                <Text
+                  style={[
+                    textStyles.B4,
+                    {
+                      color: colors.Gray10,
+                      borderRadius: 3,
+                      backgroundColor: colors.Gray02,
+                      padding: 4,
+                    },
+                  ]}
+                  numberOfLines={1}>
+                  {item.courseTitle}
                 </Text>
+                <View style={{flex:1}}/>
               </View>
-                <View style={{flex: 1}}>
-                  <Text
-                    style={[
-                      textStyles.B4,
-                      {
-                        color: colors.Gray10,
-                        borderRadius: 3,
-                        backgroundColor: colors.Gray02,
-                        padding: 4,
-                      },
-                    ]}
-                    numberOfLines={1}>
-                    {item.courseTitle}
-                  </Text>
-                </View>
             </View>
             <View style={{width: 16}} />
             <View style={{width:45, height:45, backgroundColor: colors.Light_Blue, borderRadius: 30, justifyContent:'center', alignItems:'center'}}>
