@@ -67,6 +67,7 @@ const driveSlice = createSlice({
     });
     builder.addCase(getBlogReview.fulfilled, (state, action) => {
       state.blogReviewList = action.payload;
+      state.isLoading = false;
     });
     builder.addCase(getBlogReview.rejected, state => {
       state.isLoading = false;
@@ -79,6 +80,7 @@ const driveSlice = createSlice({
     });
     builder.addCase(getCafeBlogReview.fulfilled, (state, action) => {
       state.cafeBlogReviewList = action.payload;
+      state.isLoading = false;
     });
     builder.addCase(getCafeBlogReview.rejected, state => {
       state.isLoading = false;

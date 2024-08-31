@@ -10,7 +10,6 @@ const {width} = Dimensions.get('window');
 
 const HomeBanner = () => {
   const navigation = useNavigation();
-  const [isLoading, setIsLoading] = useState(true);
   const [randomBannerId, setRandomBannerId] = useState(null);
   useEffect(() => {
     setRandomBannerId(Math.floor(Math.random() * 4));
@@ -22,15 +21,7 @@ const HomeBanner = () => {
 
   return (
     <View>
-      {isLoading && 
-        <View style={{width:width, height: width*1.3, backgroundColor: colors.Gray05, paddingLeft:24, paddingVertical:31}}>
-          <View style={{flex:1}}/>
-          <View style={{height: 28, width: '50%', backgroundColor:colors.white, borderRadius:10}}/>
-          <View style={{height:10}}/>
-          <View style={{height: 28, width: '70%', backgroundColor:colors.white, borderRadius:10}}/>
-        </View>
-      }
-      <Pressable style={{display: isLoading ? 'none' : 'flex'}} onPress={() => handleMagazineInfo(randomBannerId)}>
+      <Pressable onPress={() => handleMagazineInfo(randomBannerId)}>
         <View style={{ 
           width:width, height: width*1.3, 
           borderBottomRightRadius: 40,
@@ -40,7 +31,6 @@ const HomeBanner = () => {
             source={{ uri: magazineBanner[randomBannerId].imagePath }}
             style={{ flex: 1 }}
             imageStyle={{ borderBottomRightRadius: 40 }}
-            onLoad={() => setIsLoading(false)} 
           >
             <LinearGradient 
               style={{ flex: 1, paddingVertical: 31, paddingLeft: 24 }} 

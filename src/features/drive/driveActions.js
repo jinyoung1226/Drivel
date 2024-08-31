@@ -18,6 +18,7 @@ export const getDriveList = createAsyncThunk(
       });
       // console.log(themeId, styleId, togetherId, page, size);
       if (response.status == 200) {
+        console.log(response.data, 'response');
         const driveList = response.data.content;
         const isLastPage = response.data.last;
         const currentPage = response.data.number;
