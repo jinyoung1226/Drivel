@@ -56,6 +56,10 @@ const MeetApplyPreview = ({applyList}) => {
               paddingVertical: 16,
               alignItems: 'center',
               elevation: 5,
+              shadowColor: '#000',
+              shadowOffset: {width: 0, height: 1},
+              shadowOpacity: 0.1,
+              shadowRadius: 3,
               backgroundColor: colors.white,
               borderRadius: 10,
               marginBottom:8

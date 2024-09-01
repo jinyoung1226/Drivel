@@ -67,7 +67,11 @@ const MeetUpcomingList = ({data, myMeetList, handleShowMore, showMore, setShowMo
           style={{
             padding: 16,
             marginHorizontal: 16,
-            elevation: 10,
+            elevation: 5,
+            shadowColor: '#000',
+            shadowOffset: {width: 0, height: 1},
+            shadowOpacity: 0.1,
+            shadowRadius: 3,
             backgroundColor: '#FFF',
             borderWidth: 1,
             borderColor: colors.Gray01,

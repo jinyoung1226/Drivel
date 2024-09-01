@@ -8,6 +8,7 @@ import {
   Alert,
   TextInputComponent,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import {api} from '../../api/api';
 import CustomInput from '../../components/CustomInput';
@@ -127,6 +128,22 @@ const Register = ({navigation}) => {
     }
   };
 
+  const checkEmail = async() => {
+    try{
+      const response = await api.get(`/members/check-email/${email}`);
+      if(response.status === 200) {
+        requestAuthCode();
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.status, error.response.data);
+        Alert.alert(error.response.data.message);
+      } else {
+        console.log(error);
+      }
+    }
+  }
+
   const verifyAuthCode = async () => {
     setIsAuthorizing(true);
     try {
@@ -176,7 +193,7 @@ const Register = ({navigation}) => {
               </Text>
             )}
             onButtonPress={() => {
-              requestAuthCode();
+              checkEmail();
             }}
             editable={!isSending && !isAuthorized}
             buttonDisabled={!(isValidEmail && !isSending && !isAuthorized)}
@@ -266,21 +283,20 @@ const Register = ({navigation}) => {
             errorMessage={'비밀번호가 일치하지 않습니다'}
             isValid={isPasswordSame}
           />
+          <CustomButton
+            disabled={
+              password == 0 ||
+              passwordCheck == 0 ||
+              !isValidPassword ||
+              !isPasswordSame ||
+              !isAuthorized
+            }
+            onPress={signUp}
+            title={'회원가입'}
+          />
         </View>
+        
       </KeyboardAwareScrollView>
-      <View style={{padding: 16, elevation: 10, backgroundColor: colors.BG}}>
-        <CustomButton
-          disabled={
-            password == 0 ||
-            passwordCheck == 0 ||
-            !isValidPassword ||
-            !isPasswordSame ||
-            !isAuthorized
-          }
-          onPress={signUp}
-          title={'회원가입'}
-        />
-      </View>
     </View>
   );
 };

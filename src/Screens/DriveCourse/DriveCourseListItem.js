@@ -43,8 +43,8 @@ const DriveCourseListItem = ({item}) => {
         <View style={{height: 8}} />
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
         {item.tags.slice(0, 5).map((tag, index) => (
-          <View key={index} style={{flexDirection:'row', margin:2}}>
-            <View style={{backgroundColor:colors.Gray02, padding:2, borderRadius:4, paddingRight:4}}>
+          <View key={index} style={{flexDirection:'row', margin:2, alignItems:'center', justifyContent:'center'}}>
+            <View style={{backgroundColor:colors.Gray02, borderRadius:4,paddingLeft:4, paddingRight:4, height:22, justifyContent:'center'}}>
               <Text style={[textStyles.B4, {color: colors.Gray04}]}>
                 {tag}
               </Text>

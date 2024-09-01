@@ -133,14 +133,15 @@ const MyInfoEdit = ({navigation, route}) => {
 
   const checkNickname = async() => {
     try {
-      const response = await authApi.put('members/check-nickname', {nickname: nickname});
+      const response = await authApi.get(`members/check-nickname/${nickname}`);
       if (response.status == 200) {
-        Alert.alert(response.data);
+        console.log(response.data);
+        Alert.alert(response.data.message)
         setIsNicknameValid(!isNicknameValid)
       };
     } catch (error) {
       if (error.response) {
-        Alert.alert(error.response.data);
+        Alert.alert(error.response.data.message)
         console.log(error.response.data);
       } else {
         console.log('서버 접속 오류');
