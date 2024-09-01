@@ -19,6 +19,7 @@ import DriveStartRestaurantCuration from './DriveStartRestaurantCuration';
 import DriveStartSpotCuration from './DriveStartSpotCuration';
 import {DragSortableView} from 'react-native-drag-sort';
 import Drag from '../../assets/icons/Drag';
+import {Linking} from 'react-native';
 
 const {width} = Dimensions.get('window');
 
@@ -134,8 +135,8 @@ const DriveStart = ({route, navigation}) => {
       for (const waypoint of item.waypoints) {
         collectedWaypoints.push({
           name: waypoint.name,
-          x: waypoint.latitude,
-          y: waypoint.longitude,
+          x: waypoint.longitude,
+          y: waypoint.latitude,
         });
         count++;
         if (count === 4) {
@@ -165,8 +166,19 @@ const DriveStart = ({route, navigation}) => {
       params[`y${index}`] = waypoint.y;
     });
     console.log(params, '@@@');
+    const url = `https://main--kakaonavi.netlify.app/?name0=${encodeURIComponent(
+      params.name0,
+    )}&x0=${params.x0}&y0=${params.y0}&name1=${encodeURIComponent(
+      params.name1,
+    )}&x1=${params.x1}&y1=${params.y1}&name2=${encodeURIComponent(
+      params.name2,
+    )}&x2=${params.x2}&y2=${params.y2}&name3=${encodeURIComponent(
+      params.name3,
+    )}&x3=${params.x3}&y3=${params.y3}`;
 
-    navigation.navigate('DriveKakaoNaviWebview', params);
+    console.log(url);
+    // 웹사이트로 이동
+    Linking.openURL(url).catch(err => console.error('An error occurred', err));
   };
 
   return (
