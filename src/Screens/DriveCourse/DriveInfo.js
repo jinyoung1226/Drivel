@@ -7,7 +7,7 @@ import {textStyles} from '../../styles/textStyles';
 import {fetchRoute} from '../../utils/fetchRoute';
 import DriveRestaurantCuration from './DriveRestaurantCuration';
 import NoItemScreen from '../../components/NoItemScreen';
-
+import ShopIcon from '../../assets/icons/ShopIcon.svg';
 const DriveInfo = ({item, driveId, minHeight}) => {
   const [htmlContent, setHtmlContent] = useState('');
   const center = {
@@ -120,7 +120,7 @@ const DriveInfo = ({item, driveId, minHeight}) => {
         </View>
       ) : (
         <View style={{flex: 1, paddingVertical:32}}>
-          <NoItemScreen text={'주변에 등록된 맛집이 없어요'}/>
+          <NoItemScreen text={'주변에 등록된 맛집이 없어요'} icon={<ShopIcon/>}/>
         </View>
       )}
     </View>

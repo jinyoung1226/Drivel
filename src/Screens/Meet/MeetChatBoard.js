@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import NoticeItem from "./NoticeItem";
 import NoItemScreen from "../../components/NoItemScreen";
+import BubbleIcon from "../../assets/icons/BubbleIcon";
 const MeetChatBoard = ({
   notice, 
   confirmModalVisible, 
@@ -36,7 +37,7 @@ const MeetChatBoard = ({
       <Text style={[textStyles.H5, {marginLeft:24, color: colors.Blue}]}>{meetMessageList.length}개</Text>
       <View style={{height:8}}/>
       {meetMessageList.length == 0 ?
-      <NoItemScreen text={'게시판에 소식이 없어요\n첫 메시지를 남겨보세요'}/>
+      <NoItemScreen text={'게시판에 소식이 없어요\n첫 메시지를 남겨보세요'} icon={<BubbleIcon/>}/>
       :
       <FlatList
         scrollEnabled={false}
