@@ -8,6 +8,7 @@ import NoneStar from '../../assets/icons/NoneStar.svg';
 import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 import ConfirmModal from '../../components/ConfirmModal';
+import formatChatTimestamp from '../../utils/formatChatTimeStamp';
 
 const DriveReviewListItem = ({
   item,
@@ -21,21 +22,6 @@ const DriveReviewListItem = ({
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [targetReviewId, setTargetReviewId] = useState(null);
-
-  const formatDate = dateString => {
-    const reviewDate = moment(dateString);
-    const now = moment();
-    const diffInMinutes = now.diff(reviewDate, 'minutes');
-    const diffInHours = now.diff(reviewDate, 'hours');
-
-    if (diffInMinutes < 60) {
-      return `${diffInMinutes}분 전`;
-    } else if (diffInHours < 24) {
-      return `${diffInHours}시간 전`;
-    } else {
-      return reviewDate.format('YYYY.MM.DD');
-    }
-  };
 
   const renderStars = () => {
     let stars = [];
@@ -101,7 +87,7 @@ const DriveReviewListItem = ({
             </TouchableOpacity>
           </View>
           <Text style={[textStyles.B4, {color: colors.Gray06}]}>
-            {formatDate(item.reviewDate)}
+            {formatChatTimestamp(item.reviewDate)}
           </Text>
         </View>
       </View>

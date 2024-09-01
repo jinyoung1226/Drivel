@@ -32,9 +32,10 @@ const HomeBanner = () => {
             style={{ flex: 1 }}
             imageStyle={{ borderBottomRightRadius: 40 }}
           >
+            <View style={{flex: 3 }} />
             <LinearGradient 
-              style={{ flex: 1, paddingVertical: 31, paddingLeft: 24 }} 
-              colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.4)']}
+              style={{ flex: 2, paddingVertical: 31, paddingLeft: 24 }} 
+              colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.5)']}
             >
               <View style={{ flex: 1 }} />
               <Text style={[textStyles.H1, { color: colors.white }]}>

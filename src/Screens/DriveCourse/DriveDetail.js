@@ -37,6 +37,7 @@ const DriveDetail = ({route, navigation}) => {
   const [activeTab, setActiveTab] = useState(0);
   const userId = useSelector(state => state.auth.userId);
   const {likedItem} = useSelector(state => state.like);
+  const [numOfLines, setNumOfLines] = useState(5);
   const dispatch = useDispatch();
 
   const [contentHeight, setContentHeight] = useState(null);
@@ -124,6 +125,17 @@ const DriveDetail = ({route, navigation}) => {
       scrollViewRef.current.scrollToPosition(0, contentHeight, true);
   };
 
+  const openDescription = () => {
+    if (numOfLines === 5) {
+      setNumOfLines(null);
+    }
+    else {
+      setNumOfLines(5);
+    }
+  };
+
+
+
   if (!courseInfo) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
     return <RenderingPage />;
@@ -148,9 +160,21 @@ const DriveDetail = ({route, navigation}) => {
               {courseInfo.courseInfo.title}
             </Text>
             <View style={{height: 8}} />
-            <Text style={[textStyles.M14, {color: colors.Gray07}]}>
-              {courseInfo.courseInfo.description}
-            </Text>
+            <View>
+                <Text style={[textStyles.M14, {color: colors.Gray07}]} numberOfLines={numOfLines}>
+                  {courseInfo.courseInfo.description}
+                </Text>
+              <View style={{height:8}} />
+              <TouchableOpacity style={{flexDirection:'row', alignItems:'center'}}
+               onPress={() => {openDescription()}}>
+                <Text style={[textStyles.B3, {color: colors.Gray04}]}>
+                  { numOfLines == null ? '접기':'더보기'}
+                </Text>
+                <Text style={{color: colors.Gray04, fontFamily:'SUIT-Medium', fontSize:12}}>
+                  {numOfLines == null ? null : '  >' }
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
           <GrayLine />
         </View>

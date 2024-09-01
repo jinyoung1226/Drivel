@@ -12,6 +12,7 @@ import {useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import NoticeItem from "./NoticeItem";
+import NoItemScreen from "../../components/NoItemScreen";
 const MeetChatBoard = ({
   notice, 
   confirmModalVisible, 
@@ -34,6 +35,9 @@ const MeetChatBoard = ({
       <View style={{height:8}}/>
       <Text style={[textStyles.H5, {marginLeft:24, color: colors.Blue}]}>{meetMessageList.length}개</Text>
       <View style={{height:8}}/>
+      {meetMessageList.length == 0 ?
+      <NoItemScreen text={'게시판에 소식이 없어요\n첫 메시지를 남겨보세요'}/>
+      :
       <FlatList
         scrollEnabled={false}
         data={meetMessageList}
@@ -49,7 +53,7 @@ const MeetChatBoard = ({
           confirmModalVisible={confirmModalVisible}/>)
         }
         keyExtractor={item => item.id}
-      />
+      />}
       {isLoading && 
       <View style={{position:'absolute', bottom: 24, alignSelf:'center', alignItems:'center', justifyContent:'center', elevation:5}}>
         <View style={{position:'absolute', width:32, height:32, backgroundColor:colors.Gray10, opacity:0.7, borderRadius:20}}/>

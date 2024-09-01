@@ -13,6 +13,7 @@ import {formDataApi} from '../../api/api';
 import {authApi} from '../../api/api';
 import DriveReviewList from './DriveReviewList';
 import {max} from 'moment';
+import NoItemScreen from '../../components/NoItemScreen';
 
 const MAX_REVIEW_LENGTH = 200; // 리뷰 최대 글자 수
 
@@ -306,9 +307,12 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
         </>
       ) : null}
       <View style={{height: 16}} />
+      {item.reviews.length == 0 ?
+      <NoItemScreen text={'아직 리뷰가 없어요\n방문 후에 첫 리뷰를 남겨보세요'} />
+      :
       <View style={{flex: 1, paddingHorizontal: 16}}>
         <DriveReviewList data={item.reviews} userId={userId} updateReviewInfo={updateReviewInfo} updateCourseInfo={updateCourseInfo} />
-      </View>
+      </View>}
     </>
   );
 };

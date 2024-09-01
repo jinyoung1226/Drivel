@@ -13,7 +13,11 @@ const UserMannerScoreBar = () => {
         marginHorizontal: 16,
         backgroundColor: colors.white,
         borderRadius: 10,
-        elevation: 2,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 1},
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
         padding:16
       }}
     >

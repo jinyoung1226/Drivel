@@ -6,6 +6,7 @@ import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import {fetchRoute} from '../../utils/fetchRoute';
 import DriveRestaurantCuration from './DriveRestaurantCuration';
+import NoItemScreen from '../../components/NoItemScreen';
 
 const DriveInfo = ({item, driveId, minHeight}) => {
   const [htmlContent, setHtmlContent] = useState('');
@@ -93,16 +94,16 @@ const DriveInfo = ({item, driveId, minHeight}) => {
         </View>
       </View>
       <GrayLine />
+      <View style={{height: 24}} />
+      <Text
+        style={[
+          textStyles.H3,
+          {color: colors.Gray10, paddingHorizontal: 16},
+        ]}>
+        근처에 이런 카페/식당이 있어요!
+      </Text>
       {places.length > 0 ? (
         <View>
-          <View style={{height: 24}} />
-          <Text
-            style={[
-              textStyles.H3,
-              {color: colors.Gray10, paddingHorizontal: 16},
-            ]}>
-            근처에 이런 카페/식당이 있어요!
-          </Text>
           <View style={{flex: 1, marginTop: 16}}>
             <FlatList
               data={places}
@@ -117,7 +118,11 @@ const DriveInfo = ({item, driveId, minHeight}) => {
             />
           </View>
         </View>
-      ) : null}
+      ) : (
+        <View style={{flex: 1, paddingVertical:32}}>
+          <NoItemScreen text={'주변에 등록된 맛집이 없어요'}/>
+        </View>
+      )}
     </View>
   );
 };

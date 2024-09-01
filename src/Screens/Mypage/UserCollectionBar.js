@@ -19,7 +19,11 @@ const UserCollectionBar = () => {
         borderRadius: 20,
         flexDirection: 'row',
         alignItems: 'center',
-        elevation: 2,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 1},
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
       }}>
       <TouchableOpacity
         style={{flex: 1, alignItems: 'center', paddingVertical: 16}}

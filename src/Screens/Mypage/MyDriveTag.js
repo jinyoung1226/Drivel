@@ -16,7 +16,11 @@ const MyDriveTag = ({myProfileInfo}) => {
         marginHorizontal: 16,
         backgroundColor: colors.white,
         borderRadius: 20,
-        elevation: 2,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 1},
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
       }}>
       <View style={{flexDirection:'row'}}> 
         <Text style={[textStyles.B3, {color: colors.Gray10}]}>

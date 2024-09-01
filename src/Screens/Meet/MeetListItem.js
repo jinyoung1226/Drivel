@@ -37,6 +37,10 @@ const MeetListItem = ({
         borderWidth: 1,
         borderColor: colors.Gray01,
         padding: 16,
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 1},
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
       }}
       onPress={() => goMeetDetail(item)}
       onLongPress={() => {

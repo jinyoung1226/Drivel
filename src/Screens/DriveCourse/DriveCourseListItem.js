@@ -31,14 +31,14 @@ const DriveCourseListItem = ({item}) => {
         shadowOffset: {width: 0, height: 1},
         shadowOpacity: 0.1,
         shadowRadius: 3,
-        elevation: 3,
+        elevation: 10,
       }}>
       <View style={{flex: 1}}>
         <Text style={[textStyles.H5, {color: colors.Gray10}]}>
           {item.title}
         </Text>
         <Text style={[textStyles.B4, {color: colors.Gray07}]}>
-          강원도 · 30km
+          {item.region}
         </Text>
         <View style={{height: 8}} />
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
