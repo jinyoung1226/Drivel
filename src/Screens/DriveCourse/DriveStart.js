@@ -19,7 +19,6 @@ import DriveStartRestaurantCuration from './DriveStartRestaurantCuration';
 import DriveStartSpotCuration from './DriveStartSpotCuration';
 import {DragSortableView} from 'react-native-drag-sort';
 import Drag from '../../assets/icons/Drag';
-import { navigateTo } from '@react-native-kakao/navi';
 
 const {width} = Dimensions.get('window');
 
@@ -32,7 +31,8 @@ const DriveStart = ({route, navigation}) => {
   const nickname = useSelector(state => state.auth.nickname);
   const [checkInfo, setCheckInfo] = useState([]);
   const [scrollEnabled, setScrollEnabled] = useState(true); // 스크롤 가능 여부 상태
-  
+  console.log(checkInfo);
+
   // initCheckInfo 초기화 (기본 경유지 추가)
   const initCheckInfo = {
     type: '기본경유지',
@@ -126,28 +126,48 @@ const DriveStart = ({route, navigation}) => {
   };
 
   const driveStartPress = () => {
-    const destination = {
-      name: "카카오판교오피스",
-      x: 127.1086228,  // 수정된 경도 (예: 실제 값)
-      y: 37.4020568    // 수정된 위도 (예: 실제 값)
-    };
+    const collectedWaypoints = [];
+    let count = 0;
 
-    navigateTo({
-      destination: destination,
-      openWebInstallUrlIfNaviAppNotAvailable: true
-    }).then(success => {
-      if (success) {
-        console.log("Kakao Navi has been successfully launched.");
-      } else {
-        console.log("Failed to launch Kakao Navi.");
+    // waypoints 수집
+    for (const item of checkInfo) {
+      for (const waypoint of item.waypoints) {
+        collectedWaypoints.push({
+          name: waypoint.name,
+          x: waypoint.latitude,
+          y: waypoint.longitude,
+        });
+        count++;
+        if (count === 4) {
+          break;
+        }
       }
-    }).catch(error => {
-      console.log(error)
-    })
+      if (count === 4) {
+        break;
+      }
+    }
+
+    console.log(collectedWaypoints);
+
+    // 빈 params 객체를 생성
+    const params = {};
+
+    // 마지막으로 수집된 waypoints를 목적지로 설정
+    const destination = collectedWaypoints.pop(); // 배열의 마지막 요소를 제거하고 반환
+    params['name3'] = destination.name;
+    params['x3'] = destination.x;
+    params['y3'] = destination.y;
+
+    // 나머지 경유지 설정
+    collectedWaypoints.forEach((waypoint, index) => {
+      params[`name${index}`] = waypoint.name;
+      params[`x${index}`] = waypoint.x;
+      params[`y${index}`] = waypoint.y;
+    });
+    console.log(params, '@@@');
+
+    navigation.navigate('DriveKakaoNaviWebview', params);
   };
-
-  
-
 
   return (
     <View style={{flex: 1, backgroundColor: colors.BG}}>
@@ -171,7 +191,7 @@ const DriveStart = ({route, navigation}) => {
             </Text>
             <View style={{height: 8}} />
             <Text style={[textStyles.B4, {color: colors.Blue}]}>
-              * 상위 5개 경유지만 네비게이션으로 연결됩니다
+              * 상위 4개 경유지만 네비게이션으로 연결됩니다
             </Text>
           </View>
           <View style={{height: 24}} />
@@ -284,6 +304,5 @@ const DriveStart = ({route, navigation}) => {
     </View>
   );
 };
-
 
 export default DriveStart;
