@@ -12,6 +12,7 @@ import RestaurantInfo from '../Screens/DriveCourse/RestaurantInfo';
 import DriveStart from '../Screens/DriveCourse/DriveStart';
 import DriveSearch from '../Screens/DriveCourse/DriveSearch';
 import ReportPage from '../Screens/Common/ReportPage';
+import DriveKakaoNaviWebview from '../Screens/DriveCourse/DriveKakaoNaviWebview';
 
 const Stack = createStackNavigator();
 
@@ -45,6 +46,7 @@ const DriveTab = ({route}) => {
       <Stack.Screen name="FestivalInfo" component={FestivalInfo} />
       <Stack.Screen name="RestaurantInfo" component={RestaurantInfo} />
       <Stack.Screen name="DriveStart" component={DriveStart} />
+      <Stack.Screen name="DriveKakaoNaviWebview" component={DriveKakaoNaviWebview} />
     </Stack.Navigator>
   );
 };
