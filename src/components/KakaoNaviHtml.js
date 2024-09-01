@@ -1,3 +1,5 @@
+import config from '../config/config';
+
 export const kakaoNavi = ({
   name0,
   name1,
@@ -34,7 +36,7 @@ export const kakaoNavi = ({
       <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
         integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
       <script>
-        Kakao.init('c089c8172def97eb00c07217cae17495'); // 사용하려는 앱의 JavaScript 키 입력
+        Kakao.init('${config.KAKAO_NAVI_KEY}');  // 사용하려는 앱의 JavaScript 키 입력
         function startNavigation() {
           Kakao.Navi.start({
             name: '${name3}',
