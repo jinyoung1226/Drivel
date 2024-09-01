@@ -1,5 +1,12 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Pressable, Animated, Text, Image, ImageBackground} from 'react-native';
+import {
+  View,
+  Pressable,
+  Animated,
+  Text,
+  Image,
+  ImageBackground,
+} from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import CheckBox from '../../assets/icons/CheckBox';
@@ -28,8 +35,8 @@ const DriveStartSpotCuration = ({item, setCheckInfo}) => {
               {
                 id: placeId,
                 name: item.title,
-                // latitude: placeInfo.latitude,
-                // longitude: placeInfo.longitude,
+                latitude: item.latitude,
+                longitude: item.longitude,
               },
             ],
           };
@@ -65,7 +72,6 @@ const DriveStartSpotCuration = ({item, setCheckInfo}) => {
       return newChecked;
     });
   };
-
 
   return (
     <View
@@ -110,13 +116,15 @@ const DriveStartSpotCuration = ({item, setCheckInfo}) => {
       <View style={{flex: 1}} />
       {item.imagePath === null ? (
         <ImageBackground
-        source={require('../../assets/image/MainLogo.png')}
-        style={{width: 60, height: 65.19, borderRadius: 5.77}}
-      />
-      ) : (<Image
-        source={{uri: item.imagePath}}
-        style={{width: 60, height: 65.19, borderRadius: 5.77}}
-      />)}
+          source={require('../../assets/image/MainLogo.png')}
+          style={{width: 60, height: 65.19, borderRadius: 5.77}}
+        />
+      ) : (
+        <Image
+          source={{uri: item.imagePath}}
+          style={{width: 60, height: 65.19, borderRadius: 5.77}}
+        />
+      )}
     </View>
   );
 };

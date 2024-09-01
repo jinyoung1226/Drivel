@@ -12,7 +12,6 @@ import DriveStart from '../Screens/DriveCourse/DriveStart';
 import RestaurantInfo from '../Screens/DriveCourse/RestaurantInfo';
 import ReportPage from '../Screens/Common/ReportPage';
 import MagazineInfo from '../Screens/Home/MagazineInfo';
-import DriveKakaoNaviWebview from '../Screens/DriveCourse/DriveKakaoNaviWebview';
 
 const Stack = createStackNavigator();
 
@@ -30,17 +29,13 @@ const HomeTab = ({route}) => {
 
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={HomeMain}
-      />
+      <Stack.Screen name="Home" component={HomeMain} />
       <Stack.Screen name="DriveDetail" component={DriveDetail} />
       <Stack.Screen name="ReportPage" component={ReportPage} />
-      <Stack.Screen name="FestivalInfo"  component={FestivalInfo} />
+      <Stack.Screen name="FestivalInfo" component={FestivalInfo} />
       <Stack.Screen name="MagazineInfo" component={MagazineInfo} />
       <Stack.Screen name="RestaurantInfo" component={RestaurantInfo} />
       <Stack.Screen name="DriveStart" component={DriveStart} />
-      <Stack.Screen name="DriveKakaoNaviWebview" component={DriveKakaoNaviWebview} />
     </Stack.Navigator>
   );
 };
