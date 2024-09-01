@@ -5,7 +5,7 @@ import store from './src/store/store';
 import RootNavigator from './src/Nav/RootNavigator';
 import messaging from '@react-native-firebase/messaging';
 import { Alert } from 'react-native';
-import { Platform } from 'react-native';
+import { Platform, NativeModules, PermissionsAndroid } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as encoding from 'text-encoding';
 import BootSplash from "react-native-bootsplash";
@@ -36,6 +36,25 @@ const App = () => {
     }
   };
 
+  const androidRequestPermission = async () => {
+    const authorizationStatus = await messaging().requestPermission();
+    console.log('authorizationStatus:', authorizationStatus);
+    try {
+      if (Platform.OS === 'android') {
+        if (Platform.Version >= 33) {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log('Android 13이상 , 알림권한 허용.');
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Android error:', error);
+    }
+  };
+
   const resisterForPushNotificationsAsync = async () => {
     return requestPermission().then(async (enabled) => {
       if (enabled) {
@@ -51,6 +70,7 @@ const App = () => {
   useEffect(() => {
     const init = async () => {
       resisterForPushNotificationsAsync();
+      androidRequestPermission();
       getFcmToken();
     }
     init().finally(async () => {
