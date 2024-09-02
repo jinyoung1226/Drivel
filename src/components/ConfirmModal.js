@@ -13,6 +13,7 @@ import CustomButton from './CustomButton';
 import { authApi } from '../api/api';
 import refreshMeetList from '../utils/refreshMeetList';
 import { useDispatch } from 'react-redux';
+import { getMeetMessageList } from '../features/meet/meetActions';
 
 const ConfirmModal = ({
   setModalVisible, 
@@ -25,6 +26,8 @@ const ConfirmModal = ({
   status, 
   updateReviewInfo,
   updateCourseInfo,
+  selectedChatItem,
+  setSelectedChatItem
 }) => {
   
   const navigation = useNavigation();
@@ -172,6 +175,24 @@ const ConfirmModal = ({
     }
   }
 
+  const deleteChat = async() => {
+    try {
+      const response = await authApi.delete(`/chat/${selectedChatItem}`);
+      if(response.status == 200) {
+        setSelectedChatItem(null);
+        dispatch(getMeetMessageList({meetingId: meetingId, messageId: -1}));
+        Alert.alert('삭제되었습니다.');
+        modalClose();
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data);
+      } else {
+        console.log(error);
+      }
+    }
+  }
+
   return (
     <Modal 
       animationType='fade'
@@ -186,7 +207,7 @@ const ConfirmModal = ({
           <View style={{flexDirection:'row'}} >
             <TouchableOpacity style={{width:32}} onPress={()=>{modalClose()}} />
             <View style={{flex:1, backgroundColor: colors.white, borderRadius:10, padding:24}}>
-              <Text style={[textStyles.H3, {color:colors.Gray10, textAlign:'center'}]}>{targetId}{meetingId}</Text>
+              {/* <Text style={[textStyles.H3, {color:colors.Gray10, textAlign:'center'}]}>{targetId} 미팅{meetingId} {selectedChatItem}</Text> */}
               <Text style={[textStyles.H3, {color:colors.Gray10, textAlign:'center'}]}>
                 {
                   type == 'meetBlock' ? '모임 차단하기' : 
@@ -242,7 +263,7 @@ const ConfirmModal = ({
                       } else if(type == 'notice') {
                         deleteNotice();
                       } else if(type == 'chatDelete') {
-                        //deleteChat();
+                        deleteChat();
                       } else if(type == 'reviewDelete') {
                         reviewDelete();
                       }else if(type == 'userReviewBlock') {

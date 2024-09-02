@@ -60,6 +60,7 @@ export const connectWebSocket = createAsyncThunk(
               Alert.alert("모임에 " + newMessage.content);
               refreshMeetList(thunkAPI.dispatch);
               thunkAPI.dispatch(setParticipateStatus("JOINED"));
+              eventEmitter.emit('meetAccepted','accepted');
             }
             if (newMessage.category === 'REJECTED') {
               Alert.alert("모임 " + newMessage.content);

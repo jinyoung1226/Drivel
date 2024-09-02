@@ -18,21 +18,21 @@ const MeetChatMessage = ({item, selectedChatItem, setSelectedChatItem, userId, s
         <View style={{position:'absolute', right:16, top:44}}>
           {item.senderId == userId &&
           <Pressable 
-            onPress={() => {setType('chatDelete'); setConfirmModalVisible(!confirmModalVisible); setSelectedChatItem(null)}}
+            onPress={() => {setType('chatDelete'); setConfirmModalVisible(!confirmModalVisible);}}
             style={({pressed})=> [{paddingHorizontal:16, paddingVertical:8, backgroundColor: pressed ? colors.Gray02: colors.white}]}
           >
             <Text style={[textStyles.B4, {color:colors.Gray10}]}>삭제하기</Text>
           </Pressable>}
           {item.senderId !== userId &&
           <Pressable 
-            onPress={() => {navigation.navigate("ReportPage", {targetId: item.senderId}); setSelectedChatItem(null)}}
+            onPress={() => {navigation.navigate("ReportPage", {targetId: item.senderId});}}
             style={({pressed})=> [{paddingHorizontal:16, paddingVertical:8, backgroundColor: pressed ? colors.Gray02: colors.white}]}
           >
             <Text style={[textStyles.B4, {color:colors.Gray10}]}>신고하기</Text>
           </Pressable>}
           {item.senderId !== userId &&
           <Pressable 
-            onPress={() => {setType('userBlock'); setTargetId(item.senderId); setConfirmModalVisible(!confirmModalVisible); setSelectedChatItem(null)}}
+            onPress={() => {setType('userBlock'); setTargetId(item.senderId); setConfirmModalVisible(!confirmModalVisible);}}
             style={({pressed})=> [{paddingHorizontal:16, paddingVertical:8, backgroundColor: pressed ? colors.Gray02: colors.white}]}
           >
             <Text style={[textStyles.B4, {color:colors.Gray10}]}>차단하기</Text>

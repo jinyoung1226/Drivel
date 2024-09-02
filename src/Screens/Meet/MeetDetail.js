@@ -56,6 +56,7 @@ const MeetDetail = ({route, navigation}) => {
   const [isNotice, setIsNotice] = useState(false);
   const scrollHeight = useRef(0);
   const [targetId, setTargetId] = useState(null);
+  const [selectedChatItem, setSelectedChatItem] = useState(null);
   const { userId } = useSelector(state => state.auth);
   const { participateStatus } = useSelector(state => state.meet);
   const dispatch = useDispatch();
@@ -63,11 +64,12 @@ const MeetDetail = ({route, navigation}) => {
   const meetingId = route.params.meetingId;
   const courseId = route.params.courseId;
   const meetingTitle = route.params.meetingTitle;
-  const {meetMessageList, lastMessageId, isLastMessage, isLoading,} = useSelector(state => state.meet); 
+  const { lastMessageId, isLastMessage, isLoading,} = useSelector(state => state.meet); 
   const {width} = Dimensions.get('window')
   const [buttonHeight, setButtonHeight] = useState(null);
   const [containerHeight, setContainerHeight] = useState(null);
   const [tabHeight, setTabHeight] = useState(null);
+  const [isApplying, setIsApplying] = useState(false);
   const tabName = ['모임 정보', '코스 정보', '게시판'];
   
   useEffect(() => {
@@ -148,12 +150,14 @@ const MeetDetail = ({route, navigation}) => {
 
   useEffect(() => {
     eventEmitter.on('websocketConnected', reSubscribe);
+    eventEmitter.on('meetAccepted', getMeetingInfo);
     getDriveCourseInfo();
     getMeetingInfo();
     return () => {
       dispatch(unsubscribeToChannel());
       dispatch(setMeetMessageListNull());
       eventEmitter.removeListener('websocketConnected', reSubscribe);
+      eventEmitter.removeListener('meetAccepted', getMeetingInfo);
     };
   }, []);
 
@@ -171,6 +175,7 @@ const MeetDetail = ({route, navigation}) => {
   // }, [isConnected]); 
   
   participateMeeting = async () => {
+    setIsApplying(true);
     try {
       const response = await authApi.post(`/meeting/join`, {id: meetingId});
       if (response.status == 200) {
@@ -188,9 +193,11 @@ const MeetDetail = ({route, navigation}) => {
         console.log('서버 접속 오류');
       }
     }
+    setIsApplying(false);
   };
 
   cancelParticipateMeeting = async () => {
+    setIsApplying(true);
     try {
       const response = await authApi.delete(`/meeting/join/${meetingId}`);
       if (response.status == 200) {
@@ -207,6 +214,7 @@ const MeetDetail = ({route, navigation}) => {
         console.log('서버 접속 오류');
       }
     }
+    setIsApplying(false);
   };
 
   const scrollToTab = () => {
@@ -329,6 +337,8 @@ const MeetDetail = ({route, navigation}) => {
         type={type}
         setNotice={setNotice}
         status={participateStatus}
+        selectedChatItem={selectedChatItem}
+        setSelectedChatItem={setSelectedChatItem}
       />
       <MenuModal 
         modalVisible={menuModalVisible} 
@@ -401,6 +411,8 @@ const MeetDetail = ({route, navigation}) => {
                 setType={setType}
                 setTargetId={setTargetId}
                 minHeight={containerHeight-buttonHeight-tabHeight}
+                selectedChatItem={selectedChatItem}
+                setSelectedChatItem={setSelectedChatItem}
               />
               ) : (
               <View style={{alignItems:'center', height:containerHeight-buttonHeight-tabHeight}}>
@@ -476,7 +488,7 @@ const MeetDetail = ({route, navigation}) => {
               }}>
               <CustomButton
                 title={participateStatus == 'WAITING' ? '신청 취소' : '참여하기'}
-
+                disabled={isApplying}
                 onPress={() => {
                   participateMeeting();
                 }}
@@ -547,7 +559,7 @@ const MeetDetail = ({route, navigation}) => {
               >
               <CustomButton
                 title={participateStatus == 'WAITING' ? '신청 취소' : '참여하기'}
-
+                disabled={isApplying}
                 onPress={() => {participateStatus == 'WAITING' ? 
                   cancelParticipateMeeting() : participateMeeting()
                 }}

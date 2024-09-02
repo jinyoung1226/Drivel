@@ -21,11 +21,13 @@ const MeetChatBoard = ({
   setType, 
   setTargetId,
   minHeight,
+  selectedChatItem,
+  setSelectedChatItem
 }) => {
 
   const {userId} = useSelector(state => state.auth);
   const {meetMessageList, isLoading} = useSelector(state => state.meet);
-  const [selectedChatItem, setSelectedChatItem] = useState(null);
+
 
   return (
     <View style={{minHeight:minHeight}}>
