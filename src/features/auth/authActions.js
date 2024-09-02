@@ -168,7 +168,8 @@ export const kakaoLogin = createAsyncThunk(
   'auth/kakaoLogin',
   async ({code}, thunkAPI) => {
     try {
-      const response = await api.get('/kakao/login', {params: {code: code}});
+      const fcmToken = await AsyncStorage.getItem('fcmToken');
+      const response = await api.get('/kakao/login', {params: {code: code, fcmToken: fcmToken}});
       if (response.status == 200) {
         const accessToken = response.data.accessToken;
         const refreshToken = response.data.refreshToken;
