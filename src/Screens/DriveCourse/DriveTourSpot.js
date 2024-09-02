@@ -14,7 +14,7 @@ import FestivalCuration from '../../components/FestivalCuration';
 
 const {width} = Dimensions.get('window');
 
-const DriveTourSpot = ({item}) => {
+const DriveTourSpot = ({item, minHeight, setScrollEnabled}) => {
   const [htmlContent, setHtmlContent] = useState('');
   const [weather, setWeather] = useState({});
   const [festivalList, setFestivalList] = useState(item.festivals);
@@ -58,12 +58,13 @@ const DriveTourSpot = ({item}) => {
   }, []);
 
   return (
-    <View>
+    <View style={{
+      minHeight: minHeight,
+    }}>
       <View
         style={{
           marginTop: 24,
           paddingHorizontal: 16,
-          flex: 1,
         }}>
         <View>
           <Text style={[textStyles.H4, {color: colors.Gray10}]}>편의 시설</Text>
@@ -81,6 +82,9 @@ const DriveTourSpot = ({item}) => {
               uri: `https://main--kakaomapweb.netlify.app/?lat=${center.lat}&lng=${center.lng}`,
             }}
             style={{flex: 1, borderRadius: 15}}
+            onTouchCancel={() => setScrollEnabled(true)}
+            onTouchStart={() => setScrollEnabled(false)}
+            onTouchEnd={() => setScrollEnabled(true)}
           />
         </View>
         <View>
@@ -141,8 +145,7 @@ const DriveTourSpot = ({item}) => {
       <View
         style={{
           width: width,
-          height: 98,
-          marginTop: 32,
+          marginTop: 16,
           paddingHorizontal: 16,
         }}>
         <Text style={[textStyles.H4, {color: colors.Gray10}]}>지역 정보</Text>
@@ -173,7 +176,7 @@ const DriveTourSpot = ({item}) => {
               이 지역 근교의 행사가 궁금하다면?
             </Text>
           </View>
-          <View style={{flex: 1, marginTop: 16}}>
+          <View style={{flex: 1, marginVertical: 16}}>
             <FlatList
               key={item.id}
               data={festivalList}
@@ -184,6 +187,7 @@ const DriveTourSpot = ({item}) => {
               ListHeaderComponent={<View style={{width: 16}} />}
             />
           </View>
+
         </View>
       ) : null}
       {/* <View style={{width: width, height: 96.46}} /> */}

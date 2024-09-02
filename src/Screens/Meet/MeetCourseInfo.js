@@ -6,7 +6,7 @@ import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import {fetchRoute} from '../../utils/fetchRoute';
 
-const MeetCourseInfo = ({item}) => {
+const MeetCourseInfo = ({item, setScrollEnabled}) => {
   const [htmlContent, setHtmlContent] = useState('');
   const center = {
     lat: item.waypoints[0].latitude,
@@ -28,6 +28,9 @@ const MeetCourseInfo = ({item}) => {
               originWhitelist={['*']}
               source={{html: htmlContent}}
               style={{flex: 1, borderRadius: 4}}
+              onTouchCancel={() => setScrollEnabled(true)}
+              onTouchStart={() => setScrollEnabled(false)}
+              onTouchEnd={() => setScrollEnabled(true)}
             />
           </View>
           <View style={{height: 16}} />

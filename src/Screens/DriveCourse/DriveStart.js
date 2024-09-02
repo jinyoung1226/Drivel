@@ -20,7 +20,9 @@ import DriveStartSpotCuration from './DriveStartSpotCuration';
 import {DragSortableView} from 'react-native-drag-sort';
 import Drag from '../../assets/icons/Drag';
 import {Linking} from 'react-native';
-
+import NoItemScreen from '../../components/NoItemScreen';
+import MapIcon from '../../assets/icons/MapIcon';
+import ShopIcon from '../../assets/icons/ShopIcon';
 const {width} = Dimensions.get('window');
 
 const DriveStart = ({route, navigation}) => {
@@ -224,6 +226,9 @@ const DriveStart = ({route, navigation}) => {
             {'🏡 '} 근처에 이런 관광지가 있어요!
           </Text>
           <View style={{height: 24}} />
+          {spotInfo.length == 0 ? 
+          <NoItemScreen text={'주변에 등록된 관광지가 없어요!'} icon={<MapIcon />} />
+          :
           <View>
             <FlatList
               data={spotInfo.slice(0, spotVisibleItems)}
@@ -255,7 +260,7 @@ const DriveStart = ({route, navigation}) => {
                 </TouchableOpacity>
               </>
             )}
-          </View>
+          </View>}
         </View>
         <GrayLine />
         <View style={{paddingHorizontal: 16, marginTop: 24}}>
@@ -263,6 +268,9 @@ const DriveStart = ({route, navigation}) => {
             {'🥣 '} {nickname}님께 딱 맞는 맛집도 추천해드릴게요!
           </Text>
           <View style={{height: 24}} />
+          {placeInfo.length == 0 ?
+          <NoItemScreen text={'주변에 등록된 맛집이 없어요'} icon={<ShopIcon />} />
+          :
           <View>
             <FlatList
               data={placeInfo.slice(0, placeVisibleItems)}
@@ -294,7 +302,7 @@ const DriveStart = ({route, navigation}) => {
                 </TouchableOpacity>
               </>
             )}
-          </View>
+          </View>}
         </View>
       </ScrollView>
       <View

@@ -57,6 +57,7 @@ const MeetDetail = ({route, navigation}) => {
   const scrollHeight = useRef(0);
   const [targetId, setTargetId] = useState(null);
   const [selectedChatItem, setSelectedChatItem] = useState(null);
+  const [scrollEnabled, setScrollEnabled] = useState(true);
   const { userId } = useSelector(state => state.auth);
   const { participateStatus } = useSelector(state => state.meet);
   const dispatch = useDispatch();
@@ -362,6 +363,7 @@ const MeetDetail = ({route, navigation}) => {
         automaticallyAdjustKeyboardInsets={true}
         contentInsetAdjustmentBehavior='never'
         stickyHeaderIndices={[1]}
+        scrollEnabled={scrollEnabled}
       >
         {courseInfo !== null && meetingInfo !== null && (
           <ImageBackground
@@ -402,7 +404,7 @@ const MeetDetail = ({route, navigation}) => {
         {meetingInfo !== null && courseInfo !== null && (
           <View>
             {activeTab === 0 && <MeetInfo item={meetingInfo} />}
-            {activeTab === 1 && <MeetCourseInfo item={courseInfo} />}
+            {activeTab === 1 && <MeetCourseInfo item={courseInfo} setScrollEnabled={setScrollEnabled}/>}
             {activeTab === 2 && (participateStatus == "JOINED" ? (
               <MeetChatBoard 
                 notice={notice}  

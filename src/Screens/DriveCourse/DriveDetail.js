@@ -32,7 +32,7 @@ const DriveDetail = ({route, navigation}) => {
   const [liked, setLiked] = useState(route.params.liked);
   const [courseInfo, setCourseInfo] = useState(null);
   const scrollViewRef = useRef(null);
-  const [scrollOffset, setScrollOffset] = useState(0);
+  const [scrollEnabled, setScrollEnabled] = useState(true);
   const tabName = ['상세정보', '리뷰', '관광정보'];
   const [activeTab, setActiveTab] = useState(0);
   const userId = useSelector(state => state.auth.userId);
@@ -148,7 +148,8 @@ const DriveDetail = ({route, navigation}) => {
     >
       <KeyboardAwareScrollView
         ref={scrollViewRef}
-        stickyHeaderIndices={[1]}>
+        stickyHeaderIndices={[1]}
+        scrollEnabled={scrollEnabled}>
         <View onLayout={(e) => handleLayout(e, setContentHeight)}>
           <Image
             src={courseInfo.courseInfo.imagePath}
@@ -191,7 +192,7 @@ const DriveDetail = ({route, navigation}) => {
         {courseInfo !== null && (
           <View>
             {activeTab === 0 && (
-              <DriveInfo item={courseInfo} driveId={driveId} minHeight={containerHeight-tabHeight-buttonHeight}/>
+              <DriveInfo item={courseInfo} driveId={driveId} minHeight={containerHeight-tabHeight-buttonHeight} setScrollEnabled={setScrollEnabled}/>
             )}
             {activeTab === 1 && (
               <DriveReview
@@ -203,7 +204,7 @@ const DriveDetail = ({route, navigation}) => {
               />
             )}
             <View style={{display: activeTab === 2 ? 'flex' : 'none'}}>
-              <DriveTourSpot item={courseInfo} minHeight={containerHeight-tabHeight-buttonHeight}/>
+              <DriveTourSpot item={courseInfo} minHeight={containerHeight-tabHeight-buttonHeight} setScrollEnabled={setScrollEnabled}/>
             </View>
           </View>
         )}

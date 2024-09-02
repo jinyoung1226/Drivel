@@ -8,7 +8,7 @@ import {fetchRoute} from '../../utils/fetchRoute';
 import DriveRestaurantCuration from './DriveRestaurantCuration';
 import NoItemScreen from '../../components/NoItemScreen';
 import ShopIcon from '../../assets/icons/ShopIcon.svg';
-const DriveInfo = ({item, driveId, minHeight}) => {
+const DriveInfo = ({item, driveId, minHeight, setScrollEnabled}) => {
   const [htmlContent, setHtmlContent] = useState('');
   const center = {
     lat: item.waypoints[0].latitude,
@@ -67,6 +67,9 @@ const DriveInfo = ({item, driveId, minHeight}) => {
             originWhitelist={['*']}
             source={{html: htmlContent}}
             style={{flex: 1, borderRadius: 4}}
+            onTouchCancel={() => setScrollEnabled(true)}
+            onTouchStart={() => setScrollEnabled(false)}
+            onTouchEnd={() => setScrollEnabled(true)}
           />
         </View>
         <View style={{height: 32}} />
