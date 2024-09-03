@@ -7,7 +7,7 @@ import BackIcon from '../../assets/icons/BackIcon';
 import ArrowIcon from '../../assets/icons/ArrowIcon';
 import { helps } from '../../assets/helpData/helpData';
 
-const Help = ({navigation}) => {
+const Notice = ({navigation}) => {
 
   const [selectedItems, setSelectedItems] = useState([]); 
 
@@ -68,7 +68,6 @@ const Help = ({navigation}) => {
   return(
     <View style={{backgroundColor:colors.BG, flex:1}}>
       <FlatList
-        ListHeaderComponent={<View style={{height:16}}/>}
         data={helps}
         renderItem={({item}) => (
           <HelpListItem item={item} onPress={() => {toggleItem(item.id)}} id={item.id}/>
@@ -79,4 +78,4 @@ const Help = ({navigation}) => {
   )
 }
 
-export default Help;
+export default Notice;

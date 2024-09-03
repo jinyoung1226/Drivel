@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, Alert} from 'react-native';
+import React, {useEffect, useState, useLayoutEffect} from 'react';
+import {View, Text, Alert, TouchableOpacity} from 'react-native';
 import CustomInput from '../../components/CustomInput';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
@@ -9,7 +9,7 @@ import LoadingModal from '../../components/LoadingModal';
 import Eye from '../../assets/icons/EyeIcon.svg';
 import InputTextMessage from '../../components/InputTextMessage';
 import { api } from '../../api/api';
-
+import BackIcon from '../../assets/icons/BackIcon';
 
 const PasswordReset = ({navigation}) => {
 
@@ -28,6 +28,23 @@ const PasswordReset = ({navigation}) => {
   const [isValidPassword, setIsValidPassword] = useState(true);
   const [isPasswordSame, setIsPasswordSame] = useState(true);
   const [timer, setTimer] = useState(180);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '회원가입',
+      headerTitleStyle: [textStyles.H3, {color: colors.Gray10}],
+      headerTitleAlign: 'center',
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+          style={{padding: 16}}>
+          <BackIcon color={colors.Gray10} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   const isEmailValid = email => {
     const emailRegEx =

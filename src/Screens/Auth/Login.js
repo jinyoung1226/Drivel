@@ -19,6 +19,7 @@ import KakaoIcon from '../../assets/icons/KakaoIcon.svg';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import colors from '../../styles/colors';
 import PolicyModal from '../../components/PolicyModal';
+import SplashScreen from '../../SplashScreen';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -46,44 +47,10 @@ const LoginScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <PolicyModal modalVisible={modalVisible} setModalVisible={setModalVisible} registerType={registerType}/>
-      <KeyboardAwareScrollView>
-        <View style={{padding: 16}}>
-          <View style={{height: 64}} />
-          <Text
-            style={[
-              textStyles.H1,
-              {fontSize: 30, color: colors.Blue, lineHeight: 50},
-            ]}>
-            Drivel과 함께{'\n'}달릴 준비 되셨나요?
-          </Text>
-          <View style={{height: 64}} />
-          <CustomInput
-            placeholder="이메일을 입력하세요"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-          />
-          <View style={{height: 16}} />
-          <CustomInput
-            placeholder="비밀번호를 입력하세요"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={true}
-          />
-          <View style={{height: 8}} />
-          <TouchableOpacity
-            onPress={() => navigation.navigate('PasswordReset')}>
-            <Text
-              style={[
-                textStyles.H5,
-                {alignSelf: 'flex-end', color: colors.Gray05},
-              ]}>
-              비밀번호 재설정
-            </Text>
-          </TouchableOpacity>
-          <View style={{height: 16}} />
-          <CustomButton title="로그인" onPress={() => handleLogin()} disabled={isLoading}/>
-          <View style={{height: 32}} />
+        <View style={{padding: 16, flex:1}}>
+          <View style={{flex: 1}} />
+          <SplashScreen />
+          <View style={{flex: 1}} />
           <TouchableOpacity
             style={{
               flexDirection: 'row',
@@ -102,28 +69,9 @@ const LoginScreen = ({navigation}) => {
             <View style={{flex: 1}} />
           </TouchableOpacity>
           <View style={{height: 32}} />
-          <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-            <Text style={[textStyles.H5, {color: colors.Gray06}]}>
-              아직 회원이 아니신가요?
-            </Text>
-            <View style={{width: 8}} />
-            <TouchableOpacity onPress={() =>{setModalVisible(!modalVisible); setRegisterType('email');}}>
-              <Text
-                style={[
-                  textStyles.H5,
-
-                  {
-                    color: colors.Blue,
-                    borderBottomWidth: 1,
-                    borderColor: colors.Blue,
-                  },
-                ]}>
-                이메일로 회원가입하기
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <CustomButton title="이메일 로그인" onPress={() => navigation.navigate("EmailLogin")} />
+          <View style={{height: 16}} />
         </View>
-      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };

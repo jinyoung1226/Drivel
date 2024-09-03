@@ -13,9 +13,8 @@ import WithdrawalModal from '../../components/WithdrawalModal';
 
 
 const useInfo = [
-  {title:'1:1 문의', pageName:'1on1'},
   {title:'도움말', pageName:'Help'},
-  {title:'공지사항', pageName:'Notice'},
+  // {title:'공지사항', pageName:'Notice'},
 ]
 
 const policy = [

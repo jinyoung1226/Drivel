@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useLayoutEffect} from 'react';
 import {
   View,
   Text,
@@ -19,6 +19,7 @@ import InputTextMessage from '../../components/InputTextMessage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CustomButton from '../../components/CustomButton';
 import colors from '../../styles/colors';
+import BackIcon from '../../assets/icons/BackIcon.svg';
 const Register = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [authCode, setAuthCode] = useState('');
@@ -35,6 +36,23 @@ const Register = ({navigation}) => {
   const [isValidPassword, setIsValidPassword] = useState(true);
   const [isPasswordSame, setIsPasswordSame] = useState(true);
   const [timer, setTimer] = useState(180);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '회원가입',
+      headerTitleStyle: [textStyles.H3, {color: colors.Gray10}],
+      headerTitleAlign: 'center',
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+          style={{padding: 16}}>
+          <BackIcon color={colors.Gray10} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   const isEmailValid = email => {
     const emailRegEx =

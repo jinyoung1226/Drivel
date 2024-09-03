@@ -4,6 +4,7 @@ import Login from '../Screens/Auth/Login';
 import Register from '../Screens/Auth/Register';
 import KakaoLogin from '../Screens/Auth/KakaoLogin';
 import PasswordReset from '../Screens/Auth/PasswordReset';
+import EmailLogin from '../Screens/Auth/EmailLogin';
 import {textStyles} from '../styles/textStyles';
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ const AuthNavigator = () => {
       />
       <Stack.Screen name="KakaoLogin" component={KakaoLogin} />
       <Stack.Screen name="PasswordReset" component={PasswordReset} />
+      <Stack.Screen name="EmailLogin" component={EmailLogin} />
     </Stack.Navigator>
   );
 };

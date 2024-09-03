@@ -19,7 +19,8 @@ import GearIcon from '../assets/icons/GearIcon';
 import {TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {showTabBar, hideTabBar} from '../features/tabBar/tabBarSlice';
-
+// import Notice from '../Screens/Mypage/Notice';
+// import Inquiry from '../Screens/Mypage/Inquiry';
 const Stack = createStackNavigator();
 
 const MypageTab = ({route, navigation}) => {
@@ -67,6 +68,8 @@ const MypageTab = ({route, navigation}) => {
       <Stack.Screen name="Setting" component={Setting} />
       <Stack.Screen name="MeetDetail" component={MeetDetail} />
       <Stack.Screen name="Help" component={Help} />
+      {/* <Stack.Screen name="Notice" component={Notice} />
+      <Stack.Screen name="Inquiry" component={Inquiry} /> */}
     </Stack.Navigator>
   );
 };
