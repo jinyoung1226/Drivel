@@ -5,7 +5,7 @@ import colors from '../styles/colors';
 import BackIcon from '../assets/icons/BackIcon.svg';
 import {useNavigation} from '@react-navigation/native';
 import {authApi} from '../api/api';
-
+import MainLogo from '../assets/icons/MainLogo';
 const {width} = Dimensions.get('window');
 
 const formatDate = dateString => {
@@ -106,16 +106,15 @@ const FestivalInfo = ({route}) => {
       </View>
       <View style={{height: 24}} />
       {festivalInfo.imagePath == "" || festivalInfo.imagePath == null ?
-      <ImageBackground
-        source={require('../assets/image/MainLogo.png')}
-        style={{flex: 1, resizeMode: 'contain', alignItems: 'center'}}
+      <View
+        style={{flex: 1, justifyContent:'center', alignItems: 'center'}}
       >
-        <View style={{flex: 1}} />
+        <MainLogo/>
+        <View style={{height:32}} />
         <Text style={[textStyles.B3, {color: colors.Gray10}]}>
           페스티벌 관련 이미지가 존재하지 않습니다.
         </Text>
-        <View style={{height:32}} />
-      </ImageBackground>
+      </View>
       :
       <Image
         src={festivalInfo.imagePath}

@@ -12,7 +12,7 @@ import colors from '../../styles/colors';
 import CheckBox from '../../assets/icons/CheckBox';
 import EmptyBox from '../../assets/icons/EmptyBox';
 import Check from '../../assets/icons/Check';
-import {authApi} from '../../api/api';
+import MainLogo from '../../assets/icons/MainLogo';
 
 const DriveStartSpotCuration = ({item, setCheckInfo}) => {
   const [isChecked, setChecked] = useState(false);
@@ -74,33 +74,30 @@ const DriveStartSpotCuration = ({item, setCheckInfo}) => {
   };
 
   return (
-    <View
+    <Pressable 
       style={{
         flex: 1,
-        height: 77,
         flexDirection: 'row',
-        marginBottom: 16,
-      }}>
-      <Pressable onPress={handleCheckboxPress}>
-        <Animated.View style={{transform: [{scale: scaleValue}]}}>
-          {!isChecked ? (
-            <EmptyBox />
-          ) : (
-            <View>
-              <CheckBox />
-              <View style={{position: 'absolute', top: 6, left: 5}}>
-                <Check />
-              </View>
+        marginBottom: 32,
+      }}
+      onPress={handleCheckboxPress}
+    >
+      <Animated.View style={{transform: [{scale: scaleValue}]}}>
+        {!isChecked ? (
+          <EmptyBox />
+        ) : (
+          <View>
+            <CheckBox />
+            <View style={{position: 'absolute', top: 6, left: 5}}>
+              <Check />
             </View>
-          )}
-        </Animated.View>
-      </Pressable>
-      <View style={{flexDirection: 'column', marginLeft: 16}}>
-        <View style={{flexDirection: 'row', gap: 8, alignItems: 'center'}}>
-          <Text style={[textStyles.H5, {color: colors.Gray10}]}>
-            {item.title}
-          </Text>
-        </View>
+          </View>
+        )}
+      </Animated.View>
+      <View style={{flex:1, marginLeft: 16}}>
+        <Text style={[textStyles.H5, {color: colors.Gray10}]}>
+          {item.title}
+        </Text>
         <View style={{height: 8}} />
         <Text style={[textStyles.B4, {color: colors.Gray06}]}>
           코스 시작 지점으로부터{' '}
@@ -113,19 +110,19 @@ const DriveStartSpotCuration = ({item, setCheckInfo}) => {
         </Text>
         <View style={{height: 8}} />
       </View>
-      <View style={{flex: 1}} />
       {item.imagePath === null ? (
-        <ImageBackground
-          source={require('../../assets/image/MainLogo.png')}
-          style={{width: 60, height: 65.19, borderRadius: 5.77}}
-        />
+        <View
+        style={{width: 65, height: 65, borderRadius: 5, overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.05)'}}  
+        >
+          <MainLogo width={65} height={65} />
+        </View>
       ) : (
         <Image
           source={{uri: item.imagePath}}
           style={{width: 60, height: 65.19, borderRadius: 5.77}}
         />
       )}
-    </View>
+    </Pressable>
   );
 };
 

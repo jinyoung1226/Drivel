@@ -4,7 +4,7 @@ import { textStyles } from '../styles/textStyles';
 import colors from '../styles/colors';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-
+import MainLogo from '../assets/icons/MainLogo';
 const formatDate = dateString => {
   const isoDateString = `${dateString.slice(0, 4)}-${dateString.slice(
     4,
@@ -39,15 +39,19 @@ const FestivalCuration = ({ item }) => {
   return (
     <Pressable onPress={() => handleFestivalInfo(item.id)}>
       {item.imagePath == "" || item.imagePath == null ? 
-        <ImageBackground
-        source={require('../assets/image/MainLogo.png')} style={{ width: 182, height: 252, borderRadius: 10, overflow: 'hidden' }}>
+        <View
+        style={{ width: 182, height: 252, borderRadius: 10, overflow: 'hidden' }}>
+          
           <LinearGradient
-            style={{ flex: 1, padding: 12 }}
+            style={{ flex: 1, padding: 12, }}
             colors={[
               'rgba(0, 0, 0, 0.1)',
               'rgba(0, 0, 0, 0.6)',
-            ]}>
-            <View style={{ flex: 1 }} />
+            ]}
+          >
+            <View style={{flex: 1, alignItems:'center', justifyContent:'center'}}>
+              <MainLogo width={150} height={150}/>
+            </View>
             <Text
               style={[
                 textStyles.H4,
@@ -64,7 +68,7 @@ const FestivalCuration = ({ item }) => {
               {item.endDate && formatShortDate(item.endDate)}
             </Text>
           </LinearGradient>
-        </ImageBackground>
+        </View>
         :
         <ImageBackground
         src={item.imagePath}

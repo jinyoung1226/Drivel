@@ -6,7 +6,7 @@ import CheckBox from '../../assets/icons/CheckBox';
 import EmptyBox from '../../assets/icons/EmptyBox';
 import Check from '../../assets/icons/Check';
 import {authApi} from '../../api/api';
-
+import MainLogo from '../../assets/icons/MainLogo';
 const DriveStartRestaurantCuration = ({item, setCheckInfo}) => {
   const [isChecked, setChecked] = useState(false);
   const [placeInfo, setPlaceInfo] = useState(null);
@@ -91,62 +91,74 @@ const DriveStartRestaurantCuration = ({item, setCheckInfo}) => {
   }
 
   return (
-    <View
+    <Pressable 
       style={{
         flex: 1,
-        height: 77,
         flexDirection: 'row',
-        marginBottom: 16,
-      }}>
-      <Pressable onPress={handleCheckboxPress}>
-        <Animated.View style={{transform: [{scale: scaleValue}]}}>
-          {!isChecked ? (
-            <EmptyBox />
-          ) : (
-            <View>
-              <CheckBox />
-              <View style={{position: 'absolute', top: 6, left: 5}}>
-                <Check />
-              </View>
+        marginBottom: 32,
+      }}
+      onPress={handleCheckboxPress}
+    >
+      <Animated.View style={{transform: [{scale: scaleValue}]}}>
+        {!isChecked ? (
+          <EmptyBox />
+        ) : (
+          <View>
+            <CheckBox />
+            <View style={{position: 'absolute', top: 6, left: 5}}>
+              <Check />
             </View>
-          )}
-        </Animated.View>
-      </Pressable>
-      <View style={{flexDirection: 'column', marginLeft: 16}}>
-        <View style={{flexDirection: 'row', gap: 8, alignItems: 'center'}}>
-          <Text style={[textStyles.H5, {color: colors.Gray10}]}>
-            {placeInfo.name}
+          </View>
+        )}
+      </Animated.View>
+    
+      <View style={{flex:1, marginLeft: 16}}>
+        <View style={{flex:1}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{flexShrink:1}}>
+              <Text 
+                style={[textStyles.H5, {color: colors.Gray10}]}
+                numberOfLines={1}  
+              >
+                {placeInfo.name}
+              </Text>
+            </View>
+            <View style={{width:8}} />
+            <View>
+              <Text style={[textStyles.B4, {color: colors.Gray04}]}>
+                {placeInfo.category}
+              </Text>
+            </View>
+          </View>
+          <View style={{height: 8}} />
+          <Text style={[textStyles.B4, {color: colors.Gray06}]}>
+            코스 시작 지점으로부터{' '}
+            {Number(item.distanceFromFirstWaypoint.toFixed(1))}km
           </Text>
-          <Text style={[textStyles.B4, {color: colors.Gray04}]}>
-            {placeInfo.category}
+          <View style={{height: 2}} />
+          <Text style={[textStyles.B4, {color: colors.Gray06}]}>
+            코스 종료 지점으로부터{' '}
+            {Number(item.distanceFromLastWaypoint.toFixed(1))}km
+          </Text>
+          <View style={{height: 8}} />
+          <Text style={[textStyles.B4, {color: colors.Gray06}]}>
+            {placeInfo.phoneNumber}
           </Text>
         </View>
-        <View style={{height: 8}} />
-        <Text style={[textStyles.B4, {color: colors.Gray06}]}>
-          코스 시작 지점으로부터{' '}
-          {Number(item.distanceFromFirstWaypoint.toFixed(1))}km
-        </Text>
-        <View style={{height: 2}} />
-        <Text style={[textStyles.B4, {color: colors.Gray06}]}>
-          코스 종료 지점으로부터{' '}
-          {Number(item.distanceFromLastWaypoint.toFixed(1))}km
-        </Text>
-        <View style={{height: 8}} />
-        <Text style={[textStyles.B4, {color: colors.Gray06}]}>
-          {placeInfo.phoneNumber}
-        </Text>
       </View>
-      <View style={{flex: 1}} />
+      <View style={{width:16}} />
       {placeInfo.imagePath === null ? (
-        <ImageBackground
-        source={require('../../assets/image/MainLogo.png')}
-        style={{width: 60, height: 65.19, borderRadius: 5.77}}
-      />
-      ) : (<Image
+        <View
+        style={{width: 65, height: 65, borderRadius: 5, overflow: 'hidden', backgroundColor: 'rgba(0,0,0,1)'}}  
+        >
+          <MainLogo width={65} height={65} />
+        </View>
+      ) : (
+      <Image
         source={{uri: placeInfo.imagePath}}
-        style={{width: 60, height: 65.19, borderRadius: 5.77}}
+        style={{width: 65, height: 70, borderRadius: 5}}
       />)}
-    </View>
+    </Pressable>
   );
 };
 
