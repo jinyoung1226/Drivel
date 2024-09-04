@@ -67,6 +67,7 @@ yarn-error.log
 /coverage
 google-services.json
 config.js
+app-release.aab
 # Yarn
 .yarn/*
 !.yarn/patches

@@ -1,16 +1,26 @@
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { useDispatch } from 'react-redux';
 import store from './src/store/store';
 import RootNavigator from './src/Nav/RootNavigator';
 import messaging from '@react-native-firebase/messaging';
 import { Alert } from 'react-native';
-import { Platform, NativeModules, PermissionsAndroid } from 'react-native';
+import { Platform, PermissionsAndroid } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as encoding from 'text-encoding';
 import BootSplash from "react-native-bootsplash";
 
+console.log = () => {};
+console.warn = () => {};
+console.error = () => {};
+
+if (process.env.NODE_ENV === "production") {
+  console = window.console || {};
+  console.log = function no_console() {};
+  console.warn = function no_console() {};
+  console.error = function () {};
+}
 const App = () => {
+
 
   const getFcmToken = async () => {
     try {
