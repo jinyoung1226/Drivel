@@ -8,6 +8,8 @@ import SplashScreen from '../SplashScreen';
 import OnboardingPage from './OnboardNavigator';
 import {connectWebSocket, disconnectWebSocket} from '../features/websocket/websocketActions'; // 웹소켓 액션 가져오기
 
+export const navigationRef = React.createRef();
+
 const RootNavigator = () => {
   const {isAuthenticated, onboarded, isLoading, isAutoLoginLoading} = useSelector(
     state => state.auth,
@@ -43,7 +45,7 @@ const RootNavigator = () => {
 
 
   return (
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
       </NavigationContainer>
   );

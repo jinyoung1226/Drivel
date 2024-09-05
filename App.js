@@ -8,17 +8,20 @@ import { Platform, PermissionsAndroid } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as encoding from 'text-encoding';
 import BootSplash from "react-native-bootsplash";
+import notifee, { AndroidImportance, AndroidVisibility, EventType } from '@notifee/react-native';
+import { navigationRef } from './src/Nav/RootNavigator'
 
-console.log = () => {};
-console.warn = () => {};
-console.error = () => {};
+// console.log = () => {};
+// console.warn = () => {};
+// console.error = () => {};
 
-if (process.env.NODE_ENV === "production") {
-  console = window.console || {};
-  console.log = function no_console() {};
-  console.warn = function no_console() {};
-  console.error = function () {};
-}
+// if (process.env.NODE_ENV === "production") {
+//   console = window.console || {};
+//   console.log = function no_console() {};
+//   console.warn = function no_console() {};
+//   console.error = function () {};
+// }
+
 const App = () => {
 
 
@@ -31,8 +34,63 @@ const App = () => {
       console.error('Failed to get FCM token:', error);
     }
   };
-  const unsubscribe = messaging().onMessage(async remoteMessage => {
-    console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
+
+  const onMessageReceived = async (message) => {
+    console.log('message:', message);
+    await notifee.requestPermission()
+    
+    const channelId = await notifee.createChannel({
+      id: 'important',
+      name: 'Important Notifications',
+      importance: AndroidImportance.HIGH,
+    });
+
+    notifee.displayNotification({
+      title: message.notification.title,
+      body: message.notification.body,
+      android: {
+          channelId: channelId,
+          smallIcon: 'ic_launcher',
+          importance: AndroidImportance.HIGH,
+          visibility: AndroidVisibility.PUBLIC,
+      },
+    })
+  };
+
+  const unsubscribe = messaging().onMessage(onMessageReceived);
+
+  const foregroundEvent = notifee.onForegroundEvent(({ type, detail }) => {
+    switch (type) {
+      case EventType.DISMISSED:
+        console.log('User dismissed notification', detail.notification);
+        break;
+      case EventType.PRESS:
+        console.log('User pressed notification', detail.notification);
+        navigationRef.current?.navigate('MeetTab', {
+          screen: 'MeetMain',
+        });
+        navigationRef.current?.navigate('MeetTab', {
+          screen: 'MeetApplyDetail',
+        });
+        break;
+    }
+  });
+
+  const backgroundEvent = notifee.onBackgroundEvent(async ({ type, detail }) => {
+    switch (type) {
+      case EventType.DISMISSED:
+        console.log('User dismissed notification', detail.notification);
+        break;
+      case EventType.PRESS:
+        console.log('User pressed notification', detail.notification);
+        navigationRef.current?.navigate('MeetTab', {
+          screen: 'MeetMain',
+        });
+        navigationRef.current?.navigate('MeetTab', {
+          screen: 'MeetApplyDetail',
+        });
+        break;
+    }
   });
 
   const requestPermission = async () => {
@@ -44,6 +102,7 @@ const App = () => {
       console.log('Permission denied');
     }
   };
+
 
   const androidRequestPermission = async () => {
     const authorizationStatus = await messaging().requestPermission();
@@ -81,12 +140,19 @@ const App = () => {
       resisterForPushNotificationsAsync();
       androidRequestPermission();
       getFcmToken();
+
     }
     init().finally(async () => {
+      // await notifee.cancelNotification("Default");
+      // await notifee.deleteChannel('Miscellaneous');
       await BootSplash.hide({ fade: true });
       console.log("BootSplash has been hidden successfully");
     });
-    return unsubscribe;
+    return () => {
+      unsubscribe(); // FCM 메시지 핸들러 클린업
+      foregroundEvent(); // Notifee 이벤트 핸들러 클린업
+      backgroundEvent
+    };
   }, []);
 
   return (
