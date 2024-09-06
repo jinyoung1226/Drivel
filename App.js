@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import store from './src/store/store';
 import RootNavigator from './src/Nav/RootNavigator';
 import messaging from '@react-native-firebase/messaging';
-import { Alert } from 'react-native';
+import { Alert, Linking } from 'react-native';
 import { Platform, PermissionsAndroid } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as encoding from 'text-encoding';
@@ -59,40 +59,6 @@ const App = () => {
 
   const unsubscribe = messaging().onMessage(onMessageReceived);
 
-  const foregroundEvent = notifee.onForegroundEvent(({ type, detail }) => {
-    switch (type) {
-      case EventType.DISMISSED:
-        console.log('User dismissed notification', detail.notification);
-        break;
-      case EventType.PRESS:
-        console.log('User pressed notification', detail.notification);
-        navigationRef.current?.navigate('MeetTab', {
-          screen: 'MeetMain',
-        });
-        navigationRef.current?.navigate('MeetTab', {
-          screen: 'MeetApplyDetail',
-        });
-        break;
-    }
-  });
-
-  const backgroundEvent = notifee.onBackgroundEvent(async ({ type, detail }) => {
-    switch (type) {
-      case EventType.DISMISSED:
-        console.log('User dismissed notification', detail.notification);
-        break;
-      case EventType.PRESS:
-        console.log('User pressed notification', detail.notification);
-        navigationRef.current?.navigate('MeetTab', {
-          screen: 'MeetMain',
-        });
-        navigationRef.current?.navigate('MeetTab', {
-          screen: 'MeetApplyDetail',
-        });
-        break;
-    }
-  });
-
   const requestPermission = async () => {
     const authStatus = await messaging().requestPermission();
     const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED || authStatus === messaging.AuthorizationStatus.PROVISIONAL;
@@ -140,7 +106,6 @@ const App = () => {
       resisterForPushNotificationsAsync();
       androidRequestPermission();
       getFcmToken();
-
     }
     init().finally(async () => {
       // await notifee.cancelNotification("Default");
@@ -148,16 +113,31 @@ const App = () => {
       await BootSplash.hide({ fade: true });
       console.log("BootSplash has been hidden successfully");
     });
+    notifee.onBackgroundEvent(async ({ type, detail }) => {
+      switch (type) {
+        case EventType.PRESS:
+          Linking.openURL('drivel://meet/applyDetail');
+          break;
+      }
+    });
+    notifee.onForegroundEvent(async ({ type, detail }) => {
+      switch (type) {
+        case EventType.PRESS:
+          Linking.openURL('drivel://meet/applyDetail');
+          break;
+      }
+    });
     return () => {
       unsubscribe(); // FCM 메시지 핸들러 클린업
-      foregroundEvent(); // Notifee 이벤트 핸들러 클린업
-      backgroundEvent
+      // foregroundEvent()
     };
   }, []);
 
+  
+
   return (
       <Provider store={store}>
-        <RootNavigator />
+        <RootNavigator/>
       </Provider>
   );
 };

@@ -7,6 +7,7 @@ import MainNavigator from './MainNavigator';
 import SplashScreen from '../SplashScreen';
 import OnboardingPage from './OnboardNavigator';
 import {connectWebSocket, disconnectWebSocket} from '../features/websocket/websocketActions'; // 웹소켓 액션 가져오기
+import { linking } from '../../deepLinkConfig';
 
 export const navigationRef = React.createRef();
 
@@ -45,7 +46,7 @@ const RootNavigator = () => {
 
 
   return (
-      <NavigationContainer ref={navigationRef}>
+      <NavigationContainer ref={navigationRef} linking={linking}>
         {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
       </NavigationContainer>
   );
