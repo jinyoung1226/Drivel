@@ -1,24 +1,22 @@
 import { Linking } from 'react-native';
+import MeetMain from './src/Screens/Meet/MeetMain';
+import MainNavigator from './src/Nav/MainNavigator';
 
 export const linking = {
   prefixes: ['drivel://'],
   config: {
     screens: {
+      initialRouteName : 'MeetTab',
+      HomeTab: 'home',
       MeetTab: {
+        initialRouteName: 'MeetMain',
         screens: {
           MeetMain: 'meet',
           MeetApplyDetail: 'meet/applyDetail',
         },
       },
-    },
-  },
-  config: {
-    screens: {
-      DriveTab: {
-        screens: {
-          DriveMain: 'drive',
-        },
-      },
+      DriveTab: 'drive',
+      MypageTab: 'mypage',
     },
   },
   async getInitialURL() {

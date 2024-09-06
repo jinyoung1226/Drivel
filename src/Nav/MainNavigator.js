@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Platform} from 'react-native';
+import {Linking, Platform} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeTab from '../BottomTab/HomeTab';
 import MeetTab from '../BottomTab/MeetTab';
@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { authApi } from '../api/api';
 import { setLikedItem } from '../features/like/likeActions';
 import { getMyProfileInfo } from '../features/profile/profileActions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +25,7 @@ const MainNavigator = () => {
   useEffect(() => {
     dispatch(getMyProfileInfo());
   }, []);
-
+  
   return (
     <Tab.Navigator initialRouteName='HomeTab'
       tabBar={(props) => <CustomTabBar {...props} />}

@@ -64,6 +64,7 @@ const MeetApplyDetail = ({navigation}) => {
 
   return (
     <View style={{backgroundColor: colors.BG, flex:1}}>
+      {meetApplyList && 
       <ScrollView>
         {meetApplyList.map((item, index) => (
           <View
@@ -198,7 +199,7 @@ const MeetApplyDetail = ({navigation}) => {
             ))}
           </View>
         ))}
-      </ScrollView>
+      </ScrollView>}
     </View>   
   );
 }

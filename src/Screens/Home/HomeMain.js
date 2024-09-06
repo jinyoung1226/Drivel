@@ -4,6 +4,7 @@ import {
   ScrollView,
   Text,
   FlatList,
+  Linking,
 } from 'react-native';
 import DriveCourseCuration from './DriveCourseCuration';
 import MagazineCuration from './MagazineCuration';
@@ -18,6 +19,7 @@ import DriveRegionCuraiton from './DriveRegionCuraiton';
 import MiniBus from '../../assets/icons/MinibusIcon.svg';
 import { magazineCover } from '../../assets/magazineData/magazineData'; 
 import HomeBanner from './HomeBanner';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeMain = ({navigation}) => {
   const [driveCourseList, setDriveCourseList] = useState([]);
@@ -62,6 +64,14 @@ const HomeMain = ({navigation}) => {
       }
     };
     getDriveCurationInfo();
+    const goMeetApplyDetail = async () => {
+      const deepLinkURL = await AsyncStorage.getItem('deepLinkURL');
+      if (deepLinkURL) {
+        Linking.openURL('drivel://meet/applyDetail');
+        await AsyncStorage.removeItem('deepLinkURL');
+      }
+    }
+    goMeetApplyDetail();
   }, []);
 
   useEffect(() => {

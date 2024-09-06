@@ -118,18 +118,24 @@ const App = () => {
         case EventType.PRESS:
           Linking.openURL('drivel://meet/applyDetail');
           break;
+        case EventType.DISMISSED:
+          console.log('User dismissed notification');
+          break;
       }
     });
-    notifee.onForegroundEvent(async ({ type, detail }) => {
+    const foregroundEvent = notifee.onForegroundEvent(async ({ type, detail }) => {
       switch (type) {
         case EventType.PRESS:
           Linking.openURL('drivel://meet/applyDetail');
+          break;
+        case EventType.DISMISSED:
+          console.log('User dismissed notification');
           break;
       }
     });
     return () => {
       unsubscribe(); // FCM 메시지 핸들러 클린업
-      // foregroundEvent()
+      foregroundEvent()
     };
   }, []);
 
