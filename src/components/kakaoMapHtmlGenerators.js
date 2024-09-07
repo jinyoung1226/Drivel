@@ -83,7 +83,7 @@ export const noneMultiPointHtml = (center, waypoints, key) => {
 
                     const waypoints = ${JSON.stringify(waypoints)};
                     const imageSrc = 'https://drivel-icon.s3.ap-northeast-2.amazonaws.com/pin.svg'; // 기본 마커 이미지
-                    const imageSize = new kakao.maps.Size(12, 20); // 마커 이미지 크기
+                    const imageSize = new kakao.maps.Size(24, 36); // 마커 이미지 크기
                     const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); // 마커 이미지 설정
 
                     waypoints.forEach((wp, index) => {
@@ -153,7 +153,7 @@ export const multiPointHtml = (center, route, waypoints, key) => {
                       // 경로의 각 지점에 마커 표시
                       const waypoints = ${JSON.stringify(waypoints)};
                       const imageSrc = 'https://drivel-icon.s3.ap-northeast-2.amazonaws.com/pin.svg'; // 기본 마커 이미지
-                      const imageSize = new kakao.maps.Size(12, 20); // 마커 이미지 크기
+                      const imageSize = new kakao.maps.Size(24, 36); // 마커 이미지 크기
                       const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); // 마커 이미지 설정
                       waypoints.forEach((wp, index) => {
                           const marker = new kakao.maps.Marker({

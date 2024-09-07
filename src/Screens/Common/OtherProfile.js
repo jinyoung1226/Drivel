@@ -103,7 +103,7 @@ const OtherProfile = ({navigation, route}) => {
       <View style={{height: 24}} />
       <UserMannerScoreBar />
       <GrayLine/>
-      <OtherMeet/>
+      <OtherMeet userId={memberId}/>
     </ScrollView>
   );
 };

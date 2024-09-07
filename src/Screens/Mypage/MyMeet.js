@@ -20,7 +20,6 @@ const MyMeet = ({locked}) => {
   
   
   console.log(locked);
-  const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState(0);
   const [isOn, setIsOn] = useState(locked);
   const [createdMeetList, setCreatedMeetList] = useState([]);
