@@ -7,7 +7,6 @@ import StarIcon from '../../assets/icons/StarIcon.svg';
 
 const DriveSearchCourseListItem = ({item, disabled}) => {
   const navigation = useNavigation();
-  const [isPressed, setIsPressed] = useState(false);
 
   const handleDriveDetail = id => {
     navigation.navigate('DriveDetail', {id});
@@ -24,10 +23,9 @@ const DriveSearchCourseListItem = ({item, disabled}) => {
         flexDirection: 'row',
         paddingVertical: 16,
         paddingHorizontal: 24,
-        backgroundColor: isPressed ? colors.Gray02 : 'transparent',
+        backgroundColor: colors.BG,
       }}
       onPress={handlePress}
-      onPressIn={() => setIsPressed(true)}
       disabled={disabled}>
       <View style={{flex: 1}}>
         <Text style={[textStyles.H5, {color: colors.Gray10}]} numberOfLines={1}>

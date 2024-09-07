@@ -28,7 +28,7 @@ export const driveTheme = [
 ];
 
 export const driveStyle = [
-  {id: 1, displayName: '😌  할링/휴식'},
+  {id: 1, displayName: '😌 힐링/휴식'},
   {id: 2, displayName: '🚶🏻  산책'},
   {id: 3, displayName: '👒  나들이/피크닉'},
   {id: 4, displayName: '🎨  이색체험'},

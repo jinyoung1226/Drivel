@@ -491,8 +491,8 @@ const MeetDetail = ({route, navigation}) => {
               <CustomButton
                 title={participateStatus == 'WAITING' ? '신청 취소' : '참여하기'}
                 disabled={isApplying}
-                onPress={() => {
-                  participateMeeting();
+                onPress={() => {participateStatus == 'WAITING' ? 
+                  cancelParticipateMeeting() : participateMeeting()
                 }}
               />
             </View>

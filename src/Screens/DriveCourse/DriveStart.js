@@ -97,7 +97,7 @@ const DriveStart = ({route, navigation}) => {
     return (
       <View
         style={{
-          height: 'auto',
+          height:60,
           width: width - 32,
           backgroundColor: colors.Gray02,
           borderRadius: 8,
@@ -119,7 +119,9 @@ const DriveStart = ({route, navigation}) => {
             style={[
               textStyles.B3,
               {color: colors.Gray10, flexWrap: 'wrap', flex: 1},
-            ]}>
+            ]}
+            numberOfLines={1}
+            >
             {waypointNames}
           </Text>
         </View>
@@ -211,7 +213,7 @@ const DriveStart = ({route, navigation}) => {
           <View style={{height: 24}} />
           <DragSortableView
             dataSource={checkInfo}
-            childrenHeight={60}
+            childrenHeight={72}
             childrenWidth={width - 32}
             renderItem={renderItem}
             onDataChange={newData => {

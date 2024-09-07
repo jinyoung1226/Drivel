@@ -17,7 +17,7 @@ const MyMeetList = ({ListHeaderComponent, data}) => {
       renderItem={({item}) => (
         <MyMeetItem item={item}/>
       )}
-      keyExtractor={item => item.id}
+      keyExtractor={item => item.meetingId}
     />
   );
 };

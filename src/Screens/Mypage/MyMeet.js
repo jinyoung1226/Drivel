@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import colors from "../../styles/colors";
 import { textStyles } from "../../styles/textStyles";
@@ -17,10 +17,53 @@ const data = [
 ]
 
 const MyMeet = ({locked}) => {
+  
+  
   console.log(locked);
   const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState(0);
   const [isOn, setIsOn] = useState(locked);
+  const [createdMeetList, setCreatedMeetList] = useState([]);
+  const [joinedMeetList, setJoinedMeetList] = useState([]);
+
+  const getCreatedMeetList = async() => {
+    try {
+      const response = await authApi.get('meeting/created');
+      if (response.status == 200) {
+        console.log(response.data);
+        setCreatedMeetList(response.data);
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.status);
+        console.log(error.response.data);
+      } else {
+        console.log(error);
+      }
+    }
+  }
+
+  const getJoinedMeetList = async() => {
+    try {
+      const response = await authApi.get('meeting/participating');
+      if (response.status == 200) {
+        console.log(response.data);
+        setJoinedMeetList(response.data);
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.status);
+        console.log(error.response.data);
+      } else {
+        console.log(error);
+      }
+    }
+  }
+
+  useEffect(() => {
+    getCreatedMeetList();
+    getJoinedMeetList();
+  }, [])
 
   const profileLock = async() => {
     try {
@@ -51,7 +94,8 @@ const MyMeet = ({locked}) => {
       <Tabs tabName={['만든 모임', '참여한 모임']} activeTab={activeTab} setActiveTab={setActiveTab} scrollToTab={() => {}}/>
       <View style={{height:24}}/>
 
-      {activeTab == 0 && <MyMeetList data={data}/>}
+      {activeTab == 0 && <MyMeetList data={createdMeetList}/>}
+      {activeTab == 1 && <MyMeetList data={joinedMeetList}/>}
     </View>
   );
 }

@@ -23,13 +23,13 @@ const MyMeetItem = ({item}) => {
       onPress={() => {navigation.navigate('MeetDetail', {
         meetingId: item.meetingId,
         courseId: item.courseId,
-        meetingTitle: item.meetingTitle,
+        meetingTitle: item.title,
       })}}>
     
       <Image src={item.imagePath} style={{width:'100%', aspectRatio:1.4, borderRadius: 10}}/>
       <View style={{height: 10}} />
       <Text style={[textStyles.B3, {color: colors.Gray10}]} numberOfLines={2}>
-        {item.meetingTitle}
+        {item.title}
       </Text>
       <View style={{height: 4}} />
       <Text style={[textStyles.B4, {color: colors.Gray05}]}>
