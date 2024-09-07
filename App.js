@@ -113,16 +113,16 @@ const App = () => {
       await BootSplash.hide({ fade: true });
       console.log("BootSplash has been hidden successfully");
     });
-    notifee.onBackgroundEvent(async ({ type, detail }) => {
-      switch (type) {
-        case EventType.PRESS:
-          Linking.openURL('drivel://meet/applyDetail');
-          break;
-        case EventType.DISMISSED:
-          console.log('User dismissed notification');
-          break;
-      }
-    });
+    // notifee.onBackgroundEvent(async ({ type, detail }) => {
+    //   switch (type) {
+    //     case EventType.PRESS:
+    //       Linking.openURL('drivel://meet/applyDetail');
+    //       break;
+    //     case EventType.DISMISSED:
+    //       console.log('User dismissed notification');
+    //       break;
+    //   }
+    // });
     const foregroundEvent = notifee.onForegroundEvent(async ({ type, detail }) => {
       switch (type) {
         case EventType.PRESS:
