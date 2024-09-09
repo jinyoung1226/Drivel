@@ -10,6 +10,7 @@ import * as encoding from 'text-encoding';
 import BootSplash from "react-native-bootsplash";
 import notifee, { AndroidImportance, AndroidVisibility, EventType } from '@notifee/react-native';
 import { navigationRef } from './src/Nav/RootNavigator'
+import eventEmitter from './src/utils/eventEmitter';
 
 console.log = () => {};
 console.warn = () => {};
@@ -39,6 +40,7 @@ const App = () => {
     });
 
     if (message.data.type === 'JOIN_REQUEST') {
+      eventEmitter.emit('JOIN_REQUEST', 'JOIN_REQUEST');
       notifee.displayNotification({
         title: message.notification.title,
         body: message.notification.body,

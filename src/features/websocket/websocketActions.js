@@ -53,10 +53,10 @@ export const connectWebSocket = createAsyncThunk(
           subscription = webSocketClient.subscribe(`/sub/alert/${userId}`, (message) => {
             // websocketMessageReceived(message);
             const newMessage = JSON.parse(message.body);
-            if (newMessage.category === 'JOIN') {
-              // Alert.alert(newMessage.category, '실제 기기 테스트용');
-              thunkAPI.dispatch(getMeetingApplyList());
-            }
+            // if (newMessage.category === 'JOIN') {
+            //   // Alert.alert(newMessage.category, '실제 기기 테스트용');
+            //   thunkAPI.dispatch(getMeetingApplyList());
+            // }
             if (newMessage.category === 'ACCEPTED') {
               // Alert.alert("모임에 " + newMessage.content);
               refreshMeetList(thunkAPI.dispatch);

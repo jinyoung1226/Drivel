@@ -14,6 +14,7 @@ import RenderingPage from '../../components/RenderingPage';
 import MeetApplyPreview from './MeetApplyPreview';
 import isThisWeek from '../../utils/isThisWeek';
 import MeetUpcomingList from './MeetUpcomingList';
+import eventEmitter from '../../utils/eventEmitter';
 
 const MeetMy = () => {
 
@@ -26,11 +27,20 @@ const MeetMy = () => {
     state => state.meet,
   );
   
+  const updateMeetApplyList = async () => {
+    dispatch(getMeetingApplyList());
+  };
+
+
   useEffect(() => {
+    eventEmitter.on('JOIN_REQUEST', updateMeetApplyList);
+
     dispatch(getMeetListRecommended({page: inititalPage, size: 3}));
     dispatch(getMyMeetList());
     dispatch(getMeetingApplyList());
-
+    return () => {
+      eventEmitter.removeListener('JOIN_REQUEST', updateMeetApplyList);
+    }
   }, []);
 
   useEffect(() => {
