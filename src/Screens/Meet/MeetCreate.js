@@ -58,7 +58,7 @@ const MeetCreate = ({navigation}) => {
   const [courses, setCourses] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [filteredCarData, setFilteredCarData] = useState([]);
-
+  const [isCreating, setIsCreating] = useState(false);
   const getDriveCourseList = async () => {
     try {
       const response = await api.get(
@@ -141,6 +141,7 @@ const MeetCreate = ({navigation}) => {
   }, [step]);
 
   const createMeeting = async () => {
+    setIsCreating(true);
     try {
       const response = await authApi.post('/meeting', {
         title,
@@ -174,6 +175,7 @@ const MeetCreate = ({navigation}) => {
         Alert.alert('서버접속오류');
       }
     }
+    setIsCreating(false);
   };
 
   const createButtonDisabled = () => {
@@ -627,7 +629,7 @@ const MeetCreate = ({navigation}) => {
         <CustomButton
           title={step < 3 ? '다음' : '모임 만들기'}
           onPress={handleNextStep}
-          disabled={createButtonDisabled()}
+          disabled={createButtonDisabled() || isCreating}
         />
       </View>
     </SafeAreaView>
