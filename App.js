@@ -24,7 +24,6 @@ import { navigationRef } from './src/Nav/RootNavigator'
 
 const App = () => {
 
-
   const getFcmToken = async () => {
     try {
       const fcmToken = await messaging().getToken();
@@ -45,16 +44,47 @@ const App = () => {
       importance: AndroidImportance.HIGH,
     });
 
-    notifee.displayNotification({
-      title: message.notification.title,
-      body: message.notification.body,
-      android: {
-          channelId: channelId,
-          smallIcon: 'ic_launcher',
-          importance: AndroidImportance.HIGH,
-          visibility: AndroidVisibility.PUBLIC,
-      },
-    })
+    if (message.data.type === 'JOIN_REQUEST') {
+      notifee.displayNotification({
+        title: message.notification.title,
+        body: message.notification.body,
+        data: { type: message.data.type },
+        android: {
+            channelId: channelId,
+            smallIcon: 'ic_launcher',
+            importance: AndroidImportance.HIGH,
+            visibility: AndroidVisibility.PUBLIC,
+        },
+      })
+    }
+
+    if (message.data.type === 'JOIN_ACCEPTED') {
+      notifee.displayNotification({
+        title: message.notification.title,
+        body: message.notification.body,
+        data: { type: message.data.type, meetingId: message.data.meetingId, courseId: message.data.courseId, meetingTitle: message.data.meetingTitle },
+        android: {
+            channelId: channelId,
+            smallIcon: 'ic_launcher',
+            importance: AndroidImportance.HIGH,
+            visibility: AndroidVisibility.PUBLIC,
+        },
+      })
+    }
+
+    if (message.data.type === 'JOIN_REJECTED') {
+      notifee.displayNotification({
+        title: message.notification.title,
+        body: message.notification.body,
+        data: { type: message.data.type },
+        android: {
+            channelId: channelId,
+            smallIcon: 'ic_launcher',
+            importance: AndroidImportance.HIGH,
+            visibility: AndroidVisibility.PUBLIC,
+        },
+      })
+    }
   };
 
   const unsubscribe = messaging().onMessage(onMessageReceived);
@@ -108,25 +138,21 @@ const App = () => {
       getFcmToken();
     }
     init().finally(async () => {
-      // await notifee.cancelNotification("Default");
-      // await notifee.deleteChannel('Miscellaneous');
       await BootSplash.hide({ fade: true });
       console.log("BootSplash has been hidden successfully");
     });
-    // notifee.onBackgroundEvent(async ({ type, detail }) => {
-    //   switch (type) {
-    //     case EventType.PRESS:
-    //       Linking.openURL('drivel://meet/applyDetail');
-    //       break;
-    //     case EventType.DISMISSED:
-    //       console.log('User dismissed notification');
-    //       break;
-    //   }
-    // });
     const foregroundEvent = notifee.onForegroundEvent(async ({ type, detail }) => {
       switch (type) {
         case EventType.PRESS:
-          Linking.openURL('drivel://meet/applyDetail');
+          if (detail.notification.data.type === 'JOIN_REQUEST') {
+            Linking.openURL('drivel://meet/applyDetail');
+          }
+          if (detail.notification.data.type === 'JOIN_ACCEPTED') {
+            Linking.openURL('drivel://meet/meetDetail/' + detail.notification.data.meetingId + '/' + detail.notification.data.courseId + '/' + detail.notification.data.meetingTitle);
+          }
+          if (detail.notification.data.type === 'JOIN_REJECTED') {
+            Linking.openURL('drivel://meet');
+          }
           break;
         case EventType.DISMISSED:
           console.log('User dismissed notification');

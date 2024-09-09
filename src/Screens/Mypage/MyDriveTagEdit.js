@@ -73,7 +73,7 @@ const MyDriveTagEdit = ({navigation, route}) => {
         <Text style={[textStyles.H5, {color:colors.Gray10}]}>드라이브 풍경</Text>
         <View style={{height:8}}/>
         <Text style={[textStyles.M14, {color: colors.Gray06}]}>
-          최소 2개 선택 가능해요
+          자유롭게 선택해주세요
         </Text>
         <View style={{height:16}}/>
         <ChipContainer
@@ -84,10 +84,10 @@ const MyDriveTagEdit = ({navigation, route}) => {
           onSelectedHandler={items => setSelectedDriveTheme(items)}
         />
         <View style={{height:32}}/>
-        <Text style={[textStyles.H5, {color:colors.Gray10}]}>드라이브 스타일</Text>
+        <Text style={[textStyles.H5, {color:colors.Gray10}]}>드라이브와 함께 하고 싶은 활동</Text>
         <View style={{height:8}}/>
         <Text style={[textStyles.M14, {color: colors.Gray06}]}>
-          최소 2개 선택 가능해요
+          자유롭게 선택해주세요
         </Text>
         <View style={{height:16}}/>
         <ChipContainer
@@ -98,10 +98,10 @@ const MyDriveTagEdit = ({navigation, route}) => {
           onSelectedHandler={items => setSelectedDriveStyle(items)}
         />
         <View style={{height:32}}/>
-        <Text style={[textStyles.H5, {color:colors.Gray10}]}>드라이브 스타일</Text>
+        <Text style={[textStyles.H5, {color:colors.Gray10}]}>함께 하고 싶은 동행자</Text>
         <View style={{height:8}}/>
         <Text style={[textStyles.M14, {color: colors.Gray06}]}>
-          최소 2개 선택 가능해요
+          자유롭게 선택해주세요
         </Text>
         <View style={{height:16}}/>
         <ChipContainer

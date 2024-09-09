@@ -160,7 +160,7 @@ const MeetFilter = ({navigation}) => {
           />
           <View style={{height: 32}} />
           <Text style={[textStyles.H4, {color: colors.Gray10}]}>
-            드라이브 스타일
+            드라이브와 함께 하고 싶은 활동
           </Text>
           <View style={{height: 16}} />
           <ChipContainer
@@ -172,7 +172,7 @@ const MeetFilter = ({navigation}) => {
           />
           <View style={{height: 32}} />
           <Text style={[textStyles.H4, {color: colors.Gray10}]}>
-            드라이브 형태
+            함께 하고 싶은 동행자
           </Text>
           <View style={{height: 16}} />
           <ChipContainer

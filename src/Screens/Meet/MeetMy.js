@@ -95,12 +95,12 @@ const MeetMy = () => {
             <MeetUpcomingList data={data} myMeetList={myMeetList} handleShowMore={handleShowMore} showMore={showMore} setShowMore={setShowMore}/>
             <View style={{height: 24}} />
             <View style={{height: 10, backgroundColor: colors.Gray02}} />
-            {meetApplyList.length == 0 ? 
+            {!meetApplyList || meetApplyList.length == 0 ? 
             null 
             :
             <View>
               <View style={{height: 24}} />
-              <MeetApplyPreview applyList={meetApplyList} />
+              <MeetApplyPreview/>
               <View style={{height: 24}} />
               <View style={{height: 10, backgroundColor: colors.Gray02}} />  
             </View>}

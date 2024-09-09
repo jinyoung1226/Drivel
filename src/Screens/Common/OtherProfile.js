@@ -79,7 +79,7 @@ const OtherProfile = ({navigation, route}) => {
   
   return (
     <ScrollView style={{backgroundColor: colors.BG}}>
-      <Text style={{color:'#000'}}>{memberId}</Text>
+      {/* <Text style={{color:'#000'}}>{memberId}</Text> */}
       <ConfirmModal
         modalVisible={confirmModalVisible}
         setModalVisible={setConfirmModalVisible}

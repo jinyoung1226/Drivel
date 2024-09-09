@@ -253,7 +253,7 @@ const MeetDetail = ({route, navigation}) => {
 
   useEffect(() => {
     const backAction = () => {
-      navigation.navigate('MeetMain');
+      navigation.goBack();
       return true;
     };
     const backHandler = BackHandler.addEventListener(

@@ -54,18 +54,24 @@ export const connectWebSocket = createAsyncThunk(
             // websocketMessageReceived(message);
             const newMessage = JSON.parse(message.body);
             if (newMessage.category === 'JOIN') {
+              // Alert.alert(newMessage.category, '실제 기기 테스트용');
               thunkAPI.dispatch(getMeetingApplyList());
             }
             if (newMessage.category === 'ACCEPTED') {
-              Alert.alert("모임에 " + newMessage.content);
+              // Alert.alert("모임에 " + newMessage.content);
               refreshMeetList(thunkAPI.dispatch);
               thunkAPI.dispatch(setParticipateStatus("JOINED"));
               eventEmitter.emit('meetAccepted','accepted');
             }
             if (newMessage.category === 'REJECTED') {
-              Alert.alert("모임 " + newMessage.content);
+              // Alert.alert("모임 " + newMessage.content);
+              thunkAPI.dispatch(setParticipateStatus("NONE"));
             }
-            console.log(newMessage);
+            if (newMessage.category === 'CANCEL') {
+              // Alert.alert(newMessage.category, '실제 기기 테스트용');
+              thunkAPI.dispatch(getMeetingApplyList());
+            }
+            console.log(newMessage, '웹소켓 알림채널');
           });
         };
 

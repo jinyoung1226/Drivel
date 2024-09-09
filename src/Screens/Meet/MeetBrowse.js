@@ -126,8 +126,8 @@ const MeetBrowse = () => {
 
   const category = [
     {key: '풍경', value: driveThemeDisplayName, unit: ''},
-    {key: '스타일', value: driveStyleDisplayName, unit: ''},
-    {key: '형태', value: driveWithDisplayName, unit: ''},
+    {key: '활동', value: driveStyleDisplayName, unit: ''},
+    {key: '동행자', value: driveWithDisplayName, unit: ''},
     {key: '성별', value: genderDisplayName, unit: ''},
     {key: '나이', value: filterAge, unit: '세'},
     {key: '차종', value: filterCarModel, unit: ''},

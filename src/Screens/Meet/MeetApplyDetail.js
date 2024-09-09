@@ -138,7 +138,7 @@ const MeetApplyDetail = ({navigation}) => {
                   alignItems: 'center',
                 }}>
                 <TouchableOpacity
-                  onPress={() => {navigation.navigate('OtherProfile')}}
+                  onPress={() => {navigation.navigate('OtherProfile', {memberId: item.memberId})}}
                   style={{
                     flex:1,
                     flexDirection: 'row',

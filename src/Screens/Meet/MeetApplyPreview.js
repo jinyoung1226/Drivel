@@ -3,9 +3,12 @@ import {View, Text, TouchableOpacity, ImageBackground} from 'react-native'
 import {textStyles} from '../../styles/textStyles'
 import colors from '../../styles/colors'
 import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
 
-const MeetApplyPreview = ({applyList}) => {
+const MeetApplyPreview = () => {
   const navigation = useNavigation()
+
+  const {meetApplyList} = useSelector(state => state.meet);
   
   return (
     <View>
@@ -21,7 +24,7 @@ const MeetApplyPreview = ({applyList}) => {
         <View style={{flex: 1}} />
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('MeetApplyDetail', {applyList: applyList})
+            navigation.navigate('MeetApplyDetail', {applyList: meetApplyList})
           }}>
           <Text
             style={[
@@ -44,10 +47,10 @@ const MeetApplyPreview = ({applyList}) => {
       </View>
       <View style={{height: 16}} />
       <View style={{paddingHorizontal:16}}>
-        {applyList.map((item, index) => (
+        {meetApplyList.map((item, index) => (
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('MeetApplyDetail', {applyList: applyList})
+              navigation.navigate('MeetApplyDetail', {applyList: meetApplyList})
             }}
             key={index}
             style={{

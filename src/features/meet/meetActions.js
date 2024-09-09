@@ -1,5 +1,6 @@
 import {createAsyncThunk, createAction} from '@reduxjs/toolkit';
 import {api, authApi} from '../../api/api';
+import { Alert } from 'react-native';
 
 export const getMeetList = createAsyncThunk(
   'meet/getMeetList',
@@ -161,18 +162,20 @@ export const getMeetingApplyList = createAsyncThunk(
   'meet/getMeetingApplyList',
   async (_, thunkAPI) => {
     try {
+      // Alert.alert('실제 기기에서 작동해');
       const response = await authApi.get(`/meeting/join`);
       if (response.status === 200) {
         console.log(response.data, '@@@');
+        // Alert.alert('요청성공');
         const meetApplyList = response.data;
         return {meetApplyList: meetApplyList};
       }
     } catch (error) {
       if (error.response) {
-        console.log('미팅 신청 리스트 불러오기 에러');
+        // Alert.alert('요청실패');
         console.log(error.response.status);
       } else {
-        console.log('미팅 신청 리스트 불러오기 에러');
+        Alert.alert('서버 접속 오류');
         console.log('서버 접속 오류');
       }
     }

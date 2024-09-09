@@ -1,6 +1,4 @@
 import { Linking } from 'react-native';
-import MeetMain from './src/Screens/Meet/MeetMain';
-import MainNavigator from './src/Nav/MainNavigator';
 
 export const linking = {
   prefixes: ['drivel://'],
@@ -13,6 +11,7 @@ export const linking = {
         screens: {
           MeetMain: 'meet',
           MeetApplyDetail: 'meet/applyDetail',
+          MeetDetail: 'meet/meetDetail/:meetingId/:courseId/:meetingTitle',
         },
       },
       DriveTab: 'drive',
