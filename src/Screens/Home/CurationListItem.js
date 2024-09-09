@@ -6,7 +6,7 @@ import {Text, Image, Pressable, ImageBackground, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const CurationListItem = ({item}) => {
   // const {likedItem} = useSelector(state => state.like);
@@ -25,13 +25,17 @@ const CurationListItem = ({item}) => {
   // };
 
   return (
-      <View>
-        <Pressable onPress={() => navigation.navigate('DriveDetail', { id: item.id, liked:item.liked })} style={{width:227, height:243, borderRadius:10, overflow:'hidden'}}>
-          <ImageBackground src={item.imagePath} style={{flex: 1}}>
-            <LinearGradient
-              style={{flex: 1, padding: 16}}
-              colors={['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.3)']}>
-              {/* <View style={{flexDirection:'row'}}>
+    <View>
+      <Pressable
+        onPress={() =>
+          navigation.navigate('DriveDetail', {id: item.id, liked: item.liked})
+        }
+        style={{width: 227, height: 243, borderRadius: 10, overflow: 'hidden'}}>
+        <ImageBackground src={item.imagePath} style={{flex: 1}}>
+          <LinearGradient
+            style={{flex: 1, padding: 16}}
+            colors={['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.3)']}>
+            {/* <View style={{flexDirection:'row'}}>
                 <View style={{flex: 1}} />
                 <Pressable 
                 style={{padding: 8, marginRight: -8, marginTop: -8}}
@@ -39,14 +43,14 @@ const CurationListItem = ({item}) => {
                   <HeartIcon fill={liked ? colors.red : 'none'} color={liked ? colors.red : colors.white}/>
                 </Pressable>
               </View> */}
-              <View style={{flex: 1}} />
-              <Text style={[textStyles.H3, {color: colors.Gray02}]}>
-                {item.title}
-              </Text>
-            </LinearGradient>
-          </ImageBackground>
-        </Pressable>
-      </View>
+            <View style={{flex: 1}} />
+            <Text style={[textStyles.H3, {color: colors.Gray02}]}>
+              {item.title}
+            </Text>
+          </LinearGradient>
+        </ImageBackground>
+      </Pressable>
+    </View>
   );
 };
 

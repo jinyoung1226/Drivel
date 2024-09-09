@@ -21,7 +21,7 @@ const DriveInfo = ({item, driveId, minHeight, setScrollEnabled}) => {
   }, []);
 
   return (
-    <View style={{minHeight:minHeight}}>
+    <View style={{minHeight: minHeight}}>
       <View
         style={{
           marginTop: 24,
@@ -89,9 +89,7 @@ const DriveInfo = ({item, driveId, minHeight, setScrollEnabled}) => {
                 marginBottom: 8,
                 backgroundColor: colors.Gray02,
               }}>
-              <Text style={[textStyles.B4, {color: colors.Gray10}]}>
-                {tag}
-              </Text>
+              <Text style={[textStyles.B4, {color: colors.Gray10}]}>{tag}</Text>
             </View>
           ))}
         </View>
@@ -99,10 +97,7 @@ const DriveInfo = ({item, driveId, minHeight, setScrollEnabled}) => {
       <GrayLine />
       <View style={{height: 24}} />
       <Text
-        style={[
-          textStyles.H3,
-          {color: colors.Gray10, paddingHorizontal: 16},
-        ]}>
+        style={[textStyles.H3, {color: colors.Gray10, paddingHorizontal: 16}]}>
         근처에 이런 카페/식당이 있어요!
       </Text>
       {places.length > 0 ? (
@@ -122,8 +117,11 @@ const DriveInfo = ({item, driveId, minHeight, setScrollEnabled}) => {
           </View>
         </View>
       ) : (
-        <View style={{flex: 1, paddingVertical:32}}>
-          <NoItemScreen text={'주변에 등록된 맛집이 없어요'} icon={<ShopIcon/>}/>
+        <View style={{flex: 1, paddingVertical: 32}}>
+          <NoItemScreen
+            text={'주변에 등록된 맛집이 없어요'}
+            icon={<ShopIcon />}
+          />
         </View>
       )}
     </View>

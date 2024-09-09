@@ -1,4 +1,4 @@
-const formatChatTimestamp = (dateInput) => {
+const formatChatTimestamp = dateInput => {
   const now = new Date();
   const inputDate = new Date(dateInput);
 
@@ -13,7 +13,7 @@ const formatChatTimestamp = (dateInput) => {
 
   if (isToday) {
     if (diffInMinutes < 1) {
-      return "방금 전";
+      return '방금 전';
     } else if (diffInMinutes < 60) {
       return `${diffInMinutes}분 전`;
     } else {
@@ -24,6 +24,6 @@ const formatChatTimestamp = (dateInput) => {
     const day = inputDate.getDate();
     return `${month}월 ${day}일`;
   }
-}
+};
 
 export default formatChatTimestamp;

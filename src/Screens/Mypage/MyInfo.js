@@ -1,17 +1,11 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import PenIcon from '../../assets/icons/PenIcon';
 import chageBrithToAge from '../../utils/changeBrithToAge';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 const MyInfo = ({myProfileInfo, setModalVisible, modalVisible}) => {
-  
   const navigation = useNavigation();
 
   const handlePressMyInfo = () => {
@@ -30,14 +24,12 @@ const MyInfo = ({myProfileInfo, setModalVisible, modalVisible}) => {
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
-      }}
-    >
+      }}>
       <TouchableOpacity
         style={{width: 90, height: 90}}
         onPress={() => {
           setModalVisible(!modalVisible);
-        }}
-      >
+        }}>
         <View
           style={{
             width: 90,
@@ -46,7 +38,7 @@ const MyInfo = ({myProfileInfo, setModalVisible, modalVisible}) => {
             borderRadius: 45,
             overflow: 'hidden',
           }}>
-          <Image src={myProfileInfo.imagePath} style={{flex:1}}/>
+          <Image src={myProfileInfo.imagePath} style={{flex: 1}} />
         </View>
         <View
           style={{
@@ -64,30 +56,40 @@ const MyInfo = ({myProfileInfo, setModalVisible, modalVisible}) => {
         </View>
       </TouchableOpacity>
       <View style={{width: 16}} />
-      <TouchableOpacity 
-        style={{flexDirection: 'row', alignItems:'center', flex:1}}
-        onPress={() => {handlePressMyInfo()}}
-      >  
-        <View style={{flex:1}}>
+      <TouchableOpacity
+        style={{flexDirection: 'row', alignItems: 'center', flex: 1}}
+        onPress={() => {
+          handlePressMyInfo();
+        }}>
+        <View style={{flex: 1}}>
           <Text style={[textStyles.H2, {color: colors.Gray10}]}>
             {myProfileInfo.nickname}
           </Text>
-          {myProfileInfo.gender !== null && <View>
-            <Text style={[textStyles.C4, {color: colors.Gray05}]} numberOfLines={2}>
-              {`${myProfileInfo.carModel} • 운전경력 ${myProfileInfo.carCareer}년\n${myProfileInfo.gender} • ${chageBrithToAge(myProfileInfo.birth)}세`}
-            </Text>
-            <Text style={[textStyles.C4, {color: colors.Gray08}]}>
-              {myProfileInfo.description}
-            </Text>
-          </View>}
+          {myProfileInfo.gender !== null && (
+            <View>
+              <Text
+                style={[textStyles.C4, {color: colors.Gray05}]}
+                numberOfLines={2}>
+                {`${myProfileInfo.carModel} • 운전경력 ${
+                  myProfileInfo.carCareer
+                }년\n${myProfileInfo.gender} • ${chageBrithToAge(
+                  myProfileInfo.birth,
+                )}세`}
+              </Text>
+              <Text style={[textStyles.C4, {color: colors.Gray08}]}>
+                {myProfileInfo.description}
+              </Text>
+            </View>
+          )}
         </View>
-        <View style={{width: 10}}/> 
-        <Text style={{fontFamily: 'SUIT-Bold', color:colors.Gray03, fontSize:20}}>
+        <View style={{width: 10}} />
+        <Text
+          style={{fontFamily: 'SUIT-Bold', color: colors.Gray03, fontSize: 20}}>
           {'>'}
         </Text>
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 export default MyInfo;

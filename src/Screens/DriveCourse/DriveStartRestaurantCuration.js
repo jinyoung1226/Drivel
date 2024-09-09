@@ -91,14 +91,13 @@ const DriveStartRestaurantCuration = ({item, setCheckInfo}) => {
   }
 
   return (
-    <Pressable 
+    <Pressable
       style={{
         flex: 1,
         flexDirection: 'row',
         marginBottom: 32,
       }}
-      onPress={handleCheckboxPress}
-    >
+      onPress={handleCheckboxPress}>
       <Animated.View style={{transform: [{scale: scaleValue}]}}>
         {!isChecked ? (
           <EmptyBox />
@@ -111,19 +110,18 @@ const DriveStartRestaurantCuration = ({item, setCheckInfo}) => {
           </View>
         )}
       </Animated.View>
-    
-      <View style={{flex:1, marginLeft: 16}}>
-        <View style={{flex:1}}>
+
+      <View style={{flex: 1, marginLeft: 16}}>
+        <View style={{flex: 1}}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View style={{flexShrink:1}}>
-              <Text 
+            <View style={{flexShrink: 1}}>
+              <Text
                 style={[textStyles.H5, {color: colors.Gray10}]}
-                numberOfLines={1}  
-              >
+                numberOfLines={1}>
                 {placeInfo.name}
               </Text>
             </View>
-            <View style={{width:8}} />
+            <View style={{width: 8}} />
             <View>
               <Text style={[textStyles.B4, {color: colors.Gray04}]}>
                 {placeInfo.category}
@@ -146,18 +144,24 @@ const DriveStartRestaurantCuration = ({item, setCheckInfo}) => {
           </Text>
         </View>
       </View>
-      <View style={{width:16}} />
+      <View style={{width: 16}} />
       {placeInfo.imagePath === null ? (
         <View
-        style={{width: 65, height: 65, borderRadius: 5, overflow: 'hidden', backgroundColor: 'rgba(0,0,0,1)'}}  
-        >
+          style={{
+            width: 65,
+            height: 65,
+            borderRadius: 5,
+            overflow: 'hidden',
+            backgroundColor: 'rgba(0,0,0,1)',
+          }}>
           <MainLogo width={65} height={65} />
         </View>
       ) : (
-      <Image
-        source={{uri: placeInfo.imagePath}}
-        style={{width: 65, height: 70, borderRadius: 5}}
-      />)}
+        <Image
+          source={{uri: placeInfo.imagePath}}
+          style={{width: 65, height: 70, borderRadius: 5}}
+        />
+      )}
     </Pressable>
   );
 };

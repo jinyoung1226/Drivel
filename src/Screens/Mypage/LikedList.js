@@ -13,9 +13,7 @@ const LikedList = ({ListHeaderComponent, data}) => {
       }}
       data={data}
       numColumns={2}
-      renderItem={({item}) => (
-        <LikedItem item={item}/>
-      )}
+      renderItem={({item}) => <LikedItem item={item} />}
       keyExtractor={item => item.id}
     />
   );

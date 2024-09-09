@@ -14,8 +14,6 @@ import colors from '../styles/colors';
 const windowWidth = Dimensions.get('window').width;
 
 const Tabs = ({tabName, style, activeTab, setActiveTab, scrollToTab}) => {
-
-
   const handlePress = index => {
     scrollToTab();
     setActiveTab(index);

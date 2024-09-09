@@ -17,9 +17,7 @@ const MeetList = ({
       ListFooterComponent={ListFooterComponent}
       ListHeaderComponent={ListHeaderComponent}
       data={data}
-      renderItem={({item}) => (
-        <MeetListItem item={item}/>
-      )}
+      renderItem={({item}) => <MeetListItem item={item} />}
       keyExtractor={item => item.meetingId}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

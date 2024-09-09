@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Dimensions,
-  Pressable
+  Pressable,
 } from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
@@ -13,13 +13,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useSelector, useDispatch} from 'react-redux';
 import {setLikedItem, toggleLike} from '../../features/like/likeActions';
 import HeartIcon from '../../assets/icons/HeartIcon.svg';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const LikedItem = ({item}) => {
   const [liked, setLiked] = useState(item.liked);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
 
   const handleLikePress = () => {
     setLiked(!liked);
@@ -37,17 +36,22 @@ const LikedItem = ({item}) => {
         aspectRatio: 1,
         overflow: 'hidden',
       }}
-      onPress={() => navigation.navigate('DriveDetail', {id: item.id, liked:liked})}>
+      onPress={() =>
+        navigation.navigate('DriveDetail', {id: item.id, liked: liked})
+      }>
       <ImageBackground src={item.imagePath} style={{flex: 1}}>
         <LinearGradient
           style={{flex: 1, padding: 16}}
           colors={['rgba(0, 0, 0, 0.2)', 'rgba(0, 0, 0, 0.7)']}>
-          <View style={{flexDirection:'row'}}>
+          <View style={{flexDirection: 'row'}}>
             <View style={{flex: 1}} />
-            <Pressable 
+            <Pressable
               style={{padding: 8, marginRight: -8, marginTop: -8}}
               onPress={handleLikePress}>
-                <HeartIcon fill={liked ? colors.red : 'none'} color={liked ? colors.red : colors.white}/>
+              <HeartIcon
+                fill={liked ? colors.red : 'none'}
+                color={liked ? colors.red : colors.white}
+              />
             </Pressable>
           </View>
           <View style={{flex: 1}} />

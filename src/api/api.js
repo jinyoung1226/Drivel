@@ -33,12 +33,10 @@ refreshApi.interceptors.request.use(
   },
 );
 
-refreshApi.interceptors.response.use(
-  response => {
-    console.log('refreshApi응답');
-    return response;
-  }
-);
+refreshApi.interceptors.response.use(response => {
+  console.log('refreshApi응답');
+  return response;
+});
 
 export const authApi = axios.create({
   baseURL: config.SERVER_URL,
@@ -84,7 +82,7 @@ authApi.interceptors.response.use(
           await AsyncStorage.setItem('accessToken', response.data.accessToken);
           await EncryptedStorage.setItem(
             'refreshToken',
-            response.data.refreshToken
+            response.data.refreshToken,
           );
           // 새 토큰 저장
           authApi.defaults.headers.common[
@@ -147,7 +145,7 @@ formDataApi.interceptors.response.use(
           await AsyncStorage.setItem('accessToken', response.data.accessToken);
           await EncryptedStorage.setItem(
             'refreshToken',
-            response.data.refreshToken
+            response.data.refreshToken,
           );
           // 새 토큰 저장
           formDataApi.defaults.headers.common[
@@ -165,4 +163,3 @@ formDataApi.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-

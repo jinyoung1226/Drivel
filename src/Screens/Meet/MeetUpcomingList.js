@@ -6,9 +6,15 @@ import {useSelector, useDispatch} from 'react-redux';
 import {setTab} from '../../features/meet/meetActions';
 import CustomButton from '../../components/CustomButton';
 import isThisWeek from '../../utils/isThisWeek';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
-const MeetUpcomingList = ({data, myMeetList, handleShowMore, showMore, setShowMore}) => {
+const MeetUpcomingList = ({
+  data,
+  myMeetList,
+  handleShowMore,
+  showMore,
+  setShowMore,
+}) => {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
@@ -19,7 +25,6 @@ const MeetUpcomingList = ({data, myMeetList, handleShowMore, showMore, setShowMo
     return `${month}월 ${day}일`;
   };
 
-
   const goMeetDetail = item => {
     navigation.navigate('MeetDetail', {
       meetingId: item.meetingId,
@@ -27,20 +32,17 @@ const MeetUpcomingList = ({data, myMeetList, handleShowMore, showMore, setShowMo
       meetingTitle: item.meetingTitle,
     });
   };
-  
+
   const renderMeetingItem = ({item}) => (
     <TouchableOpacity
-      style={{flexDirection: 'row', alignItems: 'center', flex:1}}
+      style={{flexDirection: 'row', alignItems: 'center', flex: 1}}
       onPress={() => goMeetDetail(item)}>
       <Text style={[textStyles.B3, {color: '#B0B0B0'}]}>
         {formatDate(item.meetingDate)}
       </Text>
       <View style={{width: 32}} />
-      <View style={{flex: 1}} >
-        <Text 
-          style={[textStyles.B2, {color: colors.Blue}]}
-          numberOfLines={1}
-        >
+      <View style={{flex: 1}}>
+        <Text style={[textStyles.B2, {color: colors.Blue}]} numberOfLines={1}>
           {item.title}
         </Text>
       </View>
@@ -92,11 +94,9 @@ const MeetUpcomingList = ({data, myMeetList, handleShowMore, showMore, setShowMo
               />
             )}
             ListFooterComponent={
-              myMeetList.length == myMeetList.filter(meeting =>isThisWeek(meeting.meetingDate)).length ? 
-              (
-                null
-              ) : (
-              showMore ? (
+              myMeetList.length ==
+              myMeetList.filter(meeting => isThisWeek(meeting.meetingDate))
+                .length ? null : showMore ? (
                 <TouchableOpacity
                   style={{
                     marginTop: 24,
@@ -121,7 +121,7 @@ const MeetUpcomingList = ({data, myMeetList, handleShowMore, showMore, setShowMo
                     {'>'}
                   </Text>
                 </TouchableOpacity>
-                ) : (
+              ) : (
                 <TouchableOpacity
                   style={{
                     marginTop: 24,
@@ -150,7 +150,6 @@ const MeetUpcomingList = ({data, myMeetList, handleShowMore, showMore, setShowMo
                     {'>'}
                   </Text>
                 </TouchableOpacity>
-                )
               )
             }
           />
@@ -167,6 +166,6 @@ const MeetUpcomingList = ({data, myMeetList, handleShowMore, showMore, setShowMo
       )}
     </View>
   );
-}
+};
 
 export default MeetUpcomingList;

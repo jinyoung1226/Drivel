@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {api, authApi} from '../../api/api';
 import {Alert} from 'react-native';
-import { setGlobalNickname } from '../auth/authSlice';
+import {setGlobalNickname} from '../auth/authSlice';
 export const getMyProfileInfo = createAsyncThunk(
   'profile/getMyProfileInfo',
   async (_, thunkAPI) => {
@@ -14,14 +14,14 @@ export const getMyProfileInfo = createAsyncThunk(
         thunkAPI.dispatch(setGlobalNickname(response.data.nickname));
         return {
           myProfileInfo: response.data,
-        }
+        };
       }
     } catch (error) {
       if (error.response) {
         Alert.alert(error.response.data.message);
       } else {
         console.log('서버 접속 오류');
-      }   
+      }
     }
-  }
-)
+  },
+);

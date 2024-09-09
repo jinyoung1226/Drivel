@@ -58,9 +58,10 @@ const DriveTourSpot = ({item, minHeight, setScrollEnabled}) => {
   }, []);
 
   return (
-    <View style={{
-      minHeight: minHeight,
-    }}>
+    <View
+      style={{
+        minHeight: minHeight,
+      }}>
       <View
         style={{
           marginTop: 24,
@@ -112,7 +113,12 @@ const DriveTourSpot = ({item, minHeight, setScrollEnabled}) => {
               justifyContent: 'center',
               paddingLeft: 40,
             }}>
-            <Text style={{fontFamily: 'SUIT-ExtraBold', fontSize: 36, color:colors.Gray10}}>
+            <Text
+              style={{
+                fontFamily: 'SUIT-ExtraBold',
+                fontSize: 36,
+                color: colors.Gray10,
+              }}>
               {weather.temp}°
             </Text>
             <Text style={[textStyles.B4, {color: colors.Gray06, marginTop: 4}]}>
@@ -187,7 +193,6 @@ const DriveTourSpot = ({item, minHeight, setScrollEnabled}) => {
               ListHeaderComponent={<View style={{width: 16}} />}
             />
           </View>
-
         </View>
       ) : null}
       {/* <View style={{width: width, height: 96.46}} /> */}

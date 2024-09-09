@@ -1,5 +1,12 @@
 import React, {useEffect} from 'react';
-import {View, Text, Image, Dimensions, TouchableOpacity, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import CarIcon from '../../assets/icons/CarIcon.svg';
@@ -7,7 +14,7 @@ import PersonIcon from '../../assets/icons/PersonIcon.svg';
 import PinIcon from '../../assets/icons/PinIcon.svg';
 import {ScrollView} from 'react-native-gesture-handler';
 import GrayLine from '../../components/GrayLine';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 const MeetInfo = ({item}) => {
   const width = Dimensions.get('window').width;
   const navigation = useNavigation();
@@ -17,24 +24,33 @@ const MeetInfo = ({item}) => {
       .sort((a, b) => items[b] - items[a]) // 값을 기준으로 내림차순 정렬
       .slice(0, topN); // 상위 N개의 항목만 취함
   };
-  
+
   const topCarModels = getTopItems(item.meetingInfo.summary.carModel, 2);
   const topCarCareers = getTopItems(item.meetingInfo.summary.carCareer, 4);
   const topAgeGroups = getTopItems(item.meetingInfo.summary.ageGroup, 4);
   const topGenders = getTopItems(item.meetingInfo.summary.gender, 2);
 
-  const totalParticipants = item.meetingInfo.participantsInfo.membersInfo.length;
-  const maxCarCareer = Math.max(...Object.values(item.meetingInfo.summary.carCareer));
-  const maxCarModel = Math.max(...Object.values(item.meetingInfo.summary.carModel));
-  const maxAgeGroup = Math.max(...Object.values(item.meetingInfo.summary.ageGroup));
+  const totalParticipants =
+    item.meetingInfo.participantsInfo.membersInfo.length;
+  const maxCarCareer = Math.max(
+    ...Object.values(item.meetingInfo.summary.carCareer),
+  );
+  const maxCarModel = Math.max(
+    ...Object.values(item.meetingInfo.summary.carModel),
+  );
+  const maxAgeGroup = Math.max(
+    ...Object.values(item.meetingInfo.summary.ageGroup),
+  );
   const maxGender = Math.max(...Object.values(item.meetingInfo.summary.gender));
 
   const renderMemberInfo = (imagePath, nickname, description, memberId) => {
     return (
-      <TouchableOpacity 
+      <TouchableOpacity
         style={{flexDirection: 'row', marginBottom: 16}}
-        onPress={() => {navigation.navigate('OtherProfile', {memberId: memberId})}}
-        disabled={!(item.meetingInfo.status == "JOINED")}>
+        onPress={() => {
+          navigation.navigate('OtherProfile', {memberId: memberId});
+        }}
+        disabled={!(item.meetingInfo.status == 'JOINED')}>
         <View
           style={{
             width: 50,
@@ -46,7 +62,7 @@ const MeetInfo = ({item}) => {
           <Image style={{flex: 1}} src={imagePath} />
         </View>
         <View style={{width: 24}} />
-      <View style={{justifyContent:'center'}}>
+        <View style={{justifyContent: 'center'}}>
           <Text style={[textStyles.H5, {color: colors.Gray10}]}>
             {nickname}
           </Text>
@@ -125,10 +141,10 @@ const MeetInfo = ({item}) => {
         <Text style={[textStyles.H4, {color: colors.Gray10}]}>모임장</Text>
         <View style={{height: 16}} />
         {renderMemberInfo(
-          imagePath = item.meetingInfo.masterInfo.imagePath,
-          nickname =  item.meetingInfo.masterInfo.nickname,
-          description =  item.meetingInfo.masterInfo.description,
-          memberId =  item.meetingInfo.masterInfo.id,
+          (imagePath = item.meetingInfo.masterInfo.imagePath),
+          (nickname = item.meetingInfo.masterInfo.nickname),
+          (description = item.meetingInfo.masterInfo.description),
+          (memberId = item.meetingInfo.masterInfo.id),
         )}
       </View>
       <GrayLine />
@@ -136,106 +152,257 @@ const MeetInfo = ({item}) => {
         <View style={{height: 16}} />
         <Text style={[textStyles.H4, {color: colors.Gray10}]}>참여자 현황</Text>
         <View style={{height: 16}} />
-        <View style={{flexDirection:'row'}}>
-          <View style={{flex:1, backgroundColor:colors.Gray01, padding:16, borderRadius:10, minHeight:136}} >
-            <Text style={[textStyles.H5, {color: colors.Gray09, alignSelf:'center'}]}>
+        <View style={{flexDirection: 'row'}}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: colors.Gray01,
+              padding: 16,
+              borderRadius: 10,
+              minHeight: 136,
+            }}>
+            <Text
+              style={[
+                textStyles.H5,
+                {color: colors.Gray09, alignSelf: 'center'},
+              ]}>
               운전경력
             </Text>
-            <View style={{height:10}}/>
-            <View style={{flex:1}}/>
-            <View style={{flexDirection:'row', justifyContent:'space-around', paddingHorizontal:16}}>
+            <View style={{height: 10}} />
+            <View style={{flex: 1}} />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                paddingHorizontal: 16,
+              }}>
               {topCarCareers.map((keyword, index) => {
-                const isMax = item.meetingInfo.summary.carCareer[keyword] === maxCarCareer;
+                const isMax =
+                  item.meetingInfo.summary.carCareer[keyword] === maxCarCareer;
                 return (
-                  <View key={index} style={{alignItems:'center', alignSelf:'flex-end'}}>
-                    <View style={{width:13, height:(item.meetingInfo.summary.carCareer[keyword]/totalParticipants)*60, backgroundColor: isMax ? colors.Blue : colors.Gray03, borderTopLeftRadius:20, borderTopRightRadius:20}}/>
-                    <Text style={[textStyles.B5, {color:isMax ? colors.Blue : colors.Gray06}]}>
+                  <View
+                    key={index}
+                    style={{alignItems: 'center', alignSelf: 'flex-end'}}>
+                    <View
+                      style={{
+                        width: 13,
+                        height:
+                          (item.meetingInfo.summary.carCareer[keyword] /
+                            totalParticipants) *
+                          60,
+                        backgroundColor: isMax ? colors.Blue : colors.Gray03,
+                        borderTopLeftRadius: 20,
+                        borderTopRightRadius: 20,
+                      }}
+                    />
+                    <Text
+                      style={[
+                        textStyles.B5,
+                        {color: isMax ? colors.Blue : colors.Gray06},
+                      ]}>
                       {keyword}년
                     </Text>
                   </View>
-                )
-                
+                );
               })}
             </View>
           </View>
-          <View style={{width:16}} />
-          <View style={{flex:1,  backgroundColor:colors.Gray01, padding:16, borderRadius:10, minHeight:136}} >
-            <Text style={[textStyles.H5, {color: colors.Gray09, alignSelf:'center'}]}>
+          <View style={{width: 16}} />
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: colors.Gray01,
+              padding: 16,
+              borderRadius: 10,
+              minHeight: 136,
+            }}>
+            <Text
+              style={[
+                textStyles.H5,
+                {color: colors.Gray09, alignSelf: 'center'},
+              ]}>
               차종
             </Text>
-            <Text style={[textStyles.B5, {color: colors.Gray06, alignSelf:'center'}]}>
+            <Text
+              style={[
+                textStyles.B5,
+                {color: colors.Gray06, alignSelf: 'center'},
+              ]}>
               * 상위 두 항목만 표시됩니다.
             </Text>
-            <View style={{height:10}}/>
-            <View style={{flex:1}}/>
-            <View style={{flexDirection:'row', justifyContent:'space-around', paddingHorizontal:16}}>
+            <View style={{height: 10}} />
+            <View style={{flex: 1}} />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                paddingHorizontal: 16,
+              }}>
               {topCarModels.map((keyword, index) => {
-                const isMax = item.meetingInfo.summary.carModel[keyword] === maxCarModel;
+                const isMax =
+                  item.meetingInfo.summary.carModel[keyword] === maxCarModel;
                 return (
-                  <View key={index} style={{alignItems:'center', alignSelf:'flex-end', marginHorizontal:4}}>
+                  <View
+                    key={index}
+                    style={{
+                      alignItems: 'center',
+                      alignSelf: 'flex-end',
+                      marginHorizontal: 4,
+                    }}>
                     <View>
-                    <View style={{width:13, height:(item.meetingInfo.summary.carModel[keyword]/totalParticipants)*60, backgroundColor: isMax ? colors.Blue : colors.Gray03, borderTopLeftRadius:20, borderTopRightRadius:20}}/>
-                    
+                      <View
+                        style={{
+                          width: 13,
+                          height:
+                            (item.meetingInfo.summary.carModel[keyword] /
+                              totalParticipants) *
+                            60,
+                          backgroundColor: isMax ? colors.Blue : colors.Gray03,
+                          borderTopLeftRadius: 20,
+                          borderTopRightRadius: 20,
+                        }}
+                      />
                     </View>
-                    <View style={{width:2}}/>
+                    <View style={{width: 2}} />
                     <Text
                       numberOfLines={1}
-                      style={[textStyles.B5, {color:isMax ? colors.Blue : colors.Gray06, textAlign:'center'}]}>
+                      style={[
+                        textStyles.B5,
+                        {
+                          color: isMax ? colors.Blue : colors.Gray06,
+                          textAlign: 'center',
+                        },
+                      ]}>
                       {keyword}
                     </Text>
                   </View>
-                )
-                
-              })}
-            </View>
-          </View>  
-        </View>
-        <View style={{height:16}}/>
-        <View style={{flexDirection:'row'}}>
-          <View style={{flex:1, backgroundColor:colors.Gray01, padding:16, borderRadius:10, minHeight:136}} >
-            <Text style={[textStyles.H5, {color: colors.Gray09, alignSelf:'center'}]}>
-              연령대
-            </Text>
-            <View style={{height:10}}/>
-            <View style={{flex:1}}/>
-            <View style={{flexDirection:'row', justifyContent:'space-around', paddingHorizontal:16}}>
-              {topAgeGroups.map((keyword, index) => {
-                const isMax = item.meetingInfo.summary.ageGroup[keyword] === maxAgeGroup;
-                return (
-                  <View key={index} style={{width:36, alignItems:'center', alignSelf:'flex-end'}}>
-                    <View style={{width:13, height:(item.meetingInfo.summary.ageGroup[keyword]/totalParticipants)*60, backgroundColor: isMax ? colors.Blue : colors.Gray03, borderTopLeftRadius:20, borderTopRightRadius:20}}/>
-                    <Text style={[textStyles.B5, {color:isMax ? colors.Blue : colors.Gray06}]}>
-                      {keyword}
-                    </Text>
-                  </View>
-                )
+                );
               })}
             </View>
           </View>
-          <View style={{width:16}} />
-          <View style={{flex:1,  backgroundColor:colors.Gray01, padding:16, borderRadius:10, minHeight:136}} >
-            <Text style={[textStyles.H5, {color: colors.Gray09, alignSelf:'center'}]}>
+        </View>
+        <View style={{height: 16}} />
+        <View style={{flexDirection: 'row'}}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: colors.Gray01,
+              padding: 16,
+              borderRadius: 10,
+              minHeight: 136,
+            }}>
+            <Text
+              style={[
+                textStyles.H5,
+                {color: colors.Gray09, alignSelf: 'center'},
+              ]}>
+              연령대
+            </Text>
+            <View style={{height: 10}} />
+            <View style={{flex: 1}} />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                paddingHorizontal: 16,
+              }}>
+              {topAgeGroups.map((keyword, index) => {
+                const isMax =
+                  item.meetingInfo.summary.ageGroup[keyword] === maxAgeGroup;
+                return (
+                  <View
+                    key={index}
+                    style={{
+                      width: 36,
+                      alignItems: 'center',
+                      alignSelf: 'flex-end',
+                    }}>
+                    <View
+                      style={{
+                        width: 13,
+                        height:
+                          (item.meetingInfo.summary.ageGroup[keyword] /
+                            totalParticipants) *
+                          60,
+                        backgroundColor: isMax ? colors.Blue : colors.Gray03,
+                        borderTopLeftRadius: 20,
+                        borderTopRightRadius: 20,
+                      }}
+                    />
+                    <Text
+                      style={[
+                        textStyles.B5,
+                        {color: isMax ? colors.Blue : colors.Gray06},
+                      ]}>
+                      {keyword}
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+          <View style={{width: 16}} />
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: colors.Gray01,
+              padding: 16,
+              borderRadius: 10,
+              minHeight: 136,
+            }}>
+            <Text
+              style={[
+                textStyles.H5,
+                {color: colors.Gray09, alignSelf: 'center'},
+              ]}>
               성별
             </Text>
-            <View style={{height:10}}/>
-            <View style={{flex:1}}/>
-            <View style={{flexDirection:'row', justifyContent:'space-around', paddingHorizontal:16}}>
+            <View style={{height: 10}} />
+            <View style={{flex: 1}} />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                paddingHorizontal: 16,
+              }}>
               {topGenders.map((keyword, index) => {
-                const isMax = item.meetingInfo.summary.gender[keyword] === maxGender;
+                const isMax =
+                  item.meetingInfo.summary.gender[keyword] === maxGender;
                 return (
-                  <View key={index} style={{width:36, alignItems:'center', alignSelf:'flex-end'}}>
-                    <View style={{width:13, height:(item.meetingInfo.summary.gender[keyword]/totalParticipants)*60, backgroundColor: isMax ? colors.Blue : colors.Gray03, borderTopLeftRadius:20, borderTopRightRadius:20}}/>
-                    <View style={{width:2}}/>
+                  <View
+                    key={index}
+                    style={{
+                      width: 36,
+                      alignItems: 'center',
+                      alignSelf: 'flex-end',
+                    }}>
+                    <View
+                      style={{
+                        width: 13,
+                        height:
+                          (item.meetingInfo.summary.gender[keyword] /
+                            totalParticipants) *
+                          60,
+                        backgroundColor: isMax ? colors.Blue : colors.Gray03,
+                        borderTopLeftRadius: 20,
+                        borderTopRightRadius: 20,
+                      }}
+                    />
+                    <View style={{width: 2}} />
                     <View>
-                      <Text style={[textStyles.B5, {color:isMax ? colors.Blue : colors.Gray06}]}>
+                      <Text
+                        style={[
+                          textStyles.B5,
+                          {color: isMax ? colors.Blue : colors.Gray06},
+                        ]}>
                         {keyword}
                       </Text>
                     </View>
                   </View>
-                )
+                );
               })}
             </View>
-          </View>  
+          </View>
         </View>
       </View>
       <GrayLine />
@@ -246,7 +413,7 @@ const MeetInfo = ({item}) => {
           {item.meetingInfo.condition.capacity})
         </Text>
         <View style={{height: 16}} />
-        {item.meetingInfo.participantsInfo.membersInfo.map((member, index) =>
+        {item.meetingInfo.participantsInfo.membersInfo.map((member, index) => (
           <View key={index}>
             {renderMemberInfo(
               member.imagePath,
@@ -255,7 +422,7 @@ const MeetInfo = ({item}) => {
               member.memberId,
             )}
           </View>
-        )}
+        ))}
       </View>
     </View>
   );

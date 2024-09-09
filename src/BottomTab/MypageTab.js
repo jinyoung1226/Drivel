@@ -25,7 +25,6 @@ import OtherProfile from '../Screens/Common/OtherProfile';
 const Stack = createStackNavigator();
 
 const MypageTab = ({route, navigation}) => {
-
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {

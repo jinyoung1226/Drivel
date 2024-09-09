@@ -201,7 +201,6 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
               marginHorizontal: 16,
               marginTop: 16,
               padding: 16,
-
             }}>
             <View
               style={{
@@ -217,13 +216,17 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
             <View
               style={{
                 paddingHorizontal: 16,
-                paddingVertical:8,
+                paddingVertical: 8,
                 backgroundColor: colors.white,
                 marginTop: 16,
                 borderRadius: 10,
               }}>
               <TextInput
-                style={{color: colors.Gray10, flex:1, textAlignVertical: 'top'}}
+                style={{
+                  color: colors.Gray10,
+                  flex: 1,
+                  textAlignVertical: 'top',
+                }}
                 placeholder="리뷰를 남겨주세요"
                 placeholderTextColor={colors.Gray04}
                 onChangeText={text => handleTextChange(text)}
@@ -307,12 +310,21 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
         </>
       ) : null}
       <View style={{height: 16}} />
-      {item.reviews.length == 0 ?
-      <NoItemScreen text={'아직 리뷰가 없어요\n방문 후에 첫 리뷰를 남겨보세요'} icon={<BubbleIcon/>}/>
-      :
-      <View style={{flex: 1, paddingHorizontal: 16}}>
-        <DriveReviewList data={item.reviews} userId={userId} updateReviewInfo={updateReviewInfo} updateCourseInfo={updateCourseInfo} />
-      </View>}
+      {item.reviews.length == 0 ? (
+        <NoItemScreen
+          text={'아직 리뷰가 없어요\n방문 후에 첫 리뷰를 남겨보세요'}
+          icon={<BubbleIcon />}
+        />
+      ) : (
+        <View style={{flex: 1, paddingHorizontal: 16}}>
+          <DriveReviewList
+            data={item.reviews}
+            userId={userId}
+            updateReviewInfo={updateReviewInfo}
+            updateCourseInfo={updateCourseInfo}
+          />
+        </View>
+      )}
     </>
   );
 };

@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../styles/colors';
 import {ScrollView} from 'react-native-gesture-handler';
-import { getMyProfileInfo } from '../../features/profile/profileActions';
+import {getMyProfileInfo} from '../../features/profile/profileActions';
 import MyInfo from './MyInfo';
 import ProfileImageModal from './ProfileImageModal';
 import MyDriveTag from './MyDriveTag';
@@ -15,24 +15,31 @@ import MyMeet from './MyMeet';
 const MyPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const myProfileInfo = useSelector(state => state.profile.myProfileInfo);
-  
+
   if (!myProfileInfo) {
     return <View style={{flex: 1, backgroundColor: colors.BG}} />;
   }
 
   return (
     <ScrollView style={{backgroundColor: colors.BG}}>
-      <ProfileImageModal setModalVisible={setModalVisible} modalVisible={modalVisible}/>
+      <ProfileImageModal
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+      />
       <View style={{height: 32}} />
-      <MyInfo myProfileInfo={myProfileInfo} setModalVisible={setModalVisible} modalVisible={modalVisible}/>
+      <MyInfo
+        myProfileInfo={myProfileInfo}
+        setModalVisible={setModalVisible}
+        modalVisible={modalVisible}
+      />
       <View style={{height: 24}} />
-      <MyDriveTag myProfileInfo={myProfileInfo}/>
+      <MyDriveTag myProfileInfo={myProfileInfo} />
       <View style={{height: 24}} />
       <UserCollectionBar />
       <View style={{height: 24}} />
       <UserMannerScoreBar />
-      <GrayLine/>
-      <MyMeet locked={myProfileInfo.locked}/>
+      <GrayLine />
+      <MyMeet locked={myProfileInfo.locked} />
     </ScrollView>
   );
 };

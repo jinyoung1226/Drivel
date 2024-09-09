@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import {authApi} from "../../api/api";
-import RenderingPage from "../../components/RenderingPage";
-import ReiviewList from "./ReviewList";
-import colors from "../../styles/colors";
+import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {authApi} from '../../api/api';
+import RenderingPage from '../../components/RenderingPage';
+import ReiviewList from './ReviewList';
+import colors from '../../styles/colors';
 const MyReview = ({navigation}) => {
   const [myReviews, setMyReviews] = useState(null);
 
@@ -21,7 +21,7 @@ const MyReview = ({navigation}) => {
         console.log('서버 접속 오류');
       }
     }
-  }
+  };
 
   useEffect(() => {
     getMyReview();
@@ -32,16 +32,18 @@ const MyReview = ({navigation}) => {
   };
 
   if (myReviews == null) {
-    return (
-      <RenderingPage/>
-    )
+    return <RenderingPage />;
   }
 
- return (
-  <View style={{backgroundColor:colors.BG, flex:1}}>
-    <ReiviewList ListHeaderComponent={<View style={{height:16}}/>} data={myReviews} goDriveDetail={goDriveDetail} />
-  </View>
- )
-}
+  return (
+    <View style={{backgroundColor: colors.BG, flex: 1}}>
+      <ReiviewList
+        ListHeaderComponent={<View style={{height: 16}} />}
+        data={myReviews}
+        goDriveDetail={goDriveDetail}
+      />
+    </View>
+  );
+};
 
 export default MyReview;

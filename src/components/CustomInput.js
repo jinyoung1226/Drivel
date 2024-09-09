@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {textStyles} from '../styles/textStyles';
 import colors from '../styles/colors';
-import { Tuple } from '@reduxjs/toolkit';
+import {Tuple} from '@reduxjs/toolkit';
 const CustomInput = ({
   value,
   onChangeText,
@@ -39,7 +39,11 @@ const CustomInput = ({
       ]}>
       <TextInput
         onFocus={onfocus}
-        style={[styles.input, textStyles.H5, {color: editable ?  colors.Gray10 : colors.Gray06}]}
+        style={[
+          styles.input,
+          textStyles.H5,
+          {color: editable ? colors.Gray10 : colors.Gray06},
+        ]}
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
@@ -88,7 +92,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     color: colors.Gray10,
-    paddingVertical: 10
+    paddingVertical: 10,
   },
   buttonText: {
     fontSize: 14,

@@ -17,7 +17,7 @@ const RestaurantInfoTab = ({item, minHeight}) => {
   }, []);
 
   return (
-    <View style={{minHeight:minHeight}}>
+    <View style={{minHeight: minHeight}}>
       <View
         style={{
           marginTop: 24,

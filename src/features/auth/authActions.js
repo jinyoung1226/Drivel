@@ -9,7 +9,7 @@ export const checkAuth = createAsyncThunk(
   'auth/checkAuth',
   async (_, thunkAPI) => {
     const accessToken = await AsyncStorage.getItem('accessToken');
-    
+
     if (accessToken) {
       try {
         const response = await authApi.post('/token/signIn');
@@ -74,14 +74,14 @@ export const login = createAsyncThunk(
         fcmToken: fcmToken,
       }); //fcm토큰 발행하는거 만들고 불러와야함.
       console.log(response.status);
-      console.log(fcmToken, 'fcm')
+      console.log(fcmToken, 'fcm');
       if (response.status == 200) {
         const accessToken = response.data.accessToken;
         const refreshToken = response.data.refreshToken;
         const nickname = response.data.nickname;
         const userId = response.data.id;
         console.log(response.data, 'login');
-        await AsyncStorage.setItem('accessToken', accessToken); 
+        await AsyncStorage.setItem('accessToken', accessToken);
         await EncryptedStorage.setItem('refreshToken', refreshToken);
         if (response.data.onboarded == true) {
           return {
@@ -133,8 +133,8 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
       await AsyncStorage.removeItem('accessToken');
       await EncryptedStorage.removeItem('refreshToken');
       return {
-        isAuthenticated: false, 
-        accessToken: null, 
+        isAuthenticated: false,
+        accessToken: null,
         isLoading: false,
         userId: null,
       };
@@ -169,7 +169,9 @@ export const kakaoLogin = createAsyncThunk(
   async ({code}, thunkAPI) => {
     try {
       const fcmToken = await AsyncStorage.getItem('fcmToken');
-      const response = await api.get('/kakao/login', {params: {code: code, fcmToken: fcmToken}});
+      const response = await api.get('/kakao/login', {
+        params: {code: code, fcmToken: fcmToken},
+      });
       if (response.status == 200) {
         const accessToken = response.data.accessToken;
         const refreshToken = response.data.refreshToken;

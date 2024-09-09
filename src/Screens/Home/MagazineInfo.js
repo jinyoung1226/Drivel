@@ -14,14 +14,14 @@ import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import BackIcon from '../../assets/icons/BackIcon.svg';
 import {useNavigation} from '@react-navigation/native';
-import { magazineList } from '../../assets/magazineData/magazineData';
+import {magazineList} from '../../assets/magazineData/magazineData';
 import GrayLine from '../../components/GrayLine';
 
 const {width} = Dimensions.get('window');
 
 const ImageComponent = ({imageUri}) => {
   const [imageSize, setImageSize] = useState({width: 0, height: 0});
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // 원본 이미지의 크기 가져오기
@@ -41,7 +41,7 @@ const ImageComponent = ({imageUri}) => {
 
   return (
     <View>
-      {imageSize.width > 0 && imageSize.height > 0 || !loading ? (
+      {(imageSize.width > 0 && imageSize.height > 0) || !loading ? (
         <Image
           style={{width: width, height: imageHeight}}
           source={{uri: imageUri}}
@@ -50,19 +50,18 @@ const ImageComponent = ({imageUri}) => {
           onError={() => setLoading(false)}
         />
       ) : (
-      <View style={{justifyContent: 'center'}}>
-        <ActivityIndicator size="large" color={colors.Gray07} />
-      </View>
-    )}
+        <View style={{justifyContent: 'center'}}>
+          <ActivityIndicator size="large" color={colors.Gray07} />
+        </View>
+      )}
     </View>
   );
 };
 
 const MagazineInfo = ({route}) => {
-
   const navigation = useNavigation();
   const id = route.params.id;
-  const magazineData = magazineList[id-1];
+  const magazineData = magazineList[id - 1];
   const scrollRef = useRef(null);
   const scrollY = useRef(new Animated.Value(0)).current;
   const [iconColor, setIconColor] = useState(colors.Gray10);
@@ -94,7 +93,7 @@ const MagazineInfo = ({route}) => {
               inputRange: [0, 52],
               outputRange: ['rgba(0,0,0,0)', 'rgba(0,0,0,0.5)'],
               extrapolate: 'clamp',
-            })
+            }),
           }}
         />
       ),
@@ -113,10 +112,9 @@ const MagazineInfo = ({route}) => {
   return (
     <View style={{flex: 1, backgroundColor: colors.BG}}>
       <ScrollView
-      ref={scrollRef}
-      onScroll={handleScroll}
-      scrollEventThrottle={16}
-      >
+        ref={scrollRef}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}>
         {Platform.OS === 'ios' && <View style={{height: 44}} />}
         <View style={{paddingHorizontal: 16}}>
           <View style={{height: 60}} />
@@ -130,12 +128,16 @@ const MagazineInfo = ({route}) => {
           <View style={{height: 32}} />
         </View>
         <ImageComponent imageUri={magazineData.titleImage} />
-        <Text style={[textStyles.B5, {color: colors.Gray07, alignSelf:'flex-end', paddingHorizontal:8}]}>
+        <Text
+          style={[
+            textStyles.B5,
+            {color: colors.Gray07, alignSelf: 'flex-end', paddingHorizontal: 8},
+          ]}>
           {magazineData.imageFrom}
         </Text>
         <View style={{height: 32}} />
         <View style={{paddingHorizontal: 16}}>
-          <Text style={[textStyles.B3, {color: colors.Gray10, lineHeight:24}]}>
+          <Text style={[textStyles.B3, {color: colors.Gray10, lineHeight: 24}]}>
             {magazineData.titleContent}
           </Text>
         </View>
@@ -152,49 +154,90 @@ const MagazineInfo = ({route}) => {
                 {content.subTitle}
               </Text>
               <View style={{height: 32}} />
-              <Text style={[textStyles.B3, {color: colors.Gray10, lineHeight:24}]}>
+              <Text
+                style={[textStyles.B3, {color: colors.Gray10, lineHeight: 24}]}>
                 {content.content}
               </Text>
             </View>
-            {content.imagePath !== null &&
-            <View>
-              <View style={{height: 32}} />
-              <ImageComponent imageUri={content.imagePath} />
-            </View>}
-            <Text style={[textStyles.B5, {color: colors.Gray07, alignSelf:'flex-end', paddingHorizontal:8}]}>
+            {content.imagePath !== null && (
+              <View>
+                <View style={{height: 32}} />
+                <ImageComponent imageUri={content.imagePath} />
+              </View>
+            )}
+            <Text
+              style={[
+                textStyles.B5,
+                {
+                  color: colors.Gray07,
+                  alignSelf: 'flex-end',
+                  paddingHorizontal: 8,
+                },
+              ]}>
               {content.imageFrom}
             </Text>
-            
-            {content.content2 !== null ?
-            <View style={{paddingHorizontal: 16}}>
-              <View style={{height: 32}} />
-              <Text style={[textStyles.B3, {color: colors.Gray10, lineHeight:24}]}>
-                {content.content2}
+
+            {content.content2 !== null ? (
+              <View style={{paddingHorizontal: 16}}>
+                <View style={{height: 32}} />
+                <Text
+                  style={[
+                    textStyles.B3,
+                    {color: colors.Gray10, lineHeight: 24},
+                  ]}>
+                  {content.content2}
+                </Text>
+              </View>
+            ) : (
+              <View style={{height: 16}} />
+            )}
+            {content.imagePath2 !== null && (
+              <View>
+                <View style={{height: 32}} />
+                <ImageComponent imageUri={content.imagePath2} />
+              </View>
+            )}
+            {content.imageFrom2 !== null && (
+              <Text
+                style={[
+                  textStyles.B5,
+                  {
+                    color: colors.Gray07,
+                    alignSelf: 'flex-end',
+                    paddingHorizontal: 8,
+                  },
+                ]}>
+                {content.imageFrom2}
               </Text>
-            </View> : <View style={{height: 16}} />}
-            {content.imagePath2 !== null &&
-            <View>
+            )}
+            {content.content3 !== null && (
+              <View style={{paddingHorizontal: 16}}>
+                <View style={{height: 32}} />
+                <Text
+                  style={[
+                    textStyles.B3,
+                    {color: colors.Gray10, lineHeight: 24},
+                  ]}>
+                  {content.content3}
+                </Text>
+              </View>
+            )}
+            {magazineData.content.length == index + 1 ? (
               <View style={{height: 32}} />
-              <ImageComponent imageUri={content.imagePath2} />
-            </View>}
-            {content.imageFrom2 !== null &&
-            <Text style={[textStyles.B5, {color: colors.Gray07, alignSelf:'flex-end', paddingHorizontal:8}]}>
-              {content.imageFrom2}
-            </Text>}
-            {content.content3 !== null &&
-            <View style={{paddingHorizontal: 16}}>
-              <View style={{height: 32}} />
-              <Text style={[textStyles.B3, {color: colors.Gray10, lineHeight:24}]}>
-                {content.content3}
-              </Text>
-            </View>}
-            {magazineData.content.length == index + 1 ? 
-            <View style={{height: 32}} />
-            :
-            <GrayLine />}
-          </View>  
+            ) : (
+              <GrayLine />
+            )}
+          </View>
         ))}
-        <Text style={{fontFamily: 'YdestreetB', color:colors.Gray08, fontSize:10, textAlign:'center'}}>ⓒ 2024 Drivel</Text>
+        <Text
+          style={{
+            fontFamily: 'YdestreetB',
+            color: colors.Gray08,
+            fontSize: 10,
+            textAlign: 'center',
+          }}>
+          ⓒ 2024 Drivel
+        </Text>
         <View style={{height: 32}} />
       </ScrollView>
     </View>

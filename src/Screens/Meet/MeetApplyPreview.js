@@ -1,15 +1,15 @@
-import React from 'react'
-import {View, Text, TouchableOpacity, ImageBackground} from 'react-native'
-import {textStyles} from '../../styles/textStyles'
-import colors from '../../styles/colors'
-import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
+import React from 'react';
+import {View, Text, TouchableOpacity, ImageBackground} from 'react-native';
+import {textStyles} from '../../styles/textStyles';
+import colors from '../../styles/colors';
+import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const MeetApplyPreview = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const {meetApplyList} = useSelector(state => state.meet);
-  
+
   return (
     <View>
       <View
@@ -24,7 +24,7 @@ const MeetApplyPreview = () => {
         <View style={{flex: 1}} />
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('MeetApplyDetail', {applyList: meetApplyList})
+            navigation.navigate('MeetApplyDetail', {applyList: meetApplyList});
           }}>
           <Text
             style={[
@@ -39,18 +39,19 @@ const MeetApplyPreview = () => {
       <View
         style={{
           paddingHorizontal: 16,
-        }}
-      >
+        }}>
         <Text style={[textStyles.B4, {color: colors.Gray07}]}>
           내가 만든 모임에 참여를 원하는 사람들이 있어요
         </Text>
       </View>
       <View style={{height: 16}} />
-      <View style={{paddingHorizontal:16}}>
+      <View style={{paddingHorizontal: 16}}>
         {meetApplyList.map((item, index) => (
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('MeetApplyDetail', {applyList: meetApplyList})
+              navigation.navigate('MeetApplyDetail', {
+                applyList: meetApplyList,
+              });
             }}
             key={index}
             style={{
@@ -65,7 +66,7 @@ const MeetApplyPreview = () => {
               shadowRadius: 3,
               backgroundColor: colors.white,
               borderRadius: 10,
-              marginBottom:8
+              marginBottom: 8,
             }}>
             <View
               style={{
@@ -73,19 +74,18 @@ const MeetApplyPreview = () => {
                 height: 45,
                 borderRadius: 5,
                 backgroundColor: colors.Gray04,
-                overflow: 'hidden'
-              }}
-            >
-              <ImageBackground src={item.imagePath} style={{flex:1}}>
+                overflow: 'hidden',
+              }}>
+              <ImageBackground src={item.imagePath} style={{flex: 1}}>
                 <View style={{backgroundColor: '#00000010', flex: 1}} />
               </ImageBackground>
             </View>
             <View style={{width: 16}} />
-            <View style={{flex:1}}>
+            <View style={{flex: 1}}>
               <Text style={[textStyles.B3, {color: colors.Gray10}]}>
                 {item.meetingTitle}
               </Text>
-              <View style={{flexDirection:'row'}}>
+              <View style={{flexDirection: 'row'}}>
                 <Text
                   style={[
                     textStyles.B4,
@@ -99,11 +99,19 @@ const MeetApplyPreview = () => {
                   numberOfLines={1}>
                   {item.courseTitle}
                 </Text>
-                <View style={{flex:1}}/>
+                <View style={{flex: 1}} />
               </View>
             </View>
             <View style={{width: 16}} />
-            <View style={{width:45, height:45, backgroundColor: colors.Light_Blue, borderRadius: 30, justifyContent:'center', alignItems:'center'}}>
+            <View
+              style={{
+                width: 45,
+                height: 45,
+                backgroundColor: colors.Light_Blue,
+                borderRadius: 30,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <Text style={[textStyles.H5, {color: colors.Blue}]}>
                 {item.requestedMembers.length}명
               </Text>
@@ -112,7 +120,7 @@ const MeetApplyPreview = () => {
         ))}
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default MeetApplyPreview
+export default MeetApplyPreview;

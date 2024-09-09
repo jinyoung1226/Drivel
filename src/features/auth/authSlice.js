@@ -30,7 +30,7 @@ const authSlice = createSlice({
     },
     setGlobalNickname: (state, action) => {
       state.nickname = action.payload;
-    }
+    },
   },
   extraReducers: builder => {
     // checkAuth 액션이 실행되었을 때 각 상태(pending, fulfilled, rejected)에 따라 상태를 업데이트합니다.

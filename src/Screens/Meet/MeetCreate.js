@@ -362,7 +362,7 @@ const MeetCreate = ({navigation}) => {
             <View style={{height: 16}} />
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
-                style={{flexDirection: 'row', alignItems: 'center', padding:4}}
+                style={{flexDirection: 'row', alignItems: 'center', padding: 4}}
                 onPress={() => setGender(2)}>
                 <View
                   style={{
@@ -374,8 +374,7 @@ const MeetCreate = ({navigation}) => {
                     backgroundColor: gender == 2 ? colors.Blue : null,
                     alignItems: 'center',
                     justifyContent: 'center',
-                  }}
-                >
+                  }}>
                   {gender == 2 && <Check />}
                 </View>
                 <View style={{width: 4}} />
@@ -385,7 +384,7 @@ const MeetCreate = ({navigation}) => {
               </TouchableOpacity>
               <View style={{width: 16}} />
               <TouchableOpacity
-                style={{flexDirection: 'row', alignItems: 'center', padding:4}}
+                style={{flexDirection: 'row', alignItems: 'center', padding: 4}}
                 onPress={() => setGender(1)}>
                 <View
                   style={{
@@ -397,8 +396,7 @@ const MeetCreate = ({navigation}) => {
                     backgroundColor: gender == 1 ? colors.Blue : null,
                     alignItems: 'center',
                     justifyContent: 'center',
-                  }}
-                >
+                  }}>
                   {gender == 1 && <Check />}
                 </View>
                 <View style={{width: 4}} />
@@ -408,7 +406,7 @@ const MeetCreate = ({navigation}) => {
               </TouchableOpacity>
               <View style={{width: 16}} />
               <TouchableOpacity
-                style={{flexDirection: 'row', alignItems: 'center', padding:4}}
+                style={{flexDirection: 'row', alignItems: 'center', padding: 4}}
                 onPress={() => setGender(0)}>
                 <View
                   style={{
@@ -420,8 +418,7 @@ const MeetCreate = ({navigation}) => {
                     backgroundColor: gender == 0 ? colors.Blue : null,
                     alignItems: 'center',
                     justifyContent: 'center',
-                  }}
-                >
+                  }}>
                   {gender == 0 && <Check />}
                 </View>
                 <View style={{width: 8}} />

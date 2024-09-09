@@ -8,11 +8,10 @@ import CustomButton from '../../components/CustomButton';
 import LoadingModal from '../../components/LoadingModal';
 import Eye from '../../assets/icons/EyeIcon.svg';
 import InputTextMessage from '../../components/InputTextMessage';
-import { api } from '../../api/api';
+import {api} from '../../api/api';
 import BackIcon from '../../assets/icons/BackIcon';
 
 const PasswordReset = ({navigation}) => {
-
   const [email, setEmail] = useState('');
   const [authCode, setAuthCode] = useState('');
   const [password, setPassword] = useState('');
@@ -148,7 +147,10 @@ const PasswordReset = ({navigation}) => {
 
   const passwordReset = async () => {
     try {
-      const response = await api.patch('/members/password', {email: email, password: password});
+      const response = await api.patch('/members/password', {
+        email: email,
+        password: password,
+      });
       if (response.status === 200) {
         Alert.alert(response.data.message);
         navigation.navigate('Login');
@@ -161,7 +163,7 @@ const PasswordReset = ({navigation}) => {
         console.log(error);
       }
     }
-  }
+  };
   return (
     <View style={{flex: 1, backgroundColor: colors.BG}}>
       <LoadingModal modalVisible={isSending} />
@@ -284,11 +286,10 @@ const PasswordReset = ({navigation}) => {
               !isPasswordSame ||
               !isAuthorized
             }
-            onPress={() =>passwordReset()}
+            onPress={() => passwordReset()}
             title={'비밀번호 재설정'}
           />
         </View>
-        
       </KeyboardAwareScrollView>
     </View>
   );

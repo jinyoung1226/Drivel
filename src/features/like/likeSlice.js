@@ -7,7 +7,7 @@ const likeSlice = createSlice({
     liked: false, // 각 코스의 좋아요 상태를 관리하는 객체
     isLoading: false,
     courseId: '',
-    likedItem: []
+    likedItem: [],
   },
   reducers: {},
   extraReducers: builder => {
@@ -32,8 +32,10 @@ const likeSlice = createSlice({
       } else {
         // Otherwise, toggle the item in the likedItem array
         const itemId = action.payload;
-        const index = state.likedItem.findIndex(likedItemId => likedItemId === itemId);
-        
+        const index = state.likedItem.findIndex(
+          likedItemId => likedItemId === itemId,
+        );
+
         if (index !== -1) {
           // If item is found, remove it from the array
           state.likedItem.splice(index, 1);

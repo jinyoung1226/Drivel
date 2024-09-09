@@ -11,21 +11,20 @@ import ReportPage from '../Screens/Common/ReportPage';
 import RequiredInfo from '../Screens/Mypage/RequiredInfo';
 import MyInfoDetail from '../Screens/Mypage/MyInfoDetail';
 import MyInfoEdit from '../Screens/Mypage/MyInfoEdit';
-import { useDispatch } from 'react-redux';
-import { showTabBar, hideTabBar } from '../features/tabBar/tabBarSlice';
+import {useDispatch} from 'react-redux';
+import {showTabBar, hideTabBar} from '../features/tabBar/tabBarSlice';
 
 const Stack = createStackNavigator();
 
 const MeetTab = ({route}) => {
-
   const dispatch = useDispatch();
-  
+
   useLayoutEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
     if (routeName === 'MeetMain' || routeName === undefined) {
-      dispatch(showTabBar())
+      dispatch(showTabBar());
     } else {
-      dispatch(hideTabBar())
+      dispatch(hideTabBar());
     }
   }, [route]);
 

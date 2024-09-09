@@ -22,10 +22,9 @@ import {
   driveTheme,
   driveWith,
 } from '../../assets/onboardingData/onBoardingData';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const MeetBrowse = () => {
-
   const navigation = useNavigation();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const {
@@ -234,41 +233,105 @@ const MeetBrowse = () => {
         </TouchableOpacity>
       </View>
       <View style={{flex: 1}}>
-        {!isRefreshing ? 
-        <MeetList
-          ListHeaderComponent={<View style={{height: 16}} />}
-          data={meetList}
-          refreshing={isRefreshing}
-          onRefresh={onRefresh}
-          onEndReached={onEndReached}
-        />
-        :
-        <View style={{padding:16}}>
-        {[1,2,3,4].map((item, index) => (
-          <View key={index} style={{padding:16, backgroundColor:colors.Gray02, borderRadius:10, marginBottom:16}}>
-            <View style={{flexDirection:'row', alignItems:'center'}}>
-              <View style={{width: 104, height: 113, backgroundColor:colors.Gray04, borderRadius:10}}/>
-              <View style={{width:16}}/>
-              <View style={{flex:1}}>
-                <View style={{height:20, width: 120, backgroundColor:colors.Gray04, borderRadius:5}}/>
-                <View style={{height:8}}/>
-                <View style={{height:16, width: 180, backgroundColor:colors.Gray04, borderRadius:5}}/>
-                <View style={{height:8}}/>
-                <View style={{height:14, width: 50, backgroundColor:colors.Gray04, borderRadius:5}}/>
-                <View style={{height:8}}/>
-                <View style={{height:14, width: 90, backgroundColor:colors.Gray04, borderRadius:5}}/>
+        {!isRefreshing ? (
+          <MeetList
+            ListHeaderComponent={<View style={{height: 16}} />}
+            data={meetList}
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+            onEndReached={onEndReached}
+          />
+        ) : (
+          <View style={{padding: 16}}>
+            {[1, 2, 3, 4].map((item, index) => (
+              <View
+                key={index}
+                style={{
+                  padding: 16,
+                  backgroundColor: colors.Gray02,
+                  borderRadius: 10,
+                  marginBottom: 16,
+                }}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <View
+                    style={{
+                      width: 104,
+                      height: 113,
+                      backgroundColor: colors.Gray04,
+                      borderRadius: 10,
+                    }}
+                  />
+                  <View style={{width: 16}} />
+                  <View style={{flex: 1}}>
+                    <View
+                      style={{
+                        height: 20,
+                        width: 120,
+                        backgroundColor: colors.Gray04,
+                        borderRadius: 5,
+                      }}
+                    />
+                    <View style={{height: 8}} />
+                    <View
+                      style={{
+                        height: 16,
+                        width: 180,
+                        backgroundColor: colors.Gray04,
+                        borderRadius: 5,
+                      }}
+                    />
+                    <View style={{height: 8}} />
+                    <View
+                      style={{
+                        height: 14,
+                        width: 50,
+                        backgroundColor: colors.Gray04,
+                        borderRadius: 5,
+                      }}
+                    />
+                    <View style={{height: 8}} />
+                    <View
+                      style={{
+                        height: 14,
+                        width: 90,
+                        backgroundColor: colors.Gray04,
+                        borderRadius: 5,
+                      }}
+                    />
+                  </View>
+                </View>
               </View>
-            </View>
+            ))}
           </View>
-        ))}
-        </View>
-        }
+        )}
       </View>
-      {isLoading && 
-      <View style={{position:'absolute', bottom: 24, alignSelf:'center', alignItems:'center', justifyContent:'center', elevation:5}}>
-        <View style={{position:'absolute', width:32, height:32, backgroundColor:colors.Gray10, opacity:0.7, borderRadius:20}}/>
-        <ActivityIndicator size={'small'} style={{position:'absolute' }} color={colors.BG}/>
-      </View>}
+      {isLoading && (
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 24,
+            alignSelf: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
+            elevation: 5,
+          }}>
+          <View
+            style={{
+              position: 'absolute',
+              width: 32,
+              height: 32,
+              backgroundColor: colors.Gray10,
+              opacity: 0.7,
+              borderRadius: 20,
+            }}
+          />
+          <ActivityIndicator
+            size={'small'}
+            style={{position: 'absolute'}}
+            color={colors.BG}
+          />
+        </View>
+      )}
     </View>
   );
 };

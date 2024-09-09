@@ -7,7 +7,6 @@ import ReviewIcon from '../../assets/icons/ReviewIcon';
 import DriveHistoryIcon from '../../assets/icons/DriveHistoryIcon';
 import {useNavigation} from '@react-navigation/native';
 const UserCollectionBar = () => {
-
   const navigation = useNavigation();
 
   return (
@@ -30,9 +29,7 @@ const UserCollectionBar = () => {
         onPress={() => navigation.navigate('MyScrap')}>
         <ScrapIcon />
         <View style={{height: 16}} />
-        <Text style={[textStyles.B3, {color: colors.Gray10}]}>
-          내 스크랩
-        </Text>
+        <Text style={[textStyles.B3, {color: colors.Gray10}]}>내 스크랩</Text>
       </TouchableOpacity>
       <View style={{width: 1, height: 39, backgroundColor: colors.Gray02}} />
       <TouchableOpacity
@@ -40,9 +37,7 @@ const UserCollectionBar = () => {
         onPress={() => navigation.navigate('MyReview')}>
         <ReviewIcon />
         <View style={{height: 16}} />
-        <Text style={[textStyles.B3, {color: colors.Gray10}]}>
-          내 리뷰
-        </Text>
+        <Text style={[textStyles.B3, {color: colors.Gray10}]}>내 리뷰</Text>
       </TouchableOpacity>
       {/* <View style={{width: 1, height: 39, backgroundColor: colors.Gray02}} />
       <TouchableOpacity
@@ -55,6 +50,6 @@ const UserCollectionBar = () => {
       </TouchableOpacity> */}
     </View>
   );
-}
+};
 
 export default UserCollectionBar;

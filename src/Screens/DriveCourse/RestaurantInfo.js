@@ -20,8 +20,8 @@ import DriveReview from './DriveReview';
 import GrayLine from '../../components/GrayLine';
 import RestaurantReviewTab from './RestaurantReviewTab';
 import RenderingPage from '../../components/RenderingPage';
-import { setCafeBlogReviewList } from '../../features/drive/driveActions';
-import { useDispatch } from 'react-redux';
+import {setCafeBlogReviewList} from '../../features/drive/driveActions';
+import {useDispatch} from 'react-redux';
 
 const {width} = Dimensions.get('window');
 
@@ -35,7 +35,7 @@ const RestaurantInfo = ({route}) => {
   const [activeTab, setActiveTab] = useState(0);
   const [containerHeight, setContainerHeight] = useState(null);
   const [contentHeight, setContentHeight] = useState(null);
-  const [tabHeight, setTabHeight] = useState(null);  
+  const [tabHeight, setTabHeight] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const RestaurantInfo = ({route}) => {
     getPlaceInfo();
     return () => {
       dispatch(setCafeBlogReviewList(null));
-    }
+    };
   }, []);
 
   useLayoutEffect(() => {
@@ -81,14 +81,14 @@ const RestaurantInfo = ({route}) => {
   }, [navigation]);
 
   const handleLayout = (event, setHeight) => {
-    const { height } = event.nativeEvent.layout;
+    const {height} = event.nativeEvent.layout;
     setHeight(height);
-    console.log("Content height:", height);
+    console.log('Content height:', height);
   };
 
   const scrollToTab = () => {
     scrollViewRef.current.scrollToPosition(0, contentHeight, true);
-  };  
+  };
 
   if (!placeInfo) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
@@ -96,23 +96,19 @@ const RestaurantInfo = ({route}) => {
   }
 
   return (
-    <View 
+    <View
       style={{flex: 1, backgroundColor: colors.BG}}
-      onLayout={(e) => handleLayout(e, setContainerHeight)}
-    >
+      onLayout={e => handleLayout(e, setContainerHeight)}>
       <KeyboardAwareScrollView
         ref={scrollViewRef}
         stickyHeaderIndices={[1]}
-        scrollIndicatorInsets={{right: 0.1}}
-        >
-        <View onLayout={(e) => handleLayout(e, setContentHeight)}>
+        scrollIndicatorInsets={{right: 0.1}}>
+        <View onLayout={e => handleLayout(e, setContentHeight)}>
           <Image
             src={placeInfo.imagePath}
             style={{width: width, aspectRatio: 1.8}}
           />
-          <View
-            style={{paddingHorizontal: 16, marginTop: 16}}
-          >
+          <View style={{paddingHorizontal: 16, marginTop: 16}}>
             <Text style={[textStyles.H1, {color: colors.Gray10}]}>
               {placeInfo.name}
             </Text>
@@ -123,19 +119,24 @@ const RestaurantInfo = ({route}) => {
           </View>
           <GrayLine />
         </View>
-        <View onLayout={(e) => handleLayout(e, setTabHeight)}>
-        {placeInfo !== null && (
-          <Tabs
-            tabName={tabName}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            scrollToTab={scrollToTab}
-          />
-        )}
+        <View onLayout={e => handleLayout(e, setTabHeight)}>
+          {placeInfo !== null && (
+            <Tabs
+              tabName={tabName}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              scrollToTab={scrollToTab}
+            />
+          )}
         </View>
         {placeInfo !== null && (
           <View>
-            {activeTab === 0 && <RestaurantInfoTab item={placeInfo} minHeight={containerHeight-tabHeight}/>}
+            {activeTab === 0 && (
+              <RestaurantInfoTab
+                item={placeInfo}
+                minHeight={containerHeight - tabHeight}
+              />
+            )}
             {activeTab === 1 && <RestaurantReviewTab placeInfo={placeInfo} />}
           </View>
         )}

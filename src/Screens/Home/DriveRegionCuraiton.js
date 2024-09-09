@@ -10,7 +10,7 @@ const DriveRegionCuraiton = ({
   activeButton,
   category,
   handleButtonPress,
-  data
+  data,
 }) => {
   const nickname = useSelector(state => state.auth.nickname);
   return (
@@ -57,9 +57,7 @@ const DriveRegionCuraiton = ({
         <View style={{flexDirection: 'row'}}>
           <FlatList
             data={data}
-            renderItem={({item}) => (
-              <CurationListItem item={item}/>
-            )}
+            renderItem={({item}) => <CurationListItem item={item} />}
             horizontal
             showsHorizontalScrollIndicator={false}
             ItemSeparatorComponent={<View style={{width: 16}} />}

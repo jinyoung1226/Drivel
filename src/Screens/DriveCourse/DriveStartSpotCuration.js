@@ -74,14 +74,13 @@ const DriveStartSpotCuration = ({item, setCheckInfo}) => {
   };
 
   return (
-    <Pressable 
+    <Pressable
       style={{
         flex: 1,
         flexDirection: 'row',
         marginBottom: 32,
       }}
-      onPress={handleCheckboxPress}
-    >
+      onPress={handleCheckboxPress}>
       <Animated.View style={{transform: [{scale: scaleValue}]}}>
         {!isChecked ? (
           <EmptyBox />
@@ -94,7 +93,7 @@ const DriveStartSpotCuration = ({item, setCheckInfo}) => {
           </View>
         )}
       </Animated.View>
-      <View style={{flex:1, marginLeft: 16}}>
+      <View style={{flex: 1, marginLeft: 16}}>
         <Text style={[textStyles.H5, {color: colors.Gray10}]}>
           {item.title}
         </Text>
@@ -112,8 +111,13 @@ const DriveStartSpotCuration = ({item, setCheckInfo}) => {
       </View>
       {item.imagePath === null ? (
         <View
-        style={{width: 65, height: 65, borderRadius: 5, overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.05)'}}  
-        >
+          style={{
+            width: 65,
+            height: 65,
+            borderRadius: 5,
+            overflow: 'hidden',
+            backgroundColor: 'rgba(0,0,0,0.05)',
+          }}>
           <MainLogo width={65} height={65} />
         </View>
       ) : (

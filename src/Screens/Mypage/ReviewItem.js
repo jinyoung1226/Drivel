@@ -18,11 +18,10 @@ const ReviewItem = ({item, goDriveDetail}) => {
         borderRadius: 10,
         backgroundColor: colors.Light_Blue,
 
-        padding:16,
-        marginHorizontal:16,
+        padding: 16,
+        marginHorizontal: 16,
       }}
-      onPress={() => goDriveDetail(item.courseId)}
-    >
+      onPress={() => goDriveDetail(item.courseId)}>
       <Text style={[textStyles.H4, {color: colors.Blue}]}>
         {/* {item.courseTitle} */}
       </Text>
@@ -35,7 +34,12 @@ const ReviewItem = ({item, goDriveDetail}) => {
         {item.comment}
       </Text>
       <View style={{height: 16}} />
-      {item.images.length !== 0 && <Image src={item.images[0].imagePath} style={{height:150, resizeMode: 'cover', borderRadius:5}}/>}
+      {item.images.length !== 0 && (
+        <Image
+          src={item.images[0].imagePath}
+          style={{height: 150, resizeMode: 'cover', borderRadius: 5}}
+        />
+      )}
     </TouchableOpacity>
   );
 };

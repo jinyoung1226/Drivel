@@ -10,26 +10,25 @@ import MeetIcon from '../assets/tabBarIcon/MeetIcon.svg';
 import DriveCourseIcon from '../assets/tabBarIcon/DriveCourseIcon.svg';
 import MypageIcon from '../assets/tabBarIcon/MypageIcon.svg';
 import CustomTabBar from '../components/CustomTabBar';
-import { useDispatch } from 'react-redux';
-import { authApi } from '../api/api';
-import { setLikedItem } from '../features/like/likeActions';
-import { getMyProfileInfo } from '../features/profile/profileActions';
+import {useDispatch} from 'react-redux';
+import {authApi} from '../api/api';
+import {setLikedItem} from '../features/like/likeActions';
+import {getMyProfileInfo} from '../features/profile/profileActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tab = createBottomTabNavigator();
 
 const MainNavigator = () => {
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getMyProfileInfo());
   }, []);
-  
+
   return (
-    <Tab.Navigator initialRouteName='HomeTab'
-      tabBar={(props) => <CustomTabBar {...props} />}
-      >
+    <Tab.Navigator
+      initialRouteName="HomeTab"
+      tabBar={props => <CustomTabBar {...props} />}>
       <Tab.Screen
         name="HomeTab"
         component={HomeTab}

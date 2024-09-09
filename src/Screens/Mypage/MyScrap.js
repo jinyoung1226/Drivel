@@ -8,10 +8,9 @@ import Tabs from '../../components/Tabs';
 import {authApi} from '../../api/api';
 import LikedList from './LikedList';
 import BackIcon from '../../assets/icons/BackIcon';
-import { setLikedItem } from '../../features/like/likeActions';
-import { useFocusEffect } from '@react-navigation/native';
+import {setLikedItem} from '../../features/like/likeActions';
+import {useFocusEffect} from '@react-navigation/native';
 const MyScrap = ({navigation}) => {
-  
   const dispatch = useDispatch();
   const [likedCourse, setLikedCourse] = useState([]);
   useLayoutEffect(() => {
@@ -30,7 +29,6 @@ const MyScrap = ({navigation}) => {
       ),
     });
   }, [navigation]);
-  
 
   const getLikedDriveCourse = async () => {
     try {
@@ -51,7 +49,7 @@ const MyScrap = ({navigation}) => {
   useFocusEffect(
     useCallback(() => {
       getLikedDriveCourse();
-    }, [])
+    }, []),
   );
   // useEffect(() => {
   //   getLikedDriveCourse();
@@ -64,7 +62,7 @@ const MyScrap = ({navigation}) => {
           총 {likedCourse.length}개
         </Text>
       </View>
-      <LikedList data={likedCourse}/>
+      <LikedList data={likedCourse} />
     </View>
   );
 };

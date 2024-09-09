@@ -19,7 +19,6 @@ import {
   setLastMessageId,
   setMeetMessageListNull,
   setParticipateStatus,
-  
 } from './meetActions';
 
 const initialState = {
@@ -125,7 +124,10 @@ const meetSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(getMeetMessageListMore.fulfilled, (state, action) => {
-      state.meetMessageList = [...state.meetMessageList, ...action.payload.meetMessageList];
+      state.meetMessageList = [
+        ...state.meetMessageList,
+        ...action.payload.meetMessageList,
+      ];
       state.lastMessageId = action.payload.lastMessageId;
       state.isLastMessage = action.payload.isLastMessage;
       state.isLoading = false;
@@ -159,7 +161,7 @@ const meetSlice = createSlice({
       state.filterGender = action.payload;
     });
     builder.addCase(setMeetMessageList, (state, action) => {
-      state.meetMessageList = [action.payload, ...state.meetMessageList]; 
+      state.meetMessageList = [action.payload, ...state.meetMessageList];
     });
     builder.addCase(setLastMessageId, (state, action) => {
       state.lastMessageId = action.payload;

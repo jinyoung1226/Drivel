@@ -13,7 +13,7 @@ import SearchIcon from '../../assets/icons/SearchIcon.svg';
 import XIcon from '../../assets/icons/XIcon.svg';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DriveSearchCourseListItem from './DriveSearchCourseListItem';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const DriveSearch = ({navigation}) => {
   const [courses, setCourses] = useState([]);
@@ -54,7 +54,7 @@ const DriveSearch = ({navigation}) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <BackIcon color={colors.Gray10} />
         </TouchableOpacity>
-        <View style={{width:8}}/>
+        <View style={{width: 8}} />
         <View style={{flex: 1}}>
           <DriveSearchCustomInput
             showButton={true}
@@ -85,7 +85,7 @@ const DriveSearch = ({navigation}) => {
             driveCourse.length !== 0 &&
             filteredData.map(item => (
               <View key={item.id}>
-                <DriveSearchCourseListItem item={item}/>
+                <DriveSearchCourseListItem item={item} />
                 <View
                   style={{
                     borderBottomWidth: 2,

@@ -1,13 +1,17 @@
-import { getMeetList, getMeetListRecommended, getMyMeetList } from '../features/meet/meetActions';
+import {
+  getMeetList,
+  getMeetListRecommended,
+  getMyMeetList,
+} from '../features/meet/meetActions';
 
-const refreshMeetList = (dispatch) => {
+const refreshMeetList = dispatch => {
   dispatch(getMyMeetList());
   dispatch(getMeetListRecommended({page: 0, size: 3}));
   dispatch(
     getMeetList({
       page: 0,
       size: 10,
-      orderBy: "LATEST",
+      orderBy: 'LATEST',
       themeId: null,
       togetherId: null,
       styleId: null,
@@ -17,6 +21,6 @@ const refreshMeetList = (dispatch) => {
       carCareer: null,
     }),
   );
-}
+};
 
 export default refreshMeetList;

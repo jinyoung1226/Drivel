@@ -14,9 +14,7 @@ const MyMeetList = ({ListHeaderComponent, data}) => {
       }}
       data={data}
       numColumns={2}
-      renderItem={({item}) => (
-        <MyMeetItem item={item}/>
-      )}
+      renderItem={({item}) => <MyMeetItem item={item} />}
       keyExtractor={item => item.meetingId}
     />
   );

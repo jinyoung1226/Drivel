@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 // authSlice 정의: 인증 관련 상태와 리듀서를 관리합니다.
 const initialState = {
-  isTabBarVisible: true
+  isTabBarVisible: true,
 };
 const tabBarSlice = createSlice({
   name: 'tabBar',
@@ -17,6 +17,6 @@ const tabBarSlice = createSlice({
   },
 });
 
-export const { showTabBar, hideTabBar } = tabBarSlice.actions;
+export const {showTabBar, hideTabBar} = tabBarSlice.actions;
 
 export default tabBarSlice.reducer;

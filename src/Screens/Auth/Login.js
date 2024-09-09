@@ -27,51 +27,58 @@ const LoginScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [registerType, setRegisterType] = useState('');
   const dispatch = useDispatch();
-  const { isLoading } = useSelector(state => state.auth); //selector를 통해 authSlice에서 error상태를 가져옴
+  const {isLoading} = useSelector(state => state.auth); //selector를 통해 authSlice에서 error상태를 가져옴
 
   const handleLogin = () => {
     dispatch(login({email, password}));
   };
 
-  const handleKakaoLogin = async() => {
+  const handleKakaoLogin = async () => {
     const isKakaoRegitered = await AsyncStorage.getItem('isKakaoRegitered');
     if (isKakaoRegitered === 'true') {
       navigation.navigate('KakaoLogin');
     }
     if (!isKakaoRegitered) {
-      setModalVisible(!modalVisible); 
-      setRegisterType('kakao')
+      setModalVisible(!modalVisible);
+      setRegisterType('kakao');
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <PolicyModal modalVisible={modalVisible} setModalVisible={setModalVisible} registerType={registerType}/>
-        <View style={{padding: 16, flex:1}}>
+      <PolicyModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        registerType={registerType}
+      />
+      <View style={{padding: 16, flex: 1}}>
+        <View style={{flex: 1}} />
+        <SplashScreen />
+        <View style={{flex: 1}} />
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            height: 50,
+            backgroundColor: '#FEE500',
+            borderRadius: 6.7,
+            padding: 15,
+          }}
+          onPress={() => handleKakaoLogin()}>
           <View style={{flex: 1}} />
-          <SplashScreen />
+          <KakaoIcon width={20} height={20} />
+          <View style={{width: 6.6}} />
+          <Text style={[textStyles.H4, {color: 'rgba(0, 0, 0, 0.85)'}]}>
+            카카오 로그인
+          </Text>
           <View style={{flex: 1}} />
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              height: 50,
-              backgroundColor: '#FEE500',
-              borderRadius: 6.7,
-              padding: 15,
-            }}
-            onPress={() => handleKakaoLogin()}>
-            <View style={{flex: 1}} />
-            <KakaoIcon width={20} height={20} />
-            <View style={{width: 6.6}} />
-            <Text style={[textStyles.H4, {color: 'rgba(0, 0, 0, 0.85)'}]}>
-              카카오 로그인
-            </Text>
-            <View style={{flex: 1}} />
-          </TouchableOpacity>
-          <View style={{height: 32}} />
-          <CustomButton title="이메일 로그인" onPress={() => navigation.navigate("EmailLogin")} />
-          <View style={{height: 16}} />
-        </View>
+        </TouchableOpacity>
+        <View style={{height: 32}} />
+        <CustomButton
+          title="이메일 로그인"
+          onPress={() => navigation.navigate('EmailLogin')}
+        />
+        <View style={{height: 16}} />
+      </View>
     </SafeAreaView>
   );
 };

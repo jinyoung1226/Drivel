@@ -1,8 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, TouchableWithoutFeedback, Animated, StyleSheet } from 'react-native';
+import React, {useState, useRef, useEffect} from 'react';
+import {
+  View,
+  TouchableWithoutFeedback,
+  Animated,
+  StyleSheet,
+} from 'react-native';
 import colors from '../styles/colors';
 
-const ToggleSwitch = ({ onPress, isOn }) => {
+const ToggleSwitch = ({onPress, isOn}) => {
   const translateX = useRef(new Animated.Value(isOn ? 18 : 4)).current; // Initialize based on isOn
 
   useEffect(() => {
@@ -28,12 +33,16 @@ const ToggleSwitch = ({ onPress, isOn }) => {
 
   return (
     <TouchableWithoutFeedback onPress={toggleSwitch}>
-      <View style={[styles.switchContainer, { backgroundColor: isOn ? colors.Blue : colors.Gray04 }]}>
+      <View
+        style={[
+          styles.switchContainer,
+          {backgroundColor: isOn ? colors.Blue : colors.Gray04},
+        ]}>
         <Animated.View
           style={[
             styles.circle,
             {
-              transform: [{ translateX }],
+              transform: [{translateX}],
             },
           ]}
         />

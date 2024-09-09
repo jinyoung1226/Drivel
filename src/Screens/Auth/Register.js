@@ -146,10 +146,10 @@ const Register = ({navigation}) => {
     }
   };
 
-  const checkEmail = async() => {
-    try{
+  const checkEmail = async () => {
+    try {
       const response = await api.get(`/members/check-email/${email}`);
-      if(response.status === 200) {
+      if (response.status === 200) {
         requestAuthCode();
       }
     } catch (error) {
@@ -160,7 +160,7 @@ const Register = ({navigation}) => {
         console.log(error);
       }
     }
-  }
+  };
 
   const verifyAuthCode = async () => {
     setIsAuthorizing(true);
@@ -313,7 +313,6 @@ const Register = ({navigation}) => {
             title={'회원가입'}
           />
         </View>
-        
       </KeyboardAwareScrollView>
     </View>
   );

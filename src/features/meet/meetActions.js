@@ -1,6 +1,6 @@
 import {createAsyncThunk, createAction} from '@reduxjs/toolkit';
 import {api, authApi} from '../../api/api';
-import { Alert } from 'react-native';
+import {Alert} from 'react-native';
 
 export const getMeetList = createAsyncThunk(
   'meet/getMeetList',
@@ -101,7 +101,6 @@ export const getMeetListMore = createAsyncThunk(
         return {meetList, isLastPage, currentPage};
       } else {
         return thunkAPI.rejectWithValue({
-
           error: `Unexpected response status: ${response.status}`,
         });
       }
@@ -186,16 +185,26 @@ export const getMeetMessageList = createAsyncThunk(
   'meet/getMeetMessageList',
   async ({meetingId, messageId}, thunkAPI) => {
     try {
-      const response = await authApi.get(`/meeting/${meetingId}/board/${messageId}`);
+      const response = await authApi.get(
+        `/meeting/${meetingId}/board/${messageId}`,
+      );
       if (response.status === 200) {
         console.log(response.data, '@@@');
         const meetMessageList = response.data;
         const isLastMessage = response.data.length < 50;
         if (response.data.length === 0) {
-          return {meetMessageList: meetMessageList, lastMessageId: null, isLastMessage: true};
+          return {
+            meetMessageList: meetMessageList,
+            lastMessageId: null,
+            isLastMessage: true,
+          };
         } else {
           const lastMessageId = response.data[response.data.length - 1].id;
-          return {meetMessageList: meetMessageList, lastMessageId: lastMessageId, isLastMessage: isLastMessage};
+          return {
+            meetMessageList: meetMessageList,
+            lastMessageId: lastMessageId,
+            isLastMessage: isLastMessage,
+          };
         }
       }
     } catch (error) {
@@ -214,14 +223,20 @@ export const getMeetMessageListMore = createAsyncThunk(
   'meet/getMeetMessageListMore',
   async ({meetingId, messageId}, thunkAPI) => {
     try {
-      const response = await authApi.get(`/meeting/${meetingId}/board/${messageId}`);
+      const response = await authApi.get(
+        `/meeting/${meetingId}/board/${messageId}`,
+      );
       if (response.status === 200) {
         console.log('메시지 추가 불러오기');
         const meetMessageList = response.data;
         const lastMessageId = response.data[response.data.length - 1].id;
         const isLastMessage = response.data.length < 50;
         console.log(response.data.length < 50, 'isLastMessage');
-        return {meetMessageList: meetMessageList, lastMessageId: lastMessageId, isLastMessage: isLastMessage};  
+        return {
+          meetMessageList: meetMessageList,
+          lastMessageId: lastMessageId,
+          isLastMessage: isLastMessage,
+        };
       }
     } catch (error) {
       if (error.response) {
@@ -255,7 +270,9 @@ export const setSort = createAction('meet/setSort');
 
 export const setMeetMessageList = createAction('meet/setMeetMessageList');
 
-export const setMeetMessageListNull = createAction('meet/setMeetMessageListNull');
+export const setMeetMessageListNull = createAction(
+  'meet/setMeetMessageListNull',
+);
 
 export const setLastMessageId = createAction('meet/setLastMessageId');
 

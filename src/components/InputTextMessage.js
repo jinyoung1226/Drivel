@@ -12,9 +12,11 @@ const InputTextMessage = ({isValid, validMessage, errorMessage}) => {
   return (
     <View style={{height: 24}}>
       {isValid ? (
-        <Text style={[textStyles.H6, {color:colors.Blue}]}>{validMessage}</Text>
+        <Text style={[textStyles.H6, {color: colors.Blue}]}>
+          {validMessage}
+        </Text>
       ) : (
-        <Text style={[textStyles.H6, {color:colors.red}]}>{errorMessage}</Text>
+        <Text style={[textStyles.H6, {color: colors.red}]}>{errorMessage}</Text>
       )}
     </View>
   );

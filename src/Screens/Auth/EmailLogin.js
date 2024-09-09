@@ -27,7 +27,7 @@ const EmailLogin = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [registerType, setRegisterType] = useState('');
   const dispatch = useDispatch();
-  const { isLoading } = useSelector(state => state.auth); //selector를 통해 authSlice에서 error상태를 가져옴
+  const {isLoading} = useSelector(state => state.auth); //selector를 통해 authSlice에서 error상태를 가져옴
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -52,7 +52,11 @@ const EmailLogin = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <PolicyModal modalVisible={modalVisible} setModalVisible={setModalVisible} registerType={registerType}/>
+      <PolicyModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        registerType={registerType}
+      />
       <KeyboardAwareScrollView>
         <View style={{padding: 16}}>
           <View style={{height: 32}} />
@@ -81,14 +85,22 @@ const EmailLogin = ({navigation}) => {
             </Text>
           </TouchableOpacity>
           <View style={{height: 16}} />
-          <CustomButton title="로그인" onPress={() => handleLogin()} disabled={isLoading}/>
+          <CustomButton
+            title="로그인"
+            onPress={() => handleLogin()}
+            disabled={isLoading}
+          />
           <View style={{height: 32}} />
           <View style={{flexDirection: 'row', alignSelf: 'center'}}>
             <Text style={[textStyles.H5, {color: colors.Gray06}]}>
               아직 회원이 아니신가요?
             </Text>
             <View style={{width: 8}} />
-            <TouchableOpacity onPress={() =>{setModalVisible(!modalVisible); setRegisterType('email');}}>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(!modalVisible);
+                setRegisterType('email');
+              }}>
               <Text
                 style={[
                   textStyles.H5,

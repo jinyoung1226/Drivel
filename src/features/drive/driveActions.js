@@ -95,7 +95,7 @@ export const getBlogReview = createAsyncThunk(
     } catch (error) {
       console.error('Error fetching blog data:', error);
     }
-  } 
+  },
 );
 
 export const getCafeBlogReview = createAsyncThunk(
@@ -123,7 +123,7 @@ export const getCafeBlogReview = createAsyncThunk(
     } catch (error) {
       console.error('Error fetching blog data:', error);
     }
-  } 
+  },
 );
 
 export const setFilterDriveStyle = createAction('drive/filterDriveStyle');
@@ -134,4 +134,6 @@ export const setFilterDriveWith = createAction('drive/filterDriveWith');
 
 export const setBlogReviewList = createAction('drive/setBlogReviewList');
 
-export const setCafeBlogReviewList = createAction('drive/setCafeBlogReviewList');
+export const setCafeBlogReviewList = createAction(
+  'drive/setCafeBlogReviewList',
+);

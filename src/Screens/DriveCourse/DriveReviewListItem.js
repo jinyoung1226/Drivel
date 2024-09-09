@@ -43,13 +43,13 @@ const DriveReviewListItem = ({
 
   const openDeleteModal = () => {
     setModalType('reviewDelete');
-    setTargetReviewId(item.id)
+    setTargetReviewId(item.id);
     setModalVisible(true);
   };
 
   const openBlockModal = () => {
     setModalType('userReviewBlock');
-    setTargetReviewId(item.reviewerId)
+    setTargetReviewId(item.reviewerId);
     setModalVisible(true);
   };
 
@@ -156,7 +156,13 @@ const DriveReviewListItem = ({
             </Text>
           </Pressable>
           <Pressable
-            style={({pressed}) => [{paddingHorizontal: 16, paddingVertical: 8, backgroundColor: pressed ? colors.Gray02 : colors.white}]}
+            style={({pressed}) => [
+              {
+                paddingHorizontal: 16,
+                paddingVertical: 8,
+                backgroundColor: pressed ? colors.Gray02 : colors.white,
+              },
+            ]}
             onPress={openBlockModal}>
             <Text style={[textStyles.B4, {color: colors.Gray10}]}>
               차단하기

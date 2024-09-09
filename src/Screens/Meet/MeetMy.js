@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import MeetList from './MeetList';
-import {getMeetListRecommended, getMyMeetList, getMeetingApplyList, setTab} from '../../features/meet/meetActions';
+import {
+  getMeetListRecommended,
+  getMyMeetList,
+  getMeetingApplyList,
+  setTab,
+} from '../../features/meet/meetActions';
 import {authApi} from '../../api/api';
 import RenderingPage from '../../components/RenderingPage';
 import MeetApplyPreview from './MeetApplyPreview';
@@ -17,20 +18,17 @@ import MeetUpcomingList from './MeetUpcomingList';
 import eventEmitter from '../../utils/eventEmitter';
 
 const MeetMy = () => {
-
   const dispatch = useDispatch();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [data, setData] = useState(null);
   const [showMore, setShowMore] = useState(false);
   const nickname = useSelector(state => state.auth.nickname);
-  const {meetListRecommended, inititalPage, myMeetList, meetApplyList} = useSelector(
-    state => state.meet,
-  );
-  
+  const {meetListRecommended, inititalPage, myMeetList, meetApplyList} =
+    useSelector(state => state.meet);
+
   const updateMeetApplyList = async () => {
     dispatch(getMeetingApplyList());
   };
-
 
   useEffect(() => {
     eventEmitter.on('JOIN_REQUEST', updateMeetApplyList);
@@ -40,7 +38,7 @@ const MeetMy = () => {
     dispatch(getMeetingApplyList());
     return () => {
       eventEmitter.removeListener('JOIN_REQUEST', updateMeetApplyList);
-    }
+    };
   }, []);
 
   useEffect(() => {
@@ -68,9 +66,7 @@ const MeetMy = () => {
 
   if (!meetListRecommended || !meetApplyList || !myMeetList) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
-    return (
-      <RenderingPage/>
-    );
+    return <RenderingPage />;
   }
 
   return (
@@ -102,18 +98,23 @@ const MeetMy = () => {
               <View style={{flex: 1}} />
             </View>
             <View style={{height: 24}} />
-            <MeetUpcomingList data={data} myMeetList={myMeetList} handleShowMore={handleShowMore} showMore={showMore} setShowMore={setShowMore}/>
+            <MeetUpcomingList
+              data={data}
+              myMeetList={myMeetList}
+              handleShowMore={handleShowMore}
+              showMore={showMore}
+              setShowMore={setShowMore}
+            />
             <View style={{height: 24}} />
             <View style={{height: 10, backgroundColor: colors.Gray02}} />
-            {!meetApplyList || meetApplyList.length == 0 ? 
-            null 
-            :
-            <View>
-              <View style={{height: 24}} />
-              <MeetApplyPreview/>
-              <View style={{height: 24}} />
-              <View style={{height: 10, backgroundColor: colors.Gray02}} />  
-            </View>}
+            {!meetApplyList || meetApplyList.length == 0 ? null : (
+              <View>
+                <View style={{height: 24}} />
+                <MeetApplyPreview />
+                <View style={{height: 24}} />
+                <View style={{height: 10, backgroundColor: colors.Gray02}} />
+              </View>
+            )}
             <View style={{height: 24}} />
             <View
               style={{

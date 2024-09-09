@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, Image, ImageBackground} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import Star from '../../assets/icons/Star.svg';
@@ -42,32 +48,48 @@ const DriveCourseListItem = ({item}) => {
         </Text>
         <View style={{height: 8}} />
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-        {item.tags.slice(0, 5).map((tag, index) => (
-          <View key={index} style={{flexDirection:'row', margin:2, alignItems:'center', justifyContent:'center'}}>
-            <View style={{backgroundColor:colors.Gray02, borderRadius:4,paddingLeft:4, paddingRight:4, height:22, justifyContent:'center'}}>
-              <Text style={[textStyles.B4, {color: colors.Gray04}]}>
-                {tag}
-              </Text>
+          {item.tags.slice(0, 5).map((tag, index) => (
+            <View
+              key={index}
+              style={{
+                flexDirection: 'row',
+                margin: 2,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <View
+                style={{
+                  backgroundColor: colors.Gray02,
+                  borderRadius: 4,
+                  paddingLeft: 4,
+                  paddingRight: 4,
+                  height: 22,
+                  justifyContent: 'center',
+                }}>
+                <Text style={[textStyles.B4, {color: colors.Gray04}]}>
+                  {tag}
+                </Text>
+              </View>
+              {item.tags.slice(0, 5).length - 1 !== index ? (
+                <View style={{padding: 2}}>
+                  <Text style={[textStyles.B4, {color: colors.Gray04}]}>
+                    {'  · '}
+                  </Text>
+                </View>
+              ) : (
+                item.tags.length > 5 && (
+                  <View style={{padding: 2}}>
+                    <Text style={[textStyles.B4, {color: colors.Gray04}]}>
+                      {' ... '}
+                    </Text>
+                  </View>
+                )
+              )}
             </View>
-            {item.tags.slice(0, 5).length -1 !== index ?
-            <View style={{padding:2}}>
-              <Text style={[textStyles.B4, {color: colors.Gray04}]}>
-                {"  · "}
-              </Text>
-            </View>
-            :
-            item.tags.length > 5 &&
-            <View style={{padding:2}}>
-              <Text style={[textStyles.B4, {color: colors.Gray04}]}>
-                {" ... "}
-              </Text>
-            </View>
-            }
-          </View>
-        ))}
+          ))}
         </View>
         <View style={{height: 8}} />
-        <View style={{flex:1}} />
+        <View style={{flex: 1}} />
         <View style={{flexDirection: 'row'}}>
           <Star />
           <Text style={[textStyles.B4, {color: colors.Gray07}]}>
@@ -80,10 +102,15 @@ const DriveCourseListItem = ({item}) => {
       </View>
       <View style={{width: 8}} />
       <View
-        style={{width: 90, minHeight: 120, borderRadius: 10, overflow: 'hidden'}}>
+        style={{
+          width: 90,
+          minHeight: 120,
+          borderRadius: 10,
+          overflow: 'hidden',
+        }}>
         <ImageBackground src={item.imagePath} style={{flex: 1}}>
           <View style={{backgroundColor: 'rgba(0,0,0,0.1)', flex: 1}} />
-        </ImageBackground>  
+        </ImageBackground>
       </View>
     </TouchableOpacity>
   );

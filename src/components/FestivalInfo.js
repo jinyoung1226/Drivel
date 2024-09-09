@@ -1,5 +1,12 @@
 import React, {useLayoutEffect, useState, useEffect} from 'react';
-import {Text, Image, View, TouchableOpacity, Dimensions, ImageBackground} from 'react-native';
+import {
+  Text,
+  Image,
+  View,
+  TouchableOpacity,
+  Dimensions,
+  ImageBackground,
+} from 'react-native';
 import {textStyles} from '../styles/textStyles';
 import colors from '../styles/colors';
 import BackIcon from '../assets/icons/BackIcon.svg';
@@ -105,21 +112,20 @@ const FestivalInfo = ({route}) => {
         </View>
       </View>
       <View style={{height: 24}} />
-      {festivalInfo.imagePath == "" || festivalInfo.imagePath == null ?
-      <View
-        style={{flex: 1, justifyContent:'center', alignItems: 'center'}}
-      >
-        <MainLogo/>
-        <View style={{height:32}} />
-        <Text style={[textStyles.B3, {color: colors.Gray10}]}>
-          페스티벌 관련 이미지가 존재하지 않습니다.
-        </Text>
-      </View>
-      :
-      <Image
-        src={festivalInfo.imagePath}
-        style={{flex: 1, resizeMode: 'contain'}}
-      />}
+      {festivalInfo.imagePath == '' || festivalInfo.imagePath == null ? (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <MainLogo />
+          <View style={{height: 32}} />
+          <Text style={[textStyles.B3, {color: colors.Gray10}]}>
+            페스티벌 관련 이미지가 존재하지 않습니다.
+          </Text>
+        </View>
+      ) : (
+        <Image
+          src={festivalInfo.imagePath}
+          style={{flex: 1, resizeMode: 'contain'}}
+        />
+      )}
     </View>
   );
 };

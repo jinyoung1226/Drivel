@@ -97,7 +97,7 @@ const DriveStart = ({route, navigation}) => {
     return (
       <View
         style={{
-          height:60,
+          height: 60,
           width: width - 32,
           backgroundColor: colors.Gray02,
           borderRadius: 8,
@@ -120,8 +120,7 @@ const DriveStart = ({route, navigation}) => {
               textStyles.B3,
               {color: colors.Gray10, flexWrap: 'wrap', flex: 1},
             ]}
-            numberOfLines={1}
-            >
+            numberOfLines={1}>
             {waypointNames}
           </Text>
         </View>
@@ -228,41 +227,45 @@ const DriveStart = ({route, navigation}) => {
             {'🏡 '} 근처에 이런 관광지가 있어요!
           </Text>
           <View style={{height: 24}} />
-          {spotInfo.length == 0 ? 
-          <NoItemScreen text={'주변에 등록된 관광지가 없어요!'} icon={<MapIcon />} />
-          :
-          <View>
-            <FlatList
-              data={spotInfo.slice(0, spotVisibleItems)}
-              renderItem={({item}) => (
-                <DriveStartSpotCuration
-                  item={item}
-                  setCheckInfo={setCheckInfo}
-                />
-              )}
-              scrollEnabled={false}
+          {spotInfo.length == 0 ? (
+            <NoItemScreen
+              text={'주변에 등록된 관광지가 없어요!'}
+              icon={<MapIcon />}
             />
-            {spotVisibleItems < spotInfo.length && (
-              <>
-                <View style={{height: 8}} />
-                <TouchableOpacity
-                  onPress={handleShowSpotMore}
-                  style={{
-                    flex: 1,
-                    borderRadius: 10,
-                    height: 40,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderWidth: 1.3,
-                    borderColor: colors.Gray02,
-                  }}>
-                  <Text style={[textStyles.C4, {color: colors.Gray06}]}>
-                    더보기
-                  </Text>
-                </TouchableOpacity>
-              </>
-            )}
-          </View>}
+          ) : (
+            <View>
+              <FlatList
+                data={spotInfo.slice(0, spotVisibleItems)}
+                renderItem={({item}) => (
+                  <DriveStartSpotCuration
+                    item={item}
+                    setCheckInfo={setCheckInfo}
+                  />
+                )}
+                scrollEnabled={false}
+              />
+              {spotVisibleItems < spotInfo.length && (
+                <>
+                  <View style={{height: 8}} />
+                  <TouchableOpacity
+                    onPress={handleShowSpotMore}
+                    style={{
+                      flex: 1,
+                      borderRadius: 10,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderWidth: 1.3,
+                      borderColor: colors.Gray02,
+                    }}>
+                    <Text style={[textStyles.C4, {color: colors.Gray06}]}>
+                      더보기
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              )}
+            </View>
+          )}
         </View>
         <GrayLine />
         <View style={{paddingHorizontal: 16, marginTop: 24}}>
@@ -270,41 +273,45 @@ const DriveStart = ({route, navigation}) => {
             {'🥣 '} {nickname}님께 딱 맞는 맛집도 추천해드릴게요!
           </Text>
           <View style={{height: 24}} />
-          {placeInfo.length == 0 ?
-          <NoItemScreen text={'주변에 등록된 맛집이 없어요'} icon={<ShopIcon />} />
-          :
-          <View>
-            <FlatList
-              data={placeInfo.slice(0, placeVisibleItems)}
-              renderItem={({item}) => (
-                <DriveStartRestaurantCuration
-                  item={item}
-                  setCheckInfo={setCheckInfo}
-                />
-              )}
-              scrollEnabled={false}
+          {placeInfo.length == 0 ? (
+            <NoItemScreen
+              text={'주변에 등록된 맛집이 없어요'}
+              icon={<ShopIcon />}
             />
-            {placeVisibleItems < placeInfo.length && (
-              <>
-                <View style={{height: 8}} />
-                <TouchableOpacity
-                  onPress={handleShowPlaceMore}
-                  style={{
-                    flex: 1,
-                    borderRadius: 10,
-                    height: 40,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderWidth: 1.3,
-                    borderColor: colors.Gray02,
-                  }}>
-                  <Text style={[textStyles.C4, {color: colors.Gray06}]}>
-                    더보기
-                  </Text>
-                </TouchableOpacity>
-              </>
-            )}
-          </View>}
+          ) : (
+            <View>
+              <FlatList
+                data={placeInfo.slice(0, placeVisibleItems)}
+                renderItem={({item}) => (
+                  <DriveStartRestaurantCuration
+                    item={item}
+                    setCheckInfo={setCheckInfo}
+                  />
+                )}
+                scrollEnabled={false}
+              />
+              {placeVisibleItems < placeInfo.length && (
+                <>
+                  <View style={{height: 8}} />
+                  <TouchableOpacity
+                    onPress={handleShowPlaceMore}
+                    style={{
+                      flex: 1,
+                      borderRadius: 10,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderWidth: 1.3,
+                      borderColor: colors.Gray02,
+                    }}>
+                    <Text style={[textStyles.C4, {color: colors.Gray06}]}>
+                      더보기
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              )}
+            </View>
+          )}
         </View>
       </ScrollView>
       <View

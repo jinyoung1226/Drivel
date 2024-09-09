@@ -1,8 +1,6 @@
 const isThisWeek = date => {
   const today = new Date();
-  const startOfWeek = new Date(
-    today.setDate(today.getDate() - today.getDay())
-  );
+  const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
   const endOfWeek = new Date(
     today.setDate(today.getDate() - today.getDay() + 6),
   );

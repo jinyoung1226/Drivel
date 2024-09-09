@@ -1,11 +1,5 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {
-  View,
-  ScrollView,
-  Text,
-  FlatList,
-  Linking,
-} from 'react-native';
+import {View, ScrollView, Text, FlatList, Linking} from 'react-native';
 import DriveCourseCuration from './DriveCourseCuration';
 import MagazineCuration from './MagazineCuration';
 import {authApi} from '../../api/api';
@@ -17,7 +11,7 @@ import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import DriveRegionCuraiton from './DriveRegionCuraiton';
 import MiniBus from '../../assets/icons/MinibusIcon.svg';
-import { magazineCover } from '../../assets/magazineData/magazineData'; 
+import {magazineCover} from '../../assets/magazineData/magazineData';
 import HomeBanner from './HomeBanner';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -30,9 +24,11 @@ const HomeMain = ({navigation}) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title:'Drivel',
-      headerTitleAlign:'left',
-      headerTitleStyle: [{color: '#ffffff', fontSize: 24, fontFamily: 'KNU TRUTH',}],
+      title: 'Drivel',
+      headerTitleAlign: 'left',
+      headerTitleStyle: [
+        {color: '#ffffff', fontSize: 24, fontFamily: 'KNU TRUTH'},
+      ],
       headerTransparent: true,
       headerBackground: () => (
         <View
@@ -70,7 +66,7 @@ const HomeMain = ({navigation}) => {
         Linking.openURL('drivel://meet/applyDetail');
         await AsyncStorage.removeItem('deepLinkURL');
       }
-    }
+    };
     goMeetApplyDetail();
   }, []);
 
@@ -132,12 +128,11 @@ const HomeMain = ({navigation}) => {
     setActiveButton(button);
   };
 
-
   return (
     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
       <ScrollView>
-        <HomeBanner/>
-        <DriveCourseCuration data={driveCourseList}/>
+        <HomeBanner />
+        <DriveCourseCuration data={driveCourseList} />
         <GrayLine />
         <DriveRegionCuraiton
           activeButton={activeButton}
@@ -180,7 +175,7 @@ const HomeMain = ({navigation}) => {
           }}>
           <Sparkler />
           <Text style={[textStyles.H2, {color: colors.Gray10}]}>
-          지금 가장 핫한 행사가 궁금하다면?
+            지금 가장 핫한 행사가 궁금하다면?
           </Text>
         </View>
         <View style={{flex: 1, marginTop: 16}}>

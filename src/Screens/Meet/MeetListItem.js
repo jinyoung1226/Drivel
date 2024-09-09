@@ -5,13 +5,9 @@ import {textStyles} from '../../styles/textStyles';
 import CarIcon from '../../assets/icons/CarIcon.svg';
 import PersonIcon from '../../assets/icons/PersonIcon.svg';
 import PinIcon from '../../assets/icons/PinIcon.svg';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
-const MeetListItem = ({
-  item,
-  setModalVisible,
-  setSelectedMeet,
-}) => {
+const MeetListItem = ({item, setModalVisible, setSelectedMeet}) => {
   const navigation = useNavigation();
 
   const goMeetDetail = item => {
@@ -21,7 +17,7 @@ const MeetListItem = ({
       meetingTitle: item.meetingTitle,
     });
   };
-  
+
   return (
     <TouchableOpacity
       style={{
@@ -114,7 +110,9 @@ const MeetListItem = ({
               {item.minCarCareer == null
                 ? null
                 : `운전경력 ${item.minCarCareer}년 이상`}
-              {item.minCarCareer == null || item.carModel == null ? null : ' · '}
+              {item.minCarCareer == null || item.carModel == null
+                ? null
+                : ' · '}
               {item.carModel == null ? null : item.carModel}
             </Text>
           </View>
@@ -122,6 +120,6 @@ const MeetListItem = ({
       </View>
     </TouchableOpacity>
   );
-}
+};
 
 export default MeetListItem;
