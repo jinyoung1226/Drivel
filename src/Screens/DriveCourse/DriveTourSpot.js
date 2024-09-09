@@ -112,7 +112,7 @@ const DriveTourSpot = ({item, minHeight, setScrollEnabled}) => {
               justifyContent: 'center',
               paddingLeft: 40,
             }}>
-            <Text style={{fontFamily: 'SUIT-ExtraBold', fontSize: 36}}>
+            <Text style={{fontFamily: 'SUIT-ExtraBold', fontSize: 36, color:colors.Gray10}}>
               {weather.temp}°
             </Text>
             <Text style={[textStyles.B4, {color: colors.Gray06, marginTop: 4}]}>
