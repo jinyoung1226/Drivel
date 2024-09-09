@@ -11,16 +11,10 @@ import BootSplash from "react-native-bootsplash";
 import notifee, { AndroidImportance, AndroidVisibility, EventType } from '@notifee/react-native';
 import { navigationRef } from './src/Nav/RootNavigator'
 
-// console.log = () => {};
-// console.warn = () => {};
-// console.error = () => {};
+console.log = () => {};
+console.warn = () => {};
+console.error = () => {};
 
-// if (process.env.NODE_ENV === "production") {
-//   console = window.console || {};
-//   console.log = function no_console() {};
-//   console.warn = function no_console() {};
-//   console.error = function () {};
-// }
 
 const App = () => {
 
