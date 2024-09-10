@@ -9,19 +9,30 @@ import notifee, {EventType} from '@notifee/react-native';
 import {name as appName} from './app.json';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Linking } from 'react-native';
+import { setDeepLinkURL, getDeepLinkURL } from './global'
 
 messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('Message handled in the background!', remoteMessage);
   if (Platform.OS === 'android') {
-    console.log('딥링크저장')
-    await AsyncStorage.setItem('deepLinkURL', 'drivel://meet');
+    if (remoteMessage.data.type === 'JOIN_REQUEST') {
+      console.log('딥링크저장')
+      setDeepLinkURL('drivel://meet/applyDetail')
+    }
   }
 });
 notifee.onBackgroundEvent(async ({ type, detail }) => {
   if (Platform.OS === 'android') {
     switch (type) {
       case EventType.PRESS:
-        Linking.openURL('drivel://meet/applyDetail');
+        if (detail.notification.data.type === 'JOIN_REQUEST') {
+          Linking.openURL('drivel://meet/applyDetail');
+        }
+        if (detail.notification.data.type === 'JOIN_ACCEPTED') {
+          Linking.openURL('drivel://meet/meetDetail/' + detail.notification.data.meetingId + '/' + detail.notification.data.courseId + '/' + detail.notification.data.meetingTitle);
+        }
+        if (detail.notification.data.type === 'JOIN_REJECTED') {
+          Linking.openURL('drivel://meet');
+        }
         break;
       case EventType.DISMISSED:
         console.log('User dismissed notification');

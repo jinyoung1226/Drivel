@@ -12,9 +12,9 @@ import notifee, { AndroidImportance, AndroidVisibility, EventType } from '@notif
 import { navigationRef } from './src/Nav/RootNavigator'
 import eventEmitter from './src/utils/eventEmitter';
 
-console.log = () => {};
-console.warn = () => {};
-console.error = () => {};
+// console.log = () => {};
+// console.warn = () => {};
+// console.error = () => {};
 
 
 const App = () => {

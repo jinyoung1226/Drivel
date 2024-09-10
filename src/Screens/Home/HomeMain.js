@@ -14,6 +14,7 @@ import MiniBus from '../../assets/icons/MinibusIcon.svg';
 import {magazineCover} from '../../assets/magazineData/magazineData';
 import HomeBanner from './HomeBanner';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getDeepLinkURL } from '../../../global';
 
 const HomeMain = ({navigation}) => {
   const [driveCourseList, setDriveCourseList] = useState([]);
@@ -61,10 +62,10 @@ const HomeMain = ({navigation}) => {
     };
     getDriveCurationInfo();
     const goMeetApplyDetail = async () => {
-      const deepLinkURL = await AsyncStorage.getItem('deepLinkURL');
+      const deepLinkURL = getDeepLinkURL()
       if (deepLinkURL) {
-        Linking.openURL('drivel://meet/applyDetail');
-        await AsyncStorage.removeItem('deepLinkURL');
+        console.log('딥링크 url', deepLinkURL);
+        Linking.openURL(deepLinkURL);
       }
     };
     goMeetApplyDetail();

@@ -17,7 +17,7 @@ import refreshMeetList from '../../utils/refreshMeetList';
 const MeetApplyDetail = ({navigation}) => {
   const dispatch = useDispatch();
 
-  const {meetApplyList} = useSelector(state => state.meet);
+  const {meetApplyList, isLoading} = useSelector(state => state.meet);
 
   useEffect(() => {
     return () => {
@@ -67,7 +67,115 @@ const MeetApplyDetail = ({navigation}) => {
 
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>
-      {meetApplyList && (
+      {isLoading ? 
+      [1,2,3].map((item, index) => (
+      <View
+      key={index}
+      style={{
+        backgroundColor: colors.white,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 1},
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+        borderRadius: 10,
+        marginVertical: 16,
+        marginHorizontal: 16,
+      }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            paddingHorizontal: 16,
+            paddingVertical: 16,
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              width: 45,
+              height: 45,
+              borderRadius: 5,
+              backgroundColor: colors.Gray04,
+              overflow: 'hidden',
+            }}>
+          </View>
+          <View style={{width: 16}} />
+          <View>
+            <View style={{height: 20, width:'50%', backgroundColor:colors.Gray04, borderRadius:4}} />
+            <View style={{height: 4}} />
+            <View style={{flexDirection: 'row'}}>
+            <View style={{height: 16, width:'80%', backgroundColor:colors.Gray04, borderRadius:4}} />
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            height: 1,
+            backgroundColor: colors.Gray01,
+            marginHorizontal: 16,
+          }}
+        />
+        {[1,2].map((item, index) => (
+          <View
+            key={index}
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              paddingHorizontal: 16,
+              paddingVertical: 16,
+              alignItems: 'center',
+              marginVertical:16
+            }}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <View
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 20,
+                  backgroundColor: colors.Gray04,
+                  overflow: 'hidden',
+                }}>
+              </View>
+              <View style={{width: 16}} />
+              <View style={{flex: 1}}>
+                <View style={{height: 14, width:30, backgroundColor:colors.Gray04, borderRadius:4}} />
+                <View style={{height: 4}} />
+                <View style={{height: 14, width:100, backgroundColor:colors.Gray04, borderRadius:4}} />
+              </View>
+            </View>
+            <View style={{width: 16}} />
+            <View
+              style={{
+                height: 32,
+                width: 50,
+                backgroundColor: colors.Gray04,
+                paddingVertical: 8,
+                paddingHorizontal: 16,
+                borderRadius: 100,
+              }}
+            >
+            </View>
+            <View style={{width: 8}} />
+            <View
+              style={{
+                height: 32,
+                width: 50,
+                backgroundColor: colors.Gray04,
+                paddingVertical: 8,
+                paddingHorizontal: 16,
+                borderRadius: 100,
+              }}
+              >
+            </View>
+          </View>
+        ))}
+      </View>))
+      :
+      meetApplyList && (
         <ScrollView>
           {meetApplyList.map((item, index) => (
             <View
@@ -209,7 +317,8 @@ const MeetApplyDetail = ({navigation}) => {
             </View>
           ))}
         </ScrollView>
-      )}
+      )
+      }
     </View>
   );
 };
