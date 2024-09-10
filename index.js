@@ -18,6 +18,10 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
       console.log('딥링크저장')
       setDeepLinkURL('drivel://meet/applyDetail')
     }
+    if (remoteMessage.data.type === 'JOIN_ACCEPTED') {
+      console.log('딥링크저장')
+      setDeepLinkURL('drivel://meet/meetDetail/' + detail.notification.data.meetingId + '/' + detail.notification.data.courseId + '/' + detail.notification.data.meetingTitle)
+    }
   }
 });
 notifee.onBackgroundEvent(async ({ type, detail }) => {
