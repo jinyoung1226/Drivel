@@ -3,18 +3,17 @@ import { Provider } from 'react-redux';
 import store from './src/store/store';
 import RootNavigator from './src/Nav/RootNavigator';
 import messaging from '@react-native-firebase/messaging';
-import { Alert, Linking } from 'react-native';
+import { Linking } from 'react-native';
 import { Platform, PermissionsAndroid } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as encoding from 'text-encoding';
 import BootSplash from "react-native-bootsplash";
 import notifee, { AndroidImportance, AndroidVisibility, EventType } from '@notifee/react-native';
-import { navigationRef } from './src/Nav/RootNavigator'
 import eventEmitter from './src/utils/eventEmitter';
 
-// console.log = () => {};
-// console.warn = () => {};
-// console.error = () => {};
+console.log = () => {};
+console.warn = () => {};
+console.error = () => {};
 
 
 const App = () => {

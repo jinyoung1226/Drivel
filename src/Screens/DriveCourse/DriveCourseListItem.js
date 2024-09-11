@@ -1,17 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   ImageBackground,
 } from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import Star from '../../assets/icons/Star.svg';
 import {useNavigation} from '@react-navigation/native';
-import {authApi} from '../../api/api';
-import RenderingPage from '../../components/RenderingPage';
 
 const DriveCourseListItem = ({item}) => {
   const navigation = useNavigation();

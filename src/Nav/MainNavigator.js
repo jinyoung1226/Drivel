@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import {Linking, Platform} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeTab from '../BottomTab/HomeTab';
 import MeetTab from '../BottomTab/MeetTab';
@@ -11,10 +10,8 @@ import DriveCourseIcon from '../assets/tabBarIcon/DriveCourseIcon.svg';
 import MypageIcon from '../assets/tabBarIcon/MypageIcon.svg';
 import CustomTabBar from '../components/CustomTabBar';
 import {useDispatch} from 'react-redux';
-import {authApi} from '../api/api';
-import {setLikedItem} from '../features/like/likeActions';
 import {getMyProfileInfo} from '../features/profile/profileActions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Tab = createBottomTabNavigator();
 

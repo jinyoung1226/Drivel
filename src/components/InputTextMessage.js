@@ -1,10 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   View,
-  TextInput,
   Text,
-  TouchableOpacity,
-  StyleSheet,
 } from 'react-native';
 import {textStyles} from '../styles/textStyles';
 import colors from '../styles/colors';

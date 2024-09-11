@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import GrayLine from '../../components/GrayLine';
+import React, {useState} from 'react';
 import {View, Text, Pressable, TextInput, Image} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';

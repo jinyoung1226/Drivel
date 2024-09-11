@@ -1,16 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 import {View, Text, ActivityIndicator} from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
-import CustomInput from '../../components/CustomInput';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import MeetChatMessage from './MeetChatMessage';
-import {authApi} from '../../api/api';
-import KebabMenuIcon from '../../assets/icons/KebabMenuIcon';
-import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
-import {FlatList, ScrollView} from 'react-native-gesture-handler';
+import {useSelector} from 'react-redux';
+import {FlatList} from 'react-native-gesture-handler';
 import NoticeItem from './NoticeItem';
 import NoItemScreen from '../../components/NoItemScreen';
 import BubbleIcon from '../../assets/icons/BubbleIcon';

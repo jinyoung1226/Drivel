@@ -2,13 +2,8 @@ import React, {useEffect, useState, useLayoutEffect} from 'react';
 import {
   View,
   Text,
-  Button,
-  StyleSheet,
   TouchableOpacity,
   Alert,
-  TextInputComponent,
-  ScrollView,
-  Dimensions,
 } from 'react-native';
 import {api} from '../../api/api';
 import CustomInput from '../../components/CustomInput';

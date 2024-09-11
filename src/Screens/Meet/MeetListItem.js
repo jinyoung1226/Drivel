@@ -7,7 +7,7 @@ import PersonIcon from '../../assets/icons/PersonIcon.svg';
 import PinIcon from '../../assets/icons/PinIcon.svg';
 import {useNavigation} from '@react-navigation/native';
 
-const MeetListItem = ({item, setModalVisible, setSelectedMeet}) => {
+const MeetListItem = ({item, setSelectedMeet}) => {
   const navigation = useNavigation();
 
   const goMeetDetail = item => {

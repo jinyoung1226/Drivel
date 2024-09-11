@@ -10,7 +10,6 @@ import {
   getMeetingApplyList,
   setTab,
 } from '../../features/meet/meetActions';
-import {authApi} from '../../api/api';
 import RenderingPage from '../../components/RenderingPage';
 import MeetApplyPreview from './MeetApplyPreview';
 import isThisWeek from '../../utils/isThisWeek';

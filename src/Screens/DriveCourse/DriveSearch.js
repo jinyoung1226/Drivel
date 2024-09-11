@@ -1,15 +1,12 @@
-import {Text} from 'react-native';
 import {View} from 'react-native';
-import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import BackIcon from '../../assets/icons/BackIcon';
-import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import SmallSearchIcon from '../../assets/icons/SmallSearchIcon';
 import {api} from '../../api/api';
 import {useEffect, useState} from 'react';
 import koFilter from '../../utils/koFilter';
 import DriveSearchCustomInput from './DriveSearchCustomInput';
-import SearchIcon from '../../assets/icons/SearchIcon.svg';
 import XIcon from '../../assets/icons/XIcon.svg';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DriveSearchCourseListItem from './DriveSearchCourseListItem';

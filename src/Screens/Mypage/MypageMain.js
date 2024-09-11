@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import colors from '../../styles/colors';
 import {ScrollView} from 'react-native-gesture-handler';
-import {getMyProfileInfo} from '../../features/profile/profileActions';
 import MyInfo from './MyInfo';
 import ProfileImageModal from './ProfileImageModal';
 import MyDriveTag from './MyDriveTag';

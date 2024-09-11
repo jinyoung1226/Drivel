@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Text, Image, Pressable, ImageBackground, View} from 'react-native';
+import React from 'react';
+import {Text, Pressable, ImageBackground, View} from 'react-native';
 // import {useSelector, useDispatch} from 'react-redux';
 // import HeartIcon from '../../assets/icons/HeartIcon.svg';
 // import {setLikedItem, toggleLike} from '../../features/like/likeActions';

@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
-import {useFocusEffect} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';

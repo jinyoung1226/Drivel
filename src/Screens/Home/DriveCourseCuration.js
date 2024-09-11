@@ -1,16 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
-  ScrollView,
-  Pressable,
-  Image,
   FlatList,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import Candy from '../../assets/icons/Candy.svg';
-import CurationButton from './CurationButton';
 import CurationListItem from './CurationListItem';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';

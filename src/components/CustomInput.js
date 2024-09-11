@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import {textStyles} from '../styles/textStyles';
 import colors from '../styles/colors';
-import {Tuple} from '@reduxjs/toolkit';
 const CustomInput = ({
   value,
   onChangeText,

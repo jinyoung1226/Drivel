@@ -1,10 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
-import {useNavigation} from '@react-navigation/native';
 import Tabs from '../../components/Tabs';
-import ToggleSwitch from '../../components/TogleSwitch';
 import MyMeetList from '../Mypage/MyMeetList';
 import {authApi} from '../../api/api';
 import LockIcon from '../../assets/icons/LockIcon';

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import GrayLine from '../../components/GrayLine';
-import {View, Text, Pressable, TextInput, Image} from 'react-native';
+import {View, Text, Pressable} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import DriveReviewWrite from './DriveReviewWrite';

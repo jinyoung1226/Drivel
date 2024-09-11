@@ -1,18 +1,16 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   View,
   Text,
   Image,
   Dimensions,
   TouchableOpacity,
-  Pressable,
 } from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import CarIcon from '../../assets/icons/CarIcon.svg';
 import PersonIcon from '../../assets/icons/PersonIcon.svg';
 import PinIcon from '../../assets/icons/PinIcon.svg';
-import {ScrollView} from 'react-native-gesture-handler';
 import GrayLine from '../../components/GrayLine';
 import {useNavigation} from '@react-navigation/native';
 const MeetInfo = ({item}) => {

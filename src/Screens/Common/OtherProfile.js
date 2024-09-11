@@ -1,10 +1,9 @@
 import React, {useEffect, useState, useLayoutEffect} from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import colors from '../../styles/colors';
 import {ScrollView} from 'react-native-gesture-handler';
 import RenderingPage from '../../components/RenderingPage';
-import {getMyProfileInfo} from '../../features/profile/profileActions';
 import OtherInfo from './OtherInfo';
 import OtherDriveTag from './OtherDriveTag';
 import UserMannerScoreBar from '../Mypage/UserMannerScoreBar';

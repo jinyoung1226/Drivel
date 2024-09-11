@@ -1,15 +1,11 @@
-import React, {useState, useLayoutEffect, useEffect} from 'react';
+import React, { useLayoutEffect, useEffect} from 'react';
 import {
-  StyleSheet,
   Text,
   View,
-  Button,
-  TextInput,
   TouchableOpacity,
   BackHandler,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {logout} from '../../features/auth/authActions';
+import {useSelector} from 'react-redux';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import {ScrollView} from 'react-native-gesture-handler';

@@ -5,7 +5,6 @@ import {textStyles} from '../../styles/textStyles';
 import Star from '../../assets/icons/Star.svg';
 import ThreeDot from '../../assets/icons/ThreeDot.svg';
 import NoneStar from '../../assets/icons/NoneStar.svg';
-import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 import ConfirmModal from '../../components/ConfirmModal';
 import formatChatTimestamp from '../../utils/formatChatTimeStamp';

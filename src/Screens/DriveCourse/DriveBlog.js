@@ -1,18 +1,10 @@
-import axios from 'axios';
-import {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
-  Text,
-  Image,
-  Dimensions,
-  FlatList,
-  Pressable,
-  Linking,
+  FlatList
 } from 'react-native';
 import colors from '../../styles/colors';
-import {textStyles} from '../../styles/textStyles';
 import DriveBlogList from './DriveBlogList';
-import config from '../../config/config';
 import {useDispatch, useSelector} from 'react-redux';
 import {getBlogReview} from '../../features/drive/driveActions';
 const DriveBlog = ({item}) => {

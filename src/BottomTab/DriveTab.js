@@ -1,6 +1,5 @@
 import React, {useLayoutEffect} from 'react';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import DriveMain from '../Screens/DriveCourse/DriveMain';
 import DriveDetail from '../Screens/DriveCourse/DriveDetail';
@@ -48,27 +47,5 @@ const DriveTab = ({route}) => {
     </Stack.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  headerTitleContainer: {
-    alignItems: 'center',
-  },
-
-  headerTitleText: {
-    color: '#191919',
-    fontSize: 18,
-    fontFamily: 'SUIT-Bold',
-  },
-  rightIconContainer: {
-    flexDirection: 'row',
-    paddingVertical: 6.72,
-    marginRight: 22,
-  },
-  leftIconContainer: {
-    flexDirection: 'row',
-    paddingVertical: 6.72,
-    marginLeft: 16,
-  },
-});
 
 export default DriveTab;

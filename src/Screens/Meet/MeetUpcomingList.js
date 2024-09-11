@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {View, Text, FlatList, TouchableOpacity} from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {setTab} from '../../features/meet/meetActions';
 import CustomButton from '../../components/CustomButton';
 import isThisWeek from '../../utils/isThisWeek';
@@ -13,7 +13,6 @@ const MeetUpcomingList = ({
   myMeetList,
   handleShowMore,
   showMore,
-  setShowMore,
 }) => {
   const navigation = useNavigation();
 

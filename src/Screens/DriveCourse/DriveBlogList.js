@@ -1,5 +1,4 @@
-import {useState} from 'react';
-import {View, Text, Image, Pressable, Linking} from 'react-native';
+import {View, Text, Pressable, Linking} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import SeeMore from '../../assets/icons/SeeMore.svg';

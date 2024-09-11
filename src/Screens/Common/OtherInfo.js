@@ -1,12 +1,10 @@
-import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import React from 'react';
+import {View, Text, Image} from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
-import PenIcon from '../../assets/icons/PenIcon';
 import chageBrithToAge from '../../utils/changeBrithToAge';
-import {useNavigation} from '@react-navigation/native';
+
 const OtherInfo = ({myProfileInfo}) => {
-  const navigation = useNavigation();
 
   return (
     <View

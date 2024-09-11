@@ -20,7 +20,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Tabs from '../../components/Tabs';
 import RenderingPage from '../../components/RenderingPage';
 import HeartIcon from '../../assets/icons/HeartIcon.svg';
-import {setLikedItem, toggleLike} from '../../features/like/likeActions';
+import {toggleLike} from '../../features/like/likeActions';
 import {useSelector, useDispatch} from 'react-redux';
 import CustomButton from '../../components/CustomButton';
 import {setBlogReviewList} from '../../features/drive/driveActions';

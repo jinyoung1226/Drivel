@@ -5,9 +5,6 @@ import {
   TouchableOpacity,
   Alert,
   BackHandler,
-  Image,
-  Dimensions,
-  ScrollView,
   Pressable,
 } from 'react-native';
 import BackIcon from '../../assets/icons/BackIcon';

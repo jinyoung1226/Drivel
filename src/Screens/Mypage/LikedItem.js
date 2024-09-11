@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -10,8 +10,8 @@ import {
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import LinearGradient from 'react-native-linear-gradient';
-import {useSelector, useDispatch} from 'react-redux';
-import {setLikedItem, toggleLike} from '../../features/like/likeActions';
+import {useDispatch} from 'react-redux';
+import {toggleLike} from '../../features/like/likeActions';
 import HeartIcon from '../../assets/icons/HeartIcon.svg';
 import {useNavigation} from '@react-navigation/native';
 

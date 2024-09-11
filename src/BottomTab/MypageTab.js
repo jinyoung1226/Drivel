@@ -16,7 +16,7 @@ import Help from '../Screens/Mypage/Help';
 import {textStyles} from '../styles/textStyles';
 import colors from '../styles/colors';
 import GearIcon from '../assets/icons/GearIcon';
-import {TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {showTabBar, hideTabBar} from '../features/tabBar/tabBarSlice';
 import OtherProfile from '../Screens/Common/OtherProfile';

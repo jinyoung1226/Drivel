@@ -1,5 +1,12 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {View, ScrollView, Text, FlatList, Linking, Pressable} from 'react-native';
+import {
+  View,
+  ScrollView,
+  Text,
+  FlatList,
+  Linking,
+  Pressable,
+} from 'react-native';
 import DriveCourseCuration from './DriveCourseCuration';
 import MagazineCuration from './MagazineCuration';
 import {authApi} from '../../api/api';
@@ -13,8 +20,7 @@ import DriveRegionCuraiton from './DriveRegionCuraiton';
 import MiniBus from '../../assets/icons/MinibusIcon.svg';
 import {magazineCover} from '../../assets/magazineData/magazineData';
 import HomeBanner from './HomeBanner';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getDeepLinkURL } from '../../../global';
+import {getDeepLinkURL} from '../../../global';
 import LinearGradient from 'react-native-linear-gradient';
 import InstaBanner from '../../assets/icons/InstaBanner.svg';
 import InstaBannerArrow from '../../assets/icons/InstaBannerArrow.svg';
@@ -30,7 +36,7 @@ const HomeMain = ({navigation}) => {
       title: 'Drivel',
       headerTitleAlign: 'left',
       headerTitleStyle: [
-        {color: '#ffffff', fontSize: 24, fontFamily: 'KNU TRUTH'},
+        {color: '#ffffff', fontSize: 24, fontFamily: 'KNU_TRUTH'},
       ],
       headerTransparent: true,
       headerBackground: () => (
@@ -64,7 +70,7 @@ const HomeMain = ({navigation}) => {
     };
     getDriveCurationInfo();
     const goMeetApplyDetail = async () => {
-      const deepLinkURL = getDeepLinkURL()
+      const deepLinkURL = getDeepLinkURL();
       if (deepLinkURL) {
         console.log('딥링크 url', deepLinkURL);
         Linking.openURL(deepLinkURL);
@@ -140,30 +146,51 @@ const HomeMain = ({navigation}) => {
           onPress={() => {
             Linking.openURL('https://www.instagram.com/drivel.mag');
           }}
-        style={{height:110}}>
+          style={{height: 110}}>
           <LinearGradient
-          style={{flex:1, alignItems:'flex-end'}}
-          start={{x: -0.1, y: 0.9}}
-          end={{x: 1.1, y: 0.5}}
-          colors={['#3CD1D1', '#5168F6']}
-          >
-            <Text style={[textStyles.B2, {position:'absolute', color:colors.white, zIndex:1, left:24, top:22}]}>
+            style={{flex: 1, alignItems: 'flex-end'}}
+            start={{x: -0.1, y: 0.9}}
+            end={{x: 1.1, y: 0.5}}
+            colors={['#3CD1D1', '#5168F6']}>
+            <Text
+              style={[
+                textStyles.B2,
+                {
+                  position: 'absolute',
+                  color: colors.white,
+                  zIndex: 1,
+                  left: 24,
+                  top: 22,
+                },
+              ]}>
               {'Drivel만의 드라이브'}
-              <Text style={{fontFamily: 'Pretendard-Bold', fontSize: 16}}>{' 큐레이션 '}</Text> 
-              {'콘텐츠를\n'} 
-              <Text style={{fontFamily: 'Pretendard-Bold', fontSize: 16}}>{'인스타그램'}</Text>
+              <Text style={{fontFamily: 'Pretendard-Bold', fontSize: 16}}>
+                {' 큐레이션 '}
+              </Text>
+              {'콘텐츠를\n'}
+              <Text style={{fontFamily: 'Pretendard-Bold', fontSize: 16}}>
+                {'인스타그램'}
+              </Text>
               {'에서 확인해보세요'}
             </Text>
-            <Text style={[textStyles.H7, {position:'absolute', color:colors.white, zIndex:1, left:24, bottom:23}]}>
+            <Text
+              style={[
+                textStyles.H7,
+                {
+                  position: 'absolute',
+                  color: colors.white,
+                  zIndex: 1,
+                  left: 24,
+                  bottom: 23,
+                },
+              ]}>
               {'@drivel.mag'}
             </Text>
-            <InstaBanner/>
-            <View style={{position:'absolute', bottom:8, right:8}}>
-              <InstaBannerArrow/>
+            <InstaBanner />
+            <View style={{position: 'absolute', bottom: 8, right: 8}}>
+              <InstaBannerArrow />
             </View>
-            
           </LinearGradient>
-
         </Pressable>
         <DriveCourseCuration data={driveCourseList} />
         <GrayLine />

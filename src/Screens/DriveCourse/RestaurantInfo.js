@@ -5,7 +5,6 @@ import {
   View,
   Alert,
   TouchableOpacity,
-  Pressable,
   Dimensions,
 } from 'react-native';
 import {textStyles} from '../../styles/textStyles';
@@ -16,7 +15,6 @@ import {authApi} from '../../api/api';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Tabs from '../../components/Tabs';
 import RestaurantInfoTab from './RestaurantInfoTab';
-import DriveReview from './DriveReview';
 import GrayLine from '../../components/GrayLine';
 import RestaurantReviewTab from './RestaurantReviewTab';
 import RenderingPage from '../../components/RenderingPage';

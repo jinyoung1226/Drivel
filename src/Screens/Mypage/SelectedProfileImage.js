@@ -16,6 +16,7 @@ import {formDataApi} from '../../api/api';
 import BackIcon from '../../assets/icons/BackIcon';
 import {getMyProfileInfo} from '../../features/profile/profileActions';
 import RenderingPage from '../../components/RenderingPage';
+
 const SelectedProfileImage = ({route, navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const image = route.params.photo;

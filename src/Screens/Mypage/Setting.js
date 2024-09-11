@@ -8,7 +8,6 @@ import {useDispatch} from 'react-redux';
 import {logout} from '../../features/auth/authActions';
 import GrayLine from '../../components/GrayLine';
 import {useNavigation} from '@react-navigation/native';
-import {authApi} from '../../api/api';
 import WithdrawalModal from '../../components/WithdrawalModal';
 
 const useInfo = [

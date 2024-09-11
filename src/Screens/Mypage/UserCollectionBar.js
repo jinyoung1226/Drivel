@@ -4,7 +4,6 @@ import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import ScrapIcon from '../../assets/icons/ScrapIcon';
 import ReviewIcon from '../../assets/icons/ReviewIcon';
-import DriveHistoryIcon from '../../assets/icons/DriveHistoryIcon';
 import {useNavigation} from '@react-navigation/native';
 const UserCollectionBar = () => {
   const navigation = useNavigation();

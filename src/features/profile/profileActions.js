@@ -1,7 +1,5 @@
 import {createAsyncThunk, createAction} from '@reduxjs/toolkit';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import EncryptedStorage from 'react-native-encrypted-storage';
-import {api, authApi} from '../../api/api';
+import {authApi} from '../../api/api';
 import {Alert} from 'react-native';
 import {setGlobalNickname} from '../auth/authSlice';
 export const getMyProfileInfo = createAsyncThunk(

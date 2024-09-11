@@ -2,8 +2,6 @@ import React, {useLayoutEffect} from 'react';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeMain from '../Screens/Home/HomeMain';
-import {View, Text} from 'react-native';
-import Alarm from '../assets/homeIcon/alarm.svg';
 import DriveDetail from '../Screens/DriveCourse/DriveDetail';
 import FestivalInfo from '../components/FestivalInfo';
 import {useDispatch} from 'react-redux';

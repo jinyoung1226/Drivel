@@ -6,7 +6,6 @@ import config from '../../config/config';
 import {refreshApi} from '../../api/api';
 import {getMeetingApplyList, setParticipateStatus} from '../meet/meetActions';
 import refreshMeetList from '../../utils/refreshMeetList';
-import {Alert} from 'react-native';
 import eventEmitter from '../../utils/eventEmitter';
 
 let webSocketClient = null;

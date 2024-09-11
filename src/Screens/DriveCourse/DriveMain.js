@@ -23,7 +23,6 @@ import {
   driveTheme,
   driveWith,
 } from '../../assets/onboardingData/onBoardingData';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 const DriveMain = ({navigation}) => {
   const [isRefreshing, setIsRefreshing] = useState(false);

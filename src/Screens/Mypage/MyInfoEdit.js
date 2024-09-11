@@ -2,12 +2,9 @@ import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
   View,
   Text,
-  StyleSheet,
-  Image,
   TouchableOpacity,
   Pressable,
   Alert,
-  Platform,
 } from 'react-native';
 import BackIcon from '../../assets/icons/BackIcon';
 import {textStyles} from '../../styles/textStyles';
@@ -22,10 +19,9 @@ import {regions} from '../../assets/onboardingData/onBoardingData';
 import ChipContainer from '../../components/ChipContainer';
 import {authApi} from '../../api/api';
 import {getMyProfileInfo} from '../../features/profile/profileActions';
-import {setGlobalNickname} from '../../features/auth/authSlice';
-
 import {useDispatch} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
 const MyInfoEdit = ({navigation, route}) => {
   const page = route.params.page;
   const myRegions = route.params.myRegions;

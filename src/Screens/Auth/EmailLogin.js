@@ -2,20 +2,15 @@ import React, {useState, useLayoutEffect} from 'react';
 import {
   View,
   Text,
-  TextInput,
-  Button,
   StyleSheet,
-  Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {login} from '../../features/auth/authActions';
 import {textStyles} from '../../styles/textStyles';
 import CustomInput from '../../components/CustomInput';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomButton from '../../components/CustomButton';
-import KakaoIcon from '../../assets/icons/KakaoIcon.svg';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import colors from '../../styles/colors';
 import PolicyModal from '../../components/PolicyModal';

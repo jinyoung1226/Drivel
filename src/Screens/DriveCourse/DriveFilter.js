@@ -1,20 +1,15 @@
-import React, {useState, useLayoutEffect, useEffect} from 'react';
+import React, {useLayoutEffect, useEffect} from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   BackHandler,
-  Pressable,
 } from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
-import {useFocusEffect} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import SearchIcon from '../../assets/icons/SearchIcon.svg';
-import XIcon from '../../assets/icons/XIcon.svg';
+import {SafeAreaView} from 'react-native-safe-area-context';;
 import BackIcon from '../../assets/icons/BackIcon.svg';
 import SpinIcon from '../../assets/icons/SpinIcon.svg';
 import ChipContainer from '../../components/ChipContainer';
@@ -24,7 +19,6 @@ import {
   driveWith,
 } from '../../assets/onboardingData/onBoardingData';
 import {useDispatch, useSelector} from 'react-redux';
-import koFilter from '../../utils/koFilter';
 import {
   getDriveList,
   setFilterDriveTheme,

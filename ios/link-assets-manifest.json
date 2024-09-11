@@ -2,7 +2,11 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "src/assets/fonts/KNU TRUTH.ttf",
+      "path": "src/assets/fonts/H_C_B.ttf",
+      "sha1": "6d837068f57efa45d9cca35cd1d0a8a6fb49858e"
+    },
+    {
+      "path": "src/assets/fonts/KNU_TRUTH.ttf",
       "sha1": "3f154f661bed2551b85ca01e9ece27ccc2938e7c"
     },
     {

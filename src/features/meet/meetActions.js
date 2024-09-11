@@ -1,5 +1,5 @@
 import {createAsyncThunk, createAction} from '@reduxjs/toolkit';
-import {api, authApi} from '../../api/api';
+import {authApi} from '../../api/api';
 import {Alert} from 'react-native';
 
 export const getMeetList = createAsyncThunk(

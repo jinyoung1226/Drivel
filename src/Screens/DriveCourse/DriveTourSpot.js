@@ -15,9 +15,8 @@ import FestivalCuration from '../../components/FestivalCuration';
 const {width} = Dimensions.get('window');
 
 const DriveTourSpot = ({item, minHeight, setScrollEnabled}) => {
-  const [htmlContent, setHtmlContent] = useState('');
   const [weather, setWeather] = useState({});
-  const [festivalList, setFestivalList] = useState(item.festivals);
+  const festivalList = item.festivals;
   const center = {
     lat: item.waypoints[0].latitude,
     lng: item.waypoints[0].longitude,

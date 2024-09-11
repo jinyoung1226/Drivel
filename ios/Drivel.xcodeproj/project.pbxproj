@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* DrivelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DrivelTests.m */; };
-		048B97EEE5024B96900E0B82 /* KNU TRUTH.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2F0A29B5216445F9D4B04BF /* KNU TRUTH.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1FAE1EAD2C147BF1000FB3DE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -40,6 +39,8 @@
 		DE79E115828B4B018526596B /* SUIT-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A81995169F04BC3806CD99E /* SUIT-Regular.ttf */; };
 		E7258EF522554027A9C0D8BA /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EC6987C1883B452D9FF55B24 /* BootSplash.storyboard */; };
 		E7807CE9B0304E9A917F3EA5 /* SUIT-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1F5464E0C494FE09C975CAD /* SUIT-Medium.ttf */; };
+		60BF69F6031B4C969A96F226 /* H_C_B.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EAE84EC6342A410787F731FE /* H_C_B.ttf */; };
+		BDB1B3E256214273981DD202 /* KNU_TRUTH.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D613956312A489A9B2670E5 /* KNU_TRUTH.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,7 +88,6 @@
 		93E584ED9B914E99AF74BE2A /* SUIT-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Thin.ttf"; path = "../src/assets/fonts/SUIT-Thin.ttf"; sourceTree = "<group>"; };
 		95C4283BD88C49D3AD2189AC /* SUIT-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Bold.ttf"; path = "../src/assets/fonts/SUIT-Bold.ttf"; sourceTree = "<group>"; };
 		997130A22C731ED956C4AA5F /* Pods-Drivel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drivel.release.xcconfig"; path = "Target Support Files/Pods-Drivel/Pods-Drivel.release.xcconfig"; sourceTree = "<group>"; };
-		A2F0A29B5216445F9D4B04BF /* KNU TRUTH.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "KNU TRUTH.ttf"; path = "../src/assets/fonts/KNU TRUTH.ttf"; sourceTree = "<group>"; };
 		BA2F47CACD2D4B56B3393E94 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Medium.ttf"; path = "../src/assets/fonts/Pretendard-Medium.ttf"; sourceTree = "<group>"; };
 		BFEC731D6E354D43B1F9FB7A /* Pretendard-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-SemiBold.ttf"; path = "../src/assets/fonts/Pretendard-SemiBold.ttf"; sourceTree = "<group>"; };
 		C1F5464E0C494FE09C975CAD /* SUIT-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Medium.ttf"; path = "../src/assets/fonts/SUIT-Medium.ttf"; sourceTree = "<group>"; };
@@ -98,6 +98,8 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAFD27E4CCE54A16A288BB43 /* SUIT-Heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Heavy.ttf"; path = "../src/assets/fonts/SUIT-Heavy.ttf"; sourceTree = "<group>"; };
 		FE6789BFF1A1D17944CE4CEC /* Pods-Drivel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drivel.debug.xcconfig"; path = "Target Support Files/Pods-Drivel/Pods-Drivel.debug.xcconfig"; sourceTree = "<group>"; };
+		EAE84EC6342A410787F731FE /* H_C_B.ttf */ = {isa = PBXFileReference; name = "H_C_B.ttf"; path = "../src/assets/fonts/H_C_B.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7D613956312A489A9B2670E5 /* KNU_TRUTH.ttf */ = {isa = PBXFileReference; name = "KNU_TRUTH.ttf"; path = "../src/assets/fonts/KNU_TRUTH.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,7 +191,8 @@
 				8D42088ACA7241CE98DFE742 /* Pretendard-Regular.ttf */,
 				BFEC731D6E354D43B1F9FB7A /* Pretendard-SemiBold.ttf */,
 				E4C0DDA5AC4B47F889B14079 /* Pretendard-Thin.ttf */,
-				A2F0A29B5216445F9D4B04BF /* KNU TRUTH.ttf */,
+				EAE84EC6342A410787F731FE /* H_C_B.ttf */,
+				7D613956312A489A9B2670E5 /* KNU_TRUTH.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -359,7 +362,8 @@
 				DA35AC4332E54DAABC1086B5 /* Pretendard-Thin.ttf in Resources */,
 				E7258EF522554027A9C0D8BA /* BootSplash.storyboard in Resources */,
 				743D02201AC44A6391C22051 /* Colors.xcassets in Resources */,
-				048B97EEE5024B96900E0B82 /* KNU TRUTH.ttf in Resources */,
+				60BF69F6031B4C969A96F226 /* H_C_B.ttf in Resources */,
+				BDB1B3E256214273981DD202 /* KNU_TRUTH.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,11 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  Button,
-  StyleSheet,
   FlatList,
   TouchableOpacity,
-  Image,
   ActivityIndicator,
 } from 'react-native';
 import colors from '../../styles/colors';

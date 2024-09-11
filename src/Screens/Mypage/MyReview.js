@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {View} from 'react-native';
 import {authApi} from '../../api/api';
 import RenderingPage from '../../components/RenderingPage';
 import ReiviewList from './ReviewList';

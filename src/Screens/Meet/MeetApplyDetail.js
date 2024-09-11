@@ -67,117 +67,8 @@ const MeetApplyDetail = ({navigation}) => {
 
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>
-      {isLoading ? 
-      [1,2,3].map((item, index) => (
-      <View
-      key={index}
-      style={{
-        backgroundColor: colors.white,
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: {width: 0, height: 1},
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-        borderRadius: 10,
-        marginVertical: 16,
-        marginHorizontal: 16,
-      }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            paddingHorizontal: 16,
-            paddingVertical: 16,
-            alignItems: 'center',
-          }}>
-          <View
-            style={{
-              width: 45,
-              height: 45,
-              borderRadius: 5,
-              backgroundColor: colors.Gray04,
-              overflow: 'hidden',
-            }}>
-          </View>
-          <View style={{width: 16}} />
-          <View>
-            <View style={{height: 20, width:'50%', backgroundColor:colors.Gray04, borderRadius:4}} />
-            <View style={{height: 4}} />
-            <View style={{flexDirection: 'row'}}>
-            <View style={{height: 16, width:'80%', backgroundColor:colors.Gray04, borderRadius:4}} />
-            </View>
-          </View>
-        </View>
-        <View
-          style={{
-            height: 1,
-            backgroundColor: colors.Gray01,
-            marginHorizontal: 16,
-          }}
-        />
-        {[1,2].map((item, index) => (
-          <View
-            key={index}
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              paddingHorizontal: 16,
-              paddingVertical: 16,
-              alignItems: 'center',
-              marginVertical:16
-            }}>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  backgroundColor: colors.Gray04,
-                  overflow: 'hidden',
-                }}>
-              </View>
-              <View style={{width: 16}} />
-              <View style={{flex: 1}}>
-                <View style={{height: 14, width:30, backgroundColor:colors.Gray04, borderRadius:4}} />
-                <View style={{height: 4}} />
-                <View style={{height: 14, width:100, backgroundColor:colors.Gray04, borderRadius:4}} />
-              </View>
-            </View>
-            <View style={{width: 16}} />
-            <View
-              style={{
-                height: 32,
-                width: 50,
-                backgroundColor: colors.Gray04,
-                paddingVertical: 8,
-                paddingHorizontal: 16,
-                borderRadius: 100,
-              }}
-            >
-            </View>
-            <View style={{width: 8}} />
-            <View
-              style={{
-                height: 32,
-                width: 50,
-                backgroundColor: colors.Gray04,
-                paddingVertical: 8,
-                paddingHorizontal: 16,
-                borderRadius: 100,
-              }}
-              >
-            </View>
-          </View>
-        ))}
-      </View>))
-      :
-      meetApplyList && (
-        <ScrollView>
-          {meetApplyList.map((item, index) => (
+      {isLoading
+        ? [1, 2, 3].map((item, index) => (
             <View
               key={index}
               style={{
@@ -205,32 +96,27 @@ const MeetApplyDetail = ({navigation}) => {
                     borderRadius: 5,
                     backgroundColor: colors.Gray04,
                     overflow: 'hidden',
-                  }}>
-                  <ImageBackground src={item.imagePath} style={{flex: 1}}>
-                    <View style={{backgroundColor: '#00000010', flex: 1}} />
-                  </ImageBackground>
-                </View>
+                  }}></View>
                 <View style={{width: 16}} />
                 <View>
-                  <Text style={[textStyles.B3, {color: colors.Gray10}]}>
-                    {item.meetingTitle}
-                  </Text>
-
+                  <View
+                    style={{
+                      height: 20,
+                      width: '50%',
+                      backgroundColor: colors.Gray04,
+                      borderRadius: 4,
+                    }}
+                  />
+                  <View style={{height: 4}} />
                   <View style={{flexDirection: 'row'}}>
-                    <Text
-                      style={[
-                        textStyles.B4,
-                        {
-                          color: colors.Gray10,
-                          borderRadius: 3,
-                          backgroundColor: colors.Gray02,
-                          padding: 4,
-                        },
-                      ]}
-                      numberOfLines={1}>
-                      {item.courseTitle}
-                    </Text>
-                    <View style={{flex: 1}} />
+                    <View
+                      style={{
+                        height: 16,
+                        width: '80%',
+                        backgroundColor: colors.Gray04,
+                        borderRadius: 4,
+                      }}
+                    />
                   </View>
                 </View>
               </View>
@@ -241,7 +127,7 @@ const MeetApplyDetail = ({navigation}) => {
                   marginHorizontal: 16,
                 }}
               />
-              {item.requestedMembers.map((item, index) => (
+              {[1, 2].map((item, index) => (
                 <View
                   key={index}
                   style={{
@@ -250,13 +136,9 @@ const MeetApplyDetail = ({navigation}) => {
                     paddingHorizontal: 16,
                     paddingVertical: 16,
                     alignItems: 'center',
+                    marginVertical: 16,
                   }}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate('OtherProfile', {
-                        memberId: item.memberId,
-                      });
-                    }}
+                  <View
                     style={{
                       flex: 1,
                       flexDirection: 'row',
@@ -269,56 +151,199 @@ const MeetApplyDetail = ({navigation}) => {
                         borderRadius: 20,
                         backgroundColor: colors.Gray04,
                         overflow: 'hidden',
+                      }}></View>
+                    <View style={{width: 16}} />
+                    <View style={{flex: 1}}>
+                      <View
+                        style={{
+                          height: 14,
+                          width: 30,
+                          backgroundColor: colors.Gray04,
+                          borderRadius: 4,
+                        }}
+                      />
+                      <View style={{height: 4}} />
+                      <View
+                        style={{
+                          height: 14,
+                          width: 100,
+                          backgroundColor: colors.Gray04,
+                          borderRadius: 4,
+                        }}
+                      />
+                    </View>
+                  </View>
+                  <View style={{width: 16}} />
+                  <View
+                    style={{
+                      height: 32,
+                      width: 50,
+                      backgroundColor: colors.Gray04,
+                      paddingVertical: 8,
+                      paddingHorizontal: 16,
+                      borderRadius: 100,
+                    }}></View>
+                  <View style={{width: 8}} />
+                  <View
+                    style={{
+                      height: 32,
+                      width: 50,
+                      backgroundColor: colors.Gray04,
+                      paddingVertical: 8,
+                      paddingHorizontal: 16,
+                      borderRadius: 100,
+                    }}></View>
+                </View>
+              ))}
+            </View>
+          ))
+        : meetApplyList && (
+            <ScrollView>
+              {meetApplyList.map((item, index) => (
+                <View
+                  key={index}
+                  style={{
+                    backgroundColor: colors.white,
+                    elevation: 5,
+                    shadowColor: '#000',
+                    shadowOffset: {width: 0, height: 1},
+                    shadowOpacity: 0.1,
+                    shadowRadius: 3,
+                    borderRadius: 10,
+                    marginVertical: 16,
+                    marginHorizontal: 16,
+                  }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      paddingHorizontal: 16,
+                      paddingVertical: 16,
+                      alignItems: 'center',
+                    }}>
+                    <View
+                      style={{
+                        width: 45,
+                        height: 45,
+                        borderRadius: 5,
+                        backgroundColor: colors.Gray04,
+                        overflow: 'hidden',
                       }}>
                       <ImageBackground src={item.imagePath} style={{flex: 1}}>
                         <View style={{backgroundColor: '#00000010', flex: 1}} />
                       </ImageBackground>
                     </View>
                     <View style={{width: 16}} />
-                    <View style={{flex: 1}}>
-                      <Text style={[textStyles.H6, {color: colors.Gray10}]}>
-                        {item.nickname}
+                    <View>
+                      <Text style={[textStyles.B3, {color: colors.Gray10}]}>
+                        {item.meetingTitle}
                       </Text>
-                      <Text style={[textStyles.B4, {color: colors.Gray06}]}>
-                        {item.description}
-                      </Text>
+
+                      <View style={{flexDirection: 'row'}}>
+                        <Text
+                          style={[
+                            textStyles.B4,
+                            {
+                              color: colors.Gray10,
+                              borderRadius: 3,
+                              backgroundColor: colors.Gray02,
+                              padding: 4,
+                            },
+                          ]}
+                          numberOfLines={1}>
+                          {item.courseTitle}
+                        </Text>
+                        <View style={{flex: 1}} />
+                      </View>
                     </View>
-                  </TouchableOpacity>
-                  <View style={{width: 16}} />
-                  <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: colors.Light_Blue,
-                        paddingVertical: 8,
-                        paddingHorizontal: 16,
-                        borderRadius: 100,
-                      }}
-                      onPress={() => acceptUser(item.requestId, true)}>
-                      <Text style={[textStyles.B4, {color: colors.Blue}]}>
-                        수락
-                      </Text>
-                    </TouchableOpacity>
-                    <View style={{width: 8}} />
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: colors.Gray02,
-                        paddingVertical: 8,
-                        paddingHorizontal: 16,
-                        borderRadius: 100,
-                      }}
-                      onPress={() => acceptUser(item.requestId, false)}>
-                      <Text style={[textStyles.B4, {color: colors.Gray10}]}>
-                        거절
-                      </Text>
-                    </TouchableOpacity>
                   </View>
+                  <View
+                    style={{
+                      height: 1,
+                      backgroundColor: colors.Gray01,
+                      marginHorizontal: 16,
+                    }}
+                  />
+                  {item.requestedMembers.map((item, index) => (
+                    <View
+                      key={index}
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        paddingHorizontal: 16,
+                        paddingVertical: 16,
+                        alignItems: 'center',
+                      }}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          navigation.navigate('OtherProfile', {
+                            memberId: item.memberId,
+                          });
+                        }}
+                        style={{
+                          flex: 1,
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                        }}>
+                        <View
+                          style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: 20,
+                            backgroundColor: colors.Gray04,
+                            overflow: 'hidden',
+                          }}>
+                          <ImageBackground
+                            src={item.imagePath}
+                            style={{flex: 1}}>
+                            <View
+                              style={{backgroundColor: '#00000010', flex: 1}}
+                            />
+                          </ImageBackground>
+                        </View>
+                        <View style={{width: 16}} />
+                        <View style={{flex: 1}}>
+                          <Text style={[textStyles.H6, {color: colors.Gray10}]}>
+                            {item.nickname}
+                          </Text>
+                          <Text style={[textStyles.B4, {color: colors.Gray06}]}>
+                            {item.description}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                      <View style={{width: 16}} />
+                      <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity
+                          style={{
+                            backgroundColor: colors.Light_Blue,
+                            paddingVertical: 8,
+                            paddingHorizontal: 16,
+                            borderRadius: 100,
+                          }}
+                          onPress={() => acceptUser(item.requestId, true)}>
+                          <Text style={[textStyles.B4, {color: colors.Blue}]}>
+                            수락
+                          </Text>
+                        </TouchableOpacity>
+                        <View style={{width: 8}} />
+                        <TouchableOpacity
+                          style={{
+                            backgroundColor: colors.Gray02,
+                            paddingVertical: 8,
+                            paddingHorizontal: 16,
+                            borderRadius: 100,
+                          }}
+                          onPress={() => acceptUser(item.requestId, false)}>
+                          <Text style={[textStyles.B4, {color: colors.Gray10}]}>
+                            거절
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  ))}
                 </View>
               ))}
-            </View>
-          ))}
-        </ScrollView>
-      )
-      }
+            </ScrollView>
+          )}
     </View>
   );
 };

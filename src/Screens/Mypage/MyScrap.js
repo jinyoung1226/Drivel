@@ -1,14 +1,11 @@
-import React, {useEffect, useState, useLayoutEffect, useCallback} from 'react';
-import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {logout} from '../../features/auth/authActions';
+import React, {useState, useLayoutEffect, useCallback} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
+import {useDispatch} from 'react-redux';
 import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
-import Tabs from '../../components/Tabs';
 import {authApi} from '../../api/api';
 import LikedList from './LikedList';
 import BackIcon from '../../assets/icons/BackIcon';
-import {setLikedItem} from '../../features/like/likeActions';
 import {useFocusEffect} from '@react-navigation/native';
 const MyScrap = ({navigation}) => {
   const dispatch = useDispatch();

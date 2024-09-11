@@ -4,7 +4,7 @@ import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import {useNavigation} from '@react-navigation/native';
 
-const DriveRestaurantCuration = ({item, driveId}) => {
+const DriveRestaurantCuration = ({item}) => {
   const navigation = useNavigation();
 
   const handleRestaurantInfo = restaurantId => {

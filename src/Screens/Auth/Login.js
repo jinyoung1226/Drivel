@@ -1,37 +1,23 @@
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
-  TextInput,
-  Button,
   StyleSheet,
-  Dimensions,
   TouchableOpacity,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useDispatch, useSelector} from 'react-redux';
-import {login} from '../../features/auth/authActions';
 import {textStyles} from '../../styles/textStyles';
-import CustomInput from '../../components/CustomInput';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CustomButton from '../../components/CustomButton';
 import KakaoIcon from '../../assets/icons/KakaoIcon.svg';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
 import colors from '../../styles/colors';
 import PolicyModal from '../../components/PolicyModal';
 import SplashScreen from '../../SplashScreen';
 
 const LoginScreen = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [registerType, setRegisterType] = useState('');
-  const dispatch = useDispatch();
-  const {isLoading} = useSelector(state => state.auth); //selector를 통해 authSlice에서 error상태를 가져옴
-
-  const handleLogin = () => {
-    dispatch(login({email, password}));
-  };
 
   const handleKakaoLogin = async () => {
     const isKakaoRegitered = await AsyncStorage.getItem('isKakaoRegitered');

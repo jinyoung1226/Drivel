@@ -10,8 +10,6 @@ import {
   Animated,
   InputAccessoryView,
   Platform,
-  ActivityIndicator,
-  Modal,
 } from 'react-native';
 import BackIcon from '../../assets/icons/BackIcon';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';

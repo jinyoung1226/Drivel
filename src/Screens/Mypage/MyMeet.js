@@ -1,41 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
-import {useNavigation} from '@react-navigation/native';
 import Tabs from '../../components/Tabs';
 import ToggleSwitch from '../../components/TogleSwitch';
 import MyMeetList from './MyMeetList';
 import {authApi} from '../../api/api';
-import {useSelector} from 'react-redux';
-
-const data = [
-  {
-    meetingId: 78,
-    courseId: 24,
-    meetingTitle: '모임 제목',
-    date: '2021-09-01',
-    imagePath:
-      'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
-  },
-  {
-    meetingId: 72,
-    courseId: 22,
-    meetingTitle:
-      '모임 제목모임 제목모임 제목모임 제목모임 제목모임 제목모임 제목모임 제목모임 제목모임 제목모임 제목모임 제목',
-    date: '2021-09-01',
-    imagePath:
-      'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
-  },
-  {
-    meetingId: 71,
-    courseId: 25,
-    meetingTitle: '모임 제목',
-    date: '2021-09-01',
-    imagePath:
-      'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
-  },
-];
 
 const MyMeet = ({locked}) => {
   console.log(locked);

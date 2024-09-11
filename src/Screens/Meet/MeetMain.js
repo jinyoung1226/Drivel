@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {View, TouchableOpacity, Platform} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+
 import MeetMainTopTab from './MeetMainTopTab';
 import CreateIcon from '../../assets/icons/CreateIcon.svg';
 import MeetBrowse from './MeetBrowse';
@@ -12,13 +12,6 @@ import {setTab} from '../../features/meet/meetActions';
 const MeetMain = ({navigation}) => {
   const {currentTab} = useSelector(state => state.meet);
   const dispatch = useDispatch();
-  const goMeetDetail = item => {
-    navigation.navigate('MeetDetail', {
-      meetingId: item.meetingId,
-      courseId: item.courseId,
-      meetingTitle: item.meetingTitle,
-    });
-  };
 
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, ImageBackground, Pressable, View, Text} from 'react-native';
+import {ImageBackground, View, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {textStyles} from '../../styles/textStyles';
