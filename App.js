@@ -84,10 +84,14 @@ const App = () => {
 
   const unsubscribe = messaging().onMessage(onMessageReceived);
 
-  const requestPermission = async () => {
+  const iosRequestPermission = async () => {
     const authStatus = await messaging().requestPermission();
     const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED || authStatus === messaging.AuthorizationStatus.PROVISIONAL;
     if (enabled) {
+      const apnsToken = await messaging().getAPNSToken();
+      if (apnsToken) {
+        getFcmToken();
+      }
       console.log('Authorization status:', authStatus);
     } else {
       console.log('Permission denied');
@@ -99,6 +103,7 @@ const App = () => {
     const authorizationStatus = await messaging().requestPermission();
     console.log('authorizationStatus:', authorizationStatus);
     try {
+      getFcmToken();
       if (Platform.OS === 'android') {
         if (Platform.Version >= 33) {
           const granted = await PermissionsAndroid.request(
@@ -114,31 +119,22 @@ const App = () => {
     }
   };
 
-  const resisterForPushNotificationsAsync = async () => {
-    return requestPermission().then(async (enabled) => {
-      if (enabled) {
-        if (Platform.OS === 'ios') {
-          // ios의 경우 필수가 아니라고도 하고 필수라고도 하고.. 그냥 넣어버렸다.
-          messaging().registerDeviceForRemoteMessages();
-          try {
-            const fcmToken = await messaging().getToken();
-            await AsyncStorage.setItem('fcmToken', fcmToken);
-            console.log(fcmToken, 'fcmToken');
-          } catch (error) {
-            console.error('Failed to get FCM token:', error);
-          }
-        }
-      }
-    });
-  };
+  // const resisterForPushNotificationsAsync = async () => {
+  //   return requestPermission().then(async (enabled) => {
+  //     if (enabled) {
+  //       if (Platform.OS === 'ios') {
+  //         // ios의 경우 필수가 아니라고도 하고 필수라고도 하고.. 그냥 넣어버렸다.
+  //         messaging().registerDeviceForRemoteMessages();
+  //       }
+  //     }
+  //   });
+  // };
 
   useEffect(() => {
     const init = async () => {
-      resisterForPushNotificationsAsync();
-      androidRequestPermission();
-      if (Platform.OS === 'android') {
-        await getFcmToken();
-      }
+      Platform.OS === 'android'
+      ? await androidRequestPermission()
+      : await iosRequestPermission()
     }
     init().finally(async () => {
       await BootSplash.hide({ fade: true });
