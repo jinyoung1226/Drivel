@@ -9,11 +9,11 @@ export const regions = [
 ];
 
 export const driveWith = [
-  {id: 1, displayName: '아이와 함께'},
-  {id: 2, displayName: '가족과 함께'},
-  {id: 3, displayName: '연인과 함께'},
-  {id: 4, displayName: '친구와 함께'},
-  {id: 5, displayName: '나 홀로 여행'},
+  {id: 1, displayName: '👶🏻  아이와 함께'},
+  {id: 2, displayName: '👨‍👩‍👧‍👦  가족과 함께'},
+  {id: 3, displayName: '🤍  연인과 함께'},
+  {id: 4, displayName: '👥  친구와 함께'},
+  {id: 5, displayName: '👤  나 홀로 여행'},
 ];
 
 export const driveTheme = [
@@ -28,7 +28,7 @@ export const driveTheme = [
 ];
 
 export const driveStyle = [
-  {id: 1, displayName: '😌 힐링/휴식'},
+  {id: 1, displayName: '😌  힐링/휴식'},
   {id: 2, displayName: '🚶🏻  산책'},
   {id: 3, displayName: '👒  나들이/피크닉'},
   {id: 4, displayName: '🎨  이색체험'},

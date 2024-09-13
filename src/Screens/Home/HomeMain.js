@@ -36,7 +36,7 @@ const HomeMain = ({navigation}) => {
       title: 'Drivel',
       headerTitleAlign: 'left',
       headerTitleStyle: [
-        {color: '#ffffff', fontSize: 24, fontFamily: 'KNU_TRUTH'},
+        {color: '#ffffff', fontSize: 24, fontFamily: 'H_C_B'},
       ],
       headerTransparent: true,
       headerBackground: () => (

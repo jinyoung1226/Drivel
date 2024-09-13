@@ -173,6 +173,7 @@ export const kakaoLogin = createAsyncThunk(
         params: {code: code, fcmToken: fcmToken},
       });
       if (response.status == 200) {
+        console.log(fcmToken, 'fcm');
         const accessToken = response.data.accessToken;
         const refreshToken = response.data.refreshToken;
         const nickname = response.data.nickname;

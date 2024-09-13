@@ -234,7 +234,7 @@ const MeetInfo = ({item}) => {
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-around',
-                paddingHorizontal: 16,
+                paddingHorizontal: 4,
               }}>
               {topCarModels.map((keyword, index) => {
                 const isMax =

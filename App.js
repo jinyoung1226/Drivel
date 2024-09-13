@@ -120,8 +120,14 @@ const App = () => {
         if (Platform.OS === 'ios') {
           // ios의 경우 필수가 아니라고도 하고 필수라고도 하고.. 그냥 넣어버렸다.
           messaging().registerDeviceForRemoteMessages();
+          try {
+            const fcmToken = await messaging().getToken();
+            await AsyncStorage.setItem('fcmToken', fcmToken);
+            console.log(fcmToken, 'fcmToken');
+          } catch (error) {
+            console.error('Failed to get FCM token:', error);
+          }
         }
-        return await messaging().getToken()
       }
     });
   };
@@ -130,7 +136,9 @@ const App = () => {
     const init = async () => {
       resisterForPushNotificationsAsync();
       androidRequestPermission();
-      getFcmToken();
+      if (Platform.OS === 'android') {
+        await getFcmToken();
+      }
     }
     init().finally(async () => {
       await BootSplash.hide({ fade: true });
