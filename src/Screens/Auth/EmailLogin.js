@@ -21,6 +21,7 @@ const EmailLogin = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [registerType, setRegisterType] = useState('');
+  const [isAgree, setIsAgree] = useState(false);
   const dispatch = useDispatch();
   const {isLoading} = useSelector(state => state.auth); //selector를 통해 authSlice에서 error상태를 가져옴
 
@@ -51,6 +52,7 @@ const EmailLogin = ({navigation}) => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         registerType={registerType}
+        setIsAgree={setIsAgree}
       />
       <KeyboardAwareScrollView>
         <View style={{padding: 16}}>

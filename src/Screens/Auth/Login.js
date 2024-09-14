@@ -23,7 +23,7 @@ import { useDispatch } from 'react-redux';
 const LoginScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [registerType, setRegisterType] = useState('');
-  const [isAppleLoginAgree, setIsAppleLoginAgree] = useState(false);
+  const [isAgree, setIsAgree] = useState(false);
   const dispatch = useDispatch();
 
   const handleKakaoLogin = async () => {
@@ -39,9 +39,9 @@ const LoginScreen = ({navigation}) => {
 
   const handleSignInApple = async() => {
     const isAppleRegitered = await AsyncStorage.getItem('isAppleRegitered');
-    if (isAppleRegitered === 'true' || isAppleLoginAgree) {
+    if (isAppleRegitered === 'true' || isAgree) {
       try {
-        console.log(isAppleLoginAgree)
+        console.log(isAgree)
         const appleAuthRequestResponse = await appleAuth.performRequest({
           requestedOperation: appleAuth.Operation.LOGIN,
           // Note: it appears putting FULL_NAME first is important, see issue #293
@@ -74,7 +74,7 @@ const LoginScreen = ({navigation}) => {
         setModalVisible={setModalVisible}
         registerType={registerType}
         handleSignInApple={handleSignInApple}
-        setIsAppleLoginAgree={setIsAppleLoginAgree}
+        setIsAgree={setIsAgree}
       />
       <View style={{padding: 16, flex: 1}}>
         <View style={{flex: 1}} />

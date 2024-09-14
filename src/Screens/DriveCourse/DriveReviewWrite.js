@@ -109,6 +109,8 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
     if (!visibleWriteReview && scrollToTab) {
       scrollToTab();
     }
+    setRating(0);
+    setReviewText('');
   };
 
   const handleTextChange = text => {

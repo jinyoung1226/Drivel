@@ -15,7 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import CustomButton from './CustomButton';
 import ArrowIcon from '../assets/icons/ArrowIcon';
 import Check from '../assets/icons/Check';
-const PolicyModal = ({setModalVisible, modalVisible, registerType, handleSignInApple, setIsAppleLoginAgree}) => {
+const PolicyModal = ({setModalVisible, modalVisible, registerType, handleSignInApple, setIsAgree}) => {
   const [agreeAll, setAgreeAll] = useState(false);
   const [agreeService, setAgreeService] = useState(false);
   const [agreePrivacy, setAgreePrivacy] = useState(false);
@@ -63,10 +63,10 @@ const PolicyModal = ({setModalVisible, modalVisible, registerType, handleSignInA
       resetBottomSheet.start();
     }
     if (agreeAll) {
-      setIsAppleLoginAgree(true);
+      setIsAgree(true);
     }
     if (!agreeAll) {
-      setIsAppleLoginAgree(false);
+      setIsAgree(false);
     }
   }, [modalVisible, agreeAll]);
 
