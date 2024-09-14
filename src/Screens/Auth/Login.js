@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {textStyles} from '../../styles/textStyles';
@@ -24,7 +25,7 @@ const LoginScreen = ({navigation}) => {
   const [registerType, setRegisterType] = useState('');
   const [isAppleLoginAgree, setIsAppleLoginAgree] = useState(false);
   const dispatch = useDispatch();
-  
+
   const handleKakaoLogin = async () => {
     const isKakaoRegitered = await AsyncStorage.getItem('isKakaoRegitered');
     if (isKakaoRegitered === 'true') {
@@ -79,8 +80,9 @@ const LoginScreen = ({navigation}) => {
         <View style={{flex: 1}} />
         <SplashScreen />
         <View style={{flex: 1}} />
-        <AppleLogin handleSignInApple={handleSignInApple}/>
-        <View style={{height: 32}} />
+        {Platform.OS == 'ios' &&
+        <AppleLogin handleSignInApple={handleSignInApple}/>}
+        <View style={{height: 16}} />
         <TouchableOpacity
           style={{
             flexDirection: 'row',
@@ -98,7 +100,7 @@ const LoginScreen = ({navigation}) => {
           </Text>
           <View style={{flex: 1}} />
         </TouchableOpacity>
-        <View style={{height: 32}} />
+        <View style={{height: 16}} />
         <CustomButton
           title="이메일 로그인"
           onPress={() => navigation.navigate('EmailLogin')}
