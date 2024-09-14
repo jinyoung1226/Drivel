@@ -14,6 +14,7 @@ import KakaoIcon from '../../assets/icons/KakaoIcon.svg';
 import colors from '../../styles/colors';
 import PolicyModal from '../../components/PolicyModal';
 import SplashScreen from '../../SplashScreen';
+import AppleLogin from '../../components/AppleLogin';
 
 const LoginScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -41,6 +42,8 @@ const LoginScreen = ({navigation}) => {
         <View style={{flex: 1}} />
         <SplashScreen />
         <View style={{flex: 1}} />
+        <AppleLogin />
+        <View style={{height: 32}} />
         <TouchableOpacity
           style={{
             flexDirection: 'row',
