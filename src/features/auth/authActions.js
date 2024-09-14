@@ -223,4 +223,64 @@ export const kakaoLogin = createAsyncThunk(
     }
   },
 );
+
+export const appleLogin = createAsyncThunk(
+  'auth/appleLogin',
+  async ({email}, thunkAPI) => {
+    try {
+      const fcmToken = await AsyncStorage.getItem('fcmToken');
+      const response = await api.post('/apple/signIn', {
+        email: email,
+        fcmToken: fcmToken,
+      });
+      if (response.status == 200) {
+        const accessToken = response.data.accessToken;
+        const refreshToken = response.data.refreshToken;
+        const nickname = response.data.nickname;
+        const userId = response.data.id;
+        await AsyncStorage.setItem('isAppleRegitered', 'true');
+        await AsyncStorage.setItem('accessToken', accessToken); //AsyncStorage에 저장하는 이유는 애플리케이션이 재시작될 때도 accessToken을 유지하기 위함. 자동로그인되야하니..
+        await EncryptedStorage.setItem('refreshToken', refreshToken);
+        if (response.data.onboarded == true) {
+          return {
+            isAuthenticated: true,
+            accessToken: accessToken,
+            nickname: nickname,
+            onboarded: true,
+            isLoading: false,
+            userId: userId,
+          };
+        }
+        if (response.data.onboarded == false) {
+          return {
+            isAuthenticated: true,
+            accessToken: accessToken,
+            nickname: nickname,
+            onboarded: false,
+            isLoading: false,
+            userId: userId,
+          };
+        }
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.status);
+        Alert.alert(error.response.data.message);
+        return thunkAPI.rejectWithValue({
+          isAuthenticated: false,
+          accessToken: null,
+          isLoading: false,
+        });
+      } else {
+        Alert.alert('서버접속오류');
+        return thunkAPI.rejectWithValue({
+          isAuthenticated: false,
+          accessToken: null,
+          isLoading: false,
+        });
+      }
+    }
+  },
+);
+
 export const setOnboarded = createAction('auth/setOnboarded');

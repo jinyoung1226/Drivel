@@ -15,11 +15,14 @@ import colors from '../../styles/colors';
 import PolicyModal from '../../components/PolicyModal';
 import SplashScreen from '../../SplashScreen';
 import AppleLogin from '../../components/AppleLogin';
+import { appleLogin } from '../../features/auth/authActions';
+import { jwtDecode } from 'jwt-decode';
+import appleAuth, {AppleButton} from '@invertase/react-native-apple-authentication';
 
 const LoginScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [registerType, setRegisterType] = useState('');
-
+  const [isAppleLoginAgree, setIsAppleLoginAgree] = useState(false);
   const handleKakaoLogin = async () => {
     const isKakaoRegitered = await AsyncStorage.getItem('isKakaoRegitered');
     if (isKakaoRegitered === 'true') {
@@ -31,18 +34,50 @@ const LoginScreen = ({navigation}) => {
     }
   };
 
+  const handleSignInApple = async() => {
+    const isAppleRegitered = await AsyncStorage.getItem('isAppleRegitered');
+    if (isAppleRegitered === 'true' || isAppleLoginAgree) {
+      try {
+        console.log(isAppleLoginAgree)
+        const appleAuthRequestResponse = await appleAuth.performRequest({
+          requestedOperation: appleAuth.Operation.LOGIN,
+          // Note: it appears putting FULL_NAME first is important, see issue #293
+          requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+        });
+        const { email, email_verified, is_private_email, sub } = jwtDecode(appleAuthRequestResponse.identityToken);
+        // get current authentication state for user
+        // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+        if (email) {
+          dispatch(appleLogin({ email: email }));
+        }
+      } catch (error) {
+        if (error.code === appleAuth.Error.CANCELED) {
+          console.log('Apple Sign in canceled');
+        } else {
+          console.error(error);
+        }
+      }
+    }
+    if (!isAppleRegitered) {
+      setModalVisible(!modalVisible);
+      setRegisterType('apple');
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <PolicyModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         registerType={registerType}
+        handleSignInApple={handleSignInApple}
+        setIsAppleLoginAgree={setIsAppleLoginAgree}
       />
       <View style={{padding: 16, flex: 1}}>
         <View style={{flex: 1}} />
         <SplashScreen />
         <View style={{flex: 1}} />
-        <AppleLogin />
+        <AppleLogin handleSignInApple={handleSignInApple}/>
         <View style={{height: 32}} />
         <TouchableOpacity
           style={{

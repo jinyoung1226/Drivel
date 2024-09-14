@@ -15,7 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import CustomButton from './CustomButton';
 import ArrowIcon from '../assets/icons/ArrowIcon';
 import Check from '../assets/icons/Check';
-const PolicyModal = ({setModalVisible, modalVisible, registerType}) => {
+const PolicyModal = ({setModalVisible, modalVisible, registerType, handleSignInApple, setIsAppleLoginAgree}) => {
   const [agreeAll, setAgreeAll] = useState(false);
   const [agreeService, setAgreeService] = useState(false);
   const [agreePrivacy, setAgreePrivacy] = useState(false);
@@ -62,7 +62,13 @@ const PolicyModal = ({setModalVisible, modalVisible, registerType}) => {
     if (modalVisible) {
       resetBottomSheet.start();
     }
-  }, [modalVisible]);
+    if (agreeAll) {
+      setIsAppleLoginAgree(true);
+    }
+    if (!agreeAll) {
+      setIsAppleLoginAgree(false);
+    }
+  }, [modalVisible, agreeAll]);
 
   const closeModal = () => {
     closeBottomSheet.start(() => {
@@ -100,13 +106,16 @@ const PolicyModal = ({setModalVisible, modalVisible, registerType}) => {
     }
   };
 
-  const onPressHandler = () => {
+  const onPressHandler = async() => {
     closeModal();
     if (registerType === 'email') {
       navigation.navigate('Register');
     }
     if (registerType === 'kakao') {
       navigation.navigate('KakaoLogin');
+    }
+    if (registerType === 'apple') {
+      await handleSignInApple(); 
     }
   };
 

@@ -5,6 +5,7 @@ import {
   login,
   logout,
   setOnboarded,
+  appleLogin,
 } from './authActions';
 
 // authSlice 정의: 인증 관련 상태와 리듀서를 관리합니다.
@@ -14,7 +15,6 @@ const initialState = {
   accessToken: null,
   isAutoLoginLoading: false,
   isLoading: false,
-  isKakaoLoggedIn: false,
   onboarded: false,
   userId: null,
 };
@@ -93,7 +93,6 @@ const authSlice = createSlice({
       state.isAuthenticated = action.payload.isAuthenticated; // 로그아웃 성공 시 인증 상태를 false로 설정합니다.
       state.nickname = action.payload.nickname;
       state.accessToken = action.payload.accessToken; // 인증 토큰을 null로 설정합니다.
-      state.isKakaoLoggedIn = action.payload.isKakaoLoggedIn;
       state.onboarded = action.payload.onboarded;
       state.userId = action.payload.userId;
       state.isLoading = action.payload.isLoading;
@@ -103,7 +102,22 @@ const authSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.isLoading = action.payload.isLoading;
     });
-
+    builder.addCase(appleLogin.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(appleLogin.fulfilled, (state, action) => {
+      state.isAuthenticated = action.payload.isAuthenticated;
+      state.nickname = action.payload.nickname;
+      state.accessToken = action.payload.accessToken;
+      state.onboarded = action.payload.onboarded;
+      state.userId = action.payload.userId;
+      state.isLoading = action.payload.isLoading;
+    });
+    builder.addCase(appleLogin.rejected, (state, action) => {
+      state.isAuthenticated = action.payload.isAuthenticated;
+      state.accessToken = action.payload.accessToken;
+      state.isLoading = action.payload.isLoading
+    });
     builder.addCase(setOnboarded, (state, action) => {
       state.onboarded = action.payload;
     });
