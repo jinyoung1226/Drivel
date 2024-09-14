@@ -18,11 +18,13 @@ import AppleLogin from '../../components/AppleLogin';
 import { appleLogin } from '../../features/auth/authActions';
 import { jwtDecode } from 'jwt-decode';
 import appleAuth, {AppleButton} from '@invertase/react-native-apple-authentication';
-
+import { useDispatch } from 'react-redux';
 const LoginScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [registerType, setRegisterType] = useState('');
   const [isAppleLoginAgree, setIsAppleLoginAgree] = useState(false);
+  const dispatch = useDispatch();
+  
   const handleKakaoLogin = async () => {
     const isKakaoRegitered = await AsyncStorage.getItem('isKakaoRegitered');
     if (isKakaoRegitered === 'true') {
