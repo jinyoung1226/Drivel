@@ -36,7 +36,7 @@ const ReviewItem = ({item, goDriveDetail}) => {
         }}
         onPress={() => goDriveDetail(item.courseId)}>
         <Text style={[textStyles.H4, {color: colors.Blue}]}>
-          {/* {item.courseTitle} */}
+          {item.courseTitle}
         </Text>
         <View style={{height: 4}} />
         <Text style={[textStyles.B4, {color: colors.Gray06}]}>

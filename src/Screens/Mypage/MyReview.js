@@ -1,11 +1,32 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {View} from 'react-native';
 import {authApi} from '../../api/api';
 import RenderingPage from '../../components/RenderingPage';
 import ReiviewList from './ReviewList';
 import colors from '../../styles/colors';
+import BackIcon from '../../assets/icons/BackIcon';
+import {textStyles} from '../../styles/textStyles';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+
 const MyReview = ({navigation}) => {
   const [myReviews, setMyReviews] = useState(null);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '내 리뷰',
+      headerTitleStyle: [textStyles.H3, {color: colors.Gray10}],
+      headerTitleAlign: 'center',
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+          style={{padding: 16}}>
+          <BackIcon color={colors.Gray10} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   const getMyReview = async () => {
     try {
