@@ -72,7 +72,8 @@ const LoginScreen = ({navigation}) => {
       <View style={{padding: 16, flex: 1}}>
         <View style={{flex: 1}} />
         <SplashScreen />
-        <View style={{flex: 1}} />        
+        <View style={{flex: 1}} />
+        {/* <AppleLogin handleSignInApple={handleSignInApple}/> */}  
         <TouchableOpacity
           style={{
             flexDirection: 'row',
