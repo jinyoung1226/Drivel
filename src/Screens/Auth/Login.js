@@ -27,14 +27,7 @@ const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
 
   const handleKakaoLogin = async () => {
-    const isKakaoRegitered = await AsyncStorage.getItem('isKakaoRegitered');
-    if (isKakaoRegitered === 'true') {
-      navigation.navigate('KakaoLogin');
-    }
-    if (!isKakaoRegitered) {
-      setModalVisible(!modalVisible);
-      setRegisterType('kakao');
-    }
+    navigation.navigate('KakaoLogin');
   };
 
   const handleSignInApple = async() => {
@@ -80,7 +73,7 @@ const LoginScreen = ({navigation}) => {
         <View style={{flex: 1}} />
         <SplashScreen />
         <View style={{flex: 1}} />
-        {Platform.OS == 'ios' &&
+        {Platform.OS === 'ios' &&
         <AppleLogin handleSignInApple={handleSignInApple}/>}
         <View style={{height: 16}} />
         <TouchableOpacity
