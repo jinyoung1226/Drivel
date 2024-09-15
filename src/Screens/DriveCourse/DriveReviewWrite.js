@@ -81,12 +81,14 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
     formData.append('courseId', item.courseInfo.id);
     formData.append('rating', rating);
 
-    if (photo.length > 0) {
-      for (const image of photo) {
-        const response = await fetch(image.uri);
-        const blob = await response.blob();
-        formData.append('images', blob, image.fileName);
-      }
+    if (photo && photo.length > 0) {
+      photo.forEach((image, index) => {
+        formData.append('images', {
+          uri: image.uri,
+          type: image.type,
+          name: image.fileName || `image_${index}.jpg`,
+        });
+      });
     }
 
     try {
