@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity, Pressable} from 'react-native';
+import {View, Text, Image, TouchableOpacity, Pressable, FlatList, Dimensions} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import Star from '../../assets/icons/Star.svg';
@@ -21,7 +21,8 @@ const DriveReviewListItem = ({
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [targetReviewId, setTargetReviewId] = useState(null);
-
+  const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 보고 있는 이미지 인덱스 상태
+  const width = Dimensions.get('window').width;
   const renderStars = () => {
     let stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -52,24 +53,35 @@ const DriveReviewListItem = ({
     setModalVisible(true);
   };
 
+  const renderItem = ({item: image, index}) => (
+    <View style={{backgroundColor:colors.Gray01}}>
+      <Image
+        key={index}
+        source={{uri: image.imagePath}}
+        style={{width: 150, height: 150, borderRadius: 5, resizeMode: 'cover'}}
+      />
+    </View>
+  );
+
   return (
     <View
       style={{
         flex: 1,
         borderRadius: 14,
-        padding: 16,
-        backgroundColor: colors.Gray01,
+        backgroundColor: colors.Gray02,
+        paddingBottom: 16,
       }}>
       <View
         style={{
           flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
+          padding: 16,
           gap: 8,
         }}>
         <Image
           source={{uri: item.reviewerImagePath}}
-          style={{borderRadius: 49.96, width: 44, height: 44}}
+          style={{borderRadius: 22, width: 44, height: 44}}
         />
         <View style={{flex: 1, flexDirection: 'column', gap: 4}}>
           <View
@@ -90,12 +102,31 @@ const DriveReviewListItem = ({
           </Text>
         </View>
       </View>
+      <View style={{paddingHorizontal: 16}}>
+        <View style={{flexDirection: 'row', gap: 5}}>{renderStars()}</View>
+        <View style={{height: 10}} />
+        <Text style={[textStyles.C4, {color: colors.Gray10}]}>
+          {item.comment}
+        </Text>
+      </View>
       <View style={{height: 16}} />
-      <View style={{flexDirection: 'row', gap: 5}}>{renderStars()}</View>
-      <View style={{height: 10}} />
-      <Text style={[textStyles.C4, {color: colors.Gray10}]}>
-        {item.comment}
-      </Text>
+
+      {/* 이미지 수평 스크롤 */}
+      {item.images.length > 0 && (
+        <View>
+          <FlatList
+            ListHeaderComponent={() => <View style={{width: 16}} />}
+            ListFooterComponent={() => <View style={{width: 16}} />}
+            data={item.images}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            ItemSeparatorComponent={() => <View style={{width: 8}} />}
+          />
+        </View>
+      )}
+
       {/* 수정하기와 삭제하기 버튼 */}
       {selectedReview === item.id && userId === item.reviewerId && (
         <View
@@ -104,18 +135,6 @@ const DriveReviewListItem = ({
             top: 44,
             right: 16,
           }}>
-          <Pressable
-            style={({pressed}) => [
-              {
-                paddingHorizontal: 16,
-                paddingVertical: 8,
-                backgroundColor: pressed ? colors.Gray02 : colors.white,
-              },
-            ]}>
-            <Text style={[textStyles.B4, {color: colors.Gray10}]}>
-              수정하기
-            </Text>
-          </Pressable>
           <Pressable
             style={({pressed}) => [
               {

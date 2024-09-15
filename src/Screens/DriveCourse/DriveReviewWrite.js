@@ -23,6 +23,7 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
   const [reviewText, setReviewText] = useState('');
   const [visibleWriteReview, setVisibleWriteReview] = useState(false);
   const [photo, setPhoto] = useState([]);
+  const [photoButtonDisabled, setPhotoButtonDisabled] = useState(false);
   const [reviewList, setReviewList] = useState([]);
 
   const updateReviewInfo = async () => {
@@ -113,6 +114,7 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
     }
     setRating(0);
     setReviewText('');
+    setPhoto([]);
   };
 
   const handleTextChange = text => {
@@ -137,20 +139,24 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
   };
 
   const getPhoto = async () => {
+    setPhotoButtonDisabled(true);
     try {
       const result = await launchImageLibrary({
         mediaType: 'photo',
         selectionLimit: 3,
       });
       if (result.didCancel) {
+        setPhotoButtonDisabled(false);
         return;
       }
       // 현재 사진 개수와 선택한 사진 개수의 합이 3 이하일 때만 추가
       if (photo.length + result.assets.length <= 3) {
         setPhoto(prev => [...prev, ...result.assets]);
         setPhotoLimitMessage('');
+        setPhotoButtonDisabled(false);
       } else {
         setPhotoLimitMessage('최대 3장까지 첨부 가능합니다');
+        setPhotoButtonDisabled(false);
         return;
       }
     } catch (error) {
@@ -245,7 +251,7 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
                   marginBottom: 8,
                 }}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Pressable onPress={getPhoto}>
+                  <Pressable onPress={getPhoto} style={({pressed}) => [{backgroundColor: pressed ? colors.Gray03 : null, padding:4, borderRadius:30}]} disabled={photoButtonDisabled}>
                     <Camera />
                   </Pressable>
                   {photo.length > 0 && (
