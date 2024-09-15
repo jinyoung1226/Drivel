@@ -72,10 +72,7 @@ const LoginScreen = ({navigation}) => {
       <View style={{padding: 16, flex: 1}}>
         <View style={{flex: 1}} />
         <SplashScreen />
-        <View style={{flex: 1}} />
-        {Platform.OS === 'ios' &&
-        <AppleLogin handleSignInApple={handleSignInApple}/>}
-        <View style={{height: 16}} />
+        <View style={{flex: 1}} />        
         <TouchableOpacity
           style={{
             flexDirection: 'row',
@@ -93,6 +90,12 @@ const LoginScreen = ({navigation}) => {
           </Text>
           <View style={{flex: 1}} />
         </TouchableOpacity>
+        
+        {Platform.OS === 'ios' &&
+        <View>
+          <View style={{height: 16}} />
+          <AppleLogin handleSignInApple={handleSignInApple}/>
+        </View>}
         <View style={{height: 16}} />
         <CustomButton
           title="이메일 로그인"

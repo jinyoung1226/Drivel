@@ -14,7 +14,7 @@ const AppleLogin = ({handleSignInApple}) => {
           height: 50, // You must specify a height
           backgroundColor: 'black',
         }}
-        textStyle={[textStyles.H4, {
+        textStyle={[textStyles.H5, {
           color: 'white',
         }]}
         onPress={handleSignInApple}
