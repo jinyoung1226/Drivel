@@ -29,6 +29,7 @@ const MeetChatMessage = ({
   return (
     <View
       style={{
+        flex:1,
         padding: 16,
         borderRadius: 14,
         backgroundColor: colors.Gray01,
@@ -36,7 +37,7 @@ const MeetChatMessage = ({
         marginHorizontal: 16,
       }}>
       {isVisible && item.id == selectedChatItem && (
-        <View style={{position: 'absolute', right: 16, top: 44}}>
+        <View style={{position: 'absolute', right: 16, top: 44, zIndex:2}}>
           {item.senderId == userId && (
             <Pressable
               onPress={() => {

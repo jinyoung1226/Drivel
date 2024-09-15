@@ -18,7 +18,6 @@ const ConfirmModal = ({
   notcieId,
   setNotice,
   status,
-  updateReviewInfo,
   updateCourseInfo,
   selectedChatItem,
   setSelectedChatItem,
@@ -144,7 +143,6 @@ const ConfirmModal = ({
       const response = await authApi.delete(`review/${targetId}`);
       if (response.status == 200) {
         console.log('Review deleted successfully');
-        await updateReviewInfo();
         await updateCourseInfo();
         modalClose();
       }
@@ -163,7 +161,7 @@ const ConfirmModal = ({
         targetMemberId: targetId,
       });
       if (response.status == 200) {
-        await updateReviewInfo();
+        await updateCourseInfo();
         Alert.alert('차단되었습니다.');
         modalClose();
       }

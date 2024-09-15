@@ -25,28 +25,28 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
   const [photo, setPhoto] = useState([]);
   const [photoButtonDisabled, setPhotoButtonDisabled] = useState(false);
   const [reviewList, setReviewList] = useState([]);
-
-  const updateReviewInfo = async () => {
-    try {
-      const response = await authApi.get(
-        `course/${item.courseInfo.id}/reviews`,
-        {
-          params: {
-            page: 0, // 첫 번째 페이지
-            size: max, // 불러올 리뷰 개수
-          },
-        },
-      );
-      if (response.status === 200) {
-        setReviewList(response.data);
-        setRating(0);
-        setReviewText('');
-        setPhoto([]);
-      }
-    } catch (error) {
-      console.error('Error fetching updated review info:', error);
-    }
-  };
+  const [uploadReviewButtonDisabled, setUploadReviewButtonDisabled] = useState(false);
+  // const updateReviewInfo = async () => {
+  //   try {
+  //     const response = await authApi.get(
+  //       `course/${item.courseInfo.id}/reviews`,
+  //       {
+  //         params: {
+  //           page: 0, // 첫 번째 페이지
+  //           size: max, // 불러올 리뷰 개수
+  //         },
+  //       },
+  //     );
+  //     if (response.status === 200) {
+  //       setReviewList(response.data);
+  //       setRating(0);
+  //       setReviewText('');
+  //       setPhoto([]);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching updated review info:', error);
+  //   }
+  // };
 
   // const getReview = async () => {
   //   try {
@@ -76,6 +76,7 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
   // }, []);
 
   const uploadReview = async () => {
+    setUploadReviewButtonDisabled(true)
     const formData = new FormData();
 
     formData.append('comment', reviewText);
@@ -98,10 +99,12 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
         // 리뷰 업로드 후 courseInfo 업데이트
         updateCourseInfo();
         // getReview(); // 리뷰 목록 갱신
+        setUploadReviewButtonDisabled(false);
       }
     } catch (error) {
       console.error('Error:', error);
       console.log(error.response.data.message);
+      setUploadReviewButtonDisabled(false);
     }
 
     handleReviewPress(); // 리뷰 작성 창 닫기
@@ -225,7 +228,8 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
             <View
               style={{
                 paddingHorizontal: 16,
-                paddingVertical: 8,
+                paddingTop: 8,
+                paddingBottom: 3,
                 backgroundColor: colors.white,
                 marginTop: 16,
                 borderRadius: 10,
@@ -251,7 +255,7 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
                   marginBottom: 8,
                 }}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Pressable onPress={getPhoto} style={({pressed}) => [{backgroundColor: pressed ? colors.Gray03 : null, padding:4, borderRadius:30}]} disabled={photoButtonDisabled}>
+                  <Pressable onPress={getPhoto} style={({pressed}) => [{backgroundColor: pressed ? colors.Gray03 : null, padding:5, borderRadius:30}]} disabled={photoButtonDisabled}>
                     <Camera />
                   </Pressable>
                   {photo.length > 0 && (
@@ -287,10 +291,14 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
                     </View>
                   )}
                 </View>
-                <Pressable onPress={() => uploadReview(item.courseInfo)}>
+                <Pressable 
+                  style={({pressed}) => [{backgroundColor: pressed ? colors.Gray03 : null, padding:5, borderRadius:10}]}
+                  onPress={() => uploadReview(item.courseInfo)}
+                  disabled={uploadReviewButtonDisabled || rating == 0}
+                  >
                   <Text
                     style={
-                      reviewText.length > 0 || photo.length > 0
+                      rating > 0 && !uploadReviewButtonDisabled 
                         ? [textStyles.B3, {color: colors.Blue}]
                         : [textStyles.B3, {color: colors.Gray06}]
                     }>
@@ -329,7 +337,6 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
           <DriveReviewList
             data={item.reviews}
             userId={userId}
-            updateReviewInfo={updateReviewInfo}
             updateCourseInfo={updateCourseInfo}
           />
         </View>

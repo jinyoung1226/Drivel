@@ -28,7 +28,7 @@ const MeetUpcomingList = ({
     navigation.navigate('MeetDetail', {
       meetingId: item.meetingId,
       courseId: item.courseId,
-      meetingTitle: item.meetingTitle,
+      meetingTitle: item.title,
     });
   };
 

@@ -19,12 +19,13 @@ import {regions} from '../../assets/onboardingData/onBoardingData';
 import ChipContainer from '../../components/ChipContainer';
 import {authApi} from '../../api/api';
 import {getMyProfileInfo} from '../../features/profile/profileActions';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const MyInfoEdit = ({navigation, route}) => {
   const page = route.params.page;
   const myRegions = route.params.myRegions;
+  const item = useSelector(state => state.profile.myProfileInfo);
   const [nickname, setNickname] = useState('');
   const [isNicknameValid, setIsNicknameValid] = useState(false);
   const [intro, setIntro] = useState('');
@@ -34,7 +35,7 @@ const MyInfoEdit = ({navigation, route}) => {
   const [selectedRegion, setSelectedRegion] = useState([]);
 
   const dispatch = useDispatch();
-
+  console.log(item);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: page,
@@ -176,8 +177,8 @@ const MyInfoEdit = ({navigation, route}) => {
                 <CustomInput
                   value={nickname}
                   onChangeText={setNickname}
-                  placeholder={'최대 10자까지 입력 가능합니다'}
-                  containerStyle={{flex: 1}}
+                  placeholder={item.nickname}
+                  containerStyle={{flex: 1, height: 47}}
                   maxLength={10}
                   editable={!isNicknameValid}
                 />
@@ -217,9 +218,10 @@ const MyInfoEdit = ({navigation, route}) => {
               <CustomInput
                 value={intro}
                 onChangeText={setIntro}
-                placeholder={'최대 30자까지 입력 가능합니다'}
+                placeholder={item.description ? item.description : '최대 30자까지 입력 가능합니다'}
                 maxLength={30}
                 multiline={true}
+                containerStyle={{height: 47}}
               />
             </View>
           )}
@@ -239,7 +241,7 @@ const MyInfoEdit = ({navigation, route}) => {
                     )
                   }
                   onButtonPress={() => setCarModel('')}
-                  placeholder="차종을 입력해주세요"
+                  placeholder={item.carModel? item.carModel : "차종을 입력해주세요"}
                   value={carModel}
                   onChangeText={handleSearchCarModel}
                   buttonDisabled={carModel.length === 0}
@@ -287,7 +289,7 @@ const MyInfoEdit = ({navigation, route}) => {
               </Text>
               <View style={{height: 16}} />
               <CustomInput
-                placeholder="0"
+                placeholder={item.carCareer ? item.carCareer.toString() : "0"}
                 value={minCarCareer}
                 onChangeText={setMinCarCareer}
                 showButton={true}

@@ -14,14 +14,12 @@ const DriveReviewListItem = ({
   userId,
   selectedReview,
   setSelectedReview,
-  updateReviewInfo,
   updateCourseInfo,
 }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [targetReviewId, setTargetReviewId] = useState(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0); // 현재 보고 있는 이미지 인덱스 상태
   const width = Dimensions.get('window').width;
   const renderStars = () => {
     let stars = [];
@@ -32,7 +30,7 @@ const DriveReviewListItem = ({
     }
     return stars;
   };
-
+  console.log(item);
   const toggleOptions = () => {
     if (selectedReview === item.id) {
       setSelectedReview(null);
@@ -194,7 +192,6 @@ const DriveReviewListItem = ({
         setModalVisible={setModalVisible}
         modalVisible={modalVisible}
         type={modalType}
-        updateReviewInfo={updateReviewInfo}
         updateCourseInfo={updateCourseInfo}
         targetId={targetReviewId}
       />

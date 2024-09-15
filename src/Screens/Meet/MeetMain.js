@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity, Platform} from 'react-native';
+import {View, TouchableOpacity, Platform, Alert} from 'react-native';
 
 import MeetMainTopTab from './MeetMainTopTab';
 import CreateIcon from '../../assets/icons/CreateIcon.svg';
@@ -8,13 +8,36 @@ import MeetMy from './MeetMy';
 import colors from '../../styles/colors';
 import {useSelector, useDispatch} from 'react-redux';
 import {setTab} from '../../features/meet/meetActions';
+import { authApi } from '../../api/api';
+import CheckProfileModal from '../../components/CheckProfileModal';
 
 const MeetMain = ({navigation}) => {
   const {currentTab} = useSelector(state => state.meet);
   const dispatch = useDispatch();
-
+  const [checkProfileModalVisible, setCheckProfileModalVisible] = React.useState(false);
+  const checkCreateMeet = async() => {
+    try {
+      const response = await authApi.get('/onboarding')
+      if (response.status === 200) {
+        if (response.data.enableToCreateMeeting)
+        navigation.navigate('MeetCreate');
+        else
+        setCheckProfileModalVisible(true);
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.status);
+      } else {
+        console.log('서버 접속 오류');
+      }
+    }
+  }
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>
+      <CheckProfileModal
+        modalVisible={checkProfileModalVisible}
+        setModalVisible={setCheckProfileModalVisible}
+      />
       {Platform.OS === 'ios' && <View style={{height: 44}} />}
       <View style={{borderBottomWidth: 1, borderBottomColor: colors.Gray02}}>
         <View
@@ -34,7 +57,7 @@ const MeetMain = ({navigation}) => {
           <View style={{flex: 1}} />
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('MeetCreate');
+              checkCreateMeet();
             }}>
             <CreateIcon />
           </TouchableOpacity>

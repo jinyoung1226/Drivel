@@ -209,6 +209,9 @@ const MeetDetail = ({route, navigation}) => {
           console.log(error.response.status, error.response.data);
           setCheckProfileModalVisible(!checkProfileModalVisible);
         }
+        if (error.response.status == 403) {
+          Alert.alert(error.response.data.message);
+        }
       } else {
         console.log('서버 접속 오류');
       }

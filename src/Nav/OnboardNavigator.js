@@ -5,6 +5,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
   BackHandler,
+  Dimensions,
+  Image
 } from 'react-native';
 import colors from '../styles/colors';
 import {textStyles} from '../styles/textStyles';
@@ -21,6 +23,7 @@ import {authApi} from '../api/api';
 import {setOnboarded} from '../features/auth/authActions';
 import {useDispatch} from 'react-redux';
 import ProgressBar from '../components/ProgressBar';
+
 const OnboardingPage = ({navigation}) => {
   const dispatch = useDispatch();
   const [step, setStep] = useState(1);
@@ -28,7 +31,7 @@ const OnboardingPage = ({navigation}) => {
   const [selectedDriveStyle, setSelectedDriveStyle] = useState([]);
   const [selectedDriveView, setSelectedDriveView] = useState([]);
   const [selectedDriveWith, setSelectedDriveWith] = useState([]);
-
+  const {width, height} = Dimensions.get('window');
   const handleNextStep = async () => {
     if (step < 4) {
       setStep(step + 1);
@@ -94,7 +97,7 @@ const OnboardingPage = ({navigation}) => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
-      {step == 1 || 5 ? (
+      {step == 1 || step == 5 ? (
         <View style={{height: 57}} />
       ) : (
         <TouchableOpacity onPress={handleBackPress} style={{padding: 16}}>
@@ -176,13 +179,10 @@ const OnboardingPage = ({navigation}) => {
           />
         </View>
       ) : (
-        <View
-          style={{
-            padding: 16,
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+      <View style={{flex: 1, alignItems:'center', justifyContent:'center'}}>
+        <Image
+          source={require('../assets/onboardingData/background.png')}
+          style={{resizeMode: 'cover', width: width, position:'absolute', top:-40}}/>
           <Text
             style={[
               textStyles.H1,
@@ -191,7 +191,7 @@ const OnboardingPage = ({navigation}) => {
             이제 본인의 취향에 맞는{'\n'}드라이브 코스를{'\n'}추천 받을 수
             있어요!
           </Text>
-        </View>
+      </View>
       )}
       <View style={{padding: 16}}>
         <CustomButton

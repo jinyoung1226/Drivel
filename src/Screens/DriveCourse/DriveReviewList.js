@@ -5,7 +5,6 @@ import DriveReviewListItem from './DriveReviewListItem';
 const DriveReviewList = ({
   data,
   userId,
-  updateReviewInfo,
   updateCourseInfo,
 }) => {
   const [selectedReview, setSelectedReview] = useState(null);
@@ -18,7 +17,6 @@ const DriveReviewList = ({
           userId={userId}
           selectedReview={selectedReview}
           setSelectedReview={setSelectedReview}
-          updateReviewInfo={updateReviewInfo}
           updateCourseInfo={updateCourseInfo}
         />
       )}
