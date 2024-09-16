@@ -43,8 +43,8 @@ const SelectedProfileImage = ({route, navigation}) => {
     try {
       const formData = new FormData();
       formData.append('image', {
-        name: image.fileName,
-        type: image.type,
+        name: image.name,
+        type: 'image/jpeg',
         uri: image.uri,
       });
       setIsLoading(true);

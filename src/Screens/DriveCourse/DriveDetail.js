@@ -37,6 +37,7 @@ const DriveDetail = ({route, navigation}) => {
   const [activeTab, setActiveTab] = useState(0);
   const userId = useSelector(state => state.auth.userId);
   const [numOfLines, setNumOfLines] = useState(5);
+  const [showMoreButton, setShowMoreButton] = useState(false);
   const dispatch = useDispatch();
   const {initialPage} = useSelector(state => state.drive);
   const [contentHeight, setContentHeight] = useState(null);
@@ -134,6 +135,14 @@ const DriveDetail = ({route, navigation}) => {
     }
   };
 
+  const handleTextLayout = (e) => {
+    if (e.nativeEvent.lines.length > 5) {
+      setShowMoreButton(true); // 5줄을 초과하는 경우에만 더보기 버튼 표시
+    } else {
+      setShowMoreButton(false); // 5줄 이하일 때는 더보기 버튼 숨김
+    }
+  };
+
   if (!courseInfo) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
     return <RenderingPage />;
@@ -160,10 +169,13 @@ const DriveDetail = ({route, navigation}) => {
             <View>
               <Text
                 style={[textStyles.M14, {color: colors.Gray07}]}
-                numberOfLines={numOfLines}>
+                numberOfLines={numOfLines}
+                onTextLayout={handleTextLayout}
+              >
                 {courseInfo.courseInfo.description}
               </Text>
               <View style={{height: 8}} />
+              {showMoreButton &&
               <TouchableOpacity
                 style={{flexDirection: 'row', alignItems: 'center'}}
                 onPress={() => {
@@ -180,7 +192,7 @@ const DriveDetail = ({route, navigation}) => {
                   }}>
                   {numOfLines == null ? null : '  >'}
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity>}
             </View>
           </View>
           <GrayLine />

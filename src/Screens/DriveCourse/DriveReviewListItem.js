@@ -60,7 +60,7 @@ const DriveReviewListItem = ({
       />
     </View>
   );
-
+  
   return (
     <View
       style={{
@@ -117,7 +117,7 @@ const DriveReviewListItem = ({
             ListFooterComponent={() => <View style={{width: 16}} />}
             data={item.images}
             renderItem={renderItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={item => item.id}
             horizontal
             showsHorizontalScrollIndicator={false}
             ItemSeparatorComponent={() => <View style={{width: 8}} />}

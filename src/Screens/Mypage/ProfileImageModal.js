@@ -7,6 +7,7 @@ import {formDataApi} from '../../api/api';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {getMyProfileInfo} from '../../features/profile/profileActions';
+import ImageResizer from 'react-native-image-resizer';
 
 const ProfileImageModal = ({setModalVisible, modalVisible}) => {
   const dispatch = useDispatch();
@@ -29,8 +30,15 @@ const ProfileImageModal = ({setModalVisible, modalVisible}) => {
       if (result.didCancel) {
         return;
       }
-      navigation.navigate('SelectedProfileImage', {photo: result.assets[0]});
-      console.log(result);
+      const resizedImage = await ImageResizer.createResizedImage(
+        result.assets[0].uri, // 원본 이미지 경로
+        900,                  // 너비 (원하는 크기로 설정)
+        900,                  // 높이 (원하는 크기로 설정)
+        'JPEG',               // 포맷 (JPEG, PNG)
+        80                    // 품질 (1-100)
+      );
+      navigation.navigate('SelectedProfileImage', {photo: resizedImage});
+      console.log(resizedImage);
     } catch (error) {
       console.log(error);
     }

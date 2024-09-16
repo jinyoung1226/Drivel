@@ -127,6 +127,7 @@ const MyDriveTagEdit = ({navigation, route}) => {
       </ScrollView>
       <View style={{padding: 16, backgroundColor: colors.BG, elevation: 10}}>
         <CustomButton
+          disabled={selectedDriveStyle.length == 0 && selectedDriveTheme.length == 0 && selectedDriveTogether.length == 0}
           title={'완료하기'}
           onPress={() => {
             MyDriveTagUpdate();

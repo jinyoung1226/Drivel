@@ -14,6 +14,7 @@ import DriveReviewList from './DriveReviewList';
 import NoItemScreen from '../../components/NoItemScreen';
 import BubbleIcon from '../../assets/icons/BubbleIcon.svg';
 import { getDriveReviewList, getDriveReviewListMore } from '../../features/drive/driveActions';
+import ImageResizer from 'react-native-image-resizer';
 const MAX_REVIEW_LENGTH = 200; // 리뷰 최대 글자 수
 
 const DriveReviewWrite = ({item, userId, scrollToTab}) => {
@@ -35,7 +36,7 @@ const DriveReviewWrite = ({item, userId, scrollToTab}) => {
       size: 10,
     }));
   }
-  
+
   const handleSeeMoreButton = () => {
     if (!isReviewLastPage) {
       dispatch(
@@ -129,9 +130,28 @@ const DriveReviewWrite = ({item, userId, scrollToTab}) => {
         setPhotoButtonDisabled(false);
         return;
       }
+      console.log(result.assets);
+      const resizedPhotosPromises = result.assets.map(async (image) => {
+        const resizedImage = await ImageResizer.createResizedImage(
+          image.uri, // 원본 이미지 경로
+          800,       // 너비 (원하는 크기로 설정)
+          800,       // 높이 (원하는 크기로 설정)
+          'JPEG',    // 포맷 (JPEG, PNG)
+          80         // 품질 (1-100)
+        );
+        return {
+          uri: resizedImage.uri,
+          type: 'image/jpeg',
+          name: resizedImage.name,
+        };
+      });
+  
+      const resizedPhotos = await Promise.all(resizedPhotosPromises);
+
+      console.log(resizedPhotos);
       // 현재 사진 개수와 선택한 사진 개수의 합이 3 이하일 때만 추가
-      if (photo.length + result.assets.length <= 3) {
-        setPhoto(prev => [...prev, ...result.assets]);
+      if (photo.length + resizedPhotos.length <= 3) {
+        setPhoto(prev => [...prev, ...resizedPhotos]);
         setPhotoLimitMessage('');
         setPhotoButtonDisabled(false);
       } else {
@@ -173,7 +193,7 @@ const DriveReviewWrite = ({item, userId, scrollToTab}) => {
           </Text>
         </View>
         <View>
-          <Pressable style={{flexDirection: 'row'}} onPress={handleReviewPress}>
+          <Pressable style={({pressed}) => [{flexDirection:'row', backgroundColor: pressed ? colors.Gray03 : null, padding:5, borderRadius:5, }]} onPress={handleReviewPress}>
             <Pencil />
             <Text style={[textStyles.B3, {color: colors.Blue, paddingLeft: 5}]}>
               리뷰 쓰기
@@ -355,7 +375,9 @@ const DriveReviewWrite = ({item, userId, scrollToTab}) => {
               <View>
                 <View style={{flexDirection: 'row', gap: 5}}>
                   {[1,2,3,4,5].map((i) => (
-                    <View style={{width: 16, height: 16, backgroundColor: colors.Gray04, borderRadius: 8}} />
+                    <View  
+                    key={i}
+                    style={{width: 16, height: 16, backgroundColor: colors.Gray04, borderRadius: 8}} />
                   ))}
                 </View>
               </View>
@@ -366,14 +388,26 @@ const DriveReviewWrite = ({item, userId, scrollToTab}) => {
             </View>))}
           </View>}
           {!isReviewLastPage && !isLoading && 
-          <View style={{alignItems:'center'}}>
+          <View style={{flex:1, marginTop: -8}}>
             <Pressable 
               onPress={handleSeeMoreButton}
-              style={({pressed}) => [{backgroundColor: pressed ? colors.Light_Blue : colors.Light_Blue , borderRadius:10,  paddingVertical: 10, paddingHorizontal:16, borderRadius: 10}]}    
+              style={({pressed}) => [{backgroundColor:pressed? colors.Gray03: null, paddingVertical: 10, flex:1, justifyContent: 'center', flexDirection:'row', borderRadius: 10}]}    
             >
-              <Text style={[textStyles.H4, {color: colors.Blue}]}>더보기</Text>
+              <Text style={[textStyles.B2, {color: colors.Gray07, marginBottom:2}]}>더보기</Text>
+              <View style={{width: 4}}/>
+              <Text
+                style={[
+                  textStyles.B2,
+                  {
+                    fontFamily: 'SUIT-Bold',
+                    color: colors.Gray07,
+                    transform: [{rotate: '90deg'}],
+                  },
+                ]}>
+                {'>'}
+              </Text>
             </Pressable>
-            <View style={{height: 16}} />
+            <View style={{height: 8}} />
           </View>
           }
           
