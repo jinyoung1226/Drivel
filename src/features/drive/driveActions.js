@@ -126,6 +126,74 @@ export const getCafeBlogReview = createAsyncThunk(
   },
 );
 
+export const getDriveReviewList = createAsyncThunk(
+  'drive/getDriveReviewList',
+  async ({id, page, size}, thunkAPI) => {
+    try {
+      const response = await authApi.get(`/course/${id}/reviews`, {
+        params: {
+          page,
+          size,
+        },
+      });
+      // console.log(themeId, styleId, togetherId, page, size);
+      if (response.status == 200) {
+        console.log('@@@@', response.data, '@@@@');
+        const reviewTotalElements = response.data.reviews.totalElements;
+        const averageRating = response.data.averageRating;
+        const driveReviewList = response.data.reviews.content;
+        const isReviewLastPage = response.data.reviews.last;
+        const reviewCurrentPage = response.data.reviews.number;
+        return {
+          reviewTotalElements: reviewTotalElements,
+          averageRating: averageRating,
+          driveReviewList: driveReviewList,
+          isReviewLastPage: isReviewLastPage,
+          reviewCurrentPage: reviewCurrentPage,
+        };
+      } else {
+        return thunkAPI.rejectWithValue({
+          error: `Unexpected response status: ${response.status}`,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+);
+
+export const getDriveReviewListMore = createAsyncThunk(
+  'drive/getDriveReviewListMore',
+  async ({id, page, size}, thunkAPI) => {
+    try {
+      const response = await authApi.get(`/course/${id}/reviews`, {
+        params: {
+          page,
+          size,
+        },
+      });
+      if (response.status === 200) {
+        // console.log(response.data.number, '현재페이지');
+        // console.log(response.data.last);
+        const driveReviewList = response.data.reviews.content;
+        const isReviewLastPage = response.data.reviews.last;
+        const reviewCurrentPage = response.data.reviews.number;
+        return {
+          driveReviewList: driveReviewList,
+          isReviewLastPage: isReviewLastPage,
+          reviewCurrentPage: reviewCurrentPage,
+        };
+      } else {
+        return thunkAPI.rejectWithValue({
+          error: `Unexpected response status: ${response.status}`,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue({error: error.message});
+    }
+  },
+);
 export const setFilterDriveStyle = createAction('drive/filterDriveStyle');
 
 export const setFilterDriveTheme = createAction('drive/filterDriveTheme');

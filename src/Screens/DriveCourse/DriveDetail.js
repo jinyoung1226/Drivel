@@ -23,7 +23,7 @@ import HeartIcon from '../../assets/icons/HeartIcon.svg';
 import {toggleLike} from '../../features/like/likeActions';
 import {useSelector, useDispatch} from 'react-redux';
 import CustomButton from '../../components/CustomButton';
-import {setBlogReviewList} from '../../features/drive/driveActions';
+import {getDriveReviewList, setBlogReviewList} from '../../features/drive/driveActions';
 
 const {width} = Dimensions.get('window');
 
@@ -36,19 +36,22 @@ const DriveDetail = ({route, navigation}) => {
   const tabName = ['상세정보', '리뷰', '관광정보'];
   const [activeTab, setActiveTab] = useState(0);
   const userId = useSelector(state => state.auth.userId);
-  const {likedItem} = useSelector(state => state.like);
   const [numOfLines, setNumOfLines] = useState(5);
   const dispatch = useDispatch();
-
+  const {initialPage} = useSelector(state => state.drive);
   const [contentHeight, setContentHeight] = useState(null);
   const [buttonHeight, setButtonHeight] = useState(null);
   const [containerHeight, setContainerHeight] = useState(null);
   const [tabHeight, setTabHeight] = useState(null);
 
-  // useEffect(() => {
-  //   const isLiked = likedItem.includes(driveId);
-  //   setLiked(isLiked);
-  // }, [likedItem]);
+  useEffect(() => {
+    dispatch(getDriveReviewList({
+      id: driveId,
+      page: initialPage,
+      size: 10,
+    }));
+    console.log(driveId, '코스 아이디')
+  }, []);
 
   const handleLikePress = () => {
     // dispatch(setLikedItem(driveId));

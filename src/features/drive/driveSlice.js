@@ -9,6 +9,8 @@ import {
   setBlogReviewList,
   getCafeBlogReview,
   setCafeBlogReviewList,
+  getDriveReviewList,
+  getDriveReviewListMore
 } from './driveActions';
 
 const initialState = {
@@ -22,6 +24,12 @@ const initialState = {
   currentPage: null,
   blogReviewList: null,
   cafeBlogReviewList: null,
+  driveReviewList: [],
+  isReviewLastPage: false,
+  reviewCurrentPage: null,
+  reviewTotalElements: 0,
+  averageRating: 0,
+  
 };
 
 const driveSlice = createSlice({
@@ -88,6 +96,34 @@ const driveSlice = createSlice({
     builder.addCase(setCafeBlogReviewList, (state, action) => {
       state.cafeBlogReviewList = action.payload;
     });
+    builder.addCase(getDriveReviewList.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(getDriveReviewList.fulfilled, (state, action) => {
+      state.averageRating = action.payload.averageRating;
+      state.reviewTotalElements = action.payload.reviewTotalElements;
+      state.driveReviewList = action.payload.driveReviewList;
+      state.isReviewLastPage = action.payload.isReviewLastPage;
+      state.reviewCurrentPage = action.payload.reviewCurrentPage;
+      state.isLoading = false;
+    });
+    builder.addCase(getDriveReviewList.rejected, state => {
+      state.isLoading = false
+    });
+    builder.addCase(getDriveReviewListMore.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(getDriveReviewListMore.fulfilled, (state, action) => {
+      state.driveReviewList = [...state.driveReviewList, ...action.payload.driveReviewList];
+      state.isReviewLastPage = action.payload.isReviewLastPage;
+      state.reviewCurrentPage = action.payload.reviewCurrentPage;
+      state.isLoading = false;
+    });
+    builder.addCase(getDriveReviewListMore.rejected, state => {
+      state.isLoading = false;
+    });
+
+
   },
 });
 

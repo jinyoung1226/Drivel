@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, Pressable, TextInput, Image} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
@@ -9,14 +9,14 @@ import Camera from '../../assets/icons/Camera.svg';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ReviewPhotoXButton from '../../assets/icons/ReviewPhotoXButton.svg';
 import {formDataApi} from '../../api/api';
-import {authApi} from '../../api/api';
+import {useDispatch, useSelector} from 'react-redux';
 import DriveReviewList from './DriveReviewList';
-import {max} from 'moment';
 import NoItemScreen from '../../components/NoItemScreen';
 import BubbleIcon from '../../assets/icons/BubbleIcon.svg';
+import { getDriveReviewList, getDriveReviewListMore } from '../../features/drive/driveActions';
 const MAX_REVIEW_LENGTH = 200; // 리뷰 최대 글자 수
 
-const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
+const DriveReviewWrite = ({item, userId, scrollToTab}) => {
   const [rating, setRating] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
   const [photoLimitMessage, setPhotoLimitMessage] = useState('');
@@ -24,56 +24,29 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
   const [visibleWriteReview, setVisibleWriteReview] = useState(false);
   const [photo, setPhoto] = useState([]);
   const [photoButtonDisabled, setPhotoButtonDisabled] = useState(false);
-  const [reviewList, setReviewList] = useState([]);
   const [uploadReviewButtonDisabled, setUploadReviewButtonDisabled] = useState(false);
-  // const updateReviewInfo = async () => {
-  //   try {
-  //     const response = await authApi.get(
-  //       `course/${item.courseInfo.id}/reviews`,
-  //       {
-  //         params: {
-  //           page: 0, // 첫 번째 페이지
-  //           size: max, // 불러올 리뷰 개수
-  //         },
-  //       },
-  //     );
-  //     if (response.status === 200) {
-  //       setReviewList(response.data);
-  //       setRating(0);
-  //       setReviewText('');
-  //       setPhoto([]);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching updated review info:', error);
-  //   }
-  // };
-
-  // const getReview = async () => {
-  //   try {
-  //     const response = await authApi.get(
-  //       `course/${item.courseInfo.id}/reviews`,
-  //       {
-  //         params: {
-  //           page: 0, // 첫 번째 페이지
-  //           size: max, // 불러올 리뷰 개수
-  //         },
-  //       },
-  //     );
-  //     if (response.status === 200) {
-  //       console.log(response.data, 'ㄴㅇㄴㅇ');
-  //       setReviewList(response.data);
-  //       setRating(0);
-  //       setReviewText('');
-  //       setPhoto([]);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error:', error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getReview();
-  // }, []);
+  const dispatch = useDispatch();
+  const {averageRating, reviewTotalElements, initialPage, driveReviewList, isReviewLastPage, isLoading, reviewCurrentPage} = useSelector(state => state.drive);
+  
+  const updateCourseInfo = () => {
+    dispatch(getDriveReviewList({
+      id: item.courseInfo.id,
+      page: initialPage,
+      size: 10,
+    }));
+  }
+  
+  const handleSeeMoreButton = () => {
+    if (!isReviewLastPage) {
+      dispatch(
+        getDriveReviewListMore({
+          id: item.courseInfo.id,
+          page: reviewCurrentPage + 1,
+          size: 10,
+        }),
+      );
+    }
+  };
 
   const uploadReview = async () => {
     setUploadReviewButtonDisabled(true)
@@ -97,7 +70,11 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
       const response = await formDataApi.post('/review/add', formData);
       if (response.status === 200) {
         // 리뷰 업로드 후 courseInfo 업데이트
-        updateCourseInfo();
+        dispatch(getDriveReviewList({
+          id: item.courseInfo.id,
+          page: initialPage,
+          size: 10,
+        }));
         // getReview(); // 리뷰 목록 갱신
         setUploadReviewButtonDisabled(false);
       }
@@ -189,10 +166,10 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
         <View style={{flexDirection: 'row'}}>
           <Star />
           <Text style={[textStyles.H5, {color: colors.Gray07, paddingLeft: 8}]}>
-            {item.averageRating}
+            {averageRating}
           </Text>
           <Text style={[textStyles.B3, {color: colors.Gray04, paddingLeft: 8}]}>
-            {item.reviewCount}개 리뷰
+            {reviewTotalElements}개 리뷰
           </Text>
         </View>
         <View>
@@ -327,7 +304,8 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
         </>
       ) : null}
       <View style={{height: 16}} />
-      {item.reviews.length == 0 ? (
+      
+      {driveReviewList.length == 0 ? (
         <NoItemScreen
           text={'아직 리뷰가 없어요\n방문 후에 첫 리뷰를 남겨보세요'}
           icon={<BubbleIcon />}
@@ -335,12 +313,73 @@ const DriveReviewWrite = ({item, updateCourseInfo, userId, scrollToTab}) => {
       ) : (
         <View style={{flex: 1, paddingHorizontal: 16}}>
           <DriveReviewList
-            data={item.reviews}
+            data={driveReviewList}
             userId={userId}
             updateCourseInfo={updateCourseInfo}
           />
+          {isLoading &&
+          <View style={{flex: 1, paddingHorizontal: 16}}>
+          {[1,2,3,4].map((i) => (
+            <View
+            key={i}
+            style={{
+              height:150,
+              borderRadius: 14,
+              backgroundColor: colors.Gray02,
+              marginBottom: 16,
+              padding: 16,
+            }}>
+              <View style={{height: 6}}/>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: 8,
+                }}>
+                <View style={{width:44, height:44, borderRadius:22, backgroundColor:colors.Gray04}}/>
+                <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-between'}}>
+                  <View style={{height: 12, width:20, backgroundColor:colors.Gray04, borderRadius:5}}/>
+                  <View style={{height: 10}}/>
+                  <View style={{height: 12, width:40, backgroundColor:colors.Gray04, borderRadius:5}}/>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}>
+                    </View>
+                </View>
+              </View>
+              <View style={{height: 16}}/>
+              <View>
+                <View style={{flexDirection: 'row', gap: 5}}>
+                  {[1,2,3,4,5].map((i) => (
+                    <View style={{width: 16, height: 16, backgroundColor: colors.Gray04, borderRadius: 8}} />
+                  ))}
+                </View>
+              </View>
+              <View style={{height: 16}}/>
+              <View style={{flex:1}}>
+              <View style={{height: 20, width:200, backgroundColor:colors.Gray04, borderRadius:5}}/>
+              </View>
+            </View>))}
+          </View>}
+          {!isReviewLastPage && !isLoading && 
+          <View style={{alignItems:'center'}}>
+            <Pressable 
+              onPress={handleSeeMoreButton}
+              style={({pressed}) => [{backgroundColor: pressed ? colors.Light_Blue : colors.Light_Blue , borderRadius:10,  paddingVertical: 10, paddingHorizontal:16, borderRadius: 10}]}    
+            >
+              <Text style={[textStyles.H4, {color: colors.Blue}]}>더보기</Text>
+            </Pressable>
+            <View style={{height: 16}} />
+          </View>
+          }
+          
         </View>
-      )}
+      )
+      }
     </>
   );
 };

@@ -30,7 +30,7 @@ const DriveReviewListItem = ({
     }
     return stars;
   };
-  console.log(item);
+  // console.log(item);
   const toggleOptions = () => {
     if (selectedReview === item.id) {
       setSelectedReview(null);
@@ -165,7 +165,7 @@ const DriveReviewListItem = ({
               },
             ]}
             onPress={() => {
-              navigation.navigate('ReportPage', {userId: item.reviewerId});
+              navigation.navigate('ReportPage', {targetId: item.reviewerId});
             }}>
             <Text style={[textStyles.B4, {color: colors.Gray10}]}>
               신고하기
