@@ -243,6 +243,7 @@ const MeetInfo = ({item}) => {
                   <View
                     key={index}
                     style={{
+                      flex: 1,
                       alignItems: 'center',
                       alignSelf: 'flex-end',
                       marginHorizontal: 4,
@@ -262,17 +263,19 @@ const MeetInfo = ({item}) => {
                       />
                     </View>
                     <View style={{width: 2}} />
-                    <Text
-                      numberOfLines={1}
-                      style={[
-                        textStyles.B5,
-                        {
-                          color: isMax ? colors.Blue : colors.Gray06,
-                          textAlign: 'center',
-                        },
-                      ]}>
-                      {keyword}
-                    </Text>
+                    <View>
+                      <Text
+                        numberOfLines={1}
+                        style={[
+                          textStyles.B5,
+                          {
+                            color: isMax ? colors.Blue : colors.Gray06,
+                            textAlign: 'center',
+                          },
+                        ]}>
+                        {keyword}
+                      </Text>
+                    </View>
                   </View>
                 );
               })}
