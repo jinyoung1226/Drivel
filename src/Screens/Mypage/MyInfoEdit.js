@@ -26,12 +26,12 @@ const MyInfoEdit = ({navigation, route}) => {
   const page = route.params.page;
   const myRegions = route.params.myRegions;
   const item = useSelector(state => state.profile.myProfileInfo);
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState(item.nickname);
   const [isNicknameValid, setIsNicknameValid] = useState(false);
-  const [intro, setIntro] = useState('');
-  const [carModel, setCarModel] = useState('');
+  const [intro, setIntro] = useState(item.description);
+  const [carModel, setCarModel] = useState(item.carModel);
   const [filteredCarData, setFilteredCarData] = useState([]);
-  const [minCarCareer, setMinCarCareer] = useState('');
+  const [minCarCareer, setMinCarCareer] = useState(item.carCareer.toString());
   const [selectedRegion, setSelectedRegion] = useState([]);
 
   const dispatch = useDispatch();
@@ -66,13 +66,13 @@ const MyInfoEdit = ({navigation, route}) => {
   const handlePressButton = async () => {
     if (page == '기본 정보 설정') {
       console.log(nickname, intro);
-      if (!isNicknameValid && nickname != '') {
+      if (!isNicknameValid && nickname != item.nickname) {
         Alert.alert('닉네임 중복 확인을 해주세요');
         return;
       }
       try {
         const response = await authApi.patch('profile/nickname', {
-          nickname: nickname == '' ? null : nickname,
+          nickname: nickname == '' || nickname == item.nickname ? null : nickname,
           description: intro == '' ? null : intro,
         });
         if (response.status == 200) {
@@ -136,6 +136,10 @@ const MyInfoEdit = ({navigation, route}) => {
   };
 
   const checkNickname = async () => {
+    if (nickname == '') {
+      Alert.alert('닉네임을 입력해주세요');
+      return;
+    }
     try {
       const response = await authApi.get(`members/check-nickname/${nickname}`);
       if (response.status == 200) {
@@ -177,7 +181,7 @@ const MyInfoEdit = ({navigation, route}) => {
                 <CustomInput
                   value={nickname}
                   onChangeText={setNickname}
-                  placeholder={item.nickname}
+                  placeholder={'닉네임을 입력해주세요'}
                   containerStyle={{flex: 1, height: 47}}
                   maxLength={10}
                   editable={!isNicknameValid}
@@ -218,7 +222,7 @@ const MyInfoEdit = ({navigation, route}) => {
               <CustomInput
                 value={intro}
                 onChangeText={setIntro}
-                placeholder={item.description ? item.description : '최대 30자까지 입력 가능합니다'}
+                placeholder={'한줄 소개를 입력해주세요'}
                 maxLength={30}
                 multiline={true}
                 containerStyle={{height: 47}}
@@ -241,7 +245,7 @@ const MyInfoEdit = ({navigation, route}) => {
                     )
                   }
                   onButtonPress={() => setCarModel('')}
-                  placeholder={item.carModel? item.carModel : "차종을 입력해주세요"}
+                  placeholder={"차종을 입력해주세요"}
                   value={carModel}
                   onChangeText={handleSearchCarModel}
                   buttonDisabled={carModel.length === 0}
@@ -289,7 +293,7 @@ const MyInfoEdit = ({navigation, route}) => {
               </Text>
               <View style={{height: 16}} />
               <CustomInput
-                placeholder={item.carCareer ? item.carCareer.toString() : "0"}
+                placeholder={"0"}
                 value={minCarCareer}
                 onChangeText={setMinCarCareer}
                 showButton={true}
