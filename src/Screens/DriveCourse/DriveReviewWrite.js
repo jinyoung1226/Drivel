@@ -338,7 +338,7 @@ const DriveReviewWrite = ({item, userId, scrollToTab}) => {
             updateCourseInfo={updateCourseInfo}
           />
           {isLoading &&
-          <View style={{flex: 1, paddingHorizontal: 16}}>
+          <View style={{flex: 1}}>
           {[1,2,3,4].map((i) => (
             <View
             key={i}
