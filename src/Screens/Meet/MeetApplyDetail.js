@@ -20,6 +20,7 @@ const MeetApplyDetail = ({navigation}) => {
   const {meetApplyList, isLoading} = useSelector(state => state.meet);
 
   useEffect(() => {
+    dispatch(getMeetingApplyList());
     return () => {
       refreshMeetList(dispatch);
     };

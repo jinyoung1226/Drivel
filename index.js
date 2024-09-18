@@ -8,7 +8,7 @@ import messaging from '@react-native-firebase/messaging';
 import notifee, {EventType} from '@notifee/react-native';
 import {name as appName} from './app.json';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Linking } from 'react-native';
+import { Linking, AppState } from 'react-native';
 import { setDeepLinkURL, getDeepLinkURL } from './global'
 
 messaging().setBackgroundMessageHandler(async remoteMessage => {
@@ -17,6 +17,9 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
     if (remoteMessage.data.type === 'JOIN_REQUEST') {
       console.log('딥링크저장')
       setDeepLinkURL('drivel://meet/applyDetail')
+      if (AppState.currentState === 'background') {
+        Linking.openURL('drivel://meet/applyDetail');
+      }
     }
     if (remoteMessage.data.type === 'JOIN_ACCEPTED') {
       console.log('딥링크저장')
