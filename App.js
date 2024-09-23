@@ -80,6 +80,19 @@ const App = () => {
         },
       })
     }
+    if (message.data.type === 'FEEDBACK') {
+      notifee.displayNotification({
+        title: message.notification.title,
+        body: message.notification.body,
+        data: { type: message.data.type, meetingId: message.data.meetingId, courseId: message.data.courseId, meetingTitle: message.data.meetingTitle },
+        android: {
+            channelId: channelId,
+            smallIcon: 'ic_launcher',
+            importance: AndroidImportance.HIGH,
+            visibility: AndroidVisibility.PUBLIC,
+        },
+      })
+    }
   };
 
   const unsubscribe = messaging().onMessage(onMessageReceived);
@@ -151,6 +164,9 @@ const App = () => {
           }
           if (detail.notification.data.type === 'JOIN_REJECTED') {
             Linking.openURL('drivel://meet');
+          }
+          if (detail.notification.data.type === 'FEEDBACK') {
+            Linking.openURL('drivel://meet/meetDetail/' + detail.notification.data.meetingId + '/' + detail.notification.data.courseId + '/' + detail.notification.data.meetingTitle);
           }
           break;
         case EventType.DISMISSED:

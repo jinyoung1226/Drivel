@@ -24,6 +24,16 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
     if (remoteMessage.data.type === 'JOIN_ACCEPTED') {
       console.log('딥링크저장')
       setDeepLinkURL('drivel://meet/meetDetail/' + detail.notification.data.meetingId + '/' + detail.notification.data.courseId + '/' + detail.notification.data.meetingTitle)
+      if (AppState.currentState === 'background') {
+        Linking.openURL('drivel://meet/meetDetail/' + detail.notification.data.meetingId + '/' + detail.notification.data.courseId + '/' + detail.notification.data.meetingTitle);
+      }
+    }
+    if (remoteMessage.data.type === 'FEEDBACK') {
+      console.log('딥링크저장')
+      setDeepLinkURL('drivel://meet/meetDetail/' + detail.notification.data.meetingId + '/' + detail.notification.data.courseId + '/' + detail.notification.data.meetingTitle)
+      if (AppState.currentState === 'background') {
+        Linking.openURL('drivel://meet/meetDetail/' + detail.notification.data.meetingId + '/' + detail.notification.data.courseId + '/' + detail.notification.data.meetingTitle);
+      }
     }
   }
 });
@@ -39,6 +49,9 @@ notifee.onBackgroundEvent(async ({ type, detail }) => {
         }
         if (detail.notification.data.type === 'JOIN_REJECTED') {
           Linking.openURL('drivel://meet');
+        }
+        if (detail.notification.data.type === 'FEEDBACK') {
+          Linking.openURL('drivel://meet/meetDetail/' + detail.notification.data.meetingId + '/' + detail.notification.data.courseId + '/' + detail.notification.data.meetingTitle);
         }
         break;
       case EventType.DISMISSED:

@@ -19,6 +19,8 @@ import {
   setLastMessageId,
   setMeetMessageListNull,
   setParticipateStatus,
+  getFeedbackUserList,
+  setFeedbackUserListNull
 } from './meetActions';
 
 const initialState = {
@@ -44,6 +46,7 @@ const initialState = {
   lastMessageId: -1,
   isLastMessage: false,
   participateStatus: 'NONE',
+  feedbackUserList: null,
 };
 const meetSlice = createSlice({
   name: 'meet',
@@ -171,6 +174,20 @@ const meetSlice = createSlice({
     });
     builder.addCase(setParticipateStatus, (state, action) => {
       state.participateStatus = action.payload;
+    });
+
+    builder.addCase(getFeedbackUserList.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(getFeedbackUserList.fulfilled, (state, action) => {
+      state.feedbackUserList = action.payload.feedbackUserList;
+      state.isLoading = false;
+    });
+    builder.addCase(getFeedbackUserList.rejected, state => {
+      state.isLoading = false;
+    });
+    builder.addCase(setFeedbackUserListNull, state => {
+      state.feedbackUserList = null;
     });
   },
 });

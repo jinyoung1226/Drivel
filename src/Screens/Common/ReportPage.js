@@ -19,6 +19,7 @@ const ReportPage = ({navigation, route}) => {
   const [selectedReportReason, setSelectedReportReason] = useState([]);
   const [isReportTextActive, setIsReportTextActive] = useState(false);
   const [reportText, setReportText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const scrollViewRef = useRef(null);
   const targetId = route.params.targetId;
   const reportReason = [
@@ -142,6 +143,7 @@ const ReportPage = ({navigation, route}) => {
   };
 
   const report = async () => {
+    setIsLoading(true);
     console.log(selectedReportReason);
     try {
       const response = await authApi.post('/report/member', {
@@ -150,9 +152,11 @@ const ReportPage = ({navigation, route}) => {
       });
       if (response.status === 200) {
         Alert.alert(response.data.message);
+        setIsLoading(false);
         navigation.goBack();
       }
     } catch (error) {
+      setIsLoading(false);
       if (error.response) {
         console.log(error.response.data);
       } else {
@@ -221,7 +225,7 @@ const ReportPage = ({navigation, route}) => {
         <CustomButton
           title={'신고하기'}
           onPress={() => report()}
-          disabled={selectedReportReason.length == 0}
+          disabled={selectedReportReason.length == 0 || isLoading}
         />
       </View>
     </View>

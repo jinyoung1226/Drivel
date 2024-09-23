@@ -22,9 +22,7 @@ const OtherProfile = ({navigation, route}) => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [type, setType] = useState('');
   const [targetId, setTargetId] = useState('');
-  const myProfileInfo = useSelector(state => state.profile.myProfileInfo);
   const {userId} = useSelector(state => state.auth);
-  const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     navigation.setOptions({

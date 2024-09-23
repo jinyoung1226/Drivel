@@ -250,6 +250,26 @@ export const getMeetMessageListMore = createAsyncThunk(
   },
 );
 
+export const getFeedbackUserList = createAsyncThunk(
+  'meet/getFeedbackUserList',
+  async ({meetingId}, thunkAPI) => {
+    try {
+      const response = await authApi.get(`/feedback/${meetingId}`);
+      if (response.status === 200) {
+        console.log(response.data, '@@@');
+        const feedbackUserList = response.data.feedbackMemberIds;
+        return {feedbackUserList: feedbackUserList};
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.status);
+      } else {
+        console.log('서버 접속 오류');
+      }
+    }
+  },
+);
+
 export const setTab = createAction('meet/setTab');
 
 export const setFilterGender = createAction('meet/filterGender');
@@ -274,6 +294,9 @@ export const setMeetMessageListNull = createAction(
   'meet/setMeetMessageListNull',
 );
 
+export const setFeedbackUserListNull = createAction(
+  'meet/setFeedbackUserListNull',
+);
 export const setLastMessageId = createAction('meet/setLastMessageId');
 
 export const setParticipateStatus = createAction('meet/setParticipateStatus');

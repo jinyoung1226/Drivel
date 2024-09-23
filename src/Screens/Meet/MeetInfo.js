@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -13,10 +13,14 @@ import PersonIcon from '../../assets/icons/PersonIcon.svg';
 import PinIcon from '../../assets/icons/PinIcon.svg';
 import GrayLine from '../../components/GrayLine';
 import {useNavigation} from '@react-navigation/native';
-const MeetInfo = ({item}) => {
+import { useSelector } from 'react-redux';
+
+const MeetInfo = ({item, isMeetEnd}) => {
+
   const width = Dimensions.get('window').width;
   const navigation = useNavigation();
-
+  const {userId} = useSelector(state => state.auth);
+  const {participateStatus, feedbackUserList} = useSelector(state => state.meet);
   const getTopItems = (items, topN) => {
     return Object.keys(items)
       .sort((a, b) => items[b] - items[a]) // 값을 기준으로 내림차순 정렬
@@ -61,9 +65,31 @@ const MeetInfo = ({item}) => {
         </View>
         <View style={{width: 24}} />
         <View style={{justifyContent: 'center'}}>
-          <Text style={[textStyles.H5, {color: colors.Gray10}]}>
-            {nickname}
-          </Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={[textStyles.H5, {color: colors.Gray10}]}>
+              {nickname}
+            </Text>
+            <View style={{width: 4}} />
+            {isMeetEnd && userId !== memberId && participateStatus == "JOINED" && !feedbackUserList.includes(memberId) ? 
+            (<TouchableOpacity style={{padding:4}}
+              onPress={() => {navigation.navigate('UserEvaluate', {targetId: memberId, meetingId: item.meetingInfo.id, imagePath: imagePath, nickname: nickname, description: description})}}  
+            >
+              <Text style={[textStyles.H6, {color: colors.Blue}]}>
+                평가하기
+              </Text>
+            </TouchableOpacity>)
+            :
+            (
+            isMeetEnd && userId !== memberId && participateStatus == "JOINED" && feedbackUserList.includes(memberId) &&
+            <TouchableOpacity
+              style={{paddingLeft: 4}}
+              disabled={true}
+            >
+              <Text style={[textStyles.H6, {color: colors.Gray04}]}>
+                평가완료
+              </Text>
+            </TouchableOpacity>)}
+          </View>
           <View style={{height: 4}} />
           <Text style={[textStyles.B4, {color: colors.Gray06}]}>
             {description}

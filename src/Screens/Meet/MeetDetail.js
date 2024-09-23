@@ -42,9 +42,12 @@ import {
   getMeetMessageListMore,
   setMeetMessageListNull,
   setParticipateStatus,
+  getFeedbackUserList,
+  setFeedbackUserListNull,
 } from '../../features/meet/meetActions';
 import eventEmitter from '../../utils/eventEmitter';
 import CheckProfileModal from '../../components/CheckProfileModal';
+import { useFocusEffect } from '@react-navigation/native';
 
 const MeetDetail = ({route, navigation}) => {
   const [message, setMessage] = useState('');
@@ -66,14 +69,16 @@ const MeetDetail = ({route, navigation}) => {
   const [targetId, setTargetId] = useState(null);
   const [selectedChatItem, setSelectedChatItem] = useState(null);
   const [scrollEnabled, setScrollEnabled] = useState(true);
+  const [isMeetEndLoading, setIsMeetEndLoading] = useState(false);
   const {userId} = useSelector(state => state.auth);
   const {participateStatus} = useSelector(state => state.meet);
+
   const dispatch = useDispatch();
 
   const meetingId = route.params.meetingId;
   const courseId = route.params.courseId;
   const meetingTitle = route.params.meetingTitle;
-  const {lastMessageId, isLastMessage, isLoading} = useSelector(
+  const {lastMessageId, isLastMessage, isLoading, feedbackUserList} = useSelector(
     state => state.meet,
   );
   const {width} = Dimensions.get('window');
@@ -81,11 +86,9 @@ const MeetDetail = ({route, navigation}) => {
   const [containerHeight, setContainerHeight] = useState(null);
   const [tabHeight, setTabHeight] = useState(null);
   const [isApplying, setIsApplying] = useState(false);
+  const [isMeetEnd , setIsMeetEnd] = useState(false); //모임 종료 여부
   const tabName = ['모임 정보', '코스 정보', '게시판'];
 
-  useEffect(() => {
-    console.log(scrollHeight.current);
-  }, []);
   const getDriveCourseInfo = async () => {
     try {
       const response = await authApi.get(`course/${courseId}`);
@@ -109,6 +112,7 @@ const MeetDetail = ({route, navigation}) => {
       if (response.status == 200) {
         console.log(response.data, 'meeting', '@@@@');
         setMeetingInfo(response.data);
+        setIsMeetEnd(response.data.meetingInfo.meetingStatus == 'INACTIVE');
         dispatch(setParticipateStatus(response.data.meetingInfo.status));
         if (response.data.meetingInfo.status == 'JOINED') {
           dispatch(
@@ -168,31 +172,38 @@ const MeetDetail = ({route, navigation}) => {
     }
   };
 
-  useEffect(() => {
-    eventEmitter.on('websocketConnected', reSubscribe);
-    eventEmitter.on('meetAccepted', getMeetingInfo);
-    getDriveCourseInfo();
-    getMeetingInfo();
-    return () => {
-      dispatch(unsubscribeToChannel());
-      dispatch(setMeetMessageListNull());
-      eventEmitter.removeListener('websocketConnected', reSubscribe);
-      eventEmitter.removeListener('meetAccepted', getMeetingInfo);
-    };
-  }, []);
-
   // useEffect(() => {
-  //   if (participateStatus == "JOINED" && isConnected) {
-  //     dispatch(subscribeToChannel({channel : `/sub/meeting/${meetingId}`, callback : (message) => {
-  //       console.log(message, '@@@@@');
-  //       const newMessage = JSON.parse(message.body);
-  //       console.log(newMessage);
-  //       dispatch(setMeetMessageList(newMessage)); // 새로운 메시지를 맨 위에 추가
-  //     }}));
-  //     getMeetNotice();
-  //     dispatch(getMeetMessageList({meetingId: meetingId, messageId: -1}));
-  //   }
-  // }, [isConnected]);
+  //   eventEmitter.on('websocketConnected', reSubscribe);
+  //   eventEmitter.on('meetAccepted', getMeetingInfo);
+  //   getDriveCourseInfo();
+  //   getMeetingInfo();
+  //   dispatch(getFeedbackUserList({meetingId: meetingId}));
+  //   return () => {
+  //     dispatch(unsubscribeToChannel());
+  //     dispatch(setMeetMessageListNull());
+  //     dispatch(setFeedbackUserListNull());
+  //     eventEmitter.removeListener('websocketConnected', reSubscribe);
+  //     eventEmitter.removeListener('meetAccepted', getMeetingInfo);
+  //   };
+  // }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      eventEmitter.on('websocketConnected', reSubscribe);
+      eventEmitter.on('meetAccepted', getMeetingInfo);
+      getDriveCourseInfo();
+      getMeetingInfo();
+      dispatch(getFeedbackUserList({meetingId: meetingId}));
+
+      return () => {
+        dispatch(unsubscribeToChannel());
+        dispatch(setMeetMessageListNull());
+        dispatch(setFeedbackUserListNull());
+        eventEmitter.removeListener('websocketConnected', reSubscribe);
+        eventEmitter.removeListener('meetAccepted', getMeetingInfo);
+      }
+    }, [])
+  );
 
   participateMeeting = async () => {
     setIsApplying(true);
@@ -357,7 +368,30 @@ const MeetDetail = ({route, navigation}) => {
     console.log('Content height:', height);
   };
 
-  if (meetingInfo === null) {
+  const endMeet = async () => {
+    setIsMeetEndLoading(true);
+    console.log(userId);
+    console.log(meetingInfo.meetingInfo.masterInfo.id);
+    console.log(meetingId);
+    try {
+      const response = await authApi.post(`/meeting/${meetingId}/end`);
+      if (response.status == 200) {
+        setIsMeetEnd(true);
+        setIsMeetEndLoading(false); 
+        Alert.alert(response.data.message);
+      }
+    } catch (error) {
+      if (error.response) {
+        setIsMeetEndLoading(false);
+        console.log(error.response.data);
+      } else {
+        setIsMeetEndLoading(false);
+        console.log('서버 접속 오류');
+      }
+    }
+  };
+
+  if (meetingInfo === null || feedbackUserList === null) {
     return <RenderingPage />;
   }
 
@@ -442,7 +476,7 @@ const MeetDetail = ({route, navigation}) => {
         </View>
         {meetingInfo !== null && courseInfo !== null && (
           <View>
-            {activeTab === 0 && <MeetInfo item={meetingInfo} />}
+            {activeTab === 0 && <MeetInfo item={meetingInfo} isMeetEnd={isMeetEnd}/>}
             {activeTab === 1 && (
               <MeetCourseInfo
                 item={courseInfo}
@@ -490,11 +524,24 @@ const MeetDetail = ({route, navigation}) => {
         )}
       </KeyboardAwareScrollView>
       <View onLayout={e => handleLayout(e, setButtonHeight)}>
-        {Platform.OS == 'ios' ? (
+        {isMeetEnd ? (
+          <View
+            style={{
+              padding: 16,
+              elevation: 10,
+              backgroundColor: colors.BG,
+            }}>
+            <CustomButton
+              title={'종료된 모임입니다'}
+              disabled={true}
+            />
+          </View>
+        ) : (
+        Platform.OS == 'ios' ? (
           <InputAccessoryView backgroundColor={colors.BG}>
             {participateStatus == 'JOINED' ? (
               <>
-                {activeTab === 2 && (
+                {activeTab === 2 ? (
                   <View
                     style={{
                       padding: 16,
@@ -563,6 +610,22 @@ const MeetDetail = ({route, navigation}) => {
                       multiline={true}
                       onSubmitEditing={() => sendMessage()}
                       buttonDisabled={message.length == 0 || isMessageSending}
+                    />
+                  </View>
+                ):(
+                  new Date(meetingInfo.meetingInfo.date) <= new Date() && userId == meetingInfo.meetingInfo.masterInfo.id &&
+                  <View
+                    style={{
+                      padding: 16,
+                      elevation: 10,
+                      backgroundColor: colors.BG,
+                    }}>
+                    <CustomButton
+                      title={'모임 종료하기'}
+                      onPress={() => {
+                        endMeet();
+                      }}
+                      disabled={isMeetEndLoading}
                     />
                   </View>
                 )}
@@ -592,7 +655,7 @@ const MeetDetail = ({route, navigation}) => {
           <>
             {participateStatus == 'JOINED' ? (
               <>
-                {activeTab === 2 && (
+                {activeTab === 2 ? (
                   <View
                     style={{
                       padding: 16,
@@ -663,6 +726,22 @@ const MeetDetail = ({route, navigation}) => {
                       buttonDisabled={message.length == 0 || isMessageSending}
                     />
                   </View>
+                ):(
+                  new Date(meetingInfo.meetingInfo.date) <= new Date() && userId == meetingInfo.meetingInfo.masterInfo.id &&
+                  <View
+                    style={{
+                      padding: 16,
+                      elevation: 10,
+                      backgroundColor: colors.BG,
+                    }}>
+                    <CustomButton
+                      title={'모임 종료하기'}
+                      onPress={() => {
+                        endMeet();
+                      }}
+                      disabled={isMeetEndLoading}
+                    />
+                  </View>
                 )}
               </>
             ) : (
@@ -686,7 +765,7 @@ const MeetDetail = ({route, navigation}) => {
               </View>
             )}
           </>
-        )}
+        ))}
       </View>
     </View>
   );

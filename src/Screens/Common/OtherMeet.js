@@ -3,9 +3,10 @@ import {View, Text} from 'react-native';
 import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import Tabs from '../../components/Tabs';
-import MyMeetList from '../Mypage/MyMeetList';
+
 import {authApi} from '../../api/api';
 import LockIcon from '../../assets/icons/LockIcon';
+import OtherMeetList from './OtherMeetList';
 
 const OtherMeet = ({userId}) => {
   const [isLocked, setIsLocked] = useState(false);
@@ -82,8 +83,8 @@ const OtherMeet = ({userId}) => {
             scrollToTab={() => {}}
           />
           <View style={{height: 24}} />
-          {activeTab == 0 && <MyMeetList data={createdMeetList} />}
-          {activeTab == 1 && <MyMeetList data={joinedMeetList} />}
+          {activeTab == 0 && <OtherMeetList data={createdMeetList} />}
+          {activeTab == 1 && <OtherMeetList data={joinedMeetList} />}
         </View>
       )}
     </View>

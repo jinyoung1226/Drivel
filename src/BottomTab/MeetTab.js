@@ -11,6 +11,8 @@ import ReportPage from '../Screens/Common/ReportPage';
 import RequiredInfo from '../Screens/Mypage/RequiredInfo';
 import MyInfoDetail from '../Screens/Mypage/MyInfoDetail';
 import MyInfoEdit from '../Screens/Mypage/MyInfoEdit';
+import UserEvaluate from '../Screens/Meet/UserEvaluate';
+import HistoryMeetDetail from '../Screens/Meet/HistoryMeetDetail';
 import {useDispatch} from 'react-redux';
 import {showTabBar, hideTabBar} from '../features/tabBar/tabBarSlice';
 
@@ -44,6 +46,8 @@ const MeetTab = ({route}) => {
       <Stack.Screen name="RequiredInfo" component={RequiredInfo} />
       <Stack.Screen name="MyInfoDetail" component={MyInfoDetail} />
       <Stack.Screen name="MyInfoEdit" component={MyInfoEdit} />
+      <Stack.Screen name="UserEvaluate" component={UserEvaluate} />
+      <Stack.Screen name="HistoryMeetDetail" component={HistoryMeetDetail} />
     </Stack.Navigator>
   );
 };

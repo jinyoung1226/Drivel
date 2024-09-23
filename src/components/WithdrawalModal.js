@@ -82,20 +82,20 @@ const WithdrawalModal = ({modalVisible, setModalVisible}) => {
             <View style={{flexDirection: 'row'}}>
               <View style={{flex: 1}}>
                 <CustomButton
-                  title={'취소'}
+                  style={{backgroundColor: colors.Gray02}}
+                  textStyle={{color: colors.Gray07}}
+                  title={'탈퇴'}
                   onPress={() => {
-                    modalClose();
+                    handleWithdrawal();
                   }}
                 />
               </View>
               <View style={{width: 8}} />
               <View style={{flex: 1}}>
                 <CustomButton
-                  style={{backgroundColor: colors.Gray02}}
-                  textStyle={{color: colors.Gray07}}
-                  title={'탈퇴'}
+                  title={'취소'}
                   onPress={() => {
-                    handleWithdrawal();
+                    modalClose();
                   }}
                 />
               </View>

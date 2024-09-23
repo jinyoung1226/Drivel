@@ -38,10 +38,7 @@ const MeetListItem = ({item, setSelectedMeet}) => {
         shadowOpacity: 0.1,
         shadowRadius: 3,
       }}
-      onPress={() => goMeetDetail(item)}
-      onLongPress={() => {
-        setSelectedMeet(item);
-      }}>
+      onPress={() => goMeetDetail(item)}>
       <View
         style={{
           width: 104,

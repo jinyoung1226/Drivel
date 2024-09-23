@@ -12,7 +12,10 @@ import MyInfoEdit from '../Screens/Mypage/MyInfoEdit';
 import RequiredInfo from '../Screens/Mypage/RequiredInfo';
 import Setting from '../Screens/Mypage/Setting';
 import MeetDetail from '../Screens/Meet/MeetDetail';
+import ReportPage from '../Screens/Common/ReportPage';
 import Help from '../Screens/Mypage/Help';
+import UserEvaluate from '../Screens/Meet/UserEvaluate';
+import HistoryMeetDetail from '../Screens/Meet/HistoryMeetDetail';
 import {textStyles} from '../styles/textStyles';
 import colors from '../styles/colors';
 import GearIcon from '../assets/icons/GearIcon';
@@ -69,6 +72,9 @@ const MypageTab = ({route, navigation}) => {
       <Stack.Screen name="MeetDetail" component={MeetDetail} />
       <Stack.Screen name="Help" component={Help} />
       <Stack.Screen name="OtherProfile" component={OtherProfile} />
+      <Stack.Screen name="UserEvaluate" component={UserEvaluate} />
+      <Stack.Screen name="ReportPage" component={ReportPage} />
+      <Stack.Screen name="HistoryMeetDetail" component={HistoryMeetDetail} />
       {/* <Stack.Screen name="Notice" component={Notice} />
       <Stack.Screen name="Inquiry" component={Inquiry} /> */}
     </Stack.Navigator>
