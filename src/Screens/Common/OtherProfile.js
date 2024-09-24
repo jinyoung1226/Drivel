@@ -100,7 +100,7 @@ const OtherProfile = ({navigation, route}) => {
       <View style={{height: 24}} />
       <OtherDriveTag myProfileInfo={profileInfo} />
       <View style={{height: 24}} />
-      <UserMannerScoreBar />
+      <UserMannerScoreBar score={profileInfo.score}/>
       <GrayLine />
       <OtherMeet userId={memberId} />
     </ScrollView>

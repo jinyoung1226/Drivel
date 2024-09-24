@@ -36,7 +36,7 @@ const MyPage = () => {
       <View style={{height: 24}} />
       <UserCollectionBar />
       <View style={{height: 24}} />
-      <UserMannerScoreBar />
+      <UserMannerScoreBar score={myProfileInfo.score}/>
       <GrayLine />
       <MyMeet locked={myProfileInfo.locked} />
     </ScrollView>
