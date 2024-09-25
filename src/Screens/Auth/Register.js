@@ -56,7 +56,9 @@ const Register = ({navigation}) => {
   };
   const isPasswordValid = password => {
     if (password.length > 0) {
-      const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/;
+      // 최소 8자 이상, 최대 100자 이하
+      // 최소 하나의 문자, 하나의 숫자, 하나의 기호를 포함
+      const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,100}$/;
       return passwordRegEx.test(password);
     }
     return true;
@@ -253,7 +255,7 @@ const Register = ({navigation}) => {
           <Text style={[textStyles.H4, {color: colors.Gray10}]}>비밀번호</Text>
           <View style={{height: 16}} />
           <CustomInput
-            placeholder="영문 + 숫자 조합의 8~15자"
+            placeholder="영문 + 숫자 + 기호 조합의 8자 이상"
             value={password}
             onChangeText={setPassword}
             showButton={true}

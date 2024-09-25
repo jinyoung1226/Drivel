@@ -45,11 +45,11 @@ const UserMannerScoreBar = ({score}) => {
           }}>
           <LinearGradient
             start={{x: 0, y: 0}}
-            end={{x: 50/score, y: 0}}
+            end={{x: 50/score == null ? 100 : score, y: 0}}
             colors={['#509DF6', '#5168F6']}
-            style={{flex: score, borderRadius: 100}}
+            style={{flex: score == null ? 100 : score, borderRadius: 100}}
           />
-          <View style={{flex: 100-score}} />
+          <View style={{flex: 100-(score == null ? 100 : score)}} />
           {/* 이부분은 100분의 연료 비율로 처리 */}
         </View>
         <Text style={[textStyles.H6, {color: colors.Gray06, marginLeft: 8}]}>

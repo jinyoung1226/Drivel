@@ -37,13 +37,25 @@ const DriveDetail = ({route, navigation}) => {
   const [activeTab, setActiveTab] = useState(0);
   const userId = useSelector(state => state.auth.userId);
   const [numOfLines, setNumOfLines] = useState(5);
-  const [showMoreButton, setShowMoreButton] = useState(false);
+  const [showMoreButton, setShowMoreButton] = useState(null);
   const dispatch = useDispatch();
   const {initialPage} = useSelector(state => state.drive);
   const [contentHeight, setContentHeight] = useState(null);
   const [buttonHeight, setButtonHeight] = useState(null);
   const [containerHeight, setContainerHeight] = useState(null);
   const [tabHeight, setTabHeight] = useState(null);
+  const [textHeight, setTextHeight] = useState(0);
+  const [fullTextHeight, setFullTextHeight] = useState(0);
+
+  useEffect(() => {
+    if (textHeight && fullTextHeight) {
+      if (fullTextHeight > textHeight || numOfLines === null) {
+        setShowMoreButton(true);
+      } else {
+        setShowMoreButton(false);
+      }
+    }
+  }, [textHeight, fullTextHeight]);
 
   useEffect(() => {
     dispatch(getDriveReviewList({
@@ -135,13 +147,6 @@ const DriveDetail = ({route, navigation}) => {
     }
   };
 
-  const handleTextLayout = (e) => {
-    if (e.nativeEvent.lines.length > 5) {
-      setShowMoreButton(true); // 5줄을 초과하는 경우에만 더보기 버튼 표시
-    } else {
-      setShowMoreButton(false); // 5줄 이하일 때는 더보기 버튼 숨김
-    }
-  };
 
   if (!courseInfo) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
@@ -170,7 +175,26 @@ const DriveDetail = ({route, navigation}) => {
               <Text
                 style={[textStyles.M14, {color: colors.Gray07}]}
                 numberOfLines={numOfLines}
-                onTextLayout={handleTextLayout}
+                onLayout={(event) => {
+                  setTextHeight(event.nativeEvent.layout.height);
+                }}
+              >
+                {courseInfo.courseInfo.description}
+              </Text>
+              <Text
+                style={[
+                  textStyles.M14,
+                  {
+                    color: colors.Gray07,
+                    position: 'absolute',
+                    opacity: 0,
+                    zIndex: -1,
+                    left: -1000, // 화면 밖으로 이동
+                  },
+                ]}
+                onLayout={(event) => {
+                  setFullTextHeight(event.nativeEvent.layout.height);
+                }}
               >
                 {courseInfo.courseInfo.description}
               </Text>

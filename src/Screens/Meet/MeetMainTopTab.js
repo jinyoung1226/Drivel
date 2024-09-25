@@ -4,17 +4,6 @@ import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 
 const MeetMainTopTab = ({selectedIndex, onSelectHandler, menus}) => {
-  const animatedValue = React.useRef(
-    new Animated.Value(selectedIndex * 80),
-  ).current;
-
-  React.useEffect(() => {
-    Animated.timing(animatedValue, {
-      toValue: selectedIndex * 80,
-      duration: 250,
-      useNativeDriver: true,
-    }).start();
-  }, [selectedIndex]);
 
   return (
     <View style={{backgroundColor: colors.BG}}>
@@ -22,10 +11,12 @@ const MeetMainTopTab = ({selectedIndex, onSelectHandler, menus}) => {
         {menus.map((v, i) => (
           <Pressable
             style={{
-              width: 80,
+              paddingHorizontal: 12,
               padding: 8,
               alignItems: 'center',
               justifyContent: 'center',
+              borderBottomWidth: 3,
+              borderBottomColor: selectedIndex === i ? colors.Blue : 'transparent',
             }}
             key={v}
             onPress={() => {
@@ -41,14 +32,6 @@ const MeetMainTopTab = ({selectedIndex, onSelectHandler, menus}) => {
           </Pressable>
         ))}
       </View>
-      <Animated.View
-        style={{
-          width: 80,
-          borderBottomWidth: 3,
-          borderBottomColor: '#5168F6',
-          transform: [{translateX: animatedValue}],
-        }}
-      />
     </View>
   );
 };

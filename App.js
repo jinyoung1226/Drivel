@@ -11,9 +11,9 @@ import BootSplash from "react-native-bootsplash";
 import notifee, { AndroidImportance, AndroidVisibility, EventType } from '@notifee/react-native';
 import eventEmitter from './src/utils/eventEmitter';
 
-console.log = () => {};
-console.warn = () => {};
-console.error = () => {};
+// console.log = () => {};
+// console.warn = () => {};
+// console.error = () => {};
 
 
 const App = () => {

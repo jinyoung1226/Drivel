@@ -62,6 +62,7 @@ const DriveRegionCuraiton = ({
             showsHorizontalScrollIndicator={false}
             ItemSeparatorComponent={<View style={{width: 16}} />}
             ListHeaderComponent={<View style={{width: 16}} />}
+            ListFooterComponent={<View style={{width: 16}} />}
           />
         </View>
       </View>

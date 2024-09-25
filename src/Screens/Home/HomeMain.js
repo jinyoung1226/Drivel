@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {
   View,
   ScrollView,
@@ -24,13 +24,19 @@ import {getDeepLinkURL} from '../../../global';
 import LinearGradient from 'react-native-linear-gradient';
 import InstaBanner from '../../assets/icons/InstaBanner.svg';
 import InstaBannerArrow from '../../assets/icons/InstaBannerArrow.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDriveCurationInfo, getRegionCurationInfo, setActiveButton } from '../../features/home/homeActions';
 const HomeMain = ({navigation}) => {
-  const [driveCourseList, setDriveCourseList] = useState([]);
-  const [driveRegionList, setDriveRegionList] = useState([]);
-  const [festivalList, setFestivalList] = useState([]);
-  const [category, setCategory] = useState([]);
-  const [activeButton, setActiveButton] = useState('');
+  // const [driveCourseList, setDriveCourseList] = useState([]);
+  // const [driveRegionList, setDriveRegionList] = useState([]);
+  const dispatch = useDispatch();
 
+  const {driveCurationList, regionCurationList, activeButton, category} = useSelector(state => state.home);
+
+  const [festivalList, setFestivalList] = useState([]);
+  // const [category, setCategory] = useState([]);
+  // const [activeButton, setActiveButton] = useState('');
+  const driveRegionList = useRef([]);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'Drivel',
@@ -51,24 +57,24 @@ const HomeMain = ({navigation}) => {
   }, [navigation]);
 
   useEffect(() => {
-    const getDriveCurationInfo = async () => {
-      try {
-        const response = await authApi.get('course/my-theme');
-        if (response.status === 200) {
-          setDriveCourseList(response.data);
-        }
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status === 400) {
-            Alert.alert('코스를 불러올 수 없습니다.');
-          }
-        } else {
-          console.log(error);
-          Alert.alert('서버와의 통신 실패');
-        }
-      }
-    };
-    getDriveCurationInfo();
+    // const getDriveCurationInfo = async () => {
+    //   try {
+    //     const response = await authApi.get('course/my-theme');
+    //     if (response.status === 200) {
+    //       setDriveCourseList(response.data);
+    //     }
+    //   } catch (error) {
+    //     if (error.response) {
+    //       if (error.response.status === 400) {
+    //         Alert.alert('코스를 불러올 수 없습니다.');
+    //       }
+    //     } else {
+    //       console.log(error);
+    //       Alert.alert('서버와의 통신 실패');
+    //     }
+    //   }
+    // };
+    // getDriveCurationInfo();
     const goMeetApplyDetail = async () => {
       const deepLinkURL = getDeepLinkURL();
       if (deepLinkURL) {
@@ -79,35 +85,36 @@ const HomeMain = ({navigation}) => {
     goMeetApplyDetail();
   }, []);
 
-  useEffect(() => {
-    const getRegionCurationInfo = async () => {
-      try {
-        const response = await authApi.get('course/my-region');
-        if (response.status === 200) {
-          console.log(response.data, '@@@@@');
-          setDriveRegionList(response.data);
+  // useEffect(() => {
+    // const getRegionCurationInfo = async () => {
+    //   try {
+    //     const response = await authApi.get('course/my-region');
+    //     if (response.status === 200) {
+    //       console.log(response.data, '@@@@@');
+    //       setDriveRegionList(response.data);
 
-          const categoryData = response.data.map(data => data.tagName);
-          setCategory(categoryData);
-          if (categoryData.length > 0) {
-            setActiveButton(categoryData[0]);
-          }
-        }
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status === 400) {
-            Alert.alert('코스를 불러올 수 없습니다.');
-          }
-        } else {
-          console.log(error);
-          Alert.alert('서버와의 통신 실패');
-        }
-      }
-    };
-    getRegionCurationInfo();
-  }, []);
+    //       const categoryData = response.data.map(data => data.tagName);
+    //       setCategory(categoryData);
+    //       if (categoryData.length > 0) {
+    //         setActiveButton(categoryData[0]);
+    //       }
+    //     }
+    //   } catch (error) {
+    //     if (error.response) {
+    //       if (error.response.status === 400) {
+    //         Alert.alert('코스를 불러올 수 없습니다.');
+    //       }
+    //     } else {
+    //       console.log(error);
+    //       Alert.alert('서버와의 통신 실패');
+    //     }
+    //   }
+    // };
+    // getRegionCurationInfo();
 
   useEffect(() => {
+    dispatch(getDriveCurationInfo());
+    dispatch(getRegionCurationInfo());
     const getFestivalInfo = async () => {
       try {
         const response = await authApi.get('festival');
@@ -129,12 +136,12 @@ const HomeMain = ({navigation}) => {
     getFestivalInfo();
   }, []);
 
-  const driveRegionLists = driveRegionList
+  driveRegionList.current = regionCurationList
     .filter(region => region.tagName === activeButton) // 선택된 카테고리에 해당하는 항목만 필터링
     .flatMap(region => region.courses); // 각 region의 courses 배열을 플랫맵으로 합치기
 
   const handleButtonPress = button => {
-    setActiveButton(button);
+    dispatch(setActiveButton(button));
   };
 
   return (
@@ -192,13 +199,14 @@ const HomeMain = ({navigation}) => {
             </View>
           </LinearGradient>
         </Pressable>
-        <DriveCourseCuration data={driveCourseList} />
+
+        <DriveCourseCuration data={driveCurationList} />
         <GrayLine />
         <DriveRegionCuraiton
           activeButton={activeButton}
           category={category}
           handleButtonPress={handleButtonPress}
-          data={driveRegionLists}
+          data={driveRegionList.current}
         />
         <GrayLine />
         <View
@@ -222,6 +230,7 @@ const HomeMain = ({navigation}) => {
             showsHorizontalScrollIndicator={false}
             ItemSeparatorComponent={() => <View style={{width: 16}} />}
             ListHeaderComponent={<View style={{width: 16}} />}
+            ListFooterComponent={<View style={{width: 16}} />}
           />
         </View>
         <GrayLine />
@@ -246,8 +255,10 @@ const HomeMain = ({navigation}) => {
             showsHorizontalScrollIndicator={false}
             ItemSeparatorComponent={() => <View style={{width: 16}} />}
             ListHeaderComponent={<View style={{width: 16}} />}
+            ListFooterComponent={<View style={{width: 16}} />}
           />
         </View>
+        <View style={{height: 16}} />
       </ScrollView>
     </View>
   );

@@ -21,6 +21,7 @@ import {authApi} from '../../api/api';
 import {useDispatch} from 'react-redux';
 import {getMyProfileInfo} from '../../features/profile/profileActions';
 import {ScrollView} from 'react-native-gesture-handler';
+import { getDriveCurationInfo } from '../../features/home/homeActions';
 const MyDriveTagEdit = ({navigation, route}) => {
   const item = route.params.item;
   const [selectedDriveStyle, setSelectedDriveStyle] = useState([]);
@@ -61,6 +62,7 @@ const MyDriveTagEdit = ({navigation, route}) => {
       if (response.status == 200) {
         console.log(response.data, 'update');
         dispatch(getMyProfileInfo());
+        dispatch(getDriveCurationInfo());
         navigation.goBack();
       }
     } catch (error) {

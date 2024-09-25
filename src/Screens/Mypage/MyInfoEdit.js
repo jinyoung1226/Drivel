@@ -21,6 +21,7 @@ import {authApi} from '../../api/api';
 import {getMyProfileInfo} from '../../features/profile/profileActions';
 import {useDispatch, useSelector} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { getRegionCurationInfo } from '../../features/home/homeActions';
 
 const MyInfoEdit = ({navigation, route}) => {
   const page = route.params.page;
@@ -29,9 +30,9 @@ const MyInfoEdit = ({navigation, route}) => {
   const [nickname, setNickname] = useState(item.nickname);
   const [isNicknameValid, setIsNicknameValid] = useState(false);
   const [intro, setIntro] = useState(item.description);
-  const [carModel, setCarModel] = useState(item.carModel);
+  const [carModel, setCarModel] = useState(item.carModel == null ? '' : item.carModel);
   const [filteredCarData, setFilteredCarData] = useState([]);
-  const [minCarCareer, setMinCarCareer] = useState(item.carCareer.toString());
+  const [minCarCareer, setMinCarCareer] = useState(item.carCareer == null ? 0 : item.carCareer.toString());
   const [selectedRegion, setSelectedRegion] = useState([]);
 
   const dispatch = useDispatch();
@@ -121,6 +122,7 @@ const MyInfoEdit = ({navigation, route}) => {
         });
         if (response.status == 200) {
           console.log(response.data);
+          dispatch(getRegionCurationInfo());
           dispatch(getMyProfileInfo());
           navigation.goBack();
         }
