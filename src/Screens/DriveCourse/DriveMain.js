@@ -12,6 +12,7 @@ import colors from '../../styles/colors';
 import SmallSearchIcon from '../../assets/icons/SmallSearchIcon.svg';
 import PlusIcon from '../../assets/icons/PlusIcon.svg';
 import FilterIcon from '../../assets/icons/FilterIcon.svg';
+import DriveEmptyIcon from '../../assets/icons/DriveEmptyIcon.svg';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getDriveList,
@@ -22,6 +23,7 @@ import {
   driveStyle,
   driveTheme,
   driveWith,
+  regions,
 } from '../../assets/onboardingData/onBoardingData';
 
 const DriveMain = ({navigation}) => {
@@ -35,6 +37,7 @@ const DriveMain = ({navigation}) => {
     filterDriveWith,
     filterDriveTheme,
     filterDriveStyle,
+    filterRegion,
     isLoading,
   } = useSelector(state => state.drive);
 
@@ -82,6 +85,10 @@ const DriveMain = ({navigation}) => {
     }
   };
 
+  const regionDisplayName = filterRegion
+  ? regions.find(style => style.id === filterRegion)?.displayName
+  : '';
+
   const driveThemeDisplayName = filterDriveTheme
     ? driveTheme.find(style => style.id === filterDriveTheme)?.displayName
     : '';
@@ -95,6 +102,7 @@ const DriveMain = ({navigation}) => {
     : '';
 
   const category = [
+    {key: '지역', value: regionDisplayName, unit: ''},
     {key: '풍경', value: driveThemeDisplayName, unit: ''},
     {key: '활동', value: driveStyleDisplayName, unit: ''},
     {key: '동행자', value: driveWithDisplayName, unit: ''},
@@ -202,77 +210,84 @@ const DriveMain = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={{flex: 1}}>
-        {driveList != null && !isRefreshing ? (
-          <DriveCourseList
-            ListHeaderComponent={<View style={{height: 8}} />}
-            data={driveList}
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
-            onEndReached={onEndReached}
-          />
-        ) : (
-          <View style={{padding: 16}}>
-            {[1, 2, 3, 4].map((item, index) => (
-              <View
-                key={index}
-                style={{
-                  padding: 16,
-                  backgroundColor: colors.Gray02,
-                  borderRadius: 10,
-                  marginBottom: 16,
-                }}>
-                <View style={{flexDirection: 'row'}}>
-                  <View style={{flex: 1}}>
-                    <View
-                      style={{
-                        height: 17,
-                        width: 120,
-                        backgroundColor: colors.Gray04,
-                        borderRadius: 5,
-                      }}
-                    />
-                    <View style={{height: 8}} />
-                    <View
-                      style={{
-                        height: 14,
-                        width: 80,
-                        backgroundColor: colors.Gray04,
-                        borderRadius: 5,
-                      }}
-                    />
-                    <View style={{height: 8}} />
-                    <View
-                      style={{
-                        height: 50,
-                        backgroundColor: colors.Gray04,
-                        borderRadius: 5,
-                      }}
-                    />
-                    <View style={{height: 8}} />
-                    <View
-                      style={{
-                        height: 14,
-                        width: 60,
-                        backgroundColor: colors.Gray04,
-                        borderRadius: 5,
-                      }}
-                    />
-                  </View>
-                  <View style={{width: 16}} />
+      {driveList != null && !isRefreshing ? (
+        driveList.length == 0 ?
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <DriveEmptyIcon />
+          <View style={{height: 24}} />
+          <Text style={[textStyles.C4, {color: colors.Gray07}]}>필터에 해당하는 모임이 없어요</Text>
+        </View>
+        :
+        <DriveCourseList
+          ListHeaderComponent={<View style={{height: 8}} />}
+          data={driveList}
+          refreshing={isRefreshing}
+          onRefresh={onRefresh}
+          onEndReached={onEndReached}
+        />
+      ) : (
+        <View style={{padding: 16}}>
+          {[1, 2, 3, 4].map((item, index) => (
+            <View
+              key={index}
+              style={{
+                padding: 16,
+                backgroundColor: colors.Gray02,
+                borderRadius: 10,
+                marginBottom: 16,
+              }}>
+              <View style={{flexDirection: 'row'}}>
+                <View style={{flex: 1}}>
                   <View
                     style={{
-                      height: 115,
-                      width: 84,
+                      height: 17,
+                      width: 120,
                       backgroundColor: colors.Gray04,
-                      borderRadius: 10,
+                      borderRadius: 5,
+                    }}
+                  />
+                  <View style={{height: 8}} />
+                  <View
+                    style={{
+                      height: 14,
+                      width: 80,
+                      backgroundColor: colors.Gray04,
+                      borderRadius: 5,
+                    }}
+                  />
+                  <View style={{height: 8}} />
+                  <View
+                    style={{
+                      height: 50,
+                      backgroundColor: colors.Gray04,
+                      borderRadius: 5,
+                    }}
+                  />
+                  <View style={{height: 8}} />
+                  <View
+                    style={{
+                      height: 14,
+                      width: 60,
+                      backgroundColor: colors.Gray04,
+                      borderRadius: 5,
                     }}
                   />
                 </View>
+                <View style={{width: 16}} />
+                <View
+                  style={{
+                    height: 115,
+                    width: 84,
+                    backgroundColor: colors.Gray04,
+                    borderRadius: 10,
+                  }}
+                />
               </View>
-            ))}
-          </View>
-        )}
-      </View>
+            </View>
+          ))}
+        </View>
+      )}
+    </View>
       {isLoading && (
         <View
           style={{

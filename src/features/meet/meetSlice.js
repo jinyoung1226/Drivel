@@ -12,6 +12,7 @@ import {
   setFilterDriveStyle,
   setFilterDriveTheme,
   setFilterDriveWith,
+  setFilterRegion,
   setFilterGender,
   getMeetMessageList,
   getMeetMessageListMore,
@@ -38,6 +39,7 @@ const initialState = {
   filterDriveWith: '',
   filterDriveTheme: '',
   filterDriveStyle: '',
+  filterRegion: '',
   filterGender: '',
   filterAge: '',
   filterCarModel: '',
@@ -159,6 +161,9 @@ const meetSlice = createSlice({
     });
     builder.addCase(setFilterDriveWith, (state, action) => {
       state.filterDriveWith = action.payload;
+    });
+    builder.addCase(setFilterRegion, (state, action) => {
+      state.filterRegion = action.payload;
     });
     builder.addCase(setFilterGender, (state, action) => {
       state.filterGender = action.payload;

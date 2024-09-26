@@ -286,6 +286,8 @@ export const setFilterDriveTheme = createAction('meet/filterDriveTheme');
 
 export const setFilterDriveWith = createAction('meet/filterDriveWith');
 
+export const setFilterRegion = createAction('meet/filterRegion');
+
 export const setSort = createAction('meet/setSort');
 
 export const setMeetMessageList = createAction('meet/setMeetMessageList');

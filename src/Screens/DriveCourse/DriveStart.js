@@ -196,20 +196,34 @@ const DriveStart = ({route, navigation}) => {
         </View>
         <View style={{height: 24}} />
         <View style={{paddingHorizontal: 16}}>
-          <View>
-            <Text style={[textStyles.H3, {color: colors.Gray10}]}>
-              드라이브코스 순서를 변경하고
-            </Text>
-            <View style={{height: 4}} />
-            <Text style={[textStyles.H3, {color: colors.Gray10}]}>
-              네비게이션으로 연결해보세요
-            </Text>
-            <View style={{height: 8}} />
-            <Text style={[textStyles.B4, {color: colors.Blue}]}>
-              * 상위 4개 경유지만 네비게이션으로 연결됩니다
-            </Text>
-          </View>
-          <View style={{height: 24}} />
+          {spotInfo.length == 0 && placeInfo.length == 0 ?
+            <View>
+              <Text style={[textStyles.H3, {color: colors.Gray10}]}>
+                추가할 수 있는 경유지가 없어요 🥲
+              </Text>
+              <Text style={[textStyles.H3, {color: colors.Gray10}]}>
+                바로 내비게이션으로 이동해보세요
+              </Text>
+              <View style={{height: 8}} />
+            </View>
+            :
+            <View>
+              <Text style={[textStyles.H3, {color: colors.Gray10}]}>
+                원하는 경유지를 추가하고
+              </Text>
+              <Text style={[textStyles.H3, {color: colors.Gray10}]}>
+                네비게이션으로 연결해보세요
+              </Text>
+              <View style={{height: 8}} />
+              <Text style={[textStyles.C4, {color: colors.Gray06}]}>
+                {'하단에서 관광지와 카페, 맛집 등의 경유지를 추가하고\n드라이브코스 순서를 마음대로 변경할 수 있습니다'}
+              </Text>
+              <View style={{height: 8}} />
+              <Text style={[textStyles.B4, {color: colors.Blue}]}>
+                * 상위 4개 경유지만 네비게이션으로 연결됩니다
+              </Text>
+            </View>}
+          <View style={{height: 8}} />
           <DragSortableView
             dataSource={checkInfo}
             childrenHeight={72}

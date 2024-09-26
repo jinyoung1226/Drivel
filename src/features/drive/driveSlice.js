@@ -5,6 +5,7 @@ import {
   setFilterDriveStyle,
   setFilterDriveTheme,
   setFilterDriveWith,
+  setFilterRegion,
   getBlogReview,
   setBlogReviewList,
   getCafeBlogReview,
@@ -19,6 +20,7 @@ const initialState = {
   filterDriveWith: '',
   filterDriveTheme: '',
   filterDriveStyle: '',
+  filterRegion: '',
   isLoading: false,
   isLastPage: false,
   currentPage: null,
@@ -69,6 +71,9 @@ const driveSlice = createSlice({
     });
     builder.addCase(setFilterDriveWith, (state, action) => {
       state.filterDriveWith = action.payload;
+    });
+    builder.addCase(setFilterRegion, (state, action) => {
+      state.filterRegion = action.payload;
     });
     builder.addCase(getBlogReview.pending, state => {
       state.isLoading = true;

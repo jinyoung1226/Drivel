@@ -17,6 +17,7 @@ import {
   driveStyle,
   driveTheme,
   driveWith,
+  regions,
 } from '../../assets/onboardingData/onBoardingData';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -24,11 +25,12 @@ import {
   setFilterDriveTheme,
   setFilterDriveWith,
   setFilterDriveStyle,
+  setFilterRegion,
 } from '../../features/drive/driveActions';
 
 const DriveFilter = ({navigation}) => {
   const dispatch = useDispatch();
-  const {filterDriveTheme, filterDriveWith, filterDriveStyle} = useSelector(
+  const {filterDriveTheme, filterDriveWith, filterDriveStyle, filterRegion} = useSelector(
     state => state.drive,
   );
 
@@ -47,15 +49,15 @@ const DriveFilter = ({navigation}) => {
         </TouchableOpacity>
       ),
     });
-  }, [navigation, filterDriveTheme, filterDriveWith, filterDriveStyle]);
+  }, [navigation, filterDriveTheme, filterDriveWith, filterDriveStyle, filterRegion]);
 
   useEffect(() => {
-    console.log(
-      filterDriveStyle,
-      filterDriveTheme,
-      filterDriveWith,
-      '값 잘 변하나?',
-    );
+    // console.log(
+    //   filterDriveStyle,
+    //   filterDriveTheme,
+    //   filterDriveWith,
+    //   '값 잘 변하나?',
+    // );
     const backAction = () => {
       filterDrive();
       return true;
@@ -65,7 +67,7 @@ const DriveFilter = ({navigation}) => {
       backAction,
     );
     return () => backHandler.remove();
-  }, [filterDriveStyle, filterDriveTheme, filterDriveWith]);
+  }, [filterDriveStyle, filterDriveTheme, filterDriveWith, filterRegion]);
 
   const filterDrive = () => {
     dispatch(
@@ -83,12 +85,26 @@ const DriveFilter = ({navigation}) => {
     dispatch(setFilterDriveWith(''));
     dispatch(setFilterDriveTheme(''));
     dispatch(setFilterDriveStyle(''));
+    dispatch(setFilterRegion(''));
   };
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
       <KeyboardAwareScrollView>
+          
         <View style={{padding: 16}}>
+          <Text style={[textStyles.H4, {color: colors.Gray10}]}>
+            드라이브 지역
+          </Text>
+          <View style={{height: 16}} />
+          <ChipContainer
+            containerStyle={{flexDirection: 'row'}}
+            type={'single'}
+            data={regions}
+            selectedItem={filterRegion}
+            onSelectedHandler={items => dispatch(setFilterRegion(items))}
+          />
+          <View style={{height: 32}} />
           <Text style={[textStyles.H4, {color: colors.Gray10}]}>
             드라이브 풍경
           </Text>
@@ -142,7 +158,8 @@ const DriveFilter = ({navigation}) => {
             display:
               filterDriveWith == '' &&
               filterDriveTheme == '' &&
-              filterDriveStyle == ''
+              filterDriveStyle == '' &&
+              filterRegion == ''
                 ? 'none'
                 : 'flex',
           }}
@@ -150,7 +167,7 @@ const DriveFilter = ({navigation}) => {
           <View style={{flexDirection: 'row', height: 22}}>
             <SpinIcon />
             <View style={{width: 8}} />
-            <Text style={[textStyles.H4, {color: colors.Gray08}]}>재설정</Text>
+            <Text style={[textStyles.H4, {color: colors.Gray08}]}>초기화</Text>
             <View style={{width: 16}} />
           </View>
         </TouchableOpacity>

@@ -200,6 +200,8 @@ export const setFilterDriveTheme = createAction('drive/filterDriveTheme');
 
 export const setFilterDriveWith = createAction('drive/filterDriveWith');
 
+export const setFilterRegion = createAction('meet/filterRegion');
+
 export const setBlogReviewList = createAction('drive/setBlogReviewList');
 
 export const setCafeBlogReviewList = createAction(

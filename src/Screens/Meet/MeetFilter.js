@@ -21,6 +21,7 @@ import {
   driveStyle,
   driveTheme,
   driveWith,
+  regions
 } from '../../assets/onboardingData/onBoardingData';
 import {useDispatch, useSelector} from 'react-redux';
 import {carModelData} from '../../assets/driveCourseData/carModelData';
@@ -34,7 +35,10 @@ import {
   setFilterGender,
   setFilterCarModel,
   setFilterCarCareer,
+  setFilterRegion,
 } from '../../features/meet/meetActions';
+import ToggleSwitch from '../../components/TogleSwitch';
+import chageBrithToAge from '../../utils/changeBrithToAge';
 
 const MeetFilter = ({navigation}) => {
   const dispatch = useDispatch();
@@ -46,8 +50,11 @@ const MeetFilter = ({navigation}) => {
     filterAge,
     filterCarModel,
     filterCarCareer,
+    filterRegion,
     sort,
   } = useSelector(state => state.meet);
+  const myProfileInfo = useSelector(state => state.profile.myProfileInfo);
+  const [isOn, setIsOn] = useState(false);
   const [filteredCarData, setFilteredCarData] = useState([]);
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -73,19 +80,24 @@ const MeetFilter = ({navigation}) => {
     filterAge,
     filterCarModel,
     filterCarCareer,
+    filterRegion,
   ]);
-
   useEffect(() => {
-    console.log(
-      filterDriveStyle,
-      filterGender,
-      filterAge,
-      filterCarModel,
-      filterCarCareer,
-      filterDriveTheme,
-      filterDriveWith,
-      '값 잘 변하나?',
-    );
+    if (filterGender !== '' || filterAge !== '' || filterCarCareer !== '') {
+      setIsOn(true);
+    }
+  }, []);
+  useEffect(() => {
+    // console.log(
+    //   filterDriveStyle,
+    //   filterGender,
+    //   filterAge,
+    //   filterCarModel,
+    //   filterCarCareer,
+    //   filterDriveTheme,
+    //   filterDriveWith,
+    //   '값 잘 변하나?',
+    // );
     const backAction = () => {
       filterMeeting();
       return true;
@@ -95,6 +107,7 @@ const MeetFilter = ({navigation}) => {
       backAction,
     );
     return () => backHandler.remove();
+
   }, [
     filterGender,
     filterAge,
@@ -103,6 +116,7 @@ const MeetFilter = ({navigation}) => {
     filterDriveStyle,
     filterDriveTheme,
     filterDriveWith,
+    filterRegion,
   ]);
 
   const filterMeeting = () => {
@@ -130,6 +144,8 @@ const MeetFilter = ({navigation}) => {
     dispatch(setFilterAge(''));
     dispatch(setFilterCarModel(''));
     dispatch(setFilterCarCareer(''));
+    dispatch(setFilterRegion(''));
+    setIsOn(false);
   };
 
   const handleSearchCarModel = e => {
@@ -141,11 +157,54 @@ const MeetFilter = ({navigation}) => {
     dispatch(setFilterCarModel(item.title));
     setFilteredCarData([]);
   };
+  const customSearch = () => {
+    setIsOn(!isOn)
+    if (!isOn) {
+      dispatch(setFilterGender(myProfileInfo.gender == '여자' ? 2 : 1))
+      dispatch(setFilterCarCareer(Number(myProfileInfo.carCareer)))
+      dispatch(setFilterAge(chageBrithToAge(myProfileInfo.birth)))
+    }
+    if (isOn) {
+      dispatch(setFilterGender(''))
+      dispatch(setFilterCarCareer(''))
+      dispatch(setFilterAge(''))
+    }
+    
+  }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
       <KeyboardAwareScrollView>
+        <View style={{padding: 16, flexDirection:'row', alignItems:'center'}}>
+          <View>
+            <Text style={[textStyles.H4, {color: colors.Gray10}]}>
+              나에게 맞는 모임만 보기
+            </Text>
+            <View style={{height: 4}} />
+            <Text style={[textStyles.B5, {color: colors.Gray05}]}>
+              나의 성별, 연령대와 운전경력에 맞는 모임만 볼 수 있어요
+            </Text>
+          </View>
+          <View style={{flex: 1}} />
+          <ToggleSwitch 
+            isOn={isOn} 
+            setIsOn={setIsOn} 
+            onPress={() => customSearch()}
+          />
+        </View>
         <View style={{padding: 16}}>
+          <Text style={[textStyles.H4, {color: colors.Gray10}]}>
+            드라이브 지역
+          </Text>
+          <View style={{height: 16}} />
+          <ChipContainer
+            containerStyle={{flexDirection: 'row'}}
+            type={'single'}
+            data={regions}
+            selectedItem={filterRegion}
+            onSelectedHandler={items => dispatch(setFilterRegion(items))}
+          />
+          <View style={{height: 32}} />
           <Text style={[textStyles.H4, {color: colors.Gray10}]}>
             드라이브 풍경
           </Text>
@@ -181,11 +240,11 @@ const MeetFilter = ({navigation}) => {
             selectedItem={filterDriveWith}
             onSelectedHandler={items => dispatch(setFilterDriveWith(items))}
           />
-          <View style={{height: 32}} />
+          {/* <View style={{height: 32}} />
           <Text style={[textStyles.H4, {color: colors.Gray10}]}>성별</Text>
-          <View style={{height: 16}} />
+          <View style={{height: 16}} /> */}
 
-          <ChipContainer
+          {/* <ChipContainer
             containerStyle={{flexDirection: 'row'}}
             type={'single'}
             data={[
@@ -211,7 +270,7 @@ const MeetFilter = ({navigation}) => {
             buttonDisabled={true}
             maxLength={2}
             keyboardType="number-pad"
-          />
+          /> */}
           <View style={{height: 32}} />
           <Text style={[textStyles.H4, {color: colors.Gray10}]}>차종</Text>
           <View style={{height: 16}} />
@@ -267,7 +326,7 @@ const MeetFilter = ({navigation}) => {
               ))}
             </View>
           )}
-          <View style={{height: 32}} />
+          {/* <View style={{height: 32}} />
           <Text style={[textStyles.H4, {color: colors.Gray10}]}>운전 경력</Text>
           <View style={{height: 16}} />
           <CustomInput
@@ -285,7 +344,7 @@ const MeetFilter = ({navigation}) => {
             buttonDisabled={true}
             maxLength={2}
             keyboardType="number-pad"
-          />
+          /> */}
         </View>
       </KeyboardAwareScrollView>
       <View
@@ -304,18 +363,20 @@ const MeetFilter = ({navigation}) => {
               filterDriveWith == '' &&
               filterDriveTheme == '' &&
               filterDriveStyle == '' &&
+              filterRegion == '' &&
               filterAge == '' &&
               filterCarModel == '' &&
               filterCarCareer == '' &&
               filterGender == ''
                 ? 'none'
                 : 'flex',
+
           }}
           onPress={resetFilter}>
           <View style={{flexDirection: 'row', height: 22}}>
             <SpinIcon />
             <View style={{width: 8}} />
-            <Text style={[textStyles.H4, {color: colors.Gray08}]}>재설정</Text>
+            <Text style={[textStyles.H4, {color: colors.Gray08}]}>초기화</Text>
             <View style={{width: 16}} />
           </View>
         </TouchableOpacity>

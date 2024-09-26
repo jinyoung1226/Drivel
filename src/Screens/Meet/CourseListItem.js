@@ -20,8 +20,12 @@ const CourseListItem = ({item, onPress, disabled}) => (
         {item.title}
       </Text>
       <View style={{height: 4}} />
-      <Text style={[textStyles.H5, {color: colors.Gray10}]} numberOfLines={1}>
+      <Text style={[textStyles.B4, {color: colors.Gray10}]} numberOfLines={1}>
         {item.waypoints}
+      </Text>
+      <View style={{height: 4}} />
+      <Text style={[textStyles.B4, {color: colors.Gray07}]} numberOfLines={1}>
+        {item.region}
       </Text>
       <View style={{height: 8}} />
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -37,7 +41,7 @@ const CourseListItem = ({item, onPress, disabled}) => (
       </View>
     </View>
     <View style={{width: 16}} />
-    <View style={{width: 70, height: 70, borderRadius: 10, overflow: 'hidden'}}>
+    <View style={{width: 70, height: 80, borderRadius: 10, overflow: 'hidden'}}>
       <Image src={item.imagePath} style={{flex: 1}} />
     </View>
   </TouchableOpacity>

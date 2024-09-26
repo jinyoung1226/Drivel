@@ -9,6 +9,7 @@ import {
 import colors from '../../styles/colors';
 import PlusIcon from '../../assets/icons/PlusIcon';
 import FilterIcon from '../../assets/icons/FilterIcon';
+import MeetEmptyIcon from '../../assets/icons/MeetEmptyIcon';
 import LinearGradient from 'react-native-linear-gradient';
 import {textStyles} from '../../styles/textStyles';
 import MeetList from './MeetList';
@@ -18,6 +19,7 @@ import {
   driveStyle,
   driveTheme,
   driveWith,
+  regions,
 } from '../../assets/onboardingData/onBoardingData';
 import {useNavigation} from '@react-navigation/native';
 
@@ -38,6 +40,7 @@ const MeetBrowse = () => {
     filterAge,
     filterCarModel,
     filterCarCareer,
+    filterRegion,
     isLoading,
   } = useSelector(state => state.meet);
   const dispatch = useDispatch();
@@ -101,6 +104,10 @@ const MeetBrowse = () => {
     }
   };
 
+  const regionDisplayName = filterRegion
+  ? regions.find(style => style.id === filterRegion)?.displayName
+  : '';
+
   const driveThemeDisplayName = filterDriveTheme
     ? driveTheme.find(style => style.id === filterDriveTheme)?.displayName
     : '';
@@ -121,6 +128,7 @@ const MeetBrowse = () => {
     : '';
 
   const category = [
+    {key: '지역', value: regionDisplayName, unit: ''},
     {key: '풍경', value: driveThemeDisplayName, unit: ''},
     {key: '활동', value: driveStyleDisplayName, unit: ''},
     {key: '동행자', value: driveWithDisplayName, unit: ''},
@@ -229,8 +237,16 @@ const MeetBrowse = () => {
           <FilterIcon />
         </TouchableOpacity>
       </View>
-      <View style={{flex: 1}}>
-        {!isRefreshing ? (
+      
+        <View style={{flex: 1}}>
+        {meetList != null && !isRefreshing ? (
+          meetList.length === 0 ?
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <MeetEmptyIcon />
+            <View style={{height: 24}} />
+            <Text style={[textStyles.C4, {color: colors.Gray07}]}>필터에 해당하는 모임이 없어요</Text>
+          </View>
+          :
           <MeetList
             ListHeaderComponent={<View style={{height: 16}} />}
             data={meetList}
