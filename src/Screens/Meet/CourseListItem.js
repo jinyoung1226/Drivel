@@ -25,7 +25,7 @@ const CourseListItem = ({item, onPress, disabled}) => (
       </Text>
       <View style={{height: 4}} />
       <Text style={[textStyles.B4, {color: colors.Gray07}]} numberOfLines={1}>
-        {item.region}
+        {item.address}
       </Text>
       <View style={{height: 8}} />
       <View style={{flexDirection: 'row', alignItems: 'center'}}>

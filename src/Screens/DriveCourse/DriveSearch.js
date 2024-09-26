@@ -27,6 +27,7 @@ const DriveSearch = ({ navigation }) => {
         'https://drivel-course-data.s3.ap-northeast-2.amazonaws.com/course-data',
       );
       if (response.status === 200) {
+        // console.log(response.data.courses);
         setCourses(response.data.courses);
       }
     } catch (error) {

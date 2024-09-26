@@ -51,17 +51,20 @@ const koFilter = (data, query) => {
       const title = item.title ? item.title.toLowerCase() : '';
       const waypoints = item.waypoints ? item.waypoints.toLowerCase() : '';
       const region = item.region ? item.region.toLowerCase() : '';
-      return title.startsWith(lowerCaseQuery) || waypoints.startsWith(lowerCaseQuery) || region.startsWith(lowerCaseQuery);
+      const address = item.address ? item.address.toLowerCase() : '';
+      return title.startsWith(lowerCaseQuery) || waypoints.startsWith(lowerCaseQuery) || region.startsWith(lowerCaseQuery) || address.startsWith(lowerCaseQuery);
     });
 
     const contains = data.filter(item => {
       const title = item.title ? item.title.toLowerCase() : '';
       const waypoints = item.waypoints ? item.waypoints.toLowerCase() : '';
       const region = item.region ? item.region.toLowerCase() : '';
+      const address = item.address ? item.address.toLowerCase() : '';
       return (
         (title.includes(lowerCaseQuery) && !title.startsWith(lowerCaseQuery)) ||
         (waypoints.includes(lowerCaseQuery) && !waypoints.startsWith(lowerCaseQuery)) ||
-        (region.includes(lowerCaseQuery) && !region.startsWith(lowerCaseQuery))
+        (region.includes(lowerCaseQuery) && !region.startsWith(lowerCaseQuery)) ||
+        (address.includes(lowerCaseQuery) && !address.startsWith(lowerCaseQuery))
       );
     });
 
@@ -81,7 +84,8 @@ const koFilter = (data, query) => {
     const title = item.title ? item.title : '';
     const waypoints = item.waypoints ? item.waypoints : '';
     const region = item.region ? item.region : '';
-    const combined = title + waypoints + region;
+    const address = item.address ? item.address : '';
+    const combined = title + waypoints + region + address;
 
     const { full: decomposedItemFull, cho: decomposedItemCho } = decomposeHangul(combined);
 
@@ -90,14 +94,16 @@ const koFilter = (data, query) => {
         decomposedItemCho.startsWith(decomposedQueryCho) ||
         title.startsWith(query) ||
         waypoints.startsWith(query) ||
-        region.startsWith(query)
+        region.startsWith(query) ||
+        address.startsWith(query)
       ) {
         startsWith.push(item);
       } else if (
         decomposedItemCho.includes(decomposedQueryCho) ||
         title.includes(query) ||
         waypoints.includes(query) ||
-        region.includes(query)
+        region.includes(query) ||
+        address.includes(query)
       ) {
         contains.push(item);
       }
@@ -106,14 +112,16 @@ const koFilter = (data, query) => {
         decomposedItemFull.startsWith(decomposedQueryFull) ||
         title.startsWith(query) ||
         waypoints.startsWith(query) ||
-        region.startsWith(query)
+        region.startsWith(query) ||
+        address.startsWith(query)
       ) {
         startsWith.push(item);
       } else if (
         decomposedItemFull.includes(decomposedQueryFull) ||
         title.includes(query) ||
         waypoints.includes(query) ||
-        region.includes(query)
+        region.includes(query) ||
+        address.includes(query)
       ) {
         contains.push(item);
       }

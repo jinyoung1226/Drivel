@@ -36,7 +36,7 @@ const MyInfoEdit = ({navigation, route}) => {
   const [selectedRegion, setSelectedRegion] = useState([]);
 
   const dispatch = useDispatch();
-  console.log(item);
+  
   useLayoutEffect(() => {
     navigation.setOptions({
       title: page,
