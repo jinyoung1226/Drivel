@@ -77,6 +77,7 @@ const DriveFilter = ({navigation}) => {
         themeId: filterDriveTheme == '' ? null : filterDriveTheme,
         togetherId: filterDriveWith == '' ? null : filterDriveWith,
         styleId: filterDriveStyle == '' ? null : filterDriveStyle,
+        regionId: filterRegion == '' ? null : filterRegion,
       }),
     );
     navigation.navigate('DriveMain');

@@ -53,6 +53,7 @@ const DriveMain = ({navigation}) => {
         themeId: filterDriveTheme == '' ? null : filterDriveTheme,
         togetherId: filterDriveWith == '' ? null : filterDriveWith,
         styleId: filterDriveStyle == '' ? null : filterDriveStyle,
+        regionId: filterRegion == '' ? null : filterRegion,
       }),
     );
   }, []);
@@ -66,6 +67,7 @@ const DriveMain = ({navigation}) => {
         themeId: filterDriveTheme == '' ? null : filterDriveTheme,
         togetherId: filterDriveWith == '' ? null : filterDriveWith,
         styleId: filterDriveStyle == '' ? null : filterDriveStyle,
+        regionId: filterRegion == '' ? null : filterRegion,
       }),
     ).finally(() => setIsRefreshing(false));
   };
@@ -79,6 +81,7 @@ const DriveMain = ({navigation}) => {
           themeId: filterDriveTheme == '' ? null : filterDriveTheme,
           togetherId: filterDriveWith == '' ? null : filterDriveWith,
           styleId: filterDriveStyle == '' ? null : filterDriveStyle,
+          regionId: filterRegion == '' ? null : filterRegion,
         }),
       );
       // console.log(isLastPage, '22222');

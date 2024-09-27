@@ -16,6 +16,7 @@ export const getMeetList = createAsyncThunk(
       styleId,
       themeId,
       togetherId,
+      regionId,
     },
     thunkAPI,
   ) => {
@@ -32,6 +33,7 @@ export const getMeetList = createAsyncThunk(
           styleId,
           themeId,
           togetherId,
+          regionId,
         },
       });
       if (response.status == 200) {
@@ -74,6 +76,7 @@ export const getMeetListMore = createAsyncThunk(
       styleId,
       themeId,
       togetherId,
+      regionId,
     },
     thunkAPI,
   ) => {
@@ -90,6 +93,7 @@ export const getMeetListMore = createAsyncThunk(
           styleId,
           themeId,
           togetherId,
+          regionId,
         },
       });
       if (response.status === 200) {

@@ -5,13 +5,14 @@ import axios from 'axios';
 
 export const getDriveList = createAsyncThunk(
   'drive/getDriveList',
-  async ({themeId, styleId, togetherId, page, size}, thunkAPI) => {
+  async ({themeId, styleId, togetherId, page, size, regionId}, thunkAPI) => {
     try {
       const response = await authApi.get('/course', {
         params: {
           themeId,
           styleId,
           togetherId,
+          regionId,
           page,
           size,
         },
@@ -40,7 +41,7 @@ export const getDriveList = createAsyncThunk(
 
 export const getDriveListMore = createAsyncThunk(
   'drive/getDriveListMore',
-  async ({themeId, styleId, togetherId, page, size}, thunkAPI) => {
+  async ({themeId, styleId, togetherId, page, size, regionId}, thunkAPI) => {
     try {
       const response = await authApi.get('/course', {
         params: {
@@ -49,6 +50,7 @@ export const getDriveListMore = createAsyncThunk(
           togetherId,
           page,
           size,
+          regionId,
         },
       });
       if (response.status === 200) {
@@ -200,7 +202,7 @@ export const setFilterDriveTheme = createAction('drive/filterDriveTheme');
 
 export const setFilterDriveWith = createAction('drive/filterDriveWith');
 
-export const setFilterRegion = createAction('meet/filterRegion');
+export const setFilterRegion = createAction('drive/filterRegion');
 
 export const setBlogReviewList = createAction('drive/setBlogReviewList');
 

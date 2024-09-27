@@ -124,11 +124,12 @@ const MeetFilter = ({navigation}) => {
       getMeetList({
         page: 0,
         size: 10,
-        sort: sort,
+        orderBy: sort,
         themeId: filterDriveTheme == '' ? null : filterDriveTheme,
         togetherId: filterDriveWith == '' ? null : filterDriveWith,
         styleId: filterDriveStyle == '' ? null : filterDriveStyle,
         genderId: filterGender == '' ? null : filterGender,
+        regionId: filterRegion == '' ? null : filterRegion,
         age: filterAge == '' ? null : filterAge,
         carModel: filterCarModel == '' ? null : filterCarModel,
         carCareer: filterCarCareer == '' ? null : filterCarCareer,
