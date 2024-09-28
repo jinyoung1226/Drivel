@@ -1,23 +1,25 @@
-import React, { useEffect } from 'react';
-import { Provider } from 'react-redux';
+import React, {useEffect} from 'react';
+import {Provider} from 'react-redux';
 import store from './src/store/store';
 import RootNavigator from './src/Nav/RootNavigator';
 import messaging from '@react-native-firebase/messaging';
-import { Linking } from 'react-native';
-import { Platform, PermissionsAndroid } from 'react-native';
+import {Linking} from 'react-native';
+import {Platform, PermissionsAndroid} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as encoding from 'text-encoding';
-import BootSplash from "react-native-bootsplash";
-import notifee, { AndroidImportance, AndroidVisibility, EventType } from '@notifee/react-native';
+import BootSplash from 'react-native-bootsplash';
+import notifee, {
+  AndroidImportance,
+  AndroidVisibility,
+  EventType,
+} from '@notifee/react-native';
 import eventEmitter from './src/utils/eventEmitter';
 
-console.log = () => {};
-console.warn = () => {};
-console.error = () => {};
-
+// console.log = () => {};
+// console.warn = () => {};
+// console.error = () => {};
 
 const App = () => {
-
   const getFcmToken = async () => {
     try {
       const fcmToken = await messaging().getToken();
@@ -28,10 +30,10 @@ const App = () => {
     }
   };
 
-  const onMessageReceived = async (message) => {
+  const onMessageReceived = async message => {
     console.log('message:', message);
-    await notifee.requestPermission()
-    
+    await notifee.requestPermission();
+
     const channelId = await notifee.createChannel({
       id: 'important',
       name: 'Important Notifications',
@@ -43,55 +45,65 @@ const App = () => {
       notifee.displayNotification({
         title: message.notification.title,
         body: message.notification.body,
-        data: { type: message.data.type },
+        data: {type: message.data.type},
         android: {
-            channelId: channelId,
-            smallIcon: 'ic_launcher',
-            importance: AndroidImportance.HIGH,
-            visibility: AndroidVisibility.PUBLIC,
+          channelId: channelId,
+          smallIcon: 'ic_launcher',
+          importance: AndroidImportance.HIGH,
+          visibility: AndroidVisibility.PUBLIC,
         },
-      })
+      });
     }
 
     if (message.data.type === 'JOIN_ACCEPTED') {
       notifee.displayNotification({
         title: message.notification.title,
         body: message.notification.body,
-        data: { type: message.data.type, meetingId: message.data.meetingId, courseId: message.data.courseId, meetingTitle: message.data.meetingTitle },
-        android: {
-            channelId: channelId,
-            smallIcon: 'ic_launcher',
-            importance: AndroidImportance.HIGH,
-            visibility: AndroidVisibility.PUBLIC,
+        data: {
+          type: message.data.type,
+          meetingId: message.data.meetingId,
+          courseId: message.data.courseId,
+          meetingTitle: message.data.meetingTitle,
         },
-      })
+        android: {
+          channelId: channelId,
+          smallIcon: 'ic_launcher',
+          importance: AndroidImportance.HIGH,
+          visibility: AndroidVisibility.PUBLIC,
+        },
+      });
     }
 
     if (message.data.type === 'JOIN_REJECTED') {
       notifee.displayNotification({
         title: message.notification.title,
         body: message.notification.body,
-        data: { type: message.data.type },
+        data: {type: message.data.type},
         android: {
-            channelId: channelId,
-            smallIcon: 'ic_launcher',
-            importance: AndroidImportance.HIGH,
-            visibility: AndroidVisibility.PUBLIC,
+          channelId: channelId,
+          smallIcon: 'ic_launcher',
+          importance: AndroidImportance.HIGH,
+          visibility: AndroidVisibility.PUBLIC,
         },
-      })
+      });
     }
     if (message.data.type === 'FEEDBACK') {
       notifee.displayNotification({
         title: message.notification.title,
         body: message.notification.body,
-        data: { type: message.data.type, meetingId: message.data.meetingId, courseId: message.data.courseId, meetingTitle: message.data.meetingTitle },
-        android: {
-            channelId: channelId,
-            smallIcon: 'ic_launcher',
-            importance: AndroidImportance.HIGH,
-            visibility: AndroidVisibility.PUBLIC,
+        data: {
+          type: message.data.type,
+          meetingId: message.data.meetingId,
+          courseId: message.data.courseId,
+          meetingTitle: message.data.meetingTitle,
         },
-      })
+        android: {
+          channelId: channelId,
+          smallIcon: 'ic_launcher',
+          importance: AndroidImportance.HIGH,
+          visibility: AndroidVisibility.PUBLIC,
+        },
+      });
     }
   };
 
@@ -99,7 +111,9 @@ const App = () => {
 
   const iosRequestPermission = async () => {
     const authStatus = await messaging().requestPermission();
-    const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED || authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
     if (enabled) {
       const apnsToken = await messaging().getAPNSToken();
       if (apnsToken) {
@@ -110,7 +124,6 @@ const App = () => {
       console.log('Permission denied');
     }
   };
-
 
   const androidRequestPermission = async () => {
     const authorizationStatus = await messaging().requestPermission();
@@ -146,46 +159,60 @@ const App = () => {
   useEffect(() => {
     const init = async () => {
       Platform.OS === 'android'
-      ? await androidRequestPermission()
-      : await iosRequestPermission()
-    }
+        ? await androidRequestPermission()
+        : await iosRequestPermission();
+    };
     init().finally(async () => {
-      await BootSplash.hide({ fade: true });
-      console.log("BootSplash has been hidden successfully");
+      await BootSplash.hide({fade: true});
+      console.log('BootSplash has been hidden successfully');
     });
-    const foregroundEvent = notifee.onForegroundEvent(async ({ type, detail }) => {
-      switch (type) {
-        case EventType.PRESS:
-          if (detail.notification.data.type === 'JOIN_REQUEST') {
-            Linking.openURL('drivel://meet/applyDetail');
-          }
-          if (detail.notification.data.type === 'JOIN_ACCEPTED') {
-            Linking.openURL('drivel://meet/meetDetail/' + detail.notification.data.meetingId + '/' + detail.notification.data.courseId + '/' + detail.notification.data.meetingTitle);
-          }
-          if (detail.notification.data.type === 'JOIN_REJECTED') {
-            Linking.openURL('drivel://meet');
-          }
-          if (detail.notification.data.type === 'FEEDBACK') {
-            Linking.openURL('drivel://meet/meetDetail/' + detail.notification.data.meetingId + '/' + detail.notification.data.courseId + '/' + detail.notification.data.meetingTitle);
-          }
-          break;
-        case EventType.DISMISSED:
-          console.log('User dismissed notification');
-          break;
-      }
-    });
+    const foregroundEvent = notifee.onForegroundEvent(
+      async ({type, detail}) => {
+        switch (type) {
+          case EventType.PRESS:
+            if (detail.notification.data.type === 'JOIN_REQUEST') {
+              Linking.openURL('drivel://meet/applyDetail');
+            }
+            if (detail.notification.data.type === 'JOIN_ACCEPTED') {
+              Linking.openURL(
+                'drivel://meet/meetDetail/' +
+                  detail.notification.data.meetingId +
+                  '/' +
+                  detail.notification.data.courseId +
+                  '/' +
+                  detail.notification.data.meetingTitle,
+              );
+            }
+            if (detail.notification.data.type === 'JOIN_REJECTED') {
+              Linking.openURL('drivel://meet');
+            }
+            if (detail.notification.data.type === 'FEEDBACK') {
+              Linking.openURL(
+                'drivel://meet/meetDetail/' +
+                  detail.notification.data.meetingId +
+                  '/' +
+                  detail.notification.data.courseId +
+                  '/' +
+                  detail.notification.data.meetingTitle,
+              );
+            }
+            break;
+          case EventType.DISMISSED:
+            console.log('User dismissed notification');
+            break;
+        }
+      },
+    );
     return () => {
       unsubscribe(); // FCM 메시지 핸들러 클린업
-      foregroundEvent()
+      foregroundEvent();
     };
   }, []);
 
-  
-
   return (
-      <Provider store={store}>
-        <RootNavigator/>
-      </Provider>
+    <Provider store={store}>
+      <RootNavigator />
+    </Provider>
   );
 };
 
