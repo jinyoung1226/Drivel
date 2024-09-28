@@ -81,17 +81,18 @@ const CustomInput = ({
 
 const styles = StyleSheet.create({
   inputContainer: {
+    alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
     borderWidth: 1,
     borderRadius: 10,
     borderColor: colors.Gray03,
     paddingHorizontal: 16,
+    
   },
   input: {
     flex: 1,
     color: colors.Gray10,
-    paddingVertical: 10,
   },
   buttonText: {
     fontSize: 14,

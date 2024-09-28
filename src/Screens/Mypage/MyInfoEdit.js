@@ -227,7 +227,7 @@ const MyInfoEdit = ({navigation, route}) => {
                 placeholder={'한줄 소개를 입력해주세요'}
                 maxLength={30}
                 multiline={true}
-                containerStyle={{height: 47}}
+                containerStyle={{flex: 1, height: 47}}
               />
             </View>
           )}

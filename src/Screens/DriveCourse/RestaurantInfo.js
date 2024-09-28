@@ -102,10 +102,11 @@ const RestaurantInfo = ({route}) => {
         stickyHeaderIndices={[1]}
         scrollIndicatorInsets={{right: 0.1}}>
         <View onLayout={e => handleLayout(e, setContentHeight)}>
-          <Image
+          {placeInfo.imagePath !== "No Image Available" &&
+           <Image
             src={placeInfo.imagePath}
             style={{width: width, aspectRatio: 1.8}}
-          />
+          />}
           <View style={{paddingHorizontal: 16, marginTop: 16}}>
             <Text style={[textStyles.H1, {color: colors.Gray10}]}>
               {placeInfo.name}

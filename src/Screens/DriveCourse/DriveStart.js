@@ -23,6 +23,7 @@ import {Linking} from 'react-native';
 import NoItemScreen from '../../components/NoItemScreen';
 import MapIcon from '../../assets/icons/MapIcon';
 import ShopIcon from '../../assets/icons/ShopIcon';
+
 const {width} = Dimensions.get('window');
 
 const DriveStart = ({route, navigation}) => {

@@ -5,6 +5,7 @@ import ReviewItem from './ReviewItem';
 const ReviewList = ({goDriveDetail, ListHeaderComponent, data}) => {
   return (
     <FlatList
+      scrollIndicatorInsets={{right: 0.1}}
       ListHeaderComponent={ListHeaderComponent}
       ListFooterComponent={<View style={{height: 16}} />}
       ItemSeparatorComponent={<View style={{height: 16}} />}

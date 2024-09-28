@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useLayoutEffect, useRef} from 'react';
+import React, {useEffect, useState, useLayoutEffect, useRef, useCallback} from 'react';
 import {
   View,
   Text,
@@ -24,6 +24,8 @@ import {toggleLike} from '../../features/like/likeActions';
 import {useSelector, useDispatch} from 'react-redux';
 import CustomButton from '../../components/CustomButton';
 import {getDriveReviewList, setBlogReviewList} from '../../features/drive/driveActions';
+import YoutubePlayer from "react-native-youtube-iframe";
+import { ScrollView } from 'react-native-gesture-handler';
 
 const {width} = Dimensions.get('window');
 
@@ -46,6 +48,11 @@ const DriveDetail = ({route, navigation}) => {
   const [tabHeight, setTabHeight] = useState(null);
   const [textHeight, setTextHeight] = useState(0);
   const [fullTextHeight, setFullTextHeight] = useState(0);
+  const [playing, setPlaying] = useState(false);
+
+  const togglePlaying = useCallback(() => {
+    setPlaying((prev) => !prev);
+  }, []);
 
   useEffect(() => {
     if (textHeight && fullTextHeight) {
@@ -98,6 +105,7 @@ const DriveDetail = ({route, navigation}) => {
       const response = await authApi.get(`course/${driveId}`);
       if (response.status === 200) {
         setCourseInfo(response.data);
+        
         console.log('@@@@@@@@@@@@@@@@@@@@@@@');
       }
     } catch (error) {
@@ -111,7 +119,7 @@ const DriveDetail = ({route, navigation}) => {
         const response = await authApi.get(`course/${driveId}`);
         if (response.status === 200) {
           setCourseInfo(response.data);
-          // console.log(response.data, '@@@@');
+          console.log(response.data.youtubeUrl, '@@@@@@@@@');
         }
       } catch (error) {
         if (error.response) {
@@ -147,6 +155,11 @@ const DriveDetail = ({route, navigation}) => {
     }
   };
 
+  const onStateChange = useCallback((state) => {
+    if (state === "ended") {
+      setPlaying(false);
+    }
+  }, []);
 
   if (!courseInfo) {
     // 데이터가 로드되지 않은 경우 로딩 스피너 또는 대체 콘텐츠 표시
@@ -162,10 +175,42 @@ const DriveDetail = ({route, navigation}) => {
         stickyHeaderIndices={[1]}
         scrollEnabled={scrollEnabled}>
         <View onLayout={e => handleLayout(e, setContentHeight)}>
-          <Image
-            src={courseInfo.courseInfo.imagePath}
-            style={{width: width, aspectRatio: 1.8}}
-          />
+          
+          <View>
+            {courseInfo.youtubeUrl == "" ? 
+            <Image
+              src={courseInfo.courseInfo.imagePath}
+              style={{width: width, height: width * 0.5625}}
+            />
+            :
+            <ScrollView 
+              style={{height: width * 0.5625}}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              snapToInterval={width}
+              decelerationRate= "normal"
+            >
+              <YoutubePlayer
+                height={width * 0.5625}
+                width={width}
+                play={playing}
+                videoId={courseInfo.youtubeUrl.split('v=')[1]}
+                onChangeState={onStateChange}
+                volume={50}
+                playbackRate={1}
+                playerParams={{
+                  cc_lang_pref: "us",
+                  showClosedCaptions: true
+                }}
+              />
+              <Image
+              src={courseInfo.courseInfo.imagePath}
+              style={{width: width, flex:1}}
+              />
+            </ScrollView>
+            }
+          </View>
+          
           <View style={{paddingHorizontal: 16, marginTop: 16}}>
             <Text style={[textStyles.H1, {color: colors.Gray10}]}>
               {courseInfo.courseInfo.title}

@@ -46,13 +46,14 @@ const FestivalCuration = ({item}) => {
             borderRadius: 10,
             overflow: 'hidden',
           }}>
-          <LinearGradient
-            style={{flex: 1, padding: 12}}
-            colors={['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.6)']}>
-            <View
-              style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-              <MainLogo width={150} height={150} />
-            </View>
+          <View
+            style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <MainLogo width={150} height={150} />
+          </View>
+          <LinearGradient 
+          colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.6)']} 
+          style={{width: 182, height: 252, position:'absolute', backgroundColor: 'rgba(0, 0, 0, 0.1)', zIndex:1, padding:12}}>
+            <View style={{flex: 1}} />
             <Text
               style={[
                 textStyles.H4,
@@ -64,7 +65,7 @@ const FestivalCuration = ({item}) => {
               ellipsizeMode="tail">
               {item.title}
             </Text>
-            <Text style={[textStyles.H6, {color: colors.Gray03}]}>
+            <Text style={[textStyles.H6, {color: colors.Gray03, zIndex:2}]}>
               {item.startDate && formatDate(item.startDate)} -{' '}
               {item.endDate && formatShortDate(item.endDate)}
             </Text>
