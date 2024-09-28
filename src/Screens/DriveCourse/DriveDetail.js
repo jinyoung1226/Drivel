@@ -49,11 +49,13 @@ const DriveDetail = ({route, navigation}) => {
   const [textHeight, setTextHeight] = useState(0);
   const [fullTextHeight, setFullTextHeight] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const togglePlaying = useCallback(() => {
-    setPlaying((prev) => !prev);
-  }, []);
-
+  const onScroll = (event) => {
+    const offsetX = event.nativeEvent.contentOffset.x;
+    const newPage = Math.round(offsetX / width); // 페이지 계산
+    setCurrentPage(newPage); // 현재 페이지 업데이트
+  };
   useEffect(() => {
     if (textHeight && fullTextHeight) {
       if (fullTextHeight > textHeight || numOfLines === null) {
@@ -183,12 +185,16 @@ const DriveDetail = ({route, navigation}) => {
               style={{width: width, height: width * 0.5625}}
             />
             :
+            <View>
             <ScrollView 
               style={{height: width * 0.5625}}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               snapToInterval={width}
               decelerationRate= "normal"
+              onScroll={onScroll} // 스크롤 이벤트 핸들러 추가
+              scrollEventThrottle={16} // 스크롤 이벤트가 발생하는 빈도 설정
+              pagingEnabled
             >
               <YoutubePlayer
                 height={width * 0.5625}
@@ -208,6 +214,27 @@ const DriveDetail = ({route, navigation}) => {
               style={{width: width, flex:1}}
               />
             </ScrollView>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+              <View
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: 4,
+                  backgroundColor: currentPage === 0 ? colors.Blue : colors.Gray07,
+                  margin: 5,
+                }}
+              />
+              <View
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: 4,
+                  backgroundColor: currentPage === 1 ? colors.Blue : colors.Gray07,
+                  margin: 5,
+                }}
+              />
+            </View>
+            </View>
             }
           </View>
           
