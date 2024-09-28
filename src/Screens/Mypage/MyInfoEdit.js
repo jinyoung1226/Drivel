@@ -71,6 +71,10 @@ const MyInfoEdit = ({navigation, route}) => {
         Alert.alert('닉네임 중복 확인을 해주세요');
         return;
       }
+      if (nickname.length == 0 || intro.length == 0) {
+        Alert.alert('닉네임과 한줄 소개는 비워둘 수 없습니다');
+        return;
+      }
       try {
         const response = await authApi.patch('profile/nickname', {
           nickname: nickname == '' || nickname == item.nickname ? null : nickname,
@@ -224,10 +228,9 @@ const MyInfoEdit = ({navigation, route}) => {
               <CustomInput
                 value={intro}
                 onChangeText={setIntro}
-                placeholder={'한줄 소개를 입력해주세요'}
+                placeholder={'한줄 소개를 입력해주세요 (30자 이내)' }
                 maxLength={30}
                 multiline={true}
-                containerStyle={{flex: 1, height: 47}}
               />
             </View>
           )}

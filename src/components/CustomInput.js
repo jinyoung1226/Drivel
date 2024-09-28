@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  Platform,
 } from 'react-native';
 import {textStyles} from '../styles/textStyles';
 import colors from '../styles/colors';
@@ -88,6 +89,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: colors.Gray03,
     paddingHorizontal: 16,
+    paddingVertical: Platform.OS === 'ios' ? 10 : 0,
     
   },
   input: {
