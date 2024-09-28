@@ -1,10 +1,10 @@
 export const regions = [
   {id: 1, displayName: '서울/경기/인천'},
   {id: 2, displayName: '강원도'},
-  {id: 3, displayName: '충청도'},
+  {id: 3, displayName: '충청도/대전'},
   {id: 4, displayName: '부산/울산'},
-  {id: 5, displayName: '경상도'},
-  {id: 6, displayName: '전라도'},
+  {id: 5, displayName: '경상도/대구'},
+  {id: 6, displayName: '전라도/광주'},
   {id: 7, displayName: '제주도'},
 ];
 

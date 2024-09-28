@@ -14,7 +14,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {textStyles} from '../../styles/textStyles';
 import MeetList from './MeetList';
 import {useSelector, useDispatch} from 'react-redux';
-import {getMeetList, getMeetListMore} from '../../features/meet/meetActions';
+import {getMeetList, getMeetListMore, setSort} from '../../features/meet/meetActions';
 import {
   driveStyle,
   driveTheme,
@@ -26,6 +26,9 @@ import {useNavigation} from '@react-navigation/native';
 const MeetBrowse = () => {
   const navigation = useNavigation();
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [height, setHeight] = useState(0);
+  const [sortName, setSortName] = useState('최신순');
+  const [sortToggle, setSortToggle] = useState(false);
   const {
     meetList,
     totalMeeting,
@@ -107,6 +110,28 @@ const MeetBrowse = () => {
     }
   };
 
+  const sortList = (sort) => {
+    setSortName(sort.title);
+    dispatch(setSort(sort.value))
+    setSortToggle(!sortToggle)
+    setIsRefreshing(true);
+    dispatch(
+      getMeetList({
+        page: inititalPage,
+        size: 10,
+        orderBy: sort.value,
+        themeId: filterDriveTheme == '' ? null : filterDriveTheme,
+        togetherId: filterDriveWith == '' ? null : filterDriveWith,
+        styleId: filterDriveStyle == '' ? null : filterDriveStyle,
+        genderId: filterGender == '' ? null : filterGender,
+        regionId: filterRegion == '' ? null : filterRegion,
+        age: filterAge == '' ? null : filterAge,
+        carModel: filterCarModel == '' ? null : filterCarModel,
+        carCareer: filterCarCareer == '' ? null : filterCarCareer,
+      }),
+    ).finally(() => setIsRefreshing(false));
+  };
+
   const regionDisplayName = filterRegion
   ? regions.find(style => style.id === filterRegion)?.displayName
   : '';
@@ -147,6 +172,13 @@ const MeetBrowse = () => {
     return 0;
   });
 
+  const handleLayout = (event, setHeight) => {
+    const {height} = event.nativeEvent.layout;
+    setHeight(height);
+    console.log('Content height:', height);
+  };
+
+
   const renderCategory = ({item}) => {
     const isActive = item.value !== '';
     return (
@@ -186,13 +218,47 @@ const MeetBrowse = () => {
 
   return (
     <View style={{flex: 1, backgroundColor: colors.BG}}>
-      <View style={{flexDirection: 'row', padding: 20}}>
+      
+      <View 
+        style={{flexDirection: 'row', paddingHorizontal: 20, paddingTop:20}}
+        onLayout={e => handleLayout(e, setHeight)}>
         <Text style={[textStyles.B4, {color: colors.Gray10}]}>
           {totalMeeting}개 모임
         </Text>
         <View style={{flex: 1}} />
-        {/* <Text style={[textStyles.B4, {color: colors.Gray10}]}>인기순</Text> */}
+        <TouchableOpacity 
+          onPress={() => setSortToggle(!sortToggle)}
+          style={{flexDirection: 'row', alignItems:'center'}}>
+          <Text style={[textStyles.B4, {color: colors.Gray10}]}>{sortName}</Text>
+          <View style={{width: 4}} />
+          <Text
+            style={[
+              textStyles.B4,
+              {
+                marginTop:1,
+                fontFamily: 'SUIT-Bold',
+                color: colors.Gray10,
+                transform: [{rotate: '90deg'}],
+              },
+            ]}>
+            {'>'}
+          </Text>
+        </TouchableOpacity>
       </View>
+      {sortToggle &&
+        <View style={{ position: 'absolute', backgroundColor:colors.white, borderRadius:4, borderWidth:1, borderColor:colors.Gray03, zIndex:2, right:14, top: height+4}}>
+        {[{title:"인기순", value:"POPULAR"}, {title:"최신순", value:"LATEST"}].map((item, index) => (
+          <TouchableOpacity 
+            key={index} 
+            style={{padding:4, paddingHorizontal:16}}
+            onPress={() => {sortList(item)}}>
+            <Text style={[textStyles.B4, {color: colors.Gray10}]}>
+              {item.title}          
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>}
+      <View style={{height: 16}} />
       <View
         style={{
           flexDirection: 'row',

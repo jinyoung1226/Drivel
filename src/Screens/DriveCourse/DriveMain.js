@@ -25,6 +25,7 @@ import {
   driveWith,
   regions,
 } from '../../assets/onboardingData/onBoardingData';
+import LinearGradient from 'react-native-linear-gradient';
 
 const DriveMain = ({navigation}) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -195,6 +196,20 @@ const DriveMain = ({navigation}) => {
           ListFooterComponent={<View style={{width: 16}} />}
           ItemSeparatorComponent={<View style={{width: 8}} />}
           showsHorizontalScrollIndicator={false}
+        />
+        <LinearGradient
+          start={{x: 1, y: 1}}
+          end={{x: 0.1, y: 1}}
+          locations={[0, 0.8]}
+          colors={['rgba(255, 255, 255, 1)', 'rgba(255, 255, 255, 0)']}
+          style={{
+            width: 60,
+            height: '100%',
+            position: 'absolute',
+            right: 46,
+            zIndex: 1,
+            alignSelf: 'center',
+          }}
         />
         <TouchableOpacity
           onPress={goFilter}

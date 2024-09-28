@@ -21,7 +21,8 @@ import {
   setMeetMessageListNull,
   setParticipateStatus,
   getFeedbackUserList,
-  setFeedbackUserListNull
+  setFeedbackUserListNull,
+  setSort
 } from './meetActions';
 
 const initialState = {
@@ -180,7 +181,9 @@ const meetSlice = createSlice({
     builder.addCase(setParticipateStatus, (state, action) => {
       state.participateStatus = action.payload;
     });
-
+    builder.addCase(setSort, (state, action) => {
+      state.sort = action.payload;
+    });
     builder.addCase(getFeedbackUserList.pending, state => {
       state.isLoading = true;
     });
