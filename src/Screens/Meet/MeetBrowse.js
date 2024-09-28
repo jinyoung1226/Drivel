@@ -226,7 +226,7 @@ const MeetBrowse = () => {
           {totalMeeting}개 모임
         </Text>
         <View style={{flex: 1}} />
-        <TouchableOpacity 
+        {/* <TouchableOpacity 
           onPress={() => setSortToggle(!sortToggle)}
           style={{flexDirection: 'row', alignItems:'center'}}>
           <Text style={[textStyles.B4, {color: colors.Gray10}]}>{sortName}</Text>
@@ -243,9 +243,9 @@ const MeetBrowse = () => {
             ]}>
             {'>'}
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
-      {sortToggle &&
+      {/* {sortToggle &&
         <View style={{ position: 'absolute', backgroundColor:colors.white, borderRadius:4, borderWidth:1, borderColor:colors.Gray03, zIndex:2, right:14, top: height+4}}>
         {[{title:"인기순", value:"POPULAR"}, {title:"최신순", value:"LATEST"}].map((item, index) => (
           <TouchableOpacity 
@@ -257,7 +257,7 @@ const MeetBrowse = () => {
             </Text>
           </TouchableOpacity>
         ))}
-      </View>}
+      </View>} */}
       <View style={{height: 16}} />
       <View
         style={{
