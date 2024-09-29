@@ -226,11 +226,12 @@ const MyInfoEdit = ({navigation, route}) => {
               </Text>
               <View style={{height: 16}} />
               <CustomInput
+
                 value={intro}
                 onChangeText={setIntro}
                 placeholder={'한줄 소개를 입력해주세요 (30자 이내)' }
                 maxLength={30}
-                multiline={true}
+                // multiline={true}
               />
             </View>
           )}

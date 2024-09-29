@@ -1,6 +1,6 @@
 // DriveSearch.js
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import colors from '../../styles/colors';
 import BackIcon from '../../assets/icons/BackIcon';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
@@ -22,7 +22,7 @@ const DriveSearch = ({ navigation }) => {
   const [driveCourse, setDriveCourse] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
-
+  const width = Dimensions.get('window').width;
   // ref 생성
   const inputRef = useRef(null);
 
@@ -163,45 +163,53 @@ const DriveSearch = ({ navigation }) => {
               </View>
               <View style={{height: 16}} />
               {searchHistory.length !== 0 &&
-              <View>
-                <View style={{flexDirection: 'row', alignItems:'center'}}>
-                  <Text style={[textStyles.H4, {color:colors.Gray10}]}>최근 검색</Text>
-                  <View style={{flex: 1}} />
-                  <TouchableOpacity
-                    onPress={() => {deleteSearchHistoryAll()}}>
-                    <Text style={[textStyles.H5, {color:colors.Gray07}]}>전체 삭제</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={{height: 16}} />
-                {searchHistory.map((item, index) => (
-                  <View 
-                    key={index}
-                    style={{
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                      marginBottom:20
-                    }}>
-                    <TouchableOpacity
-                      style={{
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                      }}
-                      onPress={() => {setDriveCourse(item.title);
-                        setFilteredData(koFilter(courses, item.title));
-                      }}>
-                      <ClockIcon/>
-                      <View style={{width: 8}} />
-                      <Text style={[textStyles.B2, {color: colors.Gray09}]}>{item.title}</Text>
-                      
-                    </TouchableOpacity>
+                <View>
+                  <View style={{flexDirection: 'row', alignItems:'center'}}>
+                    <Text style={[textStyles.H4, {color:colors.Gray10}]}>최근 검색</Text>
                     <View style={{flex: 1}} />
                     <TouchableOpacity
-                    style={{padding:4}}
-                    onPress={() => {deleteSearchHistory(item.id)}}>
-                      <BigXIcon width={16} height={16} />
+                      onPress={() => {deleteSearchHistoryAll()}}>
+                      <Text style={[textStyles.H5, {color:colors.Gray07}]}>전체 삭제</Text>
                     </TouchableOpacity>
                   </View>
-                ))}
+                  <View style={{height: 16}} />
+                  <View>
+                  {searchHistory.map((item, index) => (
+                    <View 
+                      key={index}
+                      style={{
+                        flexDirection: 'row',
+                        marginBottom:20
+                      }}>
+                      <View style={{flex:1}}> 
+                      <TouchableOpacity
+                        style={{
+                          alignItems: 'center',
+                          flexDirection: 'row',
+                        }}
+                        onPress={() => {setDriveCourse(item.title);
+                          setFilteredData(koFilter(courses, item.title));
+                        }}>
+                        <View>
+                          <ClockIcon/>
+                        </View>
+                        <View style={{width: 8}} />
+                        <View style={{flex:1}}>
+                          <Text style={[textStyles.B2, {color: colors.Gray09}]} numberOfLines={1}>
+                            {item.title}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                      </View>
+                      <View style={{width: 16}} />
+                      <TouchableOpacity
+                      style={{padding:4}}
+                      onPress={() => {deleteSearchHistory(item.id)}}>
+                        <BigXIcon width={16} height={16} />
+                      </TouchableOpacity>
+                    </View>
+                  ))}
+                  </View>
               </View>}  
             </View>
           }

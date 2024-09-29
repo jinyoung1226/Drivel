@@ -252,7 +252,7 @@ const ConfirmModal = ({
               {type == 'meetBlock'
                 ? '모임장의 모든 게시물이 노출되지 않고\n모임에 참여 중인 경우 모임에서 나가집니다.\n정말로 차단하시겠어요?'
                 : type == 'delete'
-                ? '모임을 정말로 삭제하시겠어요?'
+                ? '정말로 모임을 삭제하시겠어요?'
                 : type == 'leave'
                 ? '모임에서 나가시겠어요?'
                 : type == 'notice'

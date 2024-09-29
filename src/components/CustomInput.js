@@ -84,15 +84,15 @@ const styles = StyleSheet.create({
   inputContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'center',
     borderWidth: 1,
     borderRadius: 10,
     borderColor: colors.Gray03,
     paddingHorizontal: 16,
-    paddingVertical: Platform.OS === 'ios' ? 10 : 0,
+    paddingVertical: Platform.OS === 'ios' ? 12 : 0,
     
   },
   input: {
+    textAlignVertical: 'center',
     flex: 1,
     color: colors.Gray10,
   },
