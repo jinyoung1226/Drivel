@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ActivityIndicator,
+  Linking,
 } from 'react-native';
 import {textStyles} from '../styles/textStyles';
 import colors from '../styles/colors';
@@ -197,7 +198,7 @@ const FestivalInfo = ({route}) => {
           <Text style={[textStyles.C4, {color: colors.Gray05, width:55, textAlign:'center'}]}>주소</Text>
           <View style={{flex:1}}>
             <Text style={[textStyles.B3, {color: colors.Gray10}]}>
-              {festivalInfo.firstAddress}
+              {festivalInfo.firstAddress?.replace(/<br\s*\/?>/g, '\n')}
             </Text>
           </View>
         </View>}
@@ -213,7 +214,7 @@ const FestivalInfo = ({route}) => {
           <Text style={[textStyles.C4, {color: colors.Gray05, width:55, textAlign:'center'}]}>장소</Text>
           <View style={{flex:1}}>
             <Text style={[textStyles.B3, {color: colors.Gray10}]}>
-              {festivalInfo.eventPlace}
+              {festivalInfo.eventPlace?.replace(/<br\s*\/?>/g, '\n')}
             </Text>
           </View>
         </View>}
@@ -227,9 +228,11 @@ const FestivalInfo = ({route}) => {
           }}>
           <Text style={[textStyles.C4, {color: colors.Gray05, width:55, textAlign:'center'}]}>링크</Text>
           <View style={{flex:1}}>
-            <Text style={[textStyles.B3, {color: colors.Gray10}]}>
-              {festivalInfo.eventHomepage}
-            </Text>
+            <TouchableOpacity onPress={() => {Linking.openURL(festivalInfo.eventHomepage)}}>
+              <Text style={[textStyles.B3, {color: colors.Blue, textDecorationLine: 'underline'}]}>
+                {festivalInfo.eventHomepage}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>}
         {festivalInfo.bookingPlace !== '' &&
