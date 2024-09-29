@@ -3,13 +3,13 @@ export const magazineCover = [
     id: 1,
     title: '가을의 낭만을 만끽할\n아름다운 드라이브 코스',
     imagePath:
-      'https://drivel-magazine.s3.ap-northeast-2.amazonaws.com/%E1%84%8F%E1%85%A5%E1%84%87%E1%85%A5/cover+(1).jpg',
+      'https://drivel-magazine.s3.ap-northeast-2.amazonaws.com/%E1%84%8F%E1%85%A5%E1%84%87%E1%85%A5/cover+(2).jpg',
   },
   {
     id: 2,
     title: '국내 와인딩\n드라이브 코스 추천',
     imagePath:
-      'https://drivel-magazine.s3.ap-northeast-2.amazonaws.com/%E1%84%8F%E1%85%A5%E1%84%87%E1%85%A5/cover+(2).jpg',
+      'https://drivel-magazine.s3.ap-northeast-2.amazonaws.com/%E1%84%8F%E1%85%A5%E1%84%87%E1%85%A5/cover+(1).jpg',
   },
   {
     id: 3,
