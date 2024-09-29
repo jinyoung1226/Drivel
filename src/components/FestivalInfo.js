@@ -115,7 +115,10 @@ const FestivalInfo = ({route}) => {
   }, [navigation]);
 
   return (
-    <ScrollView style={{flex: 1, backgroundColor: '#ffffff'}}>
+    <ScrollView 
+    style={{flex: 1, backgroundColor: '#ffffff'}}
+    scrollIndicatorInsets={{right: 0.1}}
+    >
       {festivalInfo.imagePath == '' || festivalInfo.imagePath == null ? (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <MainLogo />

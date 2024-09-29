@@ -65,22 +65,44 @@ const MyInfo = ({myProfileInfo, setModalVisible, modalVisible}) => {
           <Text style={[textStyles.H2, {color: colors.Gray10}]}>
             {myProfileInfo.nickname}
           </Text>
-          {myProfileInfo.gender !== null && (
-            <View>
+          <View>
+            <View style={{flexDirection: 'row'}}>
+              {myProfileInfo.carModel && 
               <Text
-                style={[textStyles.C4, {color: colors.Gray05}]}
-                numberOfLines={2}>
-                {`${myProfileInfo.carModel} • 운전경력 ${
-                  myProfileInfo.carCareer
-                }년\n${myProfileInfo.gender} • ${chageBrithToAge(
-                  myProfileInfo.birth,
-                )}세`}
+                style={[textStyles.C4, {color: colors.Gray05}]}>
+                  {myProfileInfo.carModel}
+              </Text>}
+              {myProfileInfo.carModel && myProfileInfo.carCareer && 
+              <Text style={[textStyles.C4, {color: colors.Gray05}]}>
+                {' • '}
               </Text>
-              <Text style={[textStyles.C4, {color: colors.Gray08}]}>
-                {myProfileInfo.description}
-              </Text>
+              }
+              {myProfileInfo.carCareer &&
+              <Text style={[textStyles.C4, {color: colors.Gray05}]}>
+                운전경력 {myProfileInfo.carCareer}년
+              </Text>}
             </View>
-          )}
+            <View style={{flexDirection: 'row'}}>
+              {myProfileInfo.gender && 
+              <Text
+                style={[textStyles.C4, {color: colors.Gray05}]}>
+                  {myProfileInfo.gender}
+              </Text>}
+              {myProfileInfo.gender && myProfileInfo.birth && 
+              <Text style={[textStyles.C4, {color: colors.Gray05}]}>
+                {' • '}
+              </Text>
+              }
+              {myProfileInfo.birth &&
+              <Text style={[textStyles.C4, {color: colors.Gray05}]}>
+                {chageBrithToAge(myProfileInfo.birth)}세
+              </Text>}
+            </View>
+            {myProfileInfo.description &&
+            <Text style={[textStyles.C4, {color: colors.Gray08}]}>
+              {myProfileInfo.description}
+            </Text>}
+          </View>
         </View>
         <View style={{width: 10}} />
         <Text
