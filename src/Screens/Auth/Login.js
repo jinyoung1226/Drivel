@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   Platform,
+  Button,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {textStyles} from '../../styles/textStyles';
@@ -20,15 +21,36 @@ import { appleLogin } from '../../features/auth/authActions';
 import { jwtDecode } from 'jwt-decode';
 import appleAuth, {AppleButton} from '@invertase/react-native-apple-authentication';
 import { useDispatch } from 'react-redux';
+import { initializeKakaoSDK } from '@react-native-kakao/core';
+import { getAccessToken, login, me, scopes, serviceTerms } from '@react-native-kakao/user';
+import config from '../../config/config';
+import axios from 'axios';
 const LoginScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [registerType, setRegisterType] = useState('');
   const [isAgree, setIsAgree] = useState(false);
   const dispatch = useDispatch();
 
+
   const handleKakaoLogin = async () => {
-    navigation.navigate('KakaoLogin');
+    const response = await login()
+    if (response) {
+      console.log(response)
+      getAccessToken().then(console.log)
+      scopes().then(console.log)
+      const getKakaoProfile = async () => {
+        const userProfile = await axios.get('https://kapi.kakao.com/v2/user/me', {
+          headers: {
+            "Authorization": `Bearer ${response.accessToken}`,
+            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
+          }
+        })
+        console.log(userProfile.data)
+      }
+      getKakaoProfile()
+    }
   };
+
 
   const handleSignInApple = async() => {
     const isAppleRegitered = await AsyncStorage.getItem('isAppleRegitered');
@@ -91,7 +113,6 @@ const LoginScreen = ({navigation}) => {
           </Text>
           <View style={{flex: 1}} />
         </TouchableOpacity>
-        
         {Platform.OS === 'ios' &&
         <View>
           <View style={{height: 16}} />

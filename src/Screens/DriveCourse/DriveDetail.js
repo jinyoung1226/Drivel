@@ -121,7 +121,8 @@ const DriveDetail = ({route, navigation}) => {
         const response = await authApi.get(`course/${driveId}`);
         if (response.status === 200) {
           setCourseInfo(response.data);
-          console.log(response.data.youtubeUrl, '@@@@@@@@@');
+          setLiked(response.data.courseInfo.liked);
+          console.log(response.data, '@@@@@@@@@');
         }
       } catch (error) {
         if (error.response) {

@@ -18,5 +18,12 @@ buildscript {
         classpath("com.google.gms:google-services:4.4.2")
     }
 }
+allprojects {
+    repositories {
+        maven {
+            url "https://devrepo.kakao.com/nexus/content/groups/public/"
+        }
+    }
+}
 
 apply plugin: "com.facebook.react.rootproject"

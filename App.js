@@ -3,20 +3,52 @@ import { Provider } from 'react-redux';
 import store from './src/store/store';
 import RootNavigator from './src/Nav/RootNavigator';
 import messaging from '@react-native-firebase/messaging';
-import { Linking } from 'react-native';
+import { Alert, Linking } from 'react-native';
 import { Platform, PermissionsAndroid } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as encoding from 'text-encoding';
 import BootSplash from "react-native-bootsplash";
 import notifee, { AndroidImportance, AndroidVisibility, EventType } from '@notifee/react-native';
 import eventEmitter from './src/utils/eventEmitter';
-
-console.log = () => {};
-console.warn = () => {};
-console.error = () => {};
+import VersionCheck from 'react-native-version-check';
+// console.log = () => {};
+// console.warn = () => {};
+// console.error = () => {};
 
 
 const App = () => {
+  const AppVersionCheck = async () => {
+
+    console.log("첫진입 시작");
+    //기기에 설치되 있는 버전
+    let CurrentVersion = VersionCheck.getCurrentVersion();
+    //앱의 최신버전
+    let LatestVersion = await VersionCheck.getLatestVersion();
+    
+    VersionCheck.needUpdate({
+      currentVersion: CurrentVersion,
+      latestVersion: LatestVersion,
+    }).then((res) => {
+      console.log(res);
+      if (res.isNeeded) {
+        Alert.alert("필수 업데이트 사항이 있습니다.", "", [
+          {
+            text: "스토어로 이동",
+            onPress: async() => {
+              if (Platform.OS == "android") {
+                const playStoreUrl = await VersionCheck.getPlayStoreUrl();
+                Linking.openURL(playStoreUrl);
+              } else {
+                const appStoreUrl = await VersionCheck.getAppStoreUrl();
+                Linking.openURL(appStoreUrl);
+              }
+            },
+          },
+        ]);
+      }
+    });
+  };
+  
 
   const getFcmToken = async () => {
     try {
@@ -144,6 +176,7 @@ const App = () => {
   // };
 
   useEffect(() => {
+    AppVersionCheck();
     const init = async () => {
       Platform.OS === 'android'
       ? await androidRequestPermission()

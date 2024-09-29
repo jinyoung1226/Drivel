@@ -69,6 +69,7 @@ google-services.json
 config.js
 app-release.aab
 DriveStartTest.js
+.env
 # Yarn
 .yarn/*
 !.yarn/patches

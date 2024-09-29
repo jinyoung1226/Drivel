@@ -1,3 +1,5 @@
+import java.util.Properties
+
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
@@ -70,6 +72,19 @@ def enableProguardInReleaseBuilds = true
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
 
+def dotenv = new Properties()
+def envFile = file("../../src/config/.env")
+if (envFile.exists()) {
+    envFile.withInputStream { stream -> dotenv.load(stream) }
+} else {
+    throw new FileNotFoundException("Could not find .env file")
+}
+
+def kakao_app_key = dotenv.getProperty('NATIVE_APP_KEY')
+if (kakao_app_key == null) {
+    throw new Exception("Kakao App Key is not set. Please set it in .env file.")
+}
+
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -80,8 +95,11 @@ android {
         applicationId "com.drivel"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 13
-        versionName "2.2"
+        versionCode 14
+        versionName "2.3"
+        
+        manifestPlaceholders = [NATIVE_APP_KEY: kakao_app_key]
+
     }
     signingConfigs {
         debug {
@@ -110,7 +128,9 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation platform('com.google.firebase:firebase-bom:33.1.2')
     implementation 'com.google.firebase:firebase-messaging'
-
+    implementation "com.kakao.sdk:v2-all:2.20.6" // 전체 모듈 설치, 2.11.0 버전부터 지원
+    implementation "com.kakao.sdk:v2-user:2.20.6" // 카카오 로그인 API 모듈
+    implementation project(':react-native-version-check')
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {
