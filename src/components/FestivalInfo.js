@@ -146,7 +146,7 @@ const FestivalInfo = ({route}) => {
             paddingTop: 16,
             gap: 16,
           }}>
-          <Text style={[textStyles.C4, {color: colors.Gray05}]}>주최자</Text>
+          <Text style={[textStyles.C4, {color: colors.Gray05, width:55, textAlign:'center'}]}>주최자</Text>
           <View style={{flex:1}}>
             <Text style={[textStyles.B3, {color: colors.Gray10}]}>
               {festivalInfo.sponsor}
@@ -160,7 +160,7 @@ const FestivalInfo = ({route}) => {
             paddingTop: 16,
             gap: 16,
           }}>
-          <Text style={[textStyles.C4, {color: colors.Gray05}]}>날짜</Text>
+          <Text style={[textStyles.C4, {color: colors.Gray05, width:55, textAlign:'center'}]}>날짜</Text>
           <View style={{flex:1}}>
             <Text style={[textStyles.B3, {color: colors.Gray10}]}>
               {festivalInfo.startDate && formatDate(festivalInfo.startDate)} -{' '}
@@ -176,7 +176,7 @@ const FestivalInfo = ({route}) => {
             paddingTop: 16,
             gap: 16,
           }}>
-          <Text style={[textStyles.C4, {color: colors.Gray05}]}>운영시간</Text>
+          <Text style={[textStyles.C4, {color: colors.Gray05, width:55, textAlign:'center'}]}>운영시간</Text>
           <View style={{flex:1}}>
             <Text style={[textStyles.B3, {color: colors.Gray10}]}>
               {festivalInfo.playTime?.replace(/<br\s*\/?>/g, '\n')}
@@ -191,7 +191,7 @@ const FestivalInfo = ({route}) => {
             paddingTop: 16,
             gap: 16,
           }}>
-          <Text style={[textStyles.C4, {color: colors.Gray05}]}>주소</Text>
+          <Text style={[textStyles.C4, {color: colors.Gray05, width:55, textAlign:'center'}]}>주소</Text>
           <View style={{flex:1}}>
             <Text style={[textStyles.B3, {color: colors.Gray10}]}>
               {festivalInfo.firstAddress}
@@ -207,7 +207,7 @@ const FestivalInfo = ({route}) => {
             paddingTop: 16,
             gap: 16,
           }}>
-          <Text style={[textStyles.C4, {color: colors.Gray05}]}>장소</Text>
+          <Text style={[textStyles.C4, {color: colors.Gray05, width:55, textAlign:'center'}]}>장소</Text>
           <View style={{flex:1}}>
             <Text style={[textStyles.B3, {color: colors.Gray10}]}>
               {festivalInfo.eventPlace}
@@ -222,7 +222,7 @@ const FestivalInfo = ({route}) => {
             paddingTop: 16,
             gap: 16,
           }}>
-          <Text style={[textStyles.C4, {color: colors.Gray05}]}>링크</Text>
+          <Text style={[textStyles.C4, {color: colors.Gray05, width:55, textAlign:'center'}]}>링크</Text>
           <View style={{flex:1}}>
             <Text style={[textStyles.B3, {color: colors.Gray10}]}>
               {festivalInfo.eventHomepage}
@@ -237,7 +237,7 @@ const FestivalInfo = ({route}) => {
             paddingTop: 16,
             gap: 16,
           }}>
-          <Text style={[textStyles.C4, {color: colors.Gray05}]}>예약</Text>
+          <Text style={[textStyles.C4, {color: colors.Gray05, width:55, textAlign:'center'}]}>예약</Text>
           <View style={{flex:1}}>
             <Text style={[textStyles.B3, {color: colors.Gray10}]}>
               {festivalInfo.bookingPlace}
@@ -247,14 +247,13 @@ const FestivalInfo = ({route}) => {
         {festivalInfo.description !== '' &&
         <View
           style={{
-            flexDirection: 'row',
             alignContent: 'center',
             paddingTop: 16,
-            gap: 16,
           }}>
-          <Text style={[textStyles.C4, {color: colors.Gray05}]}>설명</Text>
+          {/* <Text style={[textStyles.C4, {color: colors.Gray05}]}>설명</Text> */}
+          <View style={{height: 8}} />
           <View style={{flex:1}}>
-            <Text style={[textStyles.B3, {color: colors.Gray10}]}>
+            <Text style={[textStyles.B3, {color: colors.Gray10, lineHeight:23}]}>
               {festivalInfo.description?.replace(/<br\s*\/?>/g, '\n')}
             </Text>
           </View>

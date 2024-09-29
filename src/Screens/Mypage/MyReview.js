@@ -58,13 +58,13 @@ const MyReview = ({navigation}) => {
 
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>
-      <View style={{flexDirection: 'row', alignItems: 'center', padding: 16}}>
-        <Text style={[textStyles.B2, {color: colors.Gray10}]}>
-          총 {myReviews.length}개
-        </Text>
-      </View>
       <ReiviewList
-        ListHeaderComponent={<View style={{height: 16}} />}
+        ListHeaderComponent={
+        <View style={{flexDirection: 'row', alignItems: 'center', padding: 16}}>
+          <Text style={[textStyles.B2, {color: colors.Gray10}]}>
+            총 {myReviews.length}개
+          </Text>
+        </View>}
         data={myReviews}
         goDriveDetail={goDriveDetail}
       />

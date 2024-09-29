@@ -179,7 +179,7 @@ const DriveDetail = ({route, navigation}) => {
         <View onLayout={e => handleLayout(e, setContentHeight)}>
           
           <View>
-            {courseInfo.youtubeUrl == "" ? 
+            {courseInfo.youtubeUrl == null ? 
             <Image
               src={courseInfo.courseInfo.imagePath}
               style={{width: width, height: width * 0.5625}}
