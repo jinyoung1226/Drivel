@@ -10,46 +10,13 @@ import * as encoding from 'text-encoding';
 import BootSplash from "react-native-bootsplash";
 import notifee, { AndroidImportance, AndroidVisibility, EventType } from '@notifee/react-native';
 import eventEmitter from './src/utils/eventEmitter';
-import VersionCheck from 'react-native-version-check';
+import { checkVersion } from "react-native-check-version";
 // console.log = () => {};
 // console.warn = () => {};
 // console.error = () => {};
 
 
 const App = () => {
-  const AppVersionCheck = async () => {
-
-    console.log("첫진입 시작");
-    //기기에 설치되 있는 버전
-    let CurrentVersion = VersionCheck.getCurrentVersion();
-    //앱의 최신버전
-    let LatestVersion = await VersionCheck.getLatestVersion();
-    
-    VersionCheck.needUpdate({
-      currentVersion: CurrentVersion,
-      latestVersion: LatestVersion,
-    }).then((res) => {
-      console.log(res);
-      if (res.isNeeded) {
-        Alert.alert("필수 업데이트 사항이 있습니다.", "", [
-          {
-            text: "스토어로 이동",
-            onPress: async() => {
-              if (Platform.OS == "android") {
-                const playStoreUrl = await VersionCheck.getPlayStoreUrl();
-                Linking.openURL(playStoreUrl);
-              } else {
-                const appStoreUrl = await VersionCheck.getAppStoreUrl();
-                Linking.openURL(appStoreUrl);
-              }
-            },
-          },
-        ]);
-      }
-    });
-  };
-  
-
   const getFcmToken = async () => {
     try {
       const fcmToken = await messaging().getToken();
@@ -176,7 +143,20 @@ const App = () => {
   // };
 
   useEffect(() => {
-    AppVersionCheck();
+    const versionCheck = async () => {
+      const version = await checkVersion();
+      console.log("Got version info:", version);
+      
+      if (version.needsUpdate) {
+        Alert.alert('업데이트가 필요합니다.', '최신 버전으로 업데이트 해주세요.', [
+          {
+            text: '업데이트',
+            onPress: () => Linking.openURL(version.url),
+          },
+        ]);
+      } 
+    }
+    versionCheck();
     const init = async () => {
       Platform.OS === 'android'
       ? await androidRequestPermission()

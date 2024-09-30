@@ -7,7 +7,7 @@ export const getDriveCurationInfo = createAsyncThunk(
     try {
       const response = await authApi.get('course/my-theme');
       if (response.status == 200) {
-        console.log(response.data, 'driveCurationList');
+        // console.log(response.data, 'driveCurationList');
         const driveCurationList = response.data;
         return {
           driveCurationList: driveCurationList,

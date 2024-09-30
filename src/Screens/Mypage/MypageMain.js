@@ -18,7 +18,7 @@ const MyPage = () => {
   if (!myProfileInfo) {
     return <View style={{flex: 1, backgroundColor: colors.BG}} />;
   }
-
+  console.log(myProfileInfo);
   return (
     <ScrollView style={{backgroundColor: colors.BG}}>
       <ProfileImageModal

@@ -12,11 +12,14 @@ import { Linking, AppState } from 'react-native';
 import { setDeepLinkURL, getDeepLinkURL } from './global'
 import { initializeKakaoSDK } from '@react-native-kakao/core';
 import config from './src/config/config';
-import { getKeyHashAndroid } from '@react-native-kakao/core';
+// import { getKeyHashAndroid } from '@react-native-kakao/core';
 
 initializeKakaoSDK(config.NATIVE_APP_KEY);
 
-getKeyHashAndroid().then(console.log);
+// if (Platform.OS == "android") {
+//   getKeyHashAndroid().then(console.log);
+// } 
+
 messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('Message handled in the background!', remoteMessage);
   if (Platform.OS === 'android') {

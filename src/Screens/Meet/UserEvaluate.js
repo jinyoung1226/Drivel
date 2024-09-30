@@ -402,7 +402,7 @@ const UserEvaluate = ({navigation, route}) => {
               chipStyle={{paddingVertical: 12}}
               textStyle={[textStyles.B3]}
             />
-            {feedbackStatus == 'BAD' &&
+            {/* {feedbackStatus == 'BAD' &&
             <CustomChip
               item={'기타'}
               onPressHandler={() => {
@@ -411,7 +411,7 @@ const UserEvaluate = ({navigation, route}) => {
               chipStyle={{paddingVertical: 12}}
               textStyle={[textStyles.B3]}
               isActive={isFeedbackTextActive}
-            />}
+            />} */}
             {isFeedbackTextActive && (
               <TextInput
                 style={[
