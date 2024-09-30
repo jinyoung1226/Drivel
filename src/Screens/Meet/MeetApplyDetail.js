@@ -234,7 +234,7 @@ const MeetApplyDetail = ({navigation}) => {
                       </ImageBackground>
                     </View>
                     <View style={{width: 16}} />
-                    <View>
+                    <View style={{flex:1}}>
                       <Text style={[textStyles.B3, {color: colors.Gray10}]}>
                         {item.meetingTitle}
                       </Text>
