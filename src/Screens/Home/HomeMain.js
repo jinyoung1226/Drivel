@@ -62,7 +62,7 @@ const HomeMain = ({navigation}) => {
         const response = await authApi.get('magazine');
         if (response.status === 200) {
           // console.log(response.data, response.data.length, 'magazine@@@@@@@@@@@@@@@');
-          setMagazineList(response.data);
+          setMagazineList(response.data.reverse());
           setRandomBannerId(Math.floor(Math.random() * response.data.length));
         }
       } catch (error) {
@@ -199,7 +199,7 @@ const HomeMain = ({navigation}) => {
         </View>
         <View style={{flex: 1, marginTop: 16}}>
           <FlatList
-            data={magazineList.reverse()}
+            data={magazineList}
             renderItem={({item}) => <MagazineCuration item={item} />}
             horizontal
             showsHorizontalScrollIndicator={false}
