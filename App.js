@@ -11,6 +11,7 @@ import BootSplash from "react-native-bootsplash";
 import notifee, { AndroidImportance, AndroidVisibility, EventType } from '@notifee/react-native';
 import eventEmitter from './src/utils/eventEmitter';
 import { checkVersion } from "react-native-check-version";
+
 // console.log = () => {};
 // console.warn = () => {};
 // console.error = () => {};

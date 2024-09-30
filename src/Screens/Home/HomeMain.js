@@ -61,7 +61,7 @@ const HomeMain = ({navigation}) => {
       try {
         const response = await authApi.get('magazine');
         if (response.status === 200) {
-          console.log(response.data, response.data.length, 'magazine@@@@@@@@@@@@@@@');
+          // console.log(response.data, response.data.length, 'magazine@@@@@@@@@@@@@@@');
           setMagazineList(response.data);
           setRandomBannerId(Math.floor(Math.random() * response.data.length));
         }
@@ -86,33 +86,6 @@ const HomeMain = ({navigation}) => {
     };
     goMeetApplyDetail();
   }, []);
-
-  // useEffect(() => {
-    // const getRegionCurationInfo = async () => {
-    //   try {
-    //     const response = await authApi.get('course/my-region');
-    //     if (response.status === 200) {
-    //       console.log(response.data, '@@@@@');
-    //       setDriveRegionList(response.data);
-
-    //       const categoryData = response.data.map(data => data.tagName);
-    //       setCategory(categoryData);
-    //       if (categoryData.length > 0) {
-    //         setActiveButton(categoryData[0]);
-    //       }
-    //     }
-    //   } catch (error) {
-    //     if (error.response) {
-    //       if (error.response.status === 400) {
-    //         Alert.alert('코스를 불러올 수 없습니다.');
-    //       }
-    //     } else {
-    //       console.log(error);
-    //       Alert.alert('서버와의 통신 실패');
-    //     }
-    //   }
-    // };
-    // getRegionCurationInfo();
 
   useEffect(() => {
     dispatch(getDriveCurationInfo());
