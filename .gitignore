@@ -77,3 +77,4 @@ DriveStartTest.js
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+ios/Drivel/Info.plist
