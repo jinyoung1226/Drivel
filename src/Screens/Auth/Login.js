@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Platform,
   Button,
+  Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {textStyles} from '../../styles/textStyles';
@@ -19,12 +20,11 @@ import SplashScreen from '../../SplashScreen';
 import AppleLogin from '../../components/AppleLogin';
 import { appleLogin, kakaoLogin } from '../../features/auth/authActions';
 import { jwtDecode } from 'jwt-decode';
-import appleAuth, {AppleButton} from '@invertase/react-native-apple-authentication';
+import appleAuth from '@invertase/react-native-apple-authentication';
 import { useDispatch } from 'react-redux';
-import { initializeKakaoSDK } from '@react-native-kakao/core';
-import { getAccessToken, login, me, scopes, serviceTerms } from '@react-native-kakao/user';
-import config from '../../config/config';
-import axios from 'axios';
+// import { initializeKakaoSDK } from '@react-native-kakao/core';
+import { login } from '@react-native-kakao/user';
+
 const LoginScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [registerType, setRegisterType] = useState('');
@@ -33,10 +33,14 @@ const LoginScreen = ({navigation}) => {
 
 
   const handleKakaoLogin = async () => {
-    const response = await login()
-    if (response.accessToken) {
-      getAccessToken().then(console.log)
-      dispatch(kakaoLogin({kakaoAccessToken: response.accessToken}));
+    try {
+      const response = await login();
+      if (response.accessToken) {
+        dispatch(kakaoLogin({kakaoAccessToken: response.accessToken}));
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert('카카오 로그인에 실패했습니다.');
     }
   };
 

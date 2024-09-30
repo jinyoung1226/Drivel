@@ -12,9 +12,9 @@ import notifee, { AndroidImportance, AndroidVisibility, EventType } from '@notif
 import eventEmitter from './src/utils/eventEmitter';
 import { checkVersion } from "react-native-check-version";
 
-console.log = () => { };
-console.warn = () => { };
-console.error = () => { };
+console.log = () => {};
+console.warn = () => {};
+console.error = () => {};
 
 
 const App = () => {

@@ -12,7 +12,6 @@ import { Linking, AppState } from 'react-native';
 import { setDeepLinkURL, getDeepLinkURL } from './global'
 import { initializeKakaoSDK } from '@react-native-kakao/core';
 import config from './src/config/config';
-// import { getKeyHashAndroid } from '@react-native-kakao/core';
 
 initializeKakaoSDK(config.NATIVE_APP_KEY);
 
