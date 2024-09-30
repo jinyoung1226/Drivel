@@ -166,11 +166,12 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
 
 export const kakaoLogin = createAsyncThunk(
   'auth/kakaoLogin',
-  async ({code}, thunkAPI) => {
+  async ({kakaoAccessToken}, thunkAPI) => {
     try {
       const fcmToken = await AsyncStorage.getItem('fcmToken');
-      const response = await api.get('/kakao/login', {
-        params: {code: code, fcmToken: fcmToken},
+      const response = await api.post('/kakao/login', {
+        kakaoAccessToken: kakaoAccessToken,
+        fcmToken: fcmToken,
       });
       if (response.status == 200) {
         console.log(fcmToken, 'fcm');

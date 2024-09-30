@@ -17,7 +17,7 @@ import colors from '../../styles/colors';
 import PolicyModal from '../../components/PolicyModal';
 import SplashScreen from '../../SplashScreen';
 import AppleLogin from '../../components/AppleLogin';
-import { appleLogin } from '../../features/auth/authActions';
+import { appleLogin, kakaoLogin } from '../../features/auth/authActions';
 import { jwtDecode } from 'jwt-decode';
 import appleAuth, {AppleButton} from '@invertase/react-native-apple-authentication';
 import { useDispatch } from 'react-redux';
@@ -34,20 +34,9 @@ const LoginScreen = ({navigation}) => {
 
   const handleKakaoLogin = async () => {
     const response = await login()
-    if (response) {
-      console.log(response)
+    if (response.accessToken) {
       getAccessToken().then(console.log)
-      scopes().then(console.log)
-      const getKakaoProfile = async () => {
-        const userProfile = await axios.get('https://kapi.kakao.com/v2/user/me', {
-          headers: {
-            "Authorization": `Bearer ${response.accessToken}`,
-            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
-          }
-        })
-        console.log(userProfile.data)
-      }
-      getKakaoProfile()
+      dispatch(kakaoLogin({kakaoAccessToken: response.accessToken}));
     }
   };
 
@@ -95,7 +84,6 @@ const LoginScreen = ({navigation}) => {
         <View style={{flex: 1}} />
         <SplashScreen />
         <View style={{flex: 1}} />
-        {/* <AppleLogin handleSignInApple={handleSignInApple}/> */}  
         <TouchableOpacity
           style={{
             flexDirection: 'row',
