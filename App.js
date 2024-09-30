@@ -12,9 +12,9 @@ import notifee, { AndroidImportance, AndroidVisibility, EventType } from '@notif
 import eventEmitter from './src/utils/eventEmitter';
 import { checkVersion } from "react-native-check-version";
 
-console.log = () => {};
-console.warn = () => {};
-console.error = () => {};
+console.log = () => { };
+console.warn = () => { };
+console.error = () => { };
 
 
 const App = () => {
@@ -31,7 +31,7 @@ const App = () => {
   const onMessageReceived = async (message) => {
     console.log('message:', message);
     await notifee.requestPermission()
-    
+
     const channelId = await notifee.createChannel({
       id: 'important',
       name: 'Important Notifications',
@@ -45,10 +45,10 @@ const App = () => {
         body: message.notification.body,
         data: { type: message.data.type },
         android: {
-            channelId: channelId,
-            smallIcon: 'ic_launcher',
-            importance: AndroidImportance.HIGH,
-            visibility: AndroidVisibility.PUBLIC,
+          channelId: channelId,
+          smallIcon: 'ic_launcher',
+          importance: AndroidImportance.HIGH,
+          visibility: AndroidVisibility.PUBLIC,
         },
       })
     }
@@ -59,10 +59,10 @@ const App = () => {
         body: message.notification.body,
         data: { type: message.data.type, meetingId: message.data.meetingId, courseId: message.data.courseId, meetingTitle: message.data.meetingTitle },
         android: {
-            channelId: channelId,
-            smallIcon: 'ic_launcher',
-            importance: AndroidImportance.HIGH,
-            visibility: AndroidVisibility.PUBLIC,
+          channelId: channelId,
+          smallIcon: 'ic_launcher',
+          importance: AndroidImportance.HIGH,
+          visibility: AndroidVisibility.PUBLIC,
         },
       })
     }
@@ -73,10 +73,10 @@ const App = () => {
         body: message.notification.body,
         data: { type: message.data.type },
         android: {
-            channelId: channelId,
-            smallIcon: 'ic_launcher',
-            importance: AndroidImportance.HIGH,
-            visibility: AndroidVisibility.PUBLIC,
+          channelId: channelId,
+          smallIcon: 'ic_launcher',
+          importance: AndroidImportance.HIGH,
+          visibility: AndroidVisibility.PUBLIC,
         },
       })
     }
@@ -86,10 +86,10 @@ const App = () => {
         body: message.notification.body,
         data: { type: message.data.type, meetingId: message.data.meetingId, courseId: message.data.courseId, meetingTitle: message.data.meetingTitle },
         android: {
-            channelId: channelId,
-            smallIcon: 'ic_launcher',
-            importance: AndroidImportance.HIGH,
-            visibility: AndroidVisibility.PUBLIC,
+          channelId: channelId,
+          smallIcon: 'ic_launcher',
+          importance: AndroidImportance.HIGH,
+          visibility: AndroidVisibility.PUBLIC,
         },
       })
     }
@@ -147,7 +147,7 @@ const App = () => {
     const versionCheck = async () => {
       const version = await checkVersion();
       console.log("Got version info:", version);
-      
+
       if (version.needsUpdate) {
         Alert.alert('업데이트가 필요합니다.', '최신 버전으로 업데이트 해주세요.', [
           {
@@ -155,13 +155,13 @@ const App = () => {
             onPress: () => Linking.openURL(version.url),
           },
         ]);
-      } 
+      }
     }
     versionCheck();
     const init = async () => {
       Platform.OS === 'android'
-      ? await androidRequestPermission()
-      : await iosRequestPermission()
+        ? await androidRequestPermission()
+        : await iosRequestPermission()
     }
     init().finally(async () => {
       await BootSplash.hide({ fade: true });
@@ -194,12 +194,12 @@ const App = () => {
     };
   }, []);
 
-  
+
 
   return (
-      <Provider store={store}>
-        <RootNavigator/>
-      </Provider>
+    <Provider store={store}>
+      <RootNavigator />
+    </Provider>
   );
 };
 

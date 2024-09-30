@@ -3,6 +3,7 @@
 #import <Firebase.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTLinkingManager.h>
+#import <RNCKakaoUser/RNCKakaoUserUtil.h>
 
 @implementation AppDelegate
 
@@ -35,10 +36,14 @@
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView]; // ⬅️ initialize the splash screen
 }
 
-- (BOOL)application:(UIApplication *)application
-   openURL:(NSURL *)url
-   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
-{
-  return [RCTLinkingManager application:application openURL:url options:options];
+// Linking API
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+
+  // 카카오톡에서 전달된 URL scheme면 이 앱에서 핸들링하는 로직입니다.
+  if([RNCKakaoUserUtil isKakaoTalkLoginUrl:url]) {
+    return [RNCKakaoUserUtil handleOpenUrl:url];
+  }
+
+  return [super application:application openURL:url options:options] || [RCTLinkingManager application:application openURL:url options:options];
 }
 @end
