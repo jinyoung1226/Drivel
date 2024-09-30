@@ -28,7 +28,7 @@ import { getDriveCurationInfo, getRegionCurationInfo, setActiveButton } from '..
 const HomeMain = ({navigation}) => {
   const [magazineList, setMagazineList] = useState([]);
   const [randomBannerId, setRandomBannerId] = useState(null);
-
+  const month = new Date().getMonth() + 1;
   const dispatch = useDispatch();
 
   const {driveCurationList, regionCurationList, activeButton, category} = useSelector(state => state.home);
@@ -194,12 +194,12 @@ const HomeMain = ({navigation}) => {
           }}>
           <MiniBus />
           <Text style={[textStyles.H2, {color: colors.Gray10}]}>
-            이런 여행코스가 인기에요!
+          {`${month}월의 DRIVEL 매거진 모음`}
           </Text>
         </View>
         <View style={{flex: 1, marginTop: 16}}>
           <FlatList
-            data={magazineList}
+            data={magazineList.reverse()}
             renderItem={({item}) => <MagazineCuration item={item} />}
             horizontal
             showsHorizontalScrollIndicator={false}

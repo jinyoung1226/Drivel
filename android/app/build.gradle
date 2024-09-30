@@ -95,8 +95,8 @@ android {
         applicationId "com.drivel"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 21
-        versionName "2.6.4"
+        versionCode 22
+        versionName "2.6.5"
         
         manifestPlaceholders = [NATIVE_APP_KEY: kakao_app_key]
 
