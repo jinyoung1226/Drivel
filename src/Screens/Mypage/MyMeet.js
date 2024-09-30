@@ -6,6 +6,7 @@ import Tabs from '../../components/Tabs';
 import ToggleSwitch from '../../components/TogleSwitch';
 import MyMeetList from './MyMeetList';
 import {authApi} from '../../api/api';
+import eventEmitter from '../../utils/eventEmitter';
 
 const MyMeet = ({locked}) => {
   console.log(locked);
@@ -49,8 +50,12 @@ const MyMeet = ({locked}) => {
   };
 
   useEffect(() => {
+    eventEmitter.on("REFRESH_MEET", () => {getCreatedMeetList(); getJoinedMeetList();});
     getCreatedMeetList();
     getJoinedMeetList();
+    return () => {
+      eventEmitter.removeListener("REFRESH_MEET", () => {getCreatedMeetList(); getJoinedMeetList();});
+    };
   }, []);
 
   const profileLock = async () => {

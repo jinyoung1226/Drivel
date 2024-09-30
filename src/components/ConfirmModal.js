@@ -8,6 +8,7 @@ import {authApi} from '../api/api';
 import refreshMeetList from '../utils/refreshMeetList';
 import {useDispatch} from 'react-redux';
 import {getMeetMessageList} from '../features/meet/meetActions';
+import eventEmitter from '../utils/eventEmitter';
 
 const ConfirmModal = ({
   setModalVisible,
@@ -44,7 +45,8 @@ const ConfirmModal = ({
               `/meeting/leave/${meetingId}`,
             );
             if (response.status == 200) {
-              navigation.navigate('MeetMain');
+              navigation.goBack();
+              eventEmitter.emit('REFRESH_MEET', 'REFRESH_MEET');
             }
           } catch (error) {
             if (error.response) {
@@ -54,7 +56,7 @@ const ConfirmModal = ({
             }
           }
         } else {
-          navigation.navigate('MeetMain');
+          navigation.goBack();
         }
       }
     } catch (error) {
@@ -71,8 +73,9 @@ const ConfirmModal = ({
       const response = await authApi.delete(`/meeting/${meetingId}`);
       if (response.status == 200) {
         refreshMeetList(dispatch);
+        eventEmitter.emit('REFRESH_MEET', 'REFRESH_MEET');
         Alert.alert(response.data.message);
-        navigation.navigate('MeetMain');
+        navigation.goBack();
         modalClose();
       }
     } catch (error) {
@@ -89,8 +92,9 @@ const ConfirmModal = ({
       const response = await authApi.delete(`/meeting/leave/${meetingId}`);
       if (response.status == 200) {
         refreshMeetList(dispatch);
+        eventEmitter.emit('REFRESH_MEET', 'REFRESH_MEET');
         Alert.alert(response.data.message);
-        navigation.navigate('MeetMain');
+        navigation.goBack();
         modalClose();
       }
     } catch (error) {

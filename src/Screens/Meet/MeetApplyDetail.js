@@ -69,7 +69,7 @@ const MeetApplyDetail = ({navigation}) => {
   return (
     <View style={{backgroundColor: colors.BG, flex: 1}}>
       {isLoading
-        ? [1, 2, 3].map((item, index) => (
+        ? [1, 2].map((item, index) => (
             <View
               key={index}
               style={{
