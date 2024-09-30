@@ -10,7 +10,7 @@ import {authApi} from '../../api/api';
 const MyMeet = ({locked}) => {
   console.log(locked);
   const [activeTab, setActiveTab] = useState(0);
-  const [isOn, setIsOn] = useState(locked);
+  const [isOn, setIsOn] = useState(!locked);
   const [createdMeetList, setCreatedMeetList] = useState([]);
   const [joinedMeetList, setJoinedMeetList] = useState([]);
 

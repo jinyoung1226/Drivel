@@ -36,7 +36,7 @@ const NoticeItem = ({
           marginHorizontal: 16,
         }}>
         {noticeMenuVisible && (
-          <View style={{position: 'absolute', right: 16, top: 44}}>
+          <View style={{position: 'absolute', right: 16, top: 44, zIndex:2}}>
             {item.writerId == userId && (
               <Pressable
                 onPress={() => {

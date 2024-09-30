@@ -90,7 +90,7 @@ const DriveFilter = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
+    <View style={{flex: 1, backgroundColor: colors.BG}}>
       <KeyboardAwareScrollView>
           
         <View style={{padding: 16}}>
@@ -176,7 +176,7 @@ const DriveFilter = ({navigation}) => {
           <CustomButton title={'드라이브 코스 검색'} onPress={filterDrive} />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

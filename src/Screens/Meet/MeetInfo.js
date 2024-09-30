@@ -64,7 +64,7 @@ const MeetInfo = ({item, isMeetEnd}) => {
           <Image style={{flex: 1}} src={imagePath} />
         </View>
         <View style={{width: 24}} />
-        <View style={{justifyContent: 'center'}}>
+        <View style={{justifyContent: 'center', flex:1}}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text style={[textStyles.H5, {color: colors.Gray10}]}>
               {nickname}
@@ -91,9 +91,9 @@ const MeetInfo = ({item, isMeetEnd}) => {
             </TouchableOpacity>)}
           </View>
           <View style={{height: 4}} />
-          <Text style={[textStyles.B4, {color: colors.Gray06}]}>
-            {description}
-          </Text>
+            <Text style={[textStyles.B4, {color: colors.Gray06}]}>
+              {description}
+            </Text>
         </View>
         <View style={{width: 16}} />
       </TouchableOpacity>

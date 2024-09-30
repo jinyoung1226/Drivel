@@ -168,7 +168,7 @@ const FestivalInfo = ({route}) => {
           <View style={{flex:1}}>
             <Text style={[textStyles.B3, {color: colors.Gray10}]}>
               {festivalInfo.startDate && formatDate(festivalInfo.startDate)} -{' '}
-              {festivalInfo.endDate && formatShortDate(festivalInfo.endDate)}
+              {festivalInfo.endDate && formatDate(festivalInfo.endDate)}
             </Text>
           </View>
         </View>

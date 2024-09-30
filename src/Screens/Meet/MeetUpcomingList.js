@@ -156,7 +156,7 @@ const MeetUpcomingList = ({
       ) : (
         <View style={{paddingHorizontal: 16}}>
           <CustomButton
-            title={'나한테 딱 맞는 모임 구경하러 가기'}
+            title={'모임 구경하러 가기'}
             onPress={() => {
               dispatch(setTab(1));
             }}

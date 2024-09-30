@@ -3,13 +3,14 @@ import { Provider } from 'react-redux';
 import store from './src/store/store';
 import RootNavigator from './src/Nav/RootNavigator';
 import messaging from '@react-native-firebase/messaging';
-import { Linking } from 'react-native';
+import { Alert, Linking } from 'react-native';
 import { Platform, PermissionsAndroid } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as encoding from 'text-encoding';
 import BootSplash from "react-native-bootsplash";
 import notifee, { AndroidImportance, AndroidVisibility, EventType } from '@notifee/react-native';
 import eventEmitter from './src/utils/eventEmitter';
+import { checkVersion } from "react-native-check-version";
 
 console.log = () => {};
 console.warn = () => {};
@@ -17,7 +18,6 @@ console.error = () => {};
 
 
 const App = () => {
-
   const getFcmToken = async () => {
     try {
       const fcmToken = await messaging().getToken();
@@ -144,6 +144,20 @@ const App = () => {
   // };
 
   useEffect(() => {
+    const versionCheck = async () => {
+      const version = await checkVersion();
+      console.log("Got version info:", version);
+      
+      if (version.needsUpdate) {
+        Alert.alert('업데이트가 필요합니다.', '최신 버전으로 업데이트 해주세요.', [
+          {
+            text: '업데이트',
+            onPress: () => Linking.openURL(version.url),
+          },
+        ]);
+      } 
+    }
+    versionCheck();
     const init = async () => {
       Platform.OS === 'android'
       ? await androidRequestPermission()

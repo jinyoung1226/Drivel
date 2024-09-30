@@ -174,7 +174,7 @@ const MeetFilter = ({navigation}) => {
   }
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
+    <View style={{flex: 1, backgroundColor: colors.BG}}>
       <KeyboardAwareScrollView>
         <View style={{padding: 16, flexDirection:'row', alignItems:'center'}}>
           <View>
@@ -385,7 +385,7 @@ const MeetFilter = ({navigation}) => {
           <CustomButton title={'모임 검색'} onPress={filterMeeting} />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

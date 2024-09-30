@@ -18,7 +18,6 @@ import {textStyles} from '../../styles/textStyles';
 import colors from '../../styles/colors';
 import DriveRegionCuraiton from './DriveRegionCuraiton';
 import MiniBus from '../../assets/icons/MinibusIcon.svg';
-import {magazineCover} from '../../assets/magazineData/magazineData';
 import HomeBanner from './HomeBanner';
 import {getDeepLinkURL} from '../../../global';
 import LinearGradient from 'react-native-linear-gradient';
@@ -27,8 +26,9 @@ import InstaBannerArrow from '../../assets/icons/InstaBannerArrow.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDriveCurationInfo, getRegionCurationInfo, setActiveButton } from '../../features/home/homeActions';
 const HomeMain = ({navigation}) => {
-  // const [driveCourseList, setDriveCourseList] = useState([]);
-  // const [driveRegionList, setDriveRegionList] = useState([]);
+  const [magazineList, setMagazineList] = useState([]);
+  const [randomBannerId, setRandomBannerId] = useState(null);
+
   const dispatch = useDispatch();
 
   const {driveCurationList, regionCurationList, activeButton, category} = useSelector(state => state.home);
@@ -57,24 +57,26 @@ const HomeMain = ({navigation}) => {
   }, [navigation]);
 
   useEffect(() => {
-    // const getDriveCurationInfo = async () => {
-    //   try {
-    //     const response = await authApi.get('course/my-theme');
-    //     if (response.status === 200) {
-    //       setDriveCourseList(response.data);
-    //     }
-    //   } catch (error) {
-    //     if (error.response) {
-    //       if (error.response.status === 400) {
-    //         Alert.alert('코스를 불러올 수 없습니다.');
-    //       }
-    //     } else {
-    //       console.log(error);
-    //       Alert.alert('서버와의 통신 실패');
-    //     }
-    //   }
-    // };
-    // getDriveCurationInfo();
+    const getMagazine = async () => {
+      try {
+        const response = await authApi.get('magazine');
+        if (response.status === 200) {
+          // console.log(response.data, response.data.length, 'magazine@@@@@@@@@@@@@@@');
+          setMagazineList(response.data);
+          setRandomBannerId(Math.floor(Math.random() * response.data.length));
+        }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status === 400) {
+            Alert.alert('코스를 불러올 수 없습니다.');
+          }
+        } else {
+          console.log(error);
+          Alert.alert('서버와의 통신 실패');
+        }
+      }
+    };
+    getMagazine();
     const goMeetApplyDetail = async () => {
       const deepLinkURL = getDeepLinkURL();
       if (deepLinkURL) {
@@ -85,33 +87,6 @@ const HomeMain = ({navigation}) => {
     goMeetApplyDetail();
   }, []);
 
-  // useEffect(() => {
-    // const getRegionCurationInfo = async () => {
-    //   try {
-    //     const response = await authApi.get('course/my-region');
-    //     if (response.status === 200) {
-    //       console.log(response.data, '@@@@@');
-    //       setDriveRegionList(response.data);
-
-    //       const categoryData = response.data.map(data => data.tagName);
-    //       setCategory(categoryData);
-    //       if (categoryData.length > 0) {
-    //         setActiveButton(categoryData[0]);
-    //       }
-    //     }
-    //   } catch (error) {
-    //     if (error.response) {
-    //       if (error.response.status === 400) {
-    //         Alert.alert('코스를 불러올 수 없습니다.');
-    //       }
-    //     } else {
-    //       console.log(error);
-    //       Alert.alert('서버와의 통신 실패');
-    //     }
-    //   }
-    // };
-    // getRegionCurationInfo();
-
   useEffect(() => {
     dispatch(getDriveCurationInfo());
     dispatch(getRegionCurationInfo());
@@ -119,7 +94,7 @@ const HomeMain = ({navigation}) => {
       try {
         const response = await authApi.get('festival');
         if (response.status === 200) {
-          console.log(response.data, 'festival');
+          // console.log(response.data, 'festival');
           setFestivalList(response.data);
         }
       } catch (error) {
@@ -147,7 +122,7 @@ const HomeMain = ({navigation}) => {
   return (
     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
       <ScrollView>
-        <HomeBanner />
+        <HomeBanner magazineList={magazineList} randomBannerId={randomBannerId}/>
         <View style={{height: 24}} />
         <Pressable
           onPress={() => {
@@ -224,7 +199,7 @@ const HomeMain = ({navigation}) => {
         </View>
         <View style={{flex: 1, marginTop: 16}}>
           <FlatList
-            data={magazineCover}
+            data={magazineList}
             renderItem={({item}) => <MagazineCuration item={item} />}
             horizontal
             showsHorizontalScrollIndicator={false}

@@ -111,7 +111,7 @@ const Register = ({navigation}) => {
         password: password,
       });
       if (response.status === 200) {
-        Alert.alert('signup Complete');
+        Alert.alert('회원가입이 완료되었습니다.');
         navigation.navigate('Login');
       }
     } catch (error) {

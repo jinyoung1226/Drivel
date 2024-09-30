@@ -10,6 +10,15 @@ import {name as appName} from './app.json';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Linking, AppState } from 'react-native';
 import { setDeepLinkURL, getDeepLinkURL } from './global'
+import { initializeKakaoSDK } from '@react-native-kakao/core';
+import config from './src/config/config';
+// import { getKeyHashAndroid } from '@react-native-kakao/core';
+
+initializeKakaoSDK(config.NATIVE_APP_KEY);
+
+// if (Platform.OS == "android") {
+//   getKeyHashAndroid().then(console.log);
+// } 
 
 messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('Message handled in the background!', remoteMessage);

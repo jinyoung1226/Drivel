@@ -73,6 +73,7 @@ const OtherMeet = ({userId}) => {
           <Text style={[textStyles.H5, {color: colors.Gray08}]}>
             사용자가 모임 이력을 비공개했어요
           </Text>
+          <View style={{height: 32}} />
         </View>
       ) : (
         <View>
