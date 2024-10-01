@@ -1,6 +1,6 @@
 import React from 'react';
 import GrayLine from '../../components/GrayLine';
-import {View, Text, Image, Dimensions, FlatList} from 'react-native';
+import {View, Text, Image, Dimensions, FlatList, ActivityIndicator} from 'react-native';
 import {textStyles} from '../../styles/textStyles';
 import {WebView} from 'react-native-webview';
 import config from '../../config/config';
@@ -13,7 +13,6 @@ import dfs_xy_conv from '../../utils/dfs_xy_conv';
 import Cloudy from '../../assets/icons/Cloudy.svg';
 import Sunny from '../../assets/icons/Sunny.svg';
 import Rainy from '../../assets/icons/Rainy.svg';
-import weatherDescKo from '../../utils/weatherTranslation';
 import Snowy from '../../assets/icons/Snowy.svg';
 import HazySnowy from '../../assets/icons/HazySnowy.svg';
 import HazyRainy from '../../assets/icons/HazyRainy.svg';
@@ -28,148 +27,183 @@ const DriveTourSpot = ({item, minHeight, setScrollEnabled}) => {
     lat: item.waypoints[0].latitude,
     lng: item.waypoints[0].longitude,
   };
-  // console.log(center.lat, center.lng);
+  console.log(center.lat, center.lng);
 
-  const today = new Date();
+  const getFormattedDateAndTime = () => {
+    const today = new Date();
 
-  let year = today.getFullYear();
-  let month = today.getMonth() + 1;
-  let date = today.getDate();
+    // 현재 날짜 계산
+    let year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let date = today.getDate();
 
-  month = month < 10 ? `0${month}` : month;
-  date = date < 10 ? `0${date}` : date;
+    month = month < 10 ? `0${month}` : month;
+    date = date < 10 ? `0${date}` : date;
 
-  const formattedDate = `${year}${month}${date}`;
-  // console.log(`현재 날짜: ${formattedDate}`);
+    const formattedDate = `${year}${month}${date}`;
+    console.log(`현재 날짜: ${formattedDate}`);
 
-  const nowTime = new Date();
+    // 현재 시간 계산
+    const nowTime = new Date();
+    let hours = nowTime.getHours();
+    let minutes = String(nowTime.getMinutes()).padStart(2, '0');
 
-  let hours = String(nowTime.getHours()).padStart(2, '0');
-  let minutes = String(nowTime.getMinutes()).padStart(2, '0');
+    const formattedTime = `${String(hours).padStart(2, '0')}${minutes}`;
+    console.log(`현재 시간: ${formattedTime}`);
 
-  const formattedTime = `${hours}${minutes}`;
+    // 기준 시간 목록
+    const baseTimes = [200, 500, 800, 1100, 1400, 1700, 2000, 2300];
+    let currentTime = parseInt(formattedTime);
 
-  const baseTimes = [200, 500, 800, 1100, 1400, 1700, 2000, 2300];
-
-  let currentTime = parseInt(formattedTime);
-
-  let closestTime = baseTimes[0];
-  let minDiff = Math.abs(currentTime - baseTimes[0]);
-
-  for (let i = 1; i < baseTimes.length; i++) {
-    let diff = Math.abs(currentTime - baseTimes[i]);
-    if (diff < minDiff) {
-      closestTime = baseTimes[i];
-      minDiff = diff;
+    // 현재 시간보다 작은 기준 시간 중 가장 가까운 시간 찾기
+    let closestTime = baseTimes[baseTimes.length - 1]; // 기본값은 2300
+    for (let i = 0; i < baseTimes.length; i++) {
+      if (currentTime >= baseTimes[i]) {
+        closestTime = baseTimes[i];
+      } else {
+        break;
+      }
     }
-  }
 
-  let closestTimeFormatted = String(closestTime).padStart(4, '0');
+    // 만약 현재 시간이 2300 초과 0200 미만인 경우 현재 날짜의 2300으로 설정
+    if (currentTime > 2300) {
+      closestTime = 2300;
+    } else if (currentTime < 200) {
+      // 0200 미만인 경우 전날의 2300으로 설정
+      const previousDay = new Date(today);
+      previousDay.setDate(today.getDate() - 1);
 
-  // console.log(`현재 시간: ${formattedTime}`);
-  // console.log(`가장 가까운 기준 시간: ${closestTimeFormatted}`);
+      year = previousDay.getFullYear();
+      month = previousDay.getMonth() + 1;
+      date = previousDay.getDate();
 
-  // 위도와 경도를 격자 좌표로 변환
-  const rs = dfs_xy_conv('toXY', center.lat, center.lng);
-  const {x, y} = rs;
+      month = month < 10 ? `0${month}` : month;
+      date = date < 10 ? `0${date}` : date;
 
-  // useEffect(() => {
-  //   console.log(weatherInfo);
-  // }, [weatherInfo]);
+      return {
+        formattedDate: `${year}${month}${date}`,
+        closestTimeFormatted: String(2300).padStart(4, '0'),
+      };
+    }
+
+    // 시간 포맷팅
+    let closestTimeFormatted = String(closestTime).padStart(4, '0');
+
+    console.log(`가장 가까운 기준 시간: ${closestTimeFormatted}`);
+    return {formattedDate, closestTimeFormatted};
+  };
+  useEffect(() => {
+    console.log(weatherInfo);
+  }, [weatherInfo]);
 
   useEffect(() => {
+    const {formattedDate, closestTimeFormatted} = getFormattedDateAndTime();
+    console.log(
+      `최종 날짜: ${formattedDate}, 최종 시간: ${closestTimeFormatted}`,
+    );
+
+    const rs = dfs_xy_conv('toXY', center.lat, center.lng);
+    const {x, y} = rs;
+
     const fetchWeather = async () => {
       try {
         const response = await axios.get(
           `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${config.WEATHER_KEY}&pageNo=1&numOfRows=12&dataType=JSON&base_date=${formattedDate}&base_time=${closestTimeFormatted}&nx=${x}&ny=${y}`,
         );
-        const weatherData = response.data.response.body.items.item;
-        const filteredWeather = weatherData.filter(
-          item =>
-            item.category === 'SKY' ||
-            item.category === 'PTY' ||
-            item.category === 'TMP',
-        );
 
-        if (filteredWeather[1].fcstValue === '1') {
-          setWeatherInfo({
-            sky: '맑음',
-            precipitation: '없음',
-            temperature: parseInt(filteredWeather[0].fcstValue),
-            description: '맑음',
-            imageIcon: Sunny,
-          });
-        } else if (
-          filteredWeather[1].fcstValue === '3' &&
-          filteredWeather[2].fcstValue === '0'
-        ) {
-          setWeatherInfo({
-            sky: '구름많음',
-            precipitation: '없음',
-            temperature: parseInt(filteredWeather[0].fcstValue),
-            description: '구름 많음',
-            imageIcon: Cloudy,
-          });
-        } else if (
-          filteredWeather[1].fcstValue === '3' &&
-          filteredWeather[2].fcstValue === '1'
-        ) {
-          setWeatherInfo({
-            sky: '구름많음',
-            precipitation: '비',
-            temperature: parseInt(filteredWeather[0].fcstValue),
-            description: '구름 많고 비',
-            imageIcon: Rainy,
-          });
-        } else if (
-          filteredWeather[1].fcstValue === '3' &&
-          filteredWeather[2].fcstValue === '3'
-        ) {
-          setWeatherInfo({
-            sky: '구름많음',
-            precipitation: '눈',
-            temperature: parseInt(filteredWeather[0].fcstValue),
-            description: '구름 많고 눈',
-            imageIcon: Snowy,
-          });
-        } else if (
-          filteredWeather[1].fcstValue === '4' &&
-          filteredWeather[2].fcstValue === '0'
-        ) {
-          setWeatherInfo({
-            sky: '흐림',
-            precipitation: '없음',
-            temperature: parseInt(filteredWeather[0].fcstValue),
-            description: '흐림',
-            imageIcon: Cloudy,
-          });
-        } else if (
-          filteredWeather[1].fcstValue === '4' &&
-          filteredWeather[2].fcstValue === '1'
-        ) {
-          setWeatherInfo({
-            sky: '흐림',
-            precipitation: '비',
-            temperature: parseInt(filteredWeather[0].fcstValue),
-            description: '흐리고 비',
-            imageIcon: HazyRainy,
-          });
-        } else if (
-          filteredWeather[1].fcstValue === '4' &&
-          filteredWeather[2].fcstValue === '3'
-        ) {
-          setWeatherInfo({
-            sky: '흐림',
-            precipitation: '눈',
-            temperature: parseInt(filteredWeather[0].fcstValue),
-            description: '흐리고 눈',
-            imageIcon: HazySnowy,
-          });
+        // 응답 상태가 200인 경우에만 처리
+        if (response.status === 200) {
+          const weatherData = response.data.response.body.items.item;
+          const filteredWeather = weatherData.filter(
+            item =>
+              item.category === 'SKY' ||
+              item.category === 'PTY' ||
+              item.category === 'TMP',
+          );
+
+          if (filteredWeather[1].fcstValue === '1') {
+            setWeatherInfo({
+              sky: '맑음',
+              precipitation: '없음',
+              temperature: parseInt(filteredWeather[0].fcstValue),
+              description: '맑음',
+              imageIcon: Sunny,
+            });
+          } else if (
+            filteredWeather[1].fcstValue === '3' &&
+            filteredWeather[2].fcstValue === '0'
+          ) {
+            setWeatherInfo({
+              sky: '구름많음',
+              precipitation: '없음',
+              temperature: parseInt(filteredWeather[0].fcstValue),
+              description: '구름 많음',
+              imageIcon: Cloudy,
+            });
+          } else if (
+            filteredWeather[1].fcstValue === '3' &&
+            filteredWeather[2].fcstValue === '1'
+          ) {
+            setWeatherInfo({
+              sky: '구름많음',
+              precipitation: '비',
+              temperature: parseInt(filteredWeather[0].fcstValue),
+              description: '구름 많고 비',
+              imageIcon: Rainy,
+            });
+          } else if (
+            filteredWeather[1].fcstValue === '3' &&
+            filteredWeather[2].fcstValue === '3'
+          ) {
+            setWeatherInfo({
+              sky: '구름많음',
+              precipitation: '눈',
+              temperature: parseInt(filteredWeather[0].fcstValue),
+              description: '구름 많고 눈',
+              imageIcon: Snowy,
+            });
+          } else if (
+            filteredWeather[1].fcstValue === '4' &&
+            filteredWeather[2].fcstValue === '0'
+          ) {
+            setWeatherInfo({
+              sky: '흐림',
+              precipitation: '없음',
+              temperature: parseInt(filteredWeather[0].fcstValue),
+              description: '흐림',
+              imageIcon: Cloudy,
+            });
+          } else if (
+            filteredWeather[1].fcstValue === '4' &&
+            filteredWeather[2].fcstValue === '1'
+          ) {
+            setWeatherInfo({
+              sky: '흐림',
+              precipitation: '비',
+              temperature: parseInt(filteredWeather[0].fcstValue),
+              description: '흐리고 비',
+              imageIcon: HazyRainy,
+            });
+          } else if (
+            filteredWeather[1].fcstValue === '4' &&
+            filteredWeather[2].fcstValue === '3'
+          ) {
+            setWeatherInfo({
+              sky: '흐림',
+              precipitation: '눈',
+              temperature: parseInt(filteredWeather[0].fcstValue),
+              description: '흐리고 눈',
+              imageIcon: HazySnowy,
+            });
+          }
+        } else {
+          console.error('Error: Non-200 response status');
         }
       } catch (error) {
         console.log('Error fetching weather data:', error);
       }
     };
+
     fetchWeather();
   }, []);
 
@@ -227,16 +261,16 @@ const DriveTourSpot = ({item, minHeight, setScrollEnabled}) => {
             <View
               style={{
                 flexDirection: 'row',
-                justifyContent: 'space-between',
                 alignItems: 'center',
                 flex: 1,
+                padding:16
               }}>
+              <View style={{flex: 1}} />
               <View
                 style={{
                   flexDirection: 'column',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  paddingLeft: 40,
                 }}>
                 <Text
                   style={{
@@ -251,16 +285,16 @@ const DriveTourSpot = ({item, minHeight, setScrollEnabled}) => {
                   {weatherInfo.description}
                 </Text>
               </View>
+              <View style={{flex: 4}} />
               <View>
-                <weatherInfo.imageIcon
-                  style={{
-                    marginRight: 40,
-                  }}
-                />
+                <weatherInfo.imageIcon/>
               </View>
+              <View style={{flex: 1}} />
             </View>
           ) : (
-            <Text>Loading weather...</Text> // weatherInfo가 null일 때는 로딩 표시
+            <View style={{alignItems:'center', justifyContent:'center'}}>
+              <ActivityIndicator size="large" color={colors.Blue} />
+            </View>
           )}
         </View>
       </View>
