@@ -5,7 +5,7 @@ import colors from '../../styles/colors';
 import {textStyles} from '../../styles/textStyles';
 import {fetchReataurantRoute} from '../../utils/fetchRoute';
 
-const RestaurantInfoTab = ({item, minHeight}) => {
+const RestaurantInfoTab = ({item, minHeight, setScrollEnabled}) => {
   const [htmlContent, setHtmlContent] = useState('');
   const center = {
     lat: item.latitude,
@@ -41,6 +41,9 @@ const RestaurantInfoTab = ({item, minHeight}) => {
             originWhitelist={['*']}
             source={{html: htmlContent}}
             style={{flex: 1, borderRadius: 4}}
+            onTouchCancel={() => setScrollEnabled(true)}
+            onTouchStart={() => setScrollEnabled(false)}
+            onTouchEnd={() => setScrollEnabled(true)}
           />
         </View>
       </View>

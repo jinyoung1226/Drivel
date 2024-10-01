@@ -26,7 +26,7 @@ const {width} = Dimensions.get('window');
 const RestaurantInfo = ({route}) => {
   const navigation = useNavigation();
   const placeId = route.params.restaurantId;
-
+  const [scrollEnabled, setScrollEnabled] = useState(true);
   const [placeInfo, setPlaceInfo] = useState(null);
   const scrollViewRef = useRef(null);
   const tabName = ['상세정보', '블로그 리뷰'];
@@ -100,7 +100,8 @@ const RestaurantInfo = ({route}) => {
       <KeyboardAwareScrollView
         ref={scrollViewRef}
         stickyHeaderIndices={[1]}
-        scrollIndicatorInsets={{right: 0.1}}>
+        scrollIndicatorInsets={{right: 0.1}}
+        scrollEnabled={scrollEnabled}>
         <View onLayout={e => handleLayout(e, setContentHeight)}>
           {placeInfo.imagePath !== "No Image Available" &&
            <Image
@@ -134,6 +135,7 @@ const RestaurantInfo = ({route}) => {
               <RestaurantInfoTab
                 item={placeInfo}
                 minHeight={containerHeight - tabHeight}
+                setScrollEnabled={setScrollEnabled}
               />
             )}
             {activeTab === 1 && <RestaurantReviewTab placeInfo={placeInfo} />}
