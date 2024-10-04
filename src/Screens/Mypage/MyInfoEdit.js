@@ -71,7 +71,7 @@ const MyInfoEdit = ({navigation, route}) => {
         Alert.alert('닉네임 중복 확인을 해주세요');
         return;
       }
-      if (nickname.length == 0 || intro == null) {
+      if (nickname.length == 0 || intro == null || intro.length == 0) {
         Alert.alert('닉네임과 한줄 소개는 비워둘 수 없습니다');
         return;
       }
@@ -81,9 +81,6 @@ const MyInfoEdit = ({navigation, route}) => {
           description: intro == '' ? null : intro,
         });
         if (response.status == 200) {
-          // if (nickname != '') {
-          //   dispatch(setGlobalNickname(nickname))
-          // }
           console.log(response.data);
           dispatch(getMyProfileInfo());
 
