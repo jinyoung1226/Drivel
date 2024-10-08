@@ -210,6 +210,13 @@ const MeetCreate = ({navigation}) => {
     setFilteredCarData([]);
   };
 
+  const unselectDriveCourse = (e) => {
+    if (selctedDriveCourse !== e) {
+      setSelectedDriveCourse('');
+      setCourseId('');
+      setDriveCourse(e);
+    }
+  }
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.BG}}>
       <DatePickerModal
@@ -316,7 +323,7 @@ const MeetCreate = ({navigation}) => {
             }}
             placeholder="드라이브 코스"
             value={driveCourse}
-            onChangeText={handleSearch}
+            onChangeText={(e) => {handleSearch(e); unselectDriveCourse(e);}}
             buttonDisabled={driveCourse.length === 0}
           />
           <View style={{height: 8}} />
@@ -502,6 +509,17 @@ const MeetCreate = ({navigation}) => {
                     />
                   </View>
                 </View>
+                <View style={{height: 4}} />
+                {startAge.length > 0 && startAge < 19 && (
+                  <Text style={[textStyles.B4, {color: colors.red}]}>
+                    19세 미만은 참여할 수 없습니다.
+                  </Text>
+                )}
+                {endAge.length > 0 && endAge < startAge && (
+                  <Text style={[textStyles.B4, {color: colors.red}]}>
+                    끝나는 나이가 시작하는 나이보다 작을 수 없습니다.
+                  </Text>
+                )}
                 <View style={{height: 16}} />
               </View>
             )}
