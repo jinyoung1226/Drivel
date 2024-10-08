@@ -89,10 +89,12 @@ const DriveCourseListItem = ({item}) => {
         <View style={{flex: 1}} />
         <View style={{flexDirection: 'row'}}>
           <Star />
+          <View style={{width: 4}} />
           <Text style={[textStyles.B4, {color: colors.Gray07}]}>
             {item.averageRating}
           </Text>
-          <Text style={[textStyles.B4, {color: colors.Gray07}]}>
+          <View style={{width: 2}} />
+          <Text style={[textStyles.B4, {color: colors.Gray06}]}>
             ({item.reviewCount})
           </Text>
         </View>
