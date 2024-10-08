@@ -27,7 +27,7 @@ const HomeTab = ({route}) => {
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeMain} />
+      <Stack.Screen name="Home" component={HomeMain} options={{headerShown:false}}/>
       <Stack.Screen name="DriveDetail" component={DriveDetail} />
       <Stack.Screen name="ReportPage" component={ReportPage} />
       <Stack.Screen name="FestivalInfo" component={FestivalInfo} />

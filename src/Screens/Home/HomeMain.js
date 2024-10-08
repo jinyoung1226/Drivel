@@ -25,37 +25,19 @@ import InstaBanner from '../../assets/icons/InstaBanner.svg';
 import InstaBannerArrow from '../../assets/icons/InstaBannerArrow.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDriveCurationInfo, getRegionCurationInfo, setActiveButton } from '../../features/home/homeActions';
+
 const HomeMain = ({navigation}) => {
   const [magazineList, setMagazineList] = useState([]);
   const [randomBannerId, setRandomBannerId] = useState(null);
   const month = new Date().getMonth() + 1;
   const dispatch = useDispatch();
-
   const {driveCurationList, regionCurationList, activeButton, category} = useSelector(state => state.home);
 
   const [festivalList, setFestivalList] = useState([]);
   // const [category, setCategory] = useState([]);
   // const [activeButton, setActiveButton] = useState('');
   const driveRegionList = useRef([]);
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: 'Drivel',
-      headerTitleAlign: 'left',
-      headerTitleStyle: [
-        {color: '#ffffff', fontSize: 24, fontFamily: 'KNU-TRUTH-TTF'},
-      ],
-      headerTransparent: true,
-      headerBackground: () => (
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'rgba(0, 0, 0, 0.3)',
-          }}
-        />
-      ),
-    });
-  }, [navigation]);
-
+  
   useEffect(() => {
     const getMagazine = async () => {
       try {
