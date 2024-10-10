@@ -119,7 +119,7 @@ const DriveInfo = ({item, driveId, minHeight, setScrollEnabled}) => {
       ) : (
         <View style={{flex: 1, paddingVertical: 32}}>
           <NoItemScreen
-            text={'주변에 등록된 맛집이 없어요'}
+            text={'주변 맛집/카페 정보가 등록될 예정입니다'}
             icon={<ShopIcon />}
           />
         </View>
